@@ -247,23 +247,13 @@ public class EEGFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 
-				Log.e(TAG, "onClick()");
-				Log.e(TAG, "eegConnected: " + eegConnected);
+				Log.d(TAG, "onClick()");
+//				Log.e(TAG, "eegConnected: " + eegConnected);
 
 				connectHeadset();
 
-//				if (! eegConnected) {
-////					connectHeadset(v);
-//					connectHeadset();
-//				} else {
-//					disconnectHeadset();
-//				}
-
 			}
 		});
-
-
-
 
 		/**
 		 * Prepare Bluetooth and NeuroSky ThinkGear EEG interface
@@ -300,12 +290,7 @@ public class EEGFragment extends Fragment implements
 		updatePowerThresholds();
 		updatePower();
 
-
-
 		return v;
-
-
-
 
 	}
 
