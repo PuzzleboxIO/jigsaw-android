@@ -33,9 +33,9 @@ import com.neurosky.thinkgear.TGDevice;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
-public class EEGFragment extends Fragment
-		  implements View.OnClickListener,
+public class EEGFragment extends Fragment implements
 		  SeekBar.OnSeekBarChangeListener {
+//		  View.OnClickListener,
 
 	private final static String TAG = EEGFragment.class.getSimpleName();
 
@@ -58,7 +58,7 @@ public class EEGFragment extends Fragment
 	int eegSignal = 0;
 	boolean eegConnected = false;
 	boolean eegConnecting = false;
-	boolean demoFlightMode = false;
+//	boolean demoFlightMode = false;
 	Number[] rawEEG = new Number[512];
 	int arrayIndex = 0;
 
@@ -66,7 +66,7 @@ public class EEGFragment extends Fragment
 	/**
 	 * UI
 	 */
-	Configuration config;
+//	Configuration config;
 	ProgressBar progressBarAttention;
 	SeekBar seekBarAttention;
 	ProgressBar progressBarMeditation;
@@ -75,8 +75,8 @@ public class EEGFragment extends Fragment
 	ProgressBar progressBarPower;
 	Button connectButton;
 
-	ProgressBar progressBarRange;
-	ProgressBar progressBarBloom;
+//	ProgressBar progressBarRange;
+//	ProgressBar progressBarBloom;
 
 	ImageView imageViewStatus;
 
@@ -247,7 +247,17 @@ public class EEGFragment extends Fragment
 			@Override
 			public void onClick(View v) {
 
-				connectHeadset(v);
+				Log.e(TAG, "onClick()");
+				Log.e(TAG, "eegConnected: " + eegConnected);
+
+				connectHeadset();
+
+//				if (! eegConnected) {
+////					connectHeadset(v);
+//					connectHeadset();
+//				} else {
+//					disconnectHeadset();
+//				}
 
 			}
 		});
@@ -350,7 +360,6 @@ public class EEGFragment extends Fragment
 			disconnectHeadset();
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			Log.v(TAG, "Exception: onPause()");
 			e.printStackTrace();
 		}
@@ -394,7 +403,6 @@ public class EEGFragment extends Fragment
 
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			Log.v(TAG, "Exception: onStop()");
 			e.printStackTrace();
 		}
@@ -417,7 +425,6 @@ public class EEGFragment extends Fragment
 				tgDevice.close();
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			Log.v(TAG, "Exception: onDestroy()");
 			e.printStackTrace();
 		}
@@ -523,19 +530,27 @@ public class EEGFragment extends Fragment
 
 	// ################################################################
 
-	public void onClick(View v) {
-
-		Log.e(TAG, "onClick()");
-
-		switch (v.getId()) {
-
-			case R.id.buttonConnectEEG:
-
-				connectHeadset(v);
-
-		}
-
-	} // onClick
+//	public void onClick(View v) {
+//
+//		Log.e(TAG, "onClick()");
+//
+//		switch (v.getId()) {
+//
+//			case R.id.buttonConnectEEG:
+//
+//// 				connectHeadset(v);
+////				connectHeadset();
+//
+//				if (! eegConnected) {
+////					connectHeadset(v);
+//					connectHeadset();
+//				} else {
+//					disconnectHeadset();
+//				}
+//
+//		}
+//
+//	} // onClick
 
 
 	// ################################################################
@@ -701,7 +716,8 @@ private final Handler handlerThinkGear = new Handler() {
 
 	// ################################################################
 
-	public void connectHeadset(View view) {
+//	public void connectHeadset(View view) {
+		public void connectHeadset() {
 
 		/**
 		 * Called when the "Connect" button is pressed
@@ -776,20 +792,20 @@ private final Handler handlerThinkGear = new Handler() {
 //		}
 
 		//TODO Broken or missing classes
-//		setButtonText(R.id.buttonConnect, "Connect");
-//
-//
-//		if (tgDevice.getState() == TGDevice.STATE_CONNECTED) {
-//			tgDevice.stop();
-//			tgDevice.close();
-//
+		setButtonText(R.id.buttonConnectEEG, "Connect");
+
+
+		if (tgDevice.getState() == TGDevice.STATE_CONNECTED) {
+			tgDevice.stop();
+			tgDevice.close();
+
 		// TODO Fragment Context
 //		((OrbitTabActivity)getActivity()).stopControl();
 //		(getActivity()).stopControl();
 
 //			disconnectHeadset();
-//
-//		}
+
+		}
 
 
 	} // disconnectHeadset
