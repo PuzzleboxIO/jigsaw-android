@@ -1,4 +1,4 @@
-package io.puzzlebox.jigsaw;
+package io.puzzlebox.jigsaw.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+
+import io.puzzlebox.jigsaw.R;
 
 /**
  * Created by sc on 11/6/14.

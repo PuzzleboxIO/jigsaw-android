@@ -1,4 +1,4 @@
-package io.puzzlebox.jigsaw;
+package io.puzzlebox.jigsaw.ui;
 
 /**
  * Created by sc on 11/6/14.

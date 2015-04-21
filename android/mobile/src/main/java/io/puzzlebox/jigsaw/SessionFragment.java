@@ -1,9 +1,9 @@
 package io.puzzlebox.jigsaw;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +12,31 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link WelcomeFragment.OnFragmentInteractionListener} interface
+ * {@link SessionFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link WelcomeFragment#newInstance} factory method to
+ * Use the {@link SessionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WelcomeFragment extends Fragment {
+public class SessionFragment extends Fragment {
+
+//	private static final String ARG_PARAM1 = "param1";
+//	private static final String ARG_PARAM2 = "param2";
+
+//	private String mParam1;
+//	private String mParam2;
 
 	private OnFragmentInteractionListener mListener;
 
-	public static WelcomeFragment newInstance(String param1, String param2) {
-		WelcomeFragment fragment = new WelcomeFragment();
+	/**
+	 * Use this factory method to create a new instance of
+	 * this fragment using the provided parameters.
+	 *
+	 * @param param1 Parameter 1.
+	 * @param param2 Parameter 2.
+	 * @return A new instance of fragment SessionFragment.
+	 */
+	public static SessionFragment newInstance(String param1, String param2) {
+		SessionFragment fragment = new SessionFragment();
 		Bundle args = new Bundle();
 //		args.putString(ARG_PARAM1, param1);
 //		args.putString(ARG_PARAM2, param2);
@@ -30,7 +44,7 @@ public class WelcomeFragment extends Fragment {
 		return fragment;
 	}
 
-	public WelcomeFragment() {
+	public SessionFragment() {
 		// Required empty public constructor
 	}
 
@@ -47,7 +61,7 @@ public class WelcomeFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_welcome, container, false);
+		return inflater.inflate(R.layout.fragment_session, container, false);
 	}
 
 //	public void onButtonPressed(Uri uri) {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_fragment_eeg">EEG</string>
+
+    <string name="label_attention">Attention</string>
+    <string name="label_meditation">Meditation</string>
+    <!--<string name="label_cognitiv">Cognitiv</string>-->
+    <string name="label_signal">Sensor Contact</string>
+    <string name="label_power">Target</string>
+
+    <string name="buttonConnectEEG">Connect EEG</string>
+    <!--<string name="button_connect_server">Cloud</string>-->
+    <string name="buttonDisonnectEEG">Disconnect EEG</string>
+
+</resources>
