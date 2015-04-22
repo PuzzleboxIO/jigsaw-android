@@ -26,5 +26,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.google.android.gms:play-services:7.0.0'
     provided 'com.androidplot:androidplot-core:0.6.1'
+    compile 'com.opencsv:opencsv:3.3'
     provided files('libs/ThinkGear.jar')
 }

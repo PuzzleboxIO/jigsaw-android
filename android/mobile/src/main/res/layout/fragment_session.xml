@@ -4,10 +4,24 @@
              android:layout_height="match_parent"
              tools:context="io.puzzlebox.jigsaw.SessionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/title_fragment_session"/>
+        android:layout_gravity="center"
+        android:gravity="center_vertical|center_horizontal">
+
+        <Button
+            android:id="@+id/buttonExportCSV"
+            style="@style/button_text"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/buttonExportCSV"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal"/>
+    </LinearLayout>
+    <!--android:background="@drawable/custom_button"-->
+
 
 </FrameLayout>

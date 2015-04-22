@@ -4,42 +4,23 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import io.puzzlebox.jigsaw.data.SessionSingleton;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SessionFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SessionFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SessionFragment extends Fragment {
 
-//	private static final String ARG_PARAM1 = "param1";
-//	private static final String ARG_PARAM2 = "param2";
-
-//	private String mParam1;
-//	private String mParam2;
+	private final static String TAG = SessionFragment.class.getSimpleName();
 
 	private OnFragmentInteractionListener mListener;
 
-	/**
-	 * Use this factory method to create a new instance of
-	 * this fragment using the provided parameters.
-	 *
-	 * @param param1 Parameter 1.
-	 * @param param2 Parameter 2.
-	 * @return A new instance of fragment SessionFragment.
-	 */
 	public static SessionFragment newInstance(String param1, String param2) {
 		SessionFragment fragment = new SessionFragment();
 		Bundle args = new Bundle();
-//		args.putString(ARG_PARAM1, param1);
-//		args.putString(ARG_PARAM2, param2);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -51,24 +32,31 @@ public class SessionFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getArguments() != null) {
-//			mParam1 = getArguments().getString(ARG_PARAM1);
-//			mParam2 = getArguments().getString(ARG_PARAM2);
-		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_session, container, false);
-	}
 
-//	public void onButtonPressed(Uri uri) {
-//		if (mListener != null) {
-//			mListener.onFragmentInteraction(uri);
-//		}
-//	}
+		// Inflate the layout for this fragment
+		View v = inflater.inflate(R.layout.fragment_session, container, false);
+
+		Button exportToCSV = (Button) v.findViewById(R.id.buttonExportCSV);
+		exportToCSV.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				Log.d(TAG, "onClick()");
+
+				Log.e(TAG, "SessionSingleton.getInstance().exportDataToCSV");
+				SessionSingleton.getInstance().exportDataToCSV();
+
+			}
+		});
+
+		return v;
+
+	}
 
 	@Override
 	public void onAttach(Activity activity) {

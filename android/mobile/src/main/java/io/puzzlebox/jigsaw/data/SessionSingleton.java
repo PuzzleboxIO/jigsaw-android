@@ -1,10 +1,17 @@
-package io.puzzlebox.jigsaw;
+package io.puzzlebox.jigsaw.data;
 
+import com.opencsv.CSVWriter;
+
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+//import com.opencsv.CSVWriter;
+//import com.opencsv.*;
+//import org.apache.commons.lang3.*;
 
 /**
  * Created by sc on 4/21/15.
@@ -74,7 +81,7 @@ public class SessionSingleton {
 	 */
 
 //	public static Date updateTimestamp() {
-		public Date updateTimestamp() {
+	public Date updateTimestamp() {
 		// Make a new Date object. It will be initialized to the current time.
 
 		currentTimestamp = new Date();
@@ -101,6 +108,66 @@ public class SessionSingleton {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public String getTimestampPS4() {
+		Date mDate = new Date();
+		SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		String mTimestamp = mDateFormat.format(mDate);
+		return mTimestamp;
+	}
+
+	public void exportDataToCSV() {
+		String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+
+		try {
+
+			String filenameCSV = "/sdcard/" + getTimestampPS4() + ".csv";
+
+//			CSVWriter writer = new CSVWriter(new FileWriter(csv));
+			CSVWriter writer = new CSVWriter(new FileWriter(filenameCSV), ',');
+
+
+			List<String[]> dataCSV = new ArrayList<String[]>();
+
+			dataCSV.add(new String[] {
+					  "Date",
+					  "Time",
+					  "Attention",
+					  "Meditation",
+					  "Signal Level",
+					  "Power",
+			});
+
+//			for (int i = WhatsOnSingleton.getInstance().getData().size() - 1; i >= 0; i--) {
+			for (int i = data.size() - 1; i >= 0; i--) {
+
+				dataCSV.add(new String[] {
+//						  String.valueOf(data.get(i).get("Date")),
+//						  String.valueOf(data.get(i).get("Time")),
+//						  String.valueOf(data.get(i).get("Attention")),
+//						  String.valueOf(data.get(i).get("Meditation")),
+//						  String.valueOf(data.get(i).get("Signal Level")),
+//						  String.valueOf(data.get(i).get("Power")),
+						  data.get(i).get("Date"),
+						  data.get(i).get("Time"),
+						  data.get(i).get("Attention"),
+						  data.get(i).get("Meditation"),
+						  data.get(i).get("Signal Level"),
+						  data.get(i).get("Power"),
+				});
+
+			}
+
+
+			writer.writeAll(dataCSV);
+
+			writer.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 ////	public static HashMap<String, String> getCurrentTimestamp(){

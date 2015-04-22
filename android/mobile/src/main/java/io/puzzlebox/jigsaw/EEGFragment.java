@@ -2,8 +2,6 @@ package io.puzzlebox.jigsaw;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -31,9 +29,10 @@ import com.androidplot.xy.XYPlot;
 import com.neurosky.thinkgear.TGDevice;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+
+import io.puzzlebox.jigsaw.data.SessionSingleton;
 
 public class EEGFragment extends Fragment implements
 		  SeekBar.OnSeekBarChangeListener {
@@ -253,6 +252,19 @@ public class EEGFragment extends Fragment implements
 //				Log.e(TAG, "eegConnected: " + eegConnected);
 
 				connectHeadset();
+
+			}
+		});
+
+		Button exportToCSV = (Button) v.findViewById(R.id.buttonExportCSV);
+		exportToCSV.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				Log.d(TAG, "onClick()");
+
+				Log.e(TAG, "SessionSingleton.getInstance().exportDataToCSV");
+				SessionSingleton.getInstance().exportDataToCSV();
 
 			}
 		});
@@ -975,25 +987,31 @@ private final Handler handlerThinkGear = new Handler() {
 		progressBarPower.setProgress(eegPower);
 
 
+		processPacketEEG();
+
 
 //		updateServoPosition();
 //		updateBloomRGB();
 
-		Log.e(TAG, "SessionSingleton.getInstance().updateTimestamp");
-		SessionSingleton.getInstance().updateTimestamp();
-
-		HashMap packet = new HashMap();
-
-		packet.put("Date", SessionSingleton.getInstance().getCurrentDate());
-		packet.put("Time", SessionSingleton.getInstance().getCurrentTimestamp());
-		packet.put("Attention", eegAttention);
-		packet.put("Meditation", eegMeditation);
-		packet.put("Signal Level", eegSignal);
-		packet.put("Power", eegPower);
-
-		Log.e(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
-		SessionSingleton.getInstance().appendData(packet);
-
+//		try {
+////			Log.e(TAG, "SessionSingleton.getInstance().updateTimestamp");
+//			SessionSingleton.getInstance().updateTimestamp();
+//
+//			HashMap packet = new HashMap();
+//
+//			packet.put("Date", SessionSingleton.getInstance().getCurrentDate());
+//			packet.put("Time", SessionSingleton.getInstance().getCurrentTimestamp());
+//			packet.put("Attention", eegAttention);
+//			packet.put("Meditation", eegMeditation);
+//			packet.put("Signal Level", eegSignal);
+//			packet.put("Power", eegPower);
+//
+//			Log.d(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
+//			SessionSingleton.getInstance().appendData(packet);
+//		}
+//		catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 		// TODO Fragment Context
 
@@ -1020,6 +1038,33 @@ private final Handler handlerThinkGear = new Handler() {
 
 
 	// ################################################################
+
+
+	public void processPacketEEG() {
+		try {
+//			Log.e(TAG, "SessionSingleton.getInstance().updateTimestamp");
+			SessionSingleton.getInstance().updateTimestamp();
+
+			HashMap packet = new HashMap();
+
+			packet.put("Date", SessionSingleton.getInstance().getCurrentDate());
+			packet.put("Time", SessionSingleton.getInstance().getCurrentTimestamp());
+//			packet.put("Attention", eegAttention);
+			packet.put("Attention", String.valueOf(eegAttention));
+//			packet.put("Meditation", eegMeditation);
+			packet.put("Meditation", String.valueOf(eegMeditation));
+//			packet.put("Signal Level", eegSignal);
+			packet.put("Signal Level", String.valueOf(eegSignal));
+//			packet.put("Power", eegPower);
+			packet.put("Power", String.valueOf(eegPower));
+
+			Log.d(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
+			SessionSingleton.getInstance().appendData(packet);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 
 	// ################################################################
