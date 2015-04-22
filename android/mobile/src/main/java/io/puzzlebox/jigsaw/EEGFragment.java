@@ -31,7 +31,9 @@ import com.androidplot.xy.XYPlot;
 import com.neurosky.thinkgear.TGDevice;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class EEGFragment extends Fragment implements
 		  SeekBar.OnSeekBarChangeListener {
@@ -977,7 +979,20 @@ private final Handler handlerThinkGear = new Handler() {
 //		updateServoPosition();
 //		updateBloomRGB();
 
+		Log.e(TAG, "SessionSingleton.getInstance().updateTimestamp");
+		SessionSingleton.getInstance().updateTimestamp();
 
+		HashMap packet = new HashMap();
+
+		packet.put("Date", SessionSingleton.getInstance().getCurrentDate());
+		packet.put("Time", SessionSingleton.getInstance().getCurrentTimestamp());
+		packet.put("Attention", eegAttention);
+		packet.put("Meditation", eegMeditation);
+		packet.put("Signal Level", eegSignal);
+		packet.put("Power", eegPower);
+
+		Log.e(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
+		SessionSingleton.getInstance().appendData(packet);
 
 
 		// TODO Fragment Context
