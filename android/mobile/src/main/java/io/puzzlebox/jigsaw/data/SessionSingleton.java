@@ -9,10 +9,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-//import com.opencsv.CSVWriter;
-//import com.opencsv.*;
-//import org.apache.commons.lang3.*;
-
 /**
  * Created by sc on 4/21/15.
  */
@@ -21,6 +17,7 @@ public class SessionSingleton {
 	private static ArrayList<HashMap<String, String>> timestamp;
 
 	private static Date currentTimestamp;
+	private static Date sessionTimestamp;
 
 //	private static ArrayList<String> = new ArrayList();
 
@@ -110,23 +107,14 @@ public class SessionSingleton {
 		}
 	}
 
-	public String getTimestampPS4() {
-		Date mDate = new Date();
-		SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-		String mTimestamp = mDateFormat.format(mDate);
-		return mTimestamp;
-	}
 
 	public void exportDataToCSV() {
-		String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+
+//		String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 
 		try {
-
-			String filenameCSV = "/sdcard/" + getTimestampPS4() + ".csv";
-
-//			CSVWriter writer = new CSVWriter(new FileWriter(csv));
+			String filenameCSV = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getTimestampPS4() + ".csv";
 			CSVWriter writer = new CSVWriter(new FileWriter(filenameCSV), ',');
-
 
 			List<String[]> dataCSV = new ArrayList<String[]>();
 
@@ -139,16 +127,8 @@ public class SessionSingleton {
 					  "Power",
 			});
 
-//			for (int i = WhatsOnSingleton.getInstance().getData().size() - 1; i >= 0; i--) {
 			for (int i = data.size() - 1; i >= 0; i--) {
-
 				dataCSV.add(new String[] {
-//						  String.valueOf(data.get(i).get("Date")),
-//						  String.valueOf(data.get(i).get("Time")),
-//						  String.valueOf(data.get(i).get("Attention")),
-//						  String.valueOf(data.get(i).get("Meditation")),
-//						  String.valueOf(data.get(i).get("Signal Level")),
-//						  String.valueOf(data.get(i).get("Power")),
 						  data.get(i).get("Date"),
 						  data.get(i).get("Time"),
 						  data.get(i).get("Attention"),
@@ -156,12 +136,9 @@ public class SessionSingleton {
 						  data.get(i).get("Signal Level"),
 						  data.get(i).get("Power"),
 				});
-
 			}
 
-
 			writer.writeAll(dataCSV);
-
 			writer.close();
 
 		} catch (Exception e) {
@@ -170,46 +147,18 @@ public class SessionSingleton {
 
 	}
 
-////	public static HashMap<String, String> getCurrentTimestamp(){
-//		public static String[] getCurrentTimestamp(){
-//		try {
-//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//			String currentDate = dateFormat.format(currentTimestamp);
-//
-//			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-//			String currentTime = timeFormat.format(currentTimestamp);
-//
-////			HashMap timestamp = new HashMap();
-//
-//			String[] timestamp = new String[];
-//
-//
-////			List
-//			return ([currentDate, currentTime]);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
+
+	public String getTimestampPS4() {
+		Date mDate = new Date();
+		SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		String mTimestamp = mDateFormat.format(mDate);
+		return mTimestamp;
+	}
 
 
-//	public void getTimeStamp(String hashtag, List<SessionSingleton.objectTweet> tweets) {
-//		this.tweets = tweets;
-//		this.tweetsByHashtag.put(hashtag, tweets);
-//	}
+	public void resetSession() {
+		sessionTimestamp = new Date();
+	}
 
-
-//	public static String getCurrentTimeStamp(){
-//		try {
-////			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-////			String currentTimeStamp = dateFormat.format(new Date()); // Find todays date
-//			String currentTimeStamp = dateFormat.format(currentTimestamp); // Find todays date
-//			return currentTimeStamp;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
 
 }
