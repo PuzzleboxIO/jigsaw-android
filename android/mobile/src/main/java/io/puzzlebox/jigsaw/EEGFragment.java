@@ -42,9 +42,9 @@ public class EEGFragment extends Fragment implements
 
 	private OnFragmentInteractionListener mListener;
 
-	View v;
+	private static View v;
 
-	private Button connectEEG = null;
+//	private Button connectEEG = null;
 
 	/**
 	 * Configuration
@@ -135,9 +135,6 @@ public class EEGFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-//		return inflater.inflate(R.layout.fragment_eeg, container, false);
-
-
 		v = inflater.inflate(R.layout.fragment_eeg, container, false);
 
 //		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -243,16 +240,24 @@ public class EEGFragment extends Fragment implements
 
 
 
-		connectEEG = (Button) v.findViewById(R.id.buttonConnectEEG);
+		Button connectEEG = (Button) v.findViewById(R.id.buttonConnectEEG);
 		connectEEG.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				Log.d(TAG, "onClick()");
-//				Log.e(TAG, "eegConnected: " + eegConnected);
-
 				connectHeadset();
+			}
+		});
 
+		Button resetSession = (Button) v.findViewById(R.id.buttonResetSession);
+		resetSession.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.d(TAG, "SessionSingleton.getInstance().resetSession()");
+				SessionSingleton.getInstance().resetSession();
+
+				Toast.makeText((getActivity()),
+						  "Session data reset",
+						  Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -260,14 +265,15 @@ public class EEGFragment extends Fragment implements
 		exportToCSV.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				Log.d(TAG, "onClick()");
-
 				Log.e(TAG, "SessionSingleton.getInstance().exportDataToCSV");
 				SessionSingleton.getInstance().exportDataToCSV();
 
+				Toast.makeText((getActivity()),
+						  "Session data exported to:\n" + SessionSingleton.getInstance().getTimestampPS4() + ".csv",
+						  Toast.LENGTH_LONG).show();
 			}
 		});
+
 
 		/**
 		 * Prepare Bluetooth and NeuroSky ThinkGear EEG interface
@@ -613,43 +619,34 @@ private final Handler handlerThinkGear = new Handler() {
 					case TGDevice.STATE_IDLE:
 						break;
 					case TGDevice.STATE_CONNECTING:
-						if (DEBUG)
-							Log.v(TAG, "Connecting to EEG");
-//						appendDebugConsole("Connecting to EEG\n");
+						Log.d(TAG, "Connecting to EEG");
 						eegConnecting = true;
 						eegConnected = false;
 						updateStatusImage();
 						break;
 					case TGDevice.STATE_CONNECTED:
-						if (DEBUG)
-							Log.v(TAG, "EEG Connected");
-//						appendDebugConsole("Bluetooth Connected\n");
+						Log.d(TAG, "EEG Connected");
 						setButtonText(R.id.buttonConnectEEG, "Disconnect EEG");
 						eegConnecting = false;
 						eegConnected = true;
 						updateStatusImage();
+						SessionSingleton.getInstance().resetSession();
 						tgDevice.start();
 						break;
 					case TGDevice.STATE_NOT_FOUND:
-						if (DEBUG)
-							Log.v(TAG, "EEG headset not found");
-//						appendDebugConsole("EEG headset not found\n");
+						Log.d(TAG, "EEG headset not found");
 						eegConnecting = false;
 						eegConnected = false;
 						updateStatusImage();
 						break;
 					case TGDevice.STATE_NOT_PAIRED:
-						if (DEBUG)
-							Log.v(TAG, "EEG headset not paired");
-//						appendDebugConsole("EEG headset not paired\n");
+						Log.d(TAG, "EEG headset not paired");
 						eegConnecting = false;
 						eegConnected = false;
 						updateStatusImage();
 						break;
 					case TGDevice.STATE_DISCONNECTED:
-						if (DEBUG)
-							Log.v(TAG, "EEG Disconnected");
-//						appendDebugConsole("EEG Disconnected\n");
+						Log.d(TAG, "EEG Disconnected");
 						eegConnecting = false;
 						eegConnected = false;
 						updateStatusImage();
@@ -660,17 +657,15 @@ private final Handler handlerThinkGear = new Handler() {
 				break;
 
 			case TGDevice.MSG_POOR_SIGNAL:
-				//			Log.v(TAG, "PoorSignal: " + msg.arg1);
 				eegSignal = calculateSignal(msg.arg1);
 				progressBarSignal.setProgress(eegSignal);
 				updateStatusImage();
+				processPacketEEG();
 				break;
 			case TGDevice.MSG_ATTENTION:
-				//			Log.v(TAG, "Attention: " + eegAttention);
 				eegAttention = msg.arg1;
 				progressBarAttention.setProgress(eegAttention);
 				updatePower();
-
 				break;
 			case TGDevice.MSG_MEDITATION:
 				eegMeditation = msg.arg1;
@@ -678,10 +673,16 @@ private final Handler handlerThinkGear = new Handler() {
 					Log.v(TAG, "Meditation: " + eegMeditation);
 				progressBarMeditation.setProgress(eegMeditation);
 				updatePower();
-
+//				processPacketEEG();
 				break;
 			case TGDevice.MSG_BLINK:
-				//tv.append("Blink: " + msg.arg1 + "\n");
+				/**
+				 * Strength of detected blink. The Blink Strength ranges
+				 * from 1 (small blink) to 255 (large blink). Unless a blink
+				 * occurred, nothing will be returned. Blinks are only
+				 * calculated if PoorSignal is less than 51.
+				 */
+				Log.d(TAG, "Blink: " + msg.arg1 + "\n");
 				break;
 			case TGDevice.MSG_RAW_DATA:
 
@@ -693,17 +694,15 @@ private final Handler handlerThinkGear = new Handler() {
 
 				break;
 			case TGDevice.MSG_RAW_COUNT:
-				//tv.append("Raw Count: " + msg.arg1 + "\n");
 				break;
 			case TGDevice.MSG_RAW_MULTI:
 				//TGRawMulti rawM = (TGRawMulti)msg.obj;
-				//tv.append("Raw1: " + rawM.ch1 + "\nRaw2: " + rawM.ch2);
+				//Log.d(TAG, "Raw1: " + rawM.ch1 + "\nRaw2: " + rawM.ch2);
 			case TGDevice.MSG_HEART_RATE:
-				//				appendDebugConsole("Heart rate: " + msg.arg1 + "\n");
+				//Log.d(TAG, "Heart rate: " + msg.arg1 + "\n");
 				break;
 			case TGDevice.MSG_LOW_BATTERY:
 				// TODO Fragment Context
-//				Toast.makeText(((OrbitTabActivity)getActivity()), "EEG battery low!", Toast.LENGTH_SHORT).show();
 				Toast.makeText((getActivity()), "EEG battery low!", Toast.LENGTH_SHORT).show();
 				break;
 			default:
@@ -987,7 +986,7 @@ private final Handler handlerThinkGear = new Handler() {
 		progressBarPower.setProgress(eegPower);
 
 
-		processPacketEEG();
+//		processPacketEEG();
 
 
 //		updateServoPosition();

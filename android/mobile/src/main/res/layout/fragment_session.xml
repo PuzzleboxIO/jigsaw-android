@@ -5,23 +5,85 @@
              tools:context="io.puzzlebox.jigsaw.SessionFragment">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center_vertical|center_horizontal">
+        android:gravity="center_vertical|center_horizontal|top"
+        android:layout_gravity="center">
 
-        <Button
-            android:id="@+id/buttonExportCSV"
-            style="@style/button_text"
+        <Space
+            android:layout_width="20px"
+            android:layout_height="32dp"
+            />
+
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_centerHorizontal="true"
-            android:text="@string/buttonExportCSV"
+            android:layout_height="wrap_content"
+            android:text="@string/label_session_profile"
+            android:id="@+id/textViewSessionProfile"
             android:layout_gravity="center"
-            android:gravity="center_vertical|center_horizontal"/>
-    </LinearLayout>
-    <!--android:background="@drawable/custom_button"-->
+            android:textStyle="bold"
+            android:textSize="18dp"/>
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextSessionProfile"
+            android:text="@string/session_profile"
+            android:minWidth="256dp"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal">
+
+            <Button
+                android:id="@+id/buttonExportCSV"
+                style="@style/button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_button"
+                android:text="@string/buttonExportCSV"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <Button
+                android:id="@+id/buttonResetSession"
+                style="@style/button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_button"
+                android:text="@string/buttonResetSession"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="20px"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_session_time"
+            android:id="@+id/textViewLabelSessionTime"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/session_time"
+            android:id="@+id/textViewSessionTime"/>
+
+    </LinearLayout>
 
 </FrameLayout>

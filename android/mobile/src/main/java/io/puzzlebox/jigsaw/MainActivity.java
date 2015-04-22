@@ -13,6 +13,7 @@ import android.view.View;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,6 +125,12 @@ public class MainActivity extends ActionBarActivity implements
 //		}
 //
 //		return super.onOptionsItemSelected(item);
+
+		Toast.makeText(getBaseContext(),
+				  getResources().getText(R.string.app_name) +
+						    " Version: " +
+						    BuildConfig.VERSION_NAME,
+				  Toast.LENGTH_SHORT).show();
 
 		// The action bar home/up action should open or close the drawer.
 		// ActionBarDrawerToggle will take care of this.

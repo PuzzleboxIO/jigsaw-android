@@ -169,6 +169,18 @@
 
 
             <Button
+                android:id="@+id/buttonResetSession"
+                style="@style/button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_button"
+                android:text="@string/buttonResetSession"
+                android:layout_gravity="center"
+                android:gravity="center_vertical|center_horizontal"/>
+
+
+            <Button
                 android:id="@+id/buttonExportCSV"
                 style="@style/button_text"
                 android:layout_width="wrap_content"

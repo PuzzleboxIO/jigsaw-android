@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
@@ -45,12 +46,21 @@ public class SessionFragment extends Fragment {
 		exportToCSV.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-				Log.d(TAG, "onClick()");
-
-				Log.e(TAG, "SessionSingleton.getInstance().exportDataToCSV");
+				Log.d(TAG, "SessionSingleton.getInstance().exportDataToCSV");
 				SessionSingleton.getInstance().exportDataToCSV();
+			}
+		});
 
+		Button resetSession = (Button) v.findViewById(R.id.buttonResetSession);
+		resetSession.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.d(TAG, "SessionSingleton.getInstance().resetSession()");
+				SessionSingleton.getInstance().resetSession();
+
+				Toast.makeText((getActivity()),
+						  "Session data reset",
+						  Toast.LENGTH_SHORT).show();
 			}
 		});
 

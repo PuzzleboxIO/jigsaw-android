@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="label_session_profile">Session Profile</string>
+    <string name="session_profile">Untitled</string>
+
+    <string name="label_session_time">Elapsed Time</string>
+    <string name="session_time">00:00:00</string>
+    <string name="label_session_packets_received">Packets Received</string>
+    <string name="session_packets_received">0</string>
+    <string name="label_session_packets_dropped">Packets Dropped</string>
+    <string name="session_packets_dropped">0</string>
+
     <string name="buttonExportCSV">Export</string>
+    <string name="buttonResetSession">Reset</string>
 </resources>
