@@ -10,6 +10,7 @@
     <string name="label_session_packets_dropped">Packets Dropped</string>
     <string name="session_packets_dropped">0</string>
 
+    <string name="buttonSaveSession">Save</string>
     <string name="buttonExportCSV">Export</string>
     <string name="buttonResetSession">Reset</string>
 </resources>

@@ -2,6 +2,7 @@ package io.puzzlebox.jigsaw;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -32,6 +33,7 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import io.puzzlebox.jigsaw.data.CreateSessionFileInGoogleDrive;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
 public class EEGFragment extends Fragment implements
@@ -248,16 +250,33 @@ public class EEGFragment extends Fragment implements
 			}
 		});
 
-		Button resetSession = (Button) v.findViewById(R.id.buttonResetSession);
-		resetSession.setOnClickListener(new View.OnClickListener() {
+
+		Button saveSession = (Button) v.findViewById(R.id.buttonSaveSession);
+		saveSession.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.d(TAG, "SessionSingleton.getInstance().resetSession()");
-				SessionSingleton.getInstance().resetSession();
 
-				Toast.makeText((getActivity()),
-						  "Session data reset",
-						  Toast.LENGTH_SHORT).show();
+//				MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+//						  .setTitle(SessionSingleton.getInstance().getTimestampPS4() + ".csv")
+//						  .setMimeType("text/csv")
+//						  .build();
+
+//				IntentSender intentSender = Drive.DriveApi
+//						  .newCreateFileActivityBuilder()
+//						  .setInitialMetadata(changeSet)
+//						  .setInitialContents( null /* DriveContents */)
+//						  .build(getGoogleApiClient());
+
+//				Intent intent = new Intent(getActivity(), CreateFileInAppFolderActivity.class);
+				Intent intent = new Intent(getActivity(), CreateSessionFileInGoogleDrive.class);
+				startActivity(intent);
+
+//				Log.d(TAG, "SessionSingleton.getInstance().exportDataGoogleDrive()");
+//				SessionSingleton.getInstance().exportDataGoogleDrive();
+
+//				Toast.makeText((getActivity()),
+//						  "Session data saved to Google Drive",
+//						  Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -274,6 +293,18 @@ public class EEGFragment extends Fragment implements
 			}
 		});
 
+		Button resetSession = (Button) v.findViewById(R.id.buttonResetSession);
+		resetSession.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.d(TAG, "SessionSingleton.getInstance().resetSession()");
+				SessionSingleton.getInstance().resetSession();
+
+				Toast.makeText((getActivity()),
+						  "Session data reset",
+						  Toast.LENGTH_SHORT).show();
+			}
+		});
 
 		/**
 		 * Prepare Bluetooth and NeuroSky ThinkGear EEG interface
@@ -356,14 +387,20 @@ public class EEGFragment extends Fragment implements
 
 	public void onPause() {
 
+		/**
+		 * TODO
+		 * V/EEGFragment﹕ onPause()
+		 * D/TGDevice﹕ Stopping stream
+		 * I/TGDevice﹕ Closing connections
+		 * D/EEGFragment﹕ EEG Disconnected
+		 */
+
 		Log.v(TAG, "onPause()");
 
 		super.onPause();
 
 		try {
-
 			disconnectHeadset();
-
 		} catch (Exception e) {
 			Log.v(TAG, "Exception: onPause()");
 			e.printStackTrace();

@@ -5,6 +5,7 @@ import com.opencsv.CSVWriter;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.List;
  * Created by sc on 4/21/15.
  */
 public class SessionSingleton {
+
+	private static final String TAG = SessionSingleton.class.getSimpleName();
 
 	private static ArrayList<HashMap<String, String>> timestamp;
 
@@ -80,10 +83,8 @@ public class SessionSingleton {
 //	public static Date updateTimestamp() {
 	public Date updateTimestamp() {
 		// Make a new Date object. It will be initialized to the current time.
-
 		currentTimestamp = new Date();
-
-		return new Date();
+		return currentTimestamp;
 	}
 
 	public String getCurrentDate(){
@@ -108,46 +109,6 @@ public class SessionSingleton {
 	}
 
 
-	public void exportDataToCSV() {
-
-//		String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
-
-		try {
-			String filenameCSV = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getTimestampPS4() + ".csv";
-			CSVWriter writer = new CSVWriter(new FileWriter(filenameCSV), ',');
-
-			List<String[]> dataCSV = new ArrayList<String[]>();
-
-			dataCSV.add(new String[] {
-					  "Date",
-					  "Time",
-					  "Attention",
-					  "Meditation",
-					  "Signal Level",
-					  "Power",
-			});
-
-			for (int i = data.size() - 1; i >= 0; i--) {
-				dataCSV.add(new String[] {
-						  data.get(i).get("Date"),
-						  data.get(i).get("Time"),
-						  data.get(i).get("Attention"),
-						  data.get(i).get("Meditation"),
-						  data.get(i).get("Signal Level"),
-						  data.get(i).get("Power"),
-				});
-			}
-
-			writer.writeAll(dataCSV);
-			writer.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-
 	public String getTimestampPS4() {
 		Date mDate = new Date();
 		SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -159,6 +120,97 @@ public class SessionSingleton {
 	public void resetSession() {
 		sessionTimestamp = new Date();
 	}
+
+
+	public List<String[]> getExportData() {
+		List<String[]> dataCSV = new ArrayList<String[]>();
+
+		dataCSV.add(new String[] {
+				  "Date",
+				  "Time",
+				  "Attention",
+				  "Meditation",
+				  "Signal Level",
+				  "Power",
+		});
+
+		for (int i = data.size() - 1; i >= 0; i--) {
+			dataCSV.add(new String[] {
+					  data.get(i).get("Date"),
+					  data.get(i).get("Time"),
+					  data.get(i).get("Attention"),
+					  data.get(i).get("Meditation"),
+					  data.get(i).get("Signal Level"),
+					  data.get(i).get("Power"),
+			});
+		}
+
+		return dataCSV;
+	}
+
+
+	public String getExportDataCSV() {
+
+		String output = "";
+
+		List<String[]> dataCSV = getExportData();
+
+		if (dataCSV == null)
+			return output;
+
+////		for (int i = dataCSV.size() - 1; i >= 0; i--) {
+//		for (int i = 0; i <= dataCSV.size() - 1; i++) {
+//			output = output + dataCSV.get(i) + "\n";
+//		}
+
+		for (String[] line: dataCSV) {
+			output = output + Arrays.toString(line) + "\n";
+//			Log.e(TAG, Arrays.toString(line));
+		}
+
+		return output;
+	}
+
+
+	public void exportDataToCSV() {
+
+//		String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+
+		try {
+			String filenameCSV = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getTimestampPS4() + ".csv";
+			CSVWriter writer = new CSVWriter(new FileWriter(filenameCSV), ',');
+
+			List<String[]> dataCSV = getExportData();
+
+			writer.writeAll(dataCSV);
+			writer.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+	public void exportDataGoogleDrive() {
+
+		try {
+//			String filenameCSV = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getTimestampPS4() + ".csv";
+//			CSVWriter writer = new CSVWriter(new FileWriter(filenameCSV), ',');
+
+			List<String[]> dataCSV = getExportData();
+
+//			Intent intent = new Intent(get(), CreateFileInAppFolderActivity.class);
+
+//			writer.writeAll(dataCSV);
+//			writer.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 
 
 }
