@@ -256,23 +256,8 @@ public class EEGFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 
-//				MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-//						  .setTitle(SessionSingleton.getInstance().getTimestampPS4() + ".csv")
-//						  .setMimeType("text/csv")
-//						  .build();
-
-//				IntentSender intentSender = Drive.DriveApi
-//						  .newCreateFileActivityBuilder()
-//						  .setInitialMetadata(changeSet)
-//						  .setInitialContents( null /* DriveContents */)
-//						  .build(getGoogleApiClient());
-
-//				Intent intent = new Intent(getActivity(), CreateFileInAppFolderActivity.class);
 				Intent intent = new Intent(getActivity(), CreateSessionFileInGoogleDrive.class);
 				startActivity(intent);
-
-//				Log.d(TAG, "SessionSingleton.getInstance().exportDataGoogleDrive()");
-//				SessionSingleton.getInstance().exportDataGoogleDrive();
 
 //				Toast.makeText((getActivity()),
 //						  "Session data saved to Google Drive",
@@ -284,7 +269,7 @@ public class EEGFragment extends Fragment implements
 		exportToCSV.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.e(TAG, "SessionSingleton.getInstance().exportDataToCSV");
+				Log.d(TAG, "SessionSingleton.getInstance().exportDataToCSV");
 				SessionSingleton.getInstance().exportDataToCSV();
 
 				Toast.makeText((getActivity()),

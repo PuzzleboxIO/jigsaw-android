@@ -1,8 +1,5 @@
 package io.puzzlebox.jigsaw.data;
 
-/**
- * Created by sc on 4/24/15.
- */
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -11,7 +8,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.IntentSender.SendIntentException;
-//		  import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -25,21 +21,16 @@ import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi.DriveContentsResult;
 import com.google.android.gms.drive.MetadataChangeSet;
 
-/**
- * Android Drive Quickstart activity. This activity takes a photo and saves it
- * in Google Drive. The user is prompted with a pre-made dialog which allows
- * them to choose the file location.
- */
+
 public class CreateSessionFileInGoogleDrive extends Activity implements ConnectionCallbacks,
 		  OnConnectionFailedListener {
 
 	private static final String TAG = CreateSessionFileInGoogleDrive.class.getSimpleName();
-	private static final int REQUEST_CODE_CAPTURE_IMAGE = 1;
+	private static final int REQUEST_CODE_BUILDER = 1;
 	private static final int REQUEST_CODE_CREATOR = 2;
 	private static final int REQUEST_CODE_RESOLUTION = 3;
 
 	private GoogleApiClient mGoogleApiClient;
-	//	private Bitmap mBitmapToSave;
 	private String dataToSave;
 
 	/**
@@ -49,13 +40,7 @@ public class CreateSessionFileInGoogleDrive extends Activity implements Connecti
 		// Start by creating a new contents, and setting a callback.
 		Log.i(TAG, "Creating new contents.");
 
-//		final Bitmap image = mBitmapToSave;
-//		final String data = dataToSave;
-
-//		final String dataFile = SessionSingleton.getInstance().getExportDataCSV().toString();
-		final String dataFile = SessionSingleton.getInstance().getExportDataCSV();
-//		dataToSave = dataFile;
-//		final String dataFile = dataToSave;
+//		dataToSave = SessionSingleton.getInstance().getExportDataCSV();
 
 		Drive.DriveApi.newDriveContents(mGoogleApiClient)
 				  .setResultCallback(new ResultCallback<DriveContentsResult>() {
@@ -73,33 +58,24 @@ public class CreateSessionFileInGoogleDrive extends Activity implements Connecti
 						  Log.i(TAG, "New contents created.");
 						  // Get an output stream for the contents.
 						  OutputStream outputStream = result.getDriveContents().getOutputStream();
-						  // Write the bitmap data from it.
-//						  ByteArrayOutputStream bitmapStream = new ByteArrayOutputStream();
 
-//						  image.compress(Bitmap.CompressFormat.PNG, 100, bitmapStream);
-
-//						  Log.e(TAG, "SessionSingleton.getInstance().getExportDataCSV().toString(): " + SessionSingleton.getInstance().getExportDataCSV());
-//						  Log.e(TAG, "dataFile:" + dataFile);
+						  if (dataToSave == null){
+							  Log.d(TAG, "Request to save null data file");
+							  dataToSave = SessionSingleton.getInstance().getExportDataCSV();
+						  }
 
 						  try {
-//							  outputStream.write(bitmapStream.toByteArray());
-							  outputStream.write(dataFile.getBytes(Charset.forName("UTF-8")));
-//							  outputStream.write(dataFile.get);
+							  outputStream.write(dataToSave.getBytes(Charset.forName("UTF-8")));
 						  } catch (IOException e1) {
 							  Log.i(TAG, "Unable to write file contents.");
 						  }
 
 						  // Create the initial metadata - MIME type and title.
 						  // Note that the user will be able to change the title later.
-//						  MetadataChangeSet metadataChangeSet = new MetadataChangeSet.Builder()
-//									 .setMimeType("image/jpeg").setTitle("Android Photo.png").build();
-
-
 						  MetadataChangeSet metadataChangeSet = new MetadataChangeSet.Builder()
 									 .setTitle(SessionSingleton.getInstance().getTimestampPS4() + ".csv")
 									 .setMimeType("text/csv")
 									 .build();
-
 
 						  // Create an intent for the file chooser, and start it.
 						  IntentSender intentSender = Drive.DriveApi
@@ -132,7 +108,7 @@ public class CreateSessionFileInGoogleDrive extends Activity implements Connecti
 					  .addOnConnectionFailedListener(this)
 					  .build();
 		}
-		// Connect the client. Once connected, the camera is launched.
+		// Connect the client.
 		mGoogleApiClient.connect();
 	}
 
@@ -146,33 +122,26 @@ public class CreateSessionFileInGoogleDrive extends Activity implements Connecti
 
 	@Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-		Log.e(TAG, "onActivityResult: " + requestCode);
+		Log.d(TAG, "onActivityResult: " + requestCode);
 		switch (requestCode) {
-			case REQUEST_CODE_CAPTURE_IMAGE:
-				// Called after a photo has been taken.
+			case REQUEST_CODE_BUILDER:
+				// Called after an action has been taken.
 				if (resultCode == Activity.RESULT_OK) {
-					// Store the image data as a bitmap for writing later.
-//					mBitmapToSave = (Bitmap) data.getExtras().get("data");
-					Log.e(TAG, "mBitmapToSave = (Bitmap) data.getExtras().get(\"data\");");
-					Log.e(TAG, "dataToSave = SessionSingleton.getInstance().getExportDataCSV();");
+					//  Store the data as a csv string for writing later.
+					Log.d(TAG, "dataToSave = SessionSingleton.getInstance().getExportDataCSV()");
 					dataToSave = SessionSingleton.getInstance().getExportDataCSV();
 				}
 				break;
 			case REQUEST_CODE_CREATOR:
 				// Called after a file is saved to Drive.
 				if (resultCode == RESULT_OK) {
-					Log.i(TAG, "Image successfully saved.");
-//					mBitmapToSave = null;
+					Log.i(TAG, "Data file successfully saved.");
 					dataToSave = null;
-					Log.e(TAG, "dataToSave = null;");
-					// Just start the camera again for another photo.
-//					startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),
-//							  REQUEST_CODE_CAPTURE_IMAGE);
-
 				} else {
-					Log.e(TAG, "Warning: Error saving file to drive: " + resultCode);
+					Log.d(TAG, "Warning: Data file not saved to drive: " + resultCode);
 				}
 
+				// Return to previous activity
 				this.finish();
 
 				break;
@@ -202,13 +171,6 @@ public class CreateSessionFileInGoogleDrive extends Activity implements Connecti
 	@Override
 	public void onConnected(Bundle connectionHint) {
 		Log.i(TAG, "API client connected.");
-//		if (mBitmapToSave == null) {
-//			// This activity has no UI of its own. Just start the camera.
-//			startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),
-//					  REQUEST_CODE_CAPTURE_IMAGE);
-//			return;
-//		}
-
 //		if (dataToSave == null) {
 //			Log.e(TAG, "onConnected() (dataToSave == null)");
 //		 return;

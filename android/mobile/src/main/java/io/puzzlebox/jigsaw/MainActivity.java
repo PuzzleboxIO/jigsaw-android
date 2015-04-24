@@ -126,11 +126,11 @@ public class MainActivity extends ActionBarActivity implements
 //
 //		return super.onOptionsItemSelected(item);
 
-		Toast.makeText(getBaseContext(),
-				  getResources().getText(R.string.app_name) +
-						    " Version: " +
-						    BuildConfig.VERSION_NAME,
-				  Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getBaseContext(),
+//				  getResources().getText(R.string.app_name) +
+//						    " Version: " +
+//						    BuildConfig.VERSION_NAME,
+//				  Toast.LENGTH_SHORT).show();
 
 		// The action bar home/up action should open or close the drawer.
 		// ActionBarDrawerToggle will take care of this.

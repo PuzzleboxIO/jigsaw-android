@@ -22,21 +22,14 @@ public class SessionSingleton {
 	private static Date currentTimestamp;
 	private static Date sessionTimestamp;
 
-//	private static ArrayList<String> = new ArrayList();
-
-//	private static String currentDate;
-//	private static String currentTime;
-
-
-
 	private static ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
 
 	private static String query = "?q=session-xml";
 
 	private ArrayList<String> fragmentTags = new ArrayList<String>();
 
-
 	private static SessionSingleton ourInstance = new SessionSingleton();
+
 
 	public static SessionSingleton getInstance() {
 		return ourInstance;
@@ -45,10 +38,9 @@ public class SessionSingleton {
 	private SessionSingleton() {
 	}
 
-
-//	public void setData(ArrayList<HashMap<String, String>> data){
-//		this.data = data;
-//	}
+	public void setData(ArrayList<HashMap<String, String>> data){
+		this.data = data;
+	}
 
 	public void appendData(HashMap<String, String> packet){
 		data.add(packet);
@@ -61,7 +53,6 @@ public class SessionSingleton {
 	public String getQuery() {
 		return query;
 	}
-
 
 	public ArrayList<String> getFragmentTags() {
 		return fragmentTags;
@@ -192,25 +183,24 @@ public class SessionSingleton {
 	}
 
 
-	public void exportDataGoogleDrive() {
-
-		try {
-//			String filenameCSV = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getTimestampPS4() + ".csv";
-//			CSVWriter writer = new CSVWriter(new FileWriter(filenameCSV), ',');
-
-			List<String[]> dataCSV = getExportData();
-
-//			Intent intent = new Intent(get(), CreateFileInAppFolderActivity.class);
-
-//			writer.writeAll(dataCSV);
-//			writer.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
+//	public void exportDataGoogleDrive() {
+//
+//		try {
+////			String filenameCSV = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getTimestampPS4() + ".csv";
+////			CSVWriter writer = new CSVWriter(new FileWriter(filenameCSV), ',');
+//
+//			List<String[]> dataCSV = getExportData();
+//
+////			Intent intent = new Intent(get(), CreateFileInAppFolderActivity.class);
+//
+////			writer.writeAll(dataCSV);
+////			writer.close();
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 
 }
