@@ -46,6 +46,10 @@ public class SessionSingleton {
 		data.add(packet);
 	}
 
+	public void appendRawEEG(Number[] rawEEG) {
+//		data.add(packet);
+	}
+
 	public ArrayList<HashMap<String, String>> getData(){
 		return data;
 	}

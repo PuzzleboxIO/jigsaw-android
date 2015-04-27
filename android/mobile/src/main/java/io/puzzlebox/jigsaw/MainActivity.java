@@ -1,11 +1,8 @@
 package io.puzzlebox.jigsaw;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -16,7 +13,6 @@ import android.view.View;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +24,9 @@ public class MainActivity extends ActionBarActivity implements
 		  WelcomeFragment.OnFragmentInteractionListener,
 		  SessionFragment.OnFragmentInteractionListener,
 		  EEGFragment.OnFragmentInteractionListener
-//		  ThinkGearSingleton.OnThinkGearListener
 {
 
 	private final static String TAG = MainActivity.class.getSimpleName();
-
-	private ThinkGearService serviceThinkGear = new ThinkGearService();
-
-	public static LocalBroadcastManager mBroadcaster;
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -50,16 +41,21 @@ public class MainActivity extends ActionBarActivity implements
 
 	List<DrawerItem> dataList;
 
+
+	// ################################################################
+
 	public void onFragmentInteraction(Uri uri) {
 		Log.e(TAG, "onFragmentInteraction()");
 	}
+
+
+	// ################################################################
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-//		dataList = new ArrayList<DrawerItem>();
 		dataList = new ArrayList<>();
 		mTitle = mDrawerTitle = getTitle();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -69,12 +65,10 @@ public class MainActivity extends ActionBarActivity implements
 				  GravityCompat.START);
 
 
-
 		// Add Drawer Item to dataList
 		dataList.add(new DrawerItem(getString(R.string.title_fragment_welcome), R.drawable.ic_welcome));
 		dataList.add(new DrawerItem(getString(R.string.title_fragment_session), R.drawable.ic_welcome));
 		dataList.add(new DrawerItem(getString(R.string.title_fragment_eeg), R.drawable.ic_welcome));
-//		dataList.add(new DrawerItem(getString(R.string.title_fragment_remote_control), R.drawable.ic_remote_control));
 
 		adapter = new NavigationDrawerAdapter(this, R.layout.navigation_drawer_item,
 				  dataList);
@@ -110,16 +104,10 @@ public class MainActivity extends ActionBarActivity implements
 			SelectItem(0);
 		}
 
-//		Intent intent = new Intent(this, ThinkGearService.class);
-
-		mBroadcaster = LocalBroadcastManager.getInstance(this);
-
 	}
 
-	public static LocalBroadcastManager getBroadcastManager(){
-		return mBroadcaster;
-	}
 
+	// ################################################################
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -127,6 +115,9 @@ public class MainActivity extends ActionBarActivity implements
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+
+
+	// ################################################################
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -150,14 +141,18 @@ public class MainActivity extends ActionBarActivity implements
 
 		// The action bar home/up action should open or close the drawer.
 		// ActionBarDrawerToggle will take care of this.
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
+//		if (mDrawerToggle.onOptionsItemSelected(item)) {
+//			return true;
+//		}
+//
+//		return false;
 
-		return false;
+		return mDrawerToggle.onOptionsItemSelected(item);
 
 	}
 
+
+	// ################################################################
 
 	public void SelectItem(int position) {
 
@@ -208,7 +203,11 @@ public class MainActivity extends ActionBarActivity implements
 				break;
 		}
 
-		fragment.setArguments(args);
+		try {
+			fragment.setArguments(args);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 		android.app.FragmentManager frgManager = getFragmentManager();
 		frgManager.beginTransaction().replace(R.id.container, fragment)
 				  .addToBackStack(backStackName)
@@ -221,12 +220,16 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 
+	// ################################################################
+
 	@Override
 	public void setTitle(CharSequence title) {
 		mTitle = title;
 		getSupportActionBar().setTitle(mTitle);
 	}
 
+
+	// ################################################################
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
@@ -237,6 +240,8 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 
+	// ################################################################
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
@@ -244,6 +249,8 @@ public class MainActivity extends ActionBarActivity implements
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
+
+	// ################################################################
 
 	private class DrawerItemClickListener implements
 			  ListView.OnItemClickListener {
@@ -261,34 +268,15 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	public void onPause() {
 
-		/**
-		 * TODO
-		 * V/EEGFragment﹕ onPause()
-		 * D/TGDevice﹕ Stopping stream
-		 * I/TGDevice﹕ Closing connections
-		 * D/EEGFragment﹕ EEG Disconnected
-		 */
-
 		Log.v(TAG, "onPause()");
 
 		super.onPause();
 
-		try {
-//			disconnectHeadset();
-//			ThinkGearSingleton.getInstance().disconnectHeadset();
-			serviceThinkGear.disconnectHeadset();
-		} catch (Exception e) {
-			Log.v(TAG, "Exception: onPause()");
-			e.printStackTrace();
-		}
 
 	} // onPause
 
-	public void processPacketThinkGear(String msg) {
 
-		Log.d(TAG, "processPacketThinkGear");
-
-	}
+	// ################################################################
 
 //	public void restoreActionBar() {
 //		ActionBar actionBar = getSupportActionBar();

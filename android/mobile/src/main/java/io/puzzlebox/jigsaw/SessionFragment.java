@@ -26,14 +26,23 @@ public class SessionFragment extends Fragment {
 		return fragment;
 	}
 
+
+	// ################################################################
+
 	public SessionFragment() {
 		// Required empty public constructor
 	}
+
+
+	// ################################################################
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
+
+
+	// ################################################################
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +77,9 @@ public class SessionFragment extends Fragment {
 
 	}
 
+
+	// ################################################################
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -79,11 +91,17 @@ public class SessionFragment extends Fragment {
 		}
 	}
 
+
+	// ################################################################
+
 	@Override
 	public void onDetach() {
 		super.onDetach();
 		mListener = null;
 	}
+
+
+	// ################################################################
 
 	/**
 	 * This interface must be implemented by activities that contain this
@@ -98,5 +116,6 @@ public class SessionFragment extends Fragment {
 	public interface OnFragmentInteractionListener {
 		public void onFragmentInteraction(Uri uri);
 	}
+
 
 }

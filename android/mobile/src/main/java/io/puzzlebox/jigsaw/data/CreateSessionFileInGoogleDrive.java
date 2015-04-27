@@ -93,6 +93,9 @@ public class CreateSessionFileInGoogleDrive extends Activity implements Connecti
 				  });
 	}
 
+
+	// ################################################################
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -112,6 +115,9 @@ public class CreateSessionFileInGoogleDrive extends Activity implements Connecti
 		mGoogleApiClient.connect();
 	}
 
+
+	// ################################################################
+
 	@Override
 	protected void onPause() {
 		if (mGoogleApiClient != null) {
@@ -119,6 +125,9 @@ public class CreateSessionFileInGoogleDrive extends Activity implements Connecti
 		}
 		super.onPause();
 	}
+
+
+	// ################################################################
 
 	@Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -148,6 +157,9 @@ public class CreateSessionFileInGoogleDrive extends Activity implements Connecti
 		}
 	}
 
+
+	// ################################################################
+
 	@Override
 	public void onConnectionFailed(ConnectionResult result) {
 		// Called whenever the API client fails to connect.
@@ -168,6 +180,9 @@ public class CreateSessionFileInGoogleDrive extends Activity implements Connecti
 		}
 	}
 
+
+	// ################################################################
+
 	@Override
 	public void onConnected(Bundle connectionHint) {
 		Log.i(TAG, "API client connected.");
@@ -179,8 +194,12 @@ public class CreateSessionFileInGoogleDrive extends Activity implements Connecti
 		saveFileToDrive();
 	}
 
+
+	// ################################################################
+
 	@Override
 	public void onConnectionSuspended(int cause) {
 		Log.i(TAG, "GoogleApiClient connection suspended");
 	}
+
 }
