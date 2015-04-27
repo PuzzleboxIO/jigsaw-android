@@ -2,7 +2,10 @@ package io.puzzlebox.jigsaw;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -12,6 +15,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -52,18 +56,18 @@ public class EEGFragment extends Fragment implements
 	 * Configuration
 	 */
 
-	//	boolean DEBUG = true;
-	boolean DEBUG = false;
+//	//	boolean DEBUG = true;
+//	boolean DEBUG = false;
 
-	int eegAttention = 0;
-	int eegMeditation = 0;
-	int eegPower = 0;
-	int eegSignal = 0;
-	boolean eegConnected = false;
-	boolean eegConnecting = false;
-//	boolean demoFlightMode = false;
-	Number[] rawEEG = new Number[512];
-	int arrayIndex = 0;
+//	int eegAttention = 0;
+//	int eegMeditation = 0;
+//	int eegPower = 0;
+//	int eegSignal = 0;
+//	boolean eegConnected = false;
+//	boolean eegConnecting = false;
+////	boolean demoFlightMode = false;
+//	Number[] rawEEG = new Number[512];
+//	int arrayIndex = 0;
 
 
 	/**
@@ -87,27 +91,33 @@ public class EEGFragment extends Fragment implements
 	int[] thresholdValuesMeditation = new int[101];
 	int minimumPower = 0; // minimum power for the bloom
 	int maximumPower = 100; // maximum power for the bloom
-
-	private final int EEG_RAW_HISTORY_SIZE = 512;            // number of points to plot in EEG history
+	//
+//	private final int EEG_RAW_HISTORY_SIZE = 512;            // number of points to plot in EEG history
 	private XYPlot eegRawHistoryPlot = null;
 	private SimpleXYSeries eegRawHistorySeries = null;
 
 
+	//	Intent intentThinkGear = new Intent(getActivity(), ThinkGearService.class);
+	Intent intentThinkGear;// = new Intent(getActivity(), ThinkGearService.class);
 
-	/**
-	 * Bluetooth
-	 */
-	BluetoothAdapter bluetoothAdapter;
-	//	ArrayList<String> pairedBluetoothDevices;
+	IntentFilter mFilter;
 
 
-	/**
-	 * NeuroSky ThinkGear Device
-	 */
-	TGDevice tgDevice;
-	int tgSignal = 0;
-	//	final boolean rawEnabled = false;
-	final boolean rawEnabled = true;
+
+//	/**
+//	 * Bluetooth
+//	 */
+//	BluetoothAdapter bluetoothAdapter;
+//	//	ArrayList<String> pairedBluetoothDevices;
+
+
+//	/**
+//	 * NeuroSky ThinkGear Device
+//	 */
+//	TGDevice tgDevice;
+//	int tgSignal = 0;
+//	//	final boolean rawEnabled = false;
+//	final boolean rawEnabled = true;
 
 
 
@@ -131,7 +141,50 @@ public class EEGFragment extends Fragment implements
 //			mParam1 = getArguments().getString(ARG_PARAM1);
 //			mParam2 = getArguments().getString(ARG_PARAM2);
 		}
+
+		// Register to receive messages.
+		// We are registering an observer (mMessageReceiver) to receive Intents
+		// with actions named "custom-event-name".
+//		LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+//		new IntentFilter("custom-event-name"));
+//		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
+//				  new IntentFilter("custom-event-name"));
+
+//		public static LocalBroadcastManager mBroadcaster;
+
+//		intentThinkGear = new Intent(getActivity(), ThinkGearService.class);
+
+//		LocalBroadcastManager.getInstance(this).registerReceiver(
+
+//		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+//				  mMessageReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
+
 	}
+
+
+
+	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+
+//			String action = intent.getAction();
+
+			int eegAttention = Integer.valueOf(intent.getStringExtra("Attention"));
+			int eegMeditation = Integer.valueOf(intent.getStringExtra("Meditation"));
+			int eegSignal = Integer.valueOf(intent.getStringExtra("Signal Level"));
+			int eegPower = Integer.valueOf(intent.getStringExtra("Power"));
+
+			progressBarAttention.setProgress(eegAttention);
+			progressBarMeditation.setProgress(eegMeditation);
+			progressBarSignal.setProgress(eegSignal);
+			progressBarPower.setProgress(eegPower);
+
+		}
+
+	};
+
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -190,7 +243,8 @@ public class EEGFragment extends Fragment implements
 
 		if (eegRawHistoryPlot != null) {
 
-			eegRawHistoryPlot.setDomainBoundaries(0, EEG_RAW_HISTORY_SIZE, BoundaryMode.FIXED);
+//			eegRawHistoryPlot.setDomainBoundaries(0, EEG_RAW_HISTORY_SIZE, BoundaryMode.FIXED);
+			eegRawHistoryPlot.setDomainBoundaries(0, ThinkGearSingleton.getInstance().EEG_RAW_HISTORY_SIZE, BoundaryMode.FIXED);
 			//		eegRawHistoryPlot.setDomainBoundaries(0, EEG_RAW_HISTORY_SIZE, BoundaryMode.AUTO);
 			//		eegRawHistoryPlot.setRangeBoundaries(-32767, 32767, BoundaryMode.FIXED);
 			//		eegRawHistoryPlot.setRangeBoundaries(-32767, 32767, BoundaryMode.AUTO);
@@ -247,6 +301,7 @@ public class EEGFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				connectHeadset();
+//				ThinkGearSingleton.getInstance().connectHeadset();
 			}
 		});
 
@@ -291,31 +346,35 @@ public class EEGFragment extends Fragment implements
 			}
 		});
 
-		/**
-		 * Prepare Bluetooth and NeuroSky ThinkGear EEG interface
-		 */
+//		/**
+//		 * Prepare Bluetooth and NeuroSky ThinkGear EEG interface
+//		 */
+//
+//		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+//
+//		if (bluetoothAdapter == null) {
+//			// Alert user that Bluetooth is not available
+//			// TODO Fix for Fragment Context
+////			Toast.makeText(((OrbitTabActivity) getActivity()), "Bluetooth not available", Toast.LENGTH_LONG).show();
+//			Toast.makeText((getActivity()), "Bluetooth not available", Toast.LENGTH_LONG).show();
+//
+//		} else {
+//			/** create the TGDevice */
+//			tgDevice = new TGDevice(bluetoothAdapter, handlerThinkGear);
+//
+//			/** Retrieve a list of paired Bluetooth adapters */
+//			//			Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+//			//			pairedBluetoothDevices = new ArrayList<String>(Arrays.asList(pairedDevices.toString()));
+//			/**
+//			 * NOTE: To get device names iterate through pairedBluetoothDevices
+//			 * and call the getName() method on each BluetoothDevice object.
+//			 */
+//		}
 
-		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-		if (bluetoothAdapter == null) {
-			// Alert user that Bluetooth is not available
-			// TODO Fix for Fragment Context
-//			Toast.makeText(((OrbitTabActivity) getActivity()), "Bluetooth not available", Toast.LENGTH_LONG).show();
-			Toast.makeText((getActivity()), "Bluetooth not available", Toast.LENGTH_LONG).show();
+//		v = ThinkGearSingleton.getInstance().onCreateView(v, inflater, container, savedInstanceState);
 
-		} else {
-			/** create the TGDevice */
-			tgDevice = new TGDevice(bluetoothAdapter, handlerThinkGear);
-
-			/** Retrieve a list of paired Bluetooth adapters */
-			//			Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
-			//			pairedBluetoothDevices = new ArrayList<String>(Arrays.asList(pairedDevices.toString()));
-			/**
-			 * NOTE: To get device names iterate through pairedBluetoothDevices
-			 * and call the getName() method on each BluetoothDevice object.
-			 */
-		}
-
+		intentThinkGear = new Intent(getActivity(), ThinkGearService.class);
 
 		/**
 		 * Update settings according to default UI
@@ -384,12 +443,21 @@ public class EEGFragment extends Fragment implements
 
 		super.onPause();
 
-		try {
-			disconnectHeadset();
-		} catch (Exception e) {
-			Log.v(TAG, "Exception: onPause()");
-			e.printStackTrace();
-		}
+//		mBroadcaster.unregisterReceiver(mFilter);
+
+
+		LocalBroadcastManager.getInstance(
+				  getActivity().getApplicationContext()).unregisterReceiver(
+				  mMessageReceiver);
+
+
+//		try {
+//			disconnectHeadset();
+////			ThinkGearSingleton.getInstance().disconnectHeadset();
+//		} catch (Exception e) {
+//			Log.v(TAG, "Exception: onPause()");
+//			e.printStackTrace();
+//		}
 
 	} // onPause
 
@@ -408,11 +476,25 @@ public class EEGFragment extends Fragment implements
 //
 //		getActivity().registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 
-		if (eegConnected)
+//		if (eegConnected)
+		if (ThinkGearSingleton.getInstance().eegConnected)
 			setButtonText(R.id.buttonConnectEEG, "Disconnect EEG");
+
+
+		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+				  mMessageReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
+
+
+//		mFilter = new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear");
+////		mFilter.addAction(MY_ACTION_2);
+//
+//		getBroadcastManager().registerReceiver(handlerThinkGear, mFilter);
+//		getActivity().registerReceiver(this.mBroadcaster, handlerThinkGear, mFilter);
 
 	}
 
+
+	// ################################################################
 
 	@Override
 	public void onStop() {
@@ -427,6 +509,7 @@ public class EEGFragment extends Fragment implements
 		try {
 
 			disconnectHeadset();
+//			ThinkGearSingleton.getInstance().disconnectHeadset();
 
 
 		} catch (Exception e) {
@@ -434,9 +517,10 @@ public class EEGFragment extends Fragment implements
 			e.printStackTrace();
 		}
 
-
-
 	}
+
+
+	// ################################################################
 
 	@Override
 	public void onDestroy() {
@@ -448,8 +532,10 @@ public class EEGFragment extends Fragment implements
 
 		try {
 
-			if(bluetoothAdapter != null)
-				tgDevice.close();
+////			if(bluetoothAdapter != null)
+////				tgDevice.close();
+//			if(ThinkGearSingleton.getInstance().bluetoothAdapter != null)
+//				ThinkGearSingleton.getInstance().tgDevice.close(); TODO
 
 		} catch (Exception e) {
 			Log.v(TAG, "Exception: onDestroy()");
@@ -502,8 +588,6 @@ public class EEGFragment extends Fragment implements
 
 	// ################################################################
 
-
-
 	public void setButtonText(int buttonId, String text) {
 
 		/**
@@ -520,14 +604,14 @@ public class EEGFragment extends Fragment implements
 
 	public void updateStatusImage() {
 
-		if(DEBUG) {
-			Log.v(TAG, (new StringBuilder("Attention: ")).append(eegAttention).toString());
-			Log.v(TAG, (new StringBuilder("Meditation: ")).append(eegMeditation).toString());
-			Log.v(TAG, (new StringBuilder("Power: ")).append(eegPower).toString());
-			Log.v(TAG, (new StringBuilder("Signal: ")).append(eegSignal).toString());
-			Log.v(TAG, (new StringBuilder("Connecting: ")).append(eegConnecting).toString());
-			Log.v(TAG, (new StringBuilder("Connected: ")).append(eegConnected).toString());
-		}
+//		if(DEBUG) {
+//			Log.v(TAG, (new StringBuilder("Attention: ")).append(eegAttention).toString());
+//			Log.v(TAG, (new StringBuilder("Meditation: ")).append(eegMeditation).toString());
+//			Log.v(TAG, (new StringBuilder("Power: ")).append(eegPower).toString());
+//			Log.v(TAG, (new StringBuilder("Signal: ")).append(eegSignal).toString());
+//			Log.v(TAG, (new StringBuilder("Connecting: ")).append(eegConnecting).toString());
+//			Log.v(TAG, (new StringBuilder("Connected: ")).append(eegConnected).toString());
+//		}
 //
 //		if(eegPower > 0) {
 //			imageViewStatus.setImageResource(R.drawable.status_4_active);
@@ -614,19 +698,19 @@ public class EEGFragment extends Fragment implements
 
 	// ################################################################
 
-private final Handler handlerThinkGear = new Handler() {
+	private final Handler handlerThinkGear = new Handler() {
 
-	/**
-	 * Handles data packets from NeuroSky ThinkGear device
-	 */
+		/**
+		 * Handles data packets from NeuroSky ThinkGear device
+		 */
 
-	public void handleMessage(Message msg) {
+		public void handleMessage(Message msg) {
 
-		parseEEG(msg);
+			parseEEG(msg); //TODO
 
-	}
+		}
 
-}; // handlerThinkGear
+	}; // handlerThinkGear
 
 
 	// ################################################################
@@ -642,58 +726,61 @@ private final Handler handlerThinkGear = new Handler() {
 						break;
 					case TGDevice.STATE_CONNECTING:
 						Log.d(TAG, "Connecting to EEG");
-						eegConnecting = true;
-						eegConnected = false;
+//						eegConnecting = true;
+//						eegConnected = false;
 						updateStatusImage();
 						break;
 					case TGDevice.STATE_CONNECTED:
 						Log.d(TAG, "EEG Connected");
 						setButtonText(R.id.buttonConnectEEG, "Disconnect EEG");
-						eegConnecting = false;
-						eegConnected = true;
+//						eegConnecting = false;
+//						eegConnected = true;
 						updateStatusImage();
-						SessionSingleton.getInstance().resetSession();
-						tgDevice.start();
+//						SessionSingleton.getInstance().resetSession();
+//						tgDevice.start();
 						break;
 					case TGDevice.STATE_NOT_FOUND:
 						Log.d(TAG, "EEG headset not found");
-						eegConnecting = false;
-						eegConnected = false;
+//						eegConnecting = false;
+//						eegConnected = false;
 						updateStatusImage();
 						break;
 					case TGDevice.STATE_NOT_PAIRED:
 						Log.d(TAG, "EEG headset not paired");
-						eegConnecting = false;
-						eegConnected = false;
+//						eegConnecting = false;
+//						eegConnected = false;
 						updateStatusImage();
 						break;
 					case TGDevice.STATE_DISCONNECTED:
 						Log.d(TAG, "EEG Disconnected");
-						eegConnecting = false;
-						eegConnected = false;
+//						eegConnecting = false;
+//						eegConnected = false;
 						updateStatusImage();
-						disconnectHeadset();
+//						disconnectHeadset();
 						break;
 				}
 
 				break;
 
 			case TGDevice.MSG_POOR_SIGNAL:
-				eegSignal = calculateSignal(msg.arg1);
-				progressBarSignal.setProgress(eegSignal);
+//				eegSignal = calculateSignal(msg.arg1);
+//				progressBarSignal.setProgress(eegSignal);
+				progressBarSignal.setProgress(ThinkGearSingleton.getInstance().eegSignal);
 				updateStatusImage();
-				processPacketEEG();
+//				processPacketEEG();
 				break;
 			case TGDevice.MSG_ATTENTION:
-				eegAttention = msg.arg1;
-				progressBarAttention.setProgress(eegAttention);
+//				eegAttention = msg.arg1;
+//				progressBarAttention.setProgress(eegAttention);
+				progressBarAttention.setProgress(ThinkGearSingleton.getInstance().eegAttention);
 				updatePower();
 				break;
 			case TGDevice.MSG_MEDITATION:
-				eegMeditation = msg.arg1;
-				if (DEBUG)
-					Log.v(TAG, "Meditation: " + eegMeditation);
-				progressBarMeditation.setProgress(eegMeditation);
+//				eegMeditation = msg.arg1;
+//				if (DEBUG)
+//					Log.v(TAG, "Meditation: " + eegMeditation);
+//				progressBarMeditation.setProgress(eegMeditation);
+				progressBarMeditation.setProgress(ThinkGearSingleton.getInstance().eegMeditation);
 				updatePower();
 //				processPacketEEG();
 				break;
@@ -708,11 +795,13 @@ private final Handler handlerThinkGear = new Handler() {
 				break;
 			case TGDevice.MSG_RAW_DATA:
 
-				rawEEG[arrayIndex] = msg.arg1;
-				arrayIndex = arrayIndex + 1;
+//				rawEEG[arrayIndex] = msg.arg1;
+//				arrayIndex = arrayIndex + 1;
 
-				if (arrayIndex == EEG_RAW_HISTORY_SIZE - 1)
-					updateEEGRawHistory(rawEEG);
+//				if (arrayIndex == EEG_RAW_HISTORY_SIZE - 1)
+//					updateEEGRawHistory(rawEEG);
+				if (ThinkGearSingleton.getInstance().arrayIndex == ThinkGearSingleton.getInstance().EEG_RAW_HISTORY_SIZE - 1)
+					updateEEGRawHistory(ThinkGearSingleton.getInstance().rawEEG);
 
 				break;
 			case TGDevice.MSG_RAW_COUNT:
@@ -734,10 +823,113 @@ private final Handler handlerThinkGear = new Handler() {
 	} // handleMessage
 
 
-	// ################################################################
+//	public void parseEEG(Message msg) {
+//
+//		switch (msg.what) {
+//
+//			case TGDevice.MSG_STATE_CHANGE:
+//
+//				switch (msg.arg1) {
+//					case TGDevice.STATE_IDLE:
+//						break;
+//					case TGDevice.STATE_CONNECTING:
+//						Log.d(TAG, "Connecting to EEG");
+//						eegConnecting = true;
+//						eegConnected = false;
+//						updateStatusImage();
+//						break;
+//					case TGDevice.STATE_CONNECTED:
+//						Log.d(TAG, "EEG Connected");
+//						setButtonText(R.id.buttonConnectEEG, "Disconnect EEG");
+//						eegConnecting = false;
+//						eegConnected = true;
+//						updateStatusImage();
+//						SessionSingleton.getInstance().resetSession();
+//						tgDevice.start();
+//						break;
+//					case TGDevice.STATE_NOT_FOUND:
+//						Log.d(TAG, "EEG headset not found");
+//						eegConnecting = false;
+//						eegConnected = false;
+//						updateStatusImage();
+//						break;
+//					case TGDevice.STATE_NOT_PAIRED:
+//						Log.d(TAG, "EEG headset not paired");
+//						eegConnecting = false;
+//						eegConnected = false;
+//						updateStatusImage();
+//						break;
+//					case TGDevice.STATE_DISCONNECTED:
+//						Log.d(TAG, "EEG Disconnected");
+//						eegConnecting = false;
+//						eegConnected = false;
+//						updateStatusImage();
+//						disconnectHeadset();
+//						break;
+//				}
+//
+//				break;
+//
+//			case TGDevice.MSG_POOR_SIGNAL:
+//				eegSignal = calculateSignal(msg.arg1);
+//				progressBarSignal.setProgress(eegSignal);
+//				updateStatusImage();
+//				processPacketEEG();
+//				break;
+//			case TGDevice.MSG_ATTENTION:
+//				eegAttention = msg.arg1;
+//				progressBarAttention.setProgress(eegAttention);
+//				updatePower();
+//				break;
+//			case TGDevice.MSG_MEDITATION:
+//				eegMeditation = msg.arg1;
+//				if (DEBUG)
+//					Log.v(TAG, "Meditation: " + eegMeditation);
+//				progressBarMeditation.setProgress(eegMeditation);
+//				updatePower();
+////				processPacketEEG();
+//				break;
+//			case TGDevice.MSG_BLINK:
+//				/**
+//				 * Strength of detected blink. The Blink Strength ranges
+//				 * from 1 (small blink) to 255 (large blink). Unless a blink
+//				 * occurred, nothing will be returned. Blinks are only
+//				 * calculated if PoorSignal is less than 51.
+//				 */
+//				Log.d(TAG, "Blink: " + msg.arg1 + "\n");
+//				break;
+//			case TGDevice.MSG_RAW_DATA:
+//
+//				rawEEG[arrayIndex] = msg.arg1;
+//				arrayIndex = arrayIndex + 1;
+//
+//				if (arrayIndex == EEG_RAW_HISTORY_SIZE - 1)
+//					updateEEGRawHistory(rawEEG);
+//
+//				break;
+//			case TGDevice.MSG_RAW_COUNT:
+//				break;
+//			case TGDevice.MSG_RAW_MULTI:
+//				//TGRawMulti rawM = (TGRawMulti)msg.obj;
+//				//Log.d(TAG, "Raw1: " + rawM.ch1 + "\nRaw2: " + rawM.ch2);
+//			case TGDevice.MSG_HEART_RATE:
+//				//Log.d(TAG, "Heart rate: " + msg.arg1 + "\n");
+//				break;
+//			case TGDevice.MSG_LOW_BATTERY:
+//				// TODO Fragment Context
+//				Toast.makeText((getActivity()), "EEG battery low!", Toast.LENGTH_SHORT).show();
+//				break;
+//			default:
+//				break;
+//		}
+//
+//	} // handleMessage
 
-//	public void connectHeadset(View view) {
-		public void connectHeadset() {
+
+//	// ################################################################
+
+	//	public void connectHeadset(View view) {
+	public void connectHeadset() {
 
 		/**
 		 * Called when the "Connect" button is pressed
@@ -745,37 +937,43 @@ private final Handler handlerThinkGear = new Handler() {
 
 		Log.v(TAG, "connectHeadset()");
 
-		/** Stop audio stream */
-		// TODO Fragment Context
-//		((OrbitTabActivity)getActivity()).stopControl();
-//		( getActivity() ).stopControl();
+//			ThinkGearSingleton.getInstance().connectHeadset();
 
-		if(bluetoothAdapter == null) {
-
-			// Alert user that Bluetooth is not available
-			// TODO
-//			Toast.makeText(((OrbitTabActivity)getActivity()), "Bluetooth not available", Toast.LENGTH_LONG).show();
-
-		} else {
-
-			if (tgDevice.getState() != TGDevice.STATE_CONNECTING && tgDevice.getState() != TGDevice.STATE_CONNECTED) {
-				tgDevice.connect(rawEnabled);
-				// TODO
-//				((OrbitTabActivity)getActivity()).maximizeAudioVolume(); // Automatically set media volume to maximum
-//				( getActivity() ).maximizeAudioVolume(); // Automatically set media volume to maximum
-			}
+//			Intent intent = new Intent(getActivity(), ThinkGearService.class);
+		getActivity().startService(intentThinkGear);
 
 
-			else if (tgDevice.getState() == TGDevice.STATE_CONNECTED)
-			/** "Disconnect" button was pressed */
-				disconnectHeadset();
-
-		}
+//		/** Stop audio stream */
+//		// TODO Fragment Context
+////		((OrbitTabActivity)getActivity()).stopControl();
+////		( getActivity() ).stopControl();
+//
+//		if(bluetoothAdapter == null) {
+//
+//			// Alert user that Bluetooth is not available
+//			// TODO
+////			Toast.makeText(((OrbitTabActivity)getActivity()), "Bluetooth not available", Toast.LENGTH_LONG).show();
+//
+//		} else {
+//
+//			if (tgDevice.getState() != TGDevice.STATE_CONNECTING && tgDevice.getState() != TGDevice.STATE_CONNECTED) {
+//				tgDevice.connect(rawEnabled);
+//				// TODO
+////				((OrbitTabActivity)getActivity()).maximizeAudioVolume(); // Automatically set media volume to maximum
+////				( getActivity() ).maximizeAudioVolume(); // Automatically set media volume to maximum
+//			}
+//
+//
+//			else if (tgDevice.getState() == TGDevice.STATE_CONNECTED)
+//			/** "Disconnect" button was pressed */
+//				disconnectHeadset();
+//
+//		}
 
 	} // connectHeadset
 
 
-	// ################################################################
+//	################################################################
 
 	public void disconnectHeadset() {
 
@@ -783,20 +981,28 @@ private final Handler handlerThinkGear = new Handler() {
 		 * Called when "Disconnect" button is pressed
 		 */
 
-		eegConnecting = false;
-		eegConnected = false;
 
-		eegAttention = 0;
-		eegMeditation = 0;
-		eegSignal = 0;
-		eegPower = 0;
+		getActivity().stopService(intentThinkGear);
+//		ThinkGearSingleton.getInstance().disconnectHeadset();
+
+//		eegConnecting = false;
+//		eegConnected = false;
+//
+//		eegAttention = 0;
+//		eegMeditation = 0;
+//		eegSignal = 0;
+//		eegPower = 0;
 
 		updateStatusImage();
 
-		progressBarAttention.setProgress(eegAttention);
-		progressBarMeditation.setProgress(eegMeditation);
-		progressBarSignal.setProgress(eegSignal);
-		progressBarPower.setProgress(eegPower);
+//		progressBarAttention.setProgress(eegAttention);
+//		progressBarMeditation.setProgress(eegMeditation);
+//		progressBarSignal.setProgress(eegSignal);
+//		progressBarPower.setProgress(eegPower);
+		progressBarAttention.setProgress(ThinkGearSingleton.getInstance().eegAttention);
+		progressBarMeditation.setProgress(ThinkGearSingleton.getInstance().eegMeditation);
+		progressBarSignal.setProgress(ThinkGearSingleton.getInstance().eegSignal);
+		progressBarPower.setProgress(ThinkGearSingleton.getInstance().eegPower);
 
 		//TODO Fragment Context
 //		String id = ((OrbitTabActivity)getActivity()).getTabFragmentAdvanced();
@@ -815,51 +1021,51 @@ private final Handler handlerThinkGear = new Handler() {
 		setButtonText(R.id.buttonConnectEEG, "Connect");
 
 
-		if (tgDevice.getState() == TGDevice.STATE_CONNECTED) {
-			tgDevice.stop();
-			tgDevice.close();
-
-		// TODO Fragment Context
-//		((OrbitTabActivity)getActivity()).stopControl();
-//		(getActivity()).stopControl();
-
-//			disconnectHeadset();
-
-		}
+//		if (tgDevice.getState() == TGDevice.STATE_CONNECTED) {
+//			tgDevice.stop();
+//			tgDevice.close();
+//
+//		// TODO Fragment Context
+////		((OrbitTabActivity)getActivity()).stopControl();
+////		(getActivity()).stopControl();
+//
+////			disconnectHeadset();
+//
+//		}
 
 
 	} // disconnectHeadset
 
 
-	// ################################################################
-
-	public int calculateSignal(int signal) {
-
-		/**
-		 * The ThinkGear protocol states that a signal level of 200 will be
-		 * returned when a clean ground/reference is not detected at the ear clip,
-		 *  and a value of 0 when the signal is perfectly clear. We need to
-		 *  convert this information into usable settings for the Signal
-		 *  progress bar
-		 */
-
-		int value;
-
-		switch (signal) {
-			case 200:
-				value = 0;
-			case 0:
-				value = 100;
-			default:
-				value = (int)(100 - ((signal / 200.0) * 100));
-		}
-
-		return(value);
-
-	} // calculateSignal
-
-
-	// ################################################################
+//	// ################################################################
+//
+//	public int calculateSignal(int signal) {
+//
+//		/**
+//		 * The ThinkGear protocol states that a signal level of 200 will be
+//		 * returned when a clean ground/reference is not detected at the ear clip,
+//		 *  and a value of 0 when the signal is perfectly clear. We need to
+//		 *  convert this information into usable settings for the Signal
+//		 *  progress bar
+//		 */
+//
+//		int value;
+//
+//		switch (signal) {
+//			case 200:
+//				value = 0;
+//			case 0:
+//				value = 100;
+//			default:
+//				value = (int)(100 - ((signal / 200.0) * 100));
+//		}
+//
+//		return(value);
+//
+//	} // calculateSignal
+//
+//
+//	################################################################
 
 	public void updatePowerThresholds() {
 
@@ -927,13 +1133,6 @@ private final Handler handlerThinkGear = new Handler() {
 			}
 		}
 
-
-
-
-
-
-
-
 	} // updatePowerThresholds
 
 
@@ -996,16 +1195,24 @@ private final Handler handlerThinkGear = new Handler() {
 		 */
 
 		// Set Attention and Meditation to zero if we've lost signal
-		if (eegSignal < 100) {
-			eegAttention = 0;
-			eegMeditation = 0;
-			progressBarAttention.setProgress(eegAttention);
-			progressBarMeditation.setProgress(eegMeditation);
+//		if (eegSignal < 100) {
+//			eegAttention = 0;
+//			eegMeditation = 0;
+//			progressBarAttention.setProgress(eegAttention);
+//			progressBarMeditation.setProgress(eegMeditation);
+//		}
+		if (ThinkGearSingleton.getInstance().eegSignal < 100) {
+			ThinkGearSingleton.getInstance().eegAttention = 0;
+			ThinkGearSingleton.getInstance().eegMeditation = 0;
+			progressBarAttention.setProgress(ThinkGearSingleton.getInstance().eegAttention);
+			progressBarMeditation.setProgress(ThinkGearSingleton.getInstance().eegMeditation);
 		}
 
-		eegPower = calculateSpeed();
+//		eegPower = calculateSpeed();
+		ThinkGearSingleton.getInstance().eegPower = calculateSpeed();
 
-		progressBarPower.setProgress(eegPower);
+//		progressBarPower.setProgress(eegPower);
+		progressBarPower.setProgress(ThinkGearSingleton.getInstance().eegPower);
 
 
 //		processPacketEEG();
@@ -1061,31 +1268,31 @@ private final Handler handlerThinkGear = new Handler() {
 	// ################################################################
 
 
-	public void processPacketEEG() {
-		try {
-//			Log.e(TAG, "SessionSingleton.getInstance().updateTimestamp");
-			SessionSingleton.getInstance().updateTimestamp();
-
-			HashMap packet = new HashMap();
-
-			packet.put("Date", SessionSingleton.getInstance().getCurrentDate());
-			packet.put("Time", SessionSingleton.getInstance().getCurrentTimestamp());
-//			packet.put("Attention", eegAttention);
-			packet.put("Attention", String.valueOf(eegAttention));
-//			packet.put("Meditation", eegMeditation);
-			packet.put("Meditation", String.valueOf(eegMeditation));
-//			packet.put("Signal Level", eegSignal);
-			packet.put("Signal Level", String.valueOf(eegSignal));
-//			packet.put("Power", eegPower);
-			packet.put("Power", String.valueOf(eegPower));
-
-			Log.d(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
-			SessionSingleton.getInstance().appendData(packet);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public void processPacketEEG() {
+//		try {
+////			Log.e(TAG, "SessionSingleton.getInstance().updateTimestamp");
+//			SessionSingleton.getInstance().updateTimestamp();
+//
+//			HashMap packet = new HashMap();
+//
+//			packet.put("Date", SessionSingleton.getInstance().getCurrentDate());
+//			packet.put("Time", SessionSingleton.getInstance().getCurrentTimestamp());
+////			packet.put("Attention", eegAttention);
+//			packet.put("Attention", String.valueOf(eegAttention));
+////			packet.put("Meditation", eegMeditation);
+//			packet.put("Meditation", String.valueOf(eegMeditation));
+////			packet.put("Signal Level", eegSignal);
+//			packet.put("Signal Level", String.valueOf(eegSignal));
+////			packet.put("Power", eegPower);
+//			packet.put("Power", String.valueOf(eegPower));
+//
+//			Log.d(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
+//			SessionSingleton.getInstance().appendData(packet);
+//		}
+//		catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 
 	// ################################################################
@@ -1109,8 +1316,11 @@ private final Handler handlerThinkGear = new Handler() {
 			// redraw the Plots:
 			eegRawHistoryPlot.redraw();
 
-			rawEEG = new Number[512];
-			arrayIndex = 0;
+//			rawEEG = new Number[512];
+//			arrayIndex = 0;
+
+			ThinkGearSingleton.getInstance().resetRawEEG();
+
 		}
 
 	} // updateEEGRawHistory

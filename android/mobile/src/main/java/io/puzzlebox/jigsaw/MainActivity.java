@@ -1,8 +1,11 @@
 package io.puzzlebox.jigsaw;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -25,9 +28,14 @@ public class MainActivity extends ActionBarActivity implements
 		  WelcomeFragment.OnFragmentInteractionListener,
 		  SessionFragment.OnFragmentInteractionListener,
 		  EEGFragment.OnFragmentInteractionListener
+//		  ThinkGearSingleton.OnThinkGearListener
 {
 
 	private final static String TAG = MainActivity.class.getSimpleName();
+
+	private ThinkGearService serviceThinkGear = new ThinkGearService();
+
+	public static LocalBroadcastManager mBroadcaster;
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -102,6 +110,14 @@ public class MainActivity extends ActionBarActivity implements
 			SelectItem(0);
 		}
 
+//		Intent intent = new Intent(this, ThinkGearService.class);
+
+		mBroadcaster = LocalBroadcastManager.getInstance(this);
+
+	}
+
+	public static LocalBroadcastManager getBroadcastManager(){
+		return mBroadcaster;
 	}
 
 
@@ -147,16 +163,46 @@ public class MainActivity extends ActionBarActivity implements
 
 		android.app.Fragment fragment = null;
 		Bundle args = new Bundle();
+		String backStackName = "";
 		switch (position) {
 			case 0:
 //				fragment = new WelcomeFragment();
-				fragment = new EEGFragment();
+				backStackName = "eeg";
+				try{
+					fragment = getFragmentManager().findFragmentByTag(backStackName);
+				} catch (Exception e) {
+					e.printStackTrace();
+//					fragment = new EEGFragment();
+				}
+				Log.e(TAG, "fragment = new EEGFragment()");
+				if (fragment == null)
+					fragment = new EEGFragment();
 				break;
 			case 1:
-				fragment = new SessionFragment();
+//				fragment = new SessionFragment();
+				backStackName = "session";
+				try{
+					fragment = getFragmentManager().findFragmentByTag(backStackName);
+				} catch (Exception e) {
+					e.printStackTrace();
+//					fragment = new SessionFragment();
+				}
+				Log.e(TAG, "fragment = new SessionFragment()");
+				if (fragment == null)
+					fragment = new SessionFragment();
 				break;
 			case 2:
-				fragment = new EEGFragment();
+//				fragment = new EEGFragment();
+				backStackName = "eeg";
+				try{
+					fragment = getFragmentManager().findFragmentByTag(backStackName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				Log.e(TAG, "fragment = new EEGFragment()");
+				if (fragment == null)
+					fragment = new EEGFragment();
+
 				break;
 			default:
 				break;
@@ -165,6 +211,7 @@ public class MainActivity extends ActionBarActivity implements
 		fragment.setArguments(args);
 		android.app.FragmentManager frgManager = getFragmentManager();
 		frgManager.beginTransaction().replace(R.id.container, fragment)
+				  .addToBackStack(backStackName)
 				  .commit();
 
 		mDrawerList.setItemChecked(position, true);
@@ -208,6 +255,40 @@ public class MainActivity extends ActionBarActivity implements
 		}
 	}
 
+
+	// ################################################################
+
+	@Override
+	public void onPause() {
+
+		/**
+		 * TODO
+		 * V/EEGFragment﹕ onPause()
+		 * D/TGDevice﹕ Stopping stream
+		 * I/TGDevice﹕ Closing connections
+		 * D/EEGFragment﹕ EEG Disconnected
+		 */
+
+		Log.v(TAG, "onPause()");
+
+		super.onPause();
+
+		try {
+//			disconnectHeadset();
+//			ThinkGearSingleton.getInstance().disconnectHeadset();
+			serviceThinkGear.disconnectHeadset();
+		} catch (Exception e) {
+			Log.v(TAG, "Exception: onPause()");
+			e.printStackTrace();
+		}
+
+	} // onPause
+
+	public void processPacketThinkGear(String msg) {
+
+		Log.d(TAG, "processPacketThinkGear");
+
+	}
 
 //	public void restoreActionBar() {
 //		ActionBar actionBar = getSupportActionBar();
