@@ -30,7 +30,7 @@
         <activity android:name=".data.CreateSessionFileInGoogleDrive" />
 
         <service
-            android:name=".ThinkGearService"
+            android:name=".protocol.ThinkGearService"
             android:enabled="true"
             android:exported="false" >
         </service>

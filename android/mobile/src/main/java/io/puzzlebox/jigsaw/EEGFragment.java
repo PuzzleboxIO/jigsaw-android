@@ -34,6 +34,7 @@ import java.util.Arrays;
 
 import io.puzzlebox.jigsaw.data.CreateSessionFileInGoogleDrive;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
+import io.puzzlebox.jigsaw.protocol.ThinkGearService;
 
 public class EEGFragment extends Fragment implements
 		  SeekBar.OnSeekBarChangeListener {

@@ -1,4 +1,4 @@
-package io.puzzlebox.jigsaw;
+package io.puzzlebox.jigsaw.protocol;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -44,7 +44,7 @@ public class ThinkGearService extends Service {
 //	private static int eegSignal = 0;
 
 	public final static boolean rawEnabled = true;
-	public final static int EEG_RAW_HISTORY_SIZE = 512;            // number of points to plot in EEG history
+	public final static int EEG_RAW_HISTORY_SIZE = 512; // number of points to plot in EEG history
 	private static Number[] rawEEG = new Number[EEG_RAW_HISTORY_SIZE];
 	private static int arrayIndex = 0;
 
@@ -212,32 +212,6 @@ public class ThinkGearService extends Service {
 		}
 	});
 
-//	private static final Handler handlerThinkGear = new Handler(new IncomingHandlerCallback()) {
-//
-//		/**
-//		 * Handles data packets from NeuroSky ThinkGear device
-//		 */
-//
-////		public void handleMessage(Message msg) {
-////
-////			parseEEG(msg);
-////
-////		}
-//
-//	}; // handlerThinkGear
-//
-//
-//	static class IncomingHandlerCallback implements Handler.Callback {
-//
-//		@Override
-//		public boolean handleMessage(Message msg) {
-//
-//			// Handle message code
-//			parseEEG(msg);
-//
-//			return true;
-//		}
-//	}
 
 	// ################################################################
 
