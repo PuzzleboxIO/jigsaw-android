@@ -222,7 +222,6 @@ public class ThinkGearService extends Service {
 
 		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-//		if (bluetoothAdapter != null) {
 		if (bluetoothAdapter != null) {
 
 			/** create the TGDevice */
@@ -241,7 +240,6 @@ public class ThinkGearService extends Service {
 
 	// ################################################################
 
-//	public static void parseEEG(Message msg) {
 	public void parseEEG(Message msg) {
 
 		switch (msg.what) {
@@ -314,6 +312,7 @@ public class ThinkGearService extends Service {
 					rawEEG[arrayIndex] = msg.arg1;
 					arrayIndex = arrayIndex + 1;
 				} catch (ArrayIndexOutOfBoundsException e) {
+					Log.e(TAG, "ArrayIndexOutOfBoundsException:" + e);
 					e.printStackTrace();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -484,7 +483,7 @@ public class ThinkGearService extends Service {
 			packet.put("Attention", String.valueOf(eegAttention));
 			packet.put("Meditation", String.valueOf(eegMeditation));
 			packet.put("Signal Level", String.valueOf(eegSignal));
-			packet.put("Power", String.valueOf(eegPower));
+//			packet.put("Power", String.valueOf(eegPower));
 
 			Log.d(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
 			SessionSingleton.getInstance().appendData(packet);
@@ -511,7 +510,7 @@ public class ThinkGearService extends Service {
 			intent.putExtra("Date", packet.get("Date")).putExtra("Time", packet.get("Time")).putExtra("Attention", packet.get("Attention"));
 			intent.putExtra("Meditation", packet.get("Meditation"));
 			intent.putExtra("Signal Level", packet.get("Signal Level"));
-			intent.putExtra("Power", packet.get("Power"));
+//			intent.putExtra("Power", packet.get("Power"));
 			intent.putExtra("eegConnected", String.valueOf(eegConnected));
 			intent.putExtra("eegConnecting", String.valueOf(eegConnecting));
 

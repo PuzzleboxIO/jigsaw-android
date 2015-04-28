@@ -703,10 +703,8 @@ public class EEGFragment extends Fragment implements
 			progressBarMeditation.setProgress(ThinkGearService.eegMeditation);
 		}
 
-//		eegPower = calculateSpeed();
 		ThinkGearService.eegPower = calculateSpeed();
 
-//		progressBarPower.setProgress(eegPower);
 		progressBarPower.setProgress(ThinkGearService.eegPower);
 
 
@@ -756,13 +754,15 @@ public class EEGFragment extends Fragment implements
 			int eegAttention = Integer.valueOf(intent.getStringExtra("Attention"));
 			int eegMeditation = Integer.valueOf(intent.getStringExtra("Meditation"));
 			int eegSignal = Integer.valueOf(intent.getStringExtra("Signal Level"));
-			int eegPower = Integer.valueOf(intent.getStringExtra("Power"));
+//			int eegPower = Integer.valueOf(intent.getStringExtra("Power"));
 			String eegConnected = intent.getStringExtra("eegConnected");
 
 			progressBarAttention.setProgress(eegAttention);
 			progressBarMeditation.setProgress(eegMeditation);
 			progressBarSignal.setProgress(eegSignal);
-			progressBarPower.setProgress(eegPower);
+
+			updatePower();
+			progressBarPower.setProgress(ThinkGearService.eegPower);
 
 			updateStatusImage();
 
