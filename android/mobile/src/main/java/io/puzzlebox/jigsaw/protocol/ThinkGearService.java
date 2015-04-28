@@ -125,7 +125,9 @@ public class ThinkGearService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Toast.makeText(this, "Starting ThinkGear Service", Toast.LENGTH_SHORT).show();
+
+//		Toast.makeText(this, "Starting ThinkGear Service", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Connecting to NeuroSky EEG", Toast.LENGTH_SHORT).show();
 
 		// For each start request, send a message to start a job and deliver the
 		// start ID so we know which request we're stopping when we finish the job

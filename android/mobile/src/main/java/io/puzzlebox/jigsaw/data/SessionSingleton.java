@@ -93,6 +93,7 @@ public class SessionSingleton {
 		}
 	}
 
+
 	public String getCurrentTimestamp(){
 		try {
 			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS");
@@ -107,13 +108,61 @@ public class SessionSingleton {
 	public String getTimestampPS4() {
 		Date mDate = new Date();
 		SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-		String mTimestamp = mDateFormat.format(mDate);
-		return mTimestamp;
+		return mDateFormat.format(mDate);
+	}
+
+
+	public String getSessionTimestamp() {
+
+//		Date mDate = new Date();
+
+		java.util.Date date1 = new java.util.Date();
+		java.util.Date date2 = new java.util.Date();
+		long diff = 0;
+
+//		java.text.DateFormat df = new java.text.SimpleDateFormat("hh:mm:ss");
+		java.text.DateFormat df = new SimpleDateFormat("HH:mm:ss.SSS");
+
+
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS");
+		String sessionTimestampString = timeFormat.format(sessionTimestamp);
+
+		try {
+			date1 = df.parse( sessionTimestampString );
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			date2 = df.parse( getCurrentTimestamp() );
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			diff = date2.getTime() - date1.getTime();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		int timeInSeconds = (int) (diff / 1000);
+		int hours, minutes, seconds;
+		hours = timeInSeconds / 3600;
+		timeInSeconds = timeInSeconds - (hours * 3600);
+		minutes = timeInSeconds / 60;
+		timeInSeconds = timeInSeconds - (minutes * 60);
+		seconds = timeInSeconds;
+
+//		return (hours<10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds) + " h";
+
+		return (hours<10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+
 	}
 
 
 	public void resetSession() {
 		sessionTimestamp = new Date();
+		data = new ArrayList<HashMap<String, String>>();
 	}
 
 

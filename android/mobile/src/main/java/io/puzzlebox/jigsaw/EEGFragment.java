@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidplot.xy.BoundaryMode;
@@ -44,7 +45,6 @@ public class EEGFragment extends Fragment implements
 	 * TODO
 	 * - Session timer
 	 * - Graph raw EEG
-	 * - Reset button
 	 */
 
 	private final static String TAG = EEGFragment.class.getSimpleName();
@@ -74,9 +74,10 @@ public class EEGFragment extends Fragment implements
 
 	private static ImageView imageViewStatus;
 
+	private static TextView textViewSessionTime;
+
 	private static XYPlot eegRawHistoryPlot = null;
 	private static SimpleXYSeries eegRawHistorySeries = null;
-
 
 	private static Intent intentThinkGear; // = new Intent(getActivity(), ThinkGearService.class);
 
@@ -223,6 +224,9 @@ public class EEGFragment extends Fragment implements
 //		imageViewStatus = (ImageView) v.findViewById(R.id.imageViewStatus);
 
 
+		textViewSessionTime = (TextView) v.findViewById(R.id.textViewSessionTime);
+
+
 		Button connectEEG = (Button) v.findViewById(R.id.buttonConnectEEG);
 		connectEEG.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -263,12 +267,9 @@ public class EEGFragment extends Fragment implements
 		resetSession.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.d(TAG, "SessionSingleton.getInstance().resetSession()");
-				SessionSingleton.getInstance().resetSession();
 
-				Toast.makeText((getActivity()),
-						  "Session data reset",
-						  Toast.LENGTH_SHORT).show();
+				resetSession();
+
 			}
 		});
 
@@ -743,6 +744,22 @@ public class EEGFragment extends Fragment implements
 
 	// ################################################################
 
+	private void resetSession() {
+
+		Log.d(TAG, "SessionSingleton.getInstance().resetSession()");
+		SessionSingleton.getInstance().resetSession();
+
+		textViewSessionTime.setText( R.string.session_time );
+
+		Toast.makeText((getActivity().getApplicationContext()),
+				  "Session data reset",
+				  Toast.LENGTH_SHORT).show();
+
+	}
+
+
+	// ################################################################
+
 	private BroadcastReceiver mPacketReceiver = new BroadcastReceiver() {
 
 		@Override
@@ -763,6 +780,8 @@ public class EEGFragment extends Fragment implements
 			updatePower();
 			progressBarPower.setProgress(ThinkGearService.eegPower);
 
+			updateSessionTime();
+
 			updateStatusImage();
 
 //			Log.e(TAG, "mPacketReceiver: eegConnected: " + eegConnected);
@@ -774,6 +793,18 @@ public class EEGFragment extends Fragment implements
 		}
 
 	};
+
+
+	// ################################################################
+
+	private void updateSessionTime() {
+
+//		textViewSessionTime.setText( SessionSingleton.getInstance().getCurrentTimestamp() );
+
+		textViewSessionTime.setText( SessionSingleton.getInstance().getSessionTimestamp() );
+
+
+	}
 
 
 	// ################################################################
