@@ -203,11 +203,8 @@ public class MainActivity extends ActionBarActivity implements
 				break;
 		}
 
-		try {
+		if (fragment != null)
 			fragment.setArguments(args);
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
 		android.app.FragmentManager frgManager = getFragmentManager();
 		frgManager.beginTransaction().replace(R.id.container, fragment)
 				  .addToBackStack(backStackName)

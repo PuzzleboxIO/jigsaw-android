@@ -45,7 +45,6 @@ public class EEGFragment extends Fragment implements
 	 * - Session timer
 	 * - Graph raw EEG
 	 * - Reset button
-	 * - Power calculation
 	 */
 
 	private final static String TAG = EEGFragment.class.getSimpleName();
