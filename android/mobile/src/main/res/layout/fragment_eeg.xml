@@ -24,11 +24,11 @@
             android:id="@+id/progressBarAttention"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="25dip"
+            android:layout_height="20dip"
             android:paddingLeft="@dimen/padding_large"
             android:paddingRight="@dimen/padding_large"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
 
         <SeekBar
             android:id="@+id/seekBarAttention"
@@ -51,11 +51,11 @@
             android:id="@+id/progressBarMeditation"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="25dip"
+            android:layout_height="20dip"
             android:paddingLeft="@dimen/padding_large"
             android:paddingRight="@dimen/padding_large"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
 
         <SeekBar
             android:id="@+id/seekBarMeditation"
@@ -65,24 +65,6 @@
             android:progress="0"
             android:layout_marginLeft="@dimen/padding_large"
             android:layout_marginRight="@dimen/padding_large"/>
-
-        <TextView
-            android:id="@+id/textViewLabelSignal"
-            style="@android:style/TextAppearance.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_medium"
-            android:text="@string/label_signal" />
-
-        <ProgressBar
-            android:id="@+id/progressBarSignal"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="25dip"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
 
         <TextView
             android:id="@+id/textViewLabelPower"
@@ -96,11 +78,48 @@
             android:id="@+id/progressBarPower"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="25dip"
+            android:layout_height="20dip"
             android:paddingLeft="@dimen/padding_large"
             android:paddingRight="@dimen/padding_large"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/textViewLabelSignal"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_medium"
+            android:text="@string/label_signal" />
+
+        <ProgressBar
+            android:id="@+id/progressBarSignal"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dip"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/textViewLabelBlink"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_medium"
+            android:text="@string/label_blink" />
+
+        <ProgressBar
+            android:id="@+id/progressBarBlink"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dip"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
 
         <LinearLayout
             android:id="@+id/layoutControl"
@@ -229,7 +248,6 @@
         <!--android:layout_height="25dip"-->
         <!--android:paddingLeft="@dimen/padding_large"-->
         <!--android:paddingRight="@dimen/padding_large" />-->
-
 
         <LinearLayout
             android:id="@+id/linearLayout"

@@ -13,4 +13,6 @@
     <!--<string name="button_connect_server">Cloud</string>-->
     <string name="buttonDisconnectEEG">Disconnect EEG</string>
 
+    <string name="label_blink">Blink</string>
+
 </resources>

@@ -43,6 +43,8 @@ public class ThinkGearService extends Service {
 //	private static int eegPower = 0;
 //	private static int eegSignal = 0;
 
+	public static int blinkRangeMax = 255;
+
 	public final static boolean rawEnabled = true;
 	public final static int EEG_RAW_HISTORY_SIZE = 512; // number of points to plot in EEG history
 	private static Number[] rawEEG = new Number[EEG_RAW_HISTORY_SIZE];

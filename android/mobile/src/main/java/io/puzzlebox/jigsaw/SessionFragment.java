@@ -56,7 +56,8 @@ public class SessionFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Log.d(TAG, "SessionSingleton.getInstance().exportDataToCSV");
-				SessionSingleton.getInstance().exportDataToCSV();
+//				SessionSingleton.getInstance().exportDataToCSV(SessionSingleton.getInstance().getTimestampPS4());
+				SessionSingleton.getInstance().exportDataToCSV(null, null);
 			}
 		});
 

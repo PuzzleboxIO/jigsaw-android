@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -13,9 +15,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,6 +39,7 @@ import com.androidplot.xy.XYPlot;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.List;
 
 import io.puzzlebox.jigsaw.data.CreateSessionFileInGoogleDrive;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
@@ -43,8 +51,8 @@ public class EEGFragment extends Fragment implements
 
 	/**
 	 * TODO
-	 * - Session timer
 	 * - Graph raw EEG
+	 * - Progress Bars colors no longer edge-to-edge
 	 */
 
 	private final static String TAG = EEGFragment.class.getSimpleName();
@@ -70,6 +78,7 @@ public class EEGFragment extends Fragment implements
 	private static SeekBar seekBarMeditation;
 	private static ProgressBar progressBarSignal;
 	private static ProgressBar progressBarPower;
+	private static ProgressBar progressBarBlink;
 	private static Button connectButton;
 
 	private static ImageView imageViewStatus;
@@ -78,6 +87,8 @@ public class EEGFragment extends Fragment implements
 
 	private static XYPlot eegRawHistoryPlot = null;
 	private static SimpleXYSeries eegRawHistorySeries = null;
+
+	static Menu menu;
 
 	private static Intent intentThinkGear; // = new Intent(getActivity(), ThinkGearService.class);
 
@@ -160,6 +171,17 @@ public class EEGFragment extends Fragment implements
 		progressBarPower.setProgressDrawable(progressPower);
 		progressBarPower.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
+		progressBarBlink = (ProgressBar) v.findViewById(R.id.progressBarBlink);
+//		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
+		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
+//		String progressBarRangeColor = "#FF00FF";
+		String progressBarRangeColor = "#990099";
+		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarRangeColor));
+		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		progressBarBlink.setProgressDrawable(progressRange);
+		progressBarBlink.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+
+		progressBarBlink.setMax(ThinkGearService.blinkRangeMax);
 
 
 		// setup the Raw EEG History plot
@@ -255,7 +277,8 @@ public class EEGFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				Log.d(TAG, "SessionSingleton.getInstance().exportDataToCSV");
-				SessionSingleton.getInstance().exportDataToCSV();
+//				String path = SessionSingleton.getInstance().getTimestampPS4();
+				SessionSingleton.getInstance().exportDataToCSV(null, null);
 
 				Toast.makeText((getActivity()),
 						  "Session data exported to:\n" + SessionSingleton.getInstance().getTimestampPS4() + ".csv",
@@ -383,6 +406,114 @@ public class EEGFragment extends Fragment implements
 	public void onDestroy() {
 		super.onDestroy();
 	}
+
+
+	// ################################################################
+
+//	@Override
+//	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//
+////		final String searchTags = "#" + mParamSearchTags.replaceAll(", ", " #") + " ";
+//
+//		super.onCreateOptionsMenu(menu, inflater);
+//
+//		this.menu = menu;
+//
+//		// inflate menu
+//		Log.e(TAG, "inflater.inflate(R.menu.action_bar_share_menu, menu);");
+//		inflater.inflate(R.menu.action_bar_share_menu, menu);
+//
+//		// Locate MenuItem
+//		MenuItem item = menu.findItem(R.id.menu_item_share);
+//
+//		// Fetch and store ShareActionProvider
+//		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+//
+//
+//
+//
+////		Intent googleDriveIntent = new Intent(getActivity().getApplicationContext(), CreateSessionFileInGoogleDrive.class);
+////		mShareActionProvider.setShareIntent(googleDriveIntent);
+//
+//
+//
+//
+////		Intent tweetIntent = new Intent(Intent.ACTION_SEND);
+////		tweetIntent.putExtra(Intent.EXTRA_TEXT, searchTags);
+////		tweetIntent.setType("text/plain");
+////
+////		PackageManager packManager = getActivity().getApplicationContext().getPackageManager();
+////		List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(tweetIntent, PackageManager.MATCH_DEFAULT_ONLY);
+////
+////		boolean resolved = false;
+////		for (ResolveInfo resolveInfo : resolvedInfoList) {
+////			if (resolveInfo.activityInfo.packageName.startsWith("com.twitter.android")) {
+////				tweetIntent.setClassName(
+////						  resolveInfo.activityInfo.packageName,
+////						  resolveInfo.activityInfo.name);
+////				resolved = true;
+////				break;
+////			}
+////		}
+////		if (resolved) {
+//////			startActivity(tweetIntent);
+////		} else {
+////			Toast.makeText(getActivity().getBaseContext(), "Twitter app not found, please install to add to the conversation", Toast.LENGTH_LONG).show();
+////		}
+////
+////		mShareActionProvider.setShareIntent(tweetIntent);
+//
+//
+//
+//
+////		Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+////		sharingIntent.setType("text/plain");
+////		String shareBody = "Here is the share content body";
+////		sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+////		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+////		startActivity(Intent.createChooser(sharingIntent, "Share via"));
+//
+//
+//
+//
+//		Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//
+//		PackageManager packManager = getActivity().getBaseContext().getPackageManager();
+//		List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(shareIntent, PackageManager.MATCH_DEFAULT_ONLY);
+//
+//		boolean resolved = false;
+//		for (ResolveInfo resolveInfo : resolvedInfoList) {
+//			resolved = true;
+//		}
+//		if (resolved) {
+//			startActivity(shareIntent);
+//		}
+//
+//		mShareActionProvider.setShareIntent(shareIntent);
+//
+//
+//	}
+
+
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		// Inflate the menu; this adds items to the action bar if it is present.
+//		getMenuInflater().inflate(R.menu.main, menu);
+//
+//		// Find the MenuItem that we know has the ShareActionProvider
+//		MenuItem item = menu.findItem(R.id.menu_item_share);
+//
+//		// Get its ShareActionProvider
+//		mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+//
+//		// Connect the dots: give the ShareActionProvider its Share Intent
+//		if (mShareActionProvider != null) {
+//			mShareActionProvider.setShareIntent(mShareIntent);
+//		}
+//
+//		// Return true so Android will know we want to display the menu
+//		return true;
+//	}
 
 
 	// ################################################################
@@ -780,6 +911,8 @@ public class EEGFragment extends Fragment implements
 			updatePower();
 			progressBarPower.setProgress(ThinkGearService.eegPower);
 
+			progressBarBlink.setProgress(0);
+
 			updateSessionTime();
 
 			updateStatusImage();
@@ -857,6 +990,11 @@ public class EEGFragment extends Fragment implements
 
 				case "eegBlink":
 					Log.d(TAG, "Blink: " + value + "\n");
+					try {
+						progressBarBlink.setProgress(Integer.parseInt(value));
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
 					break;
 
 			}
