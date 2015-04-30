@@ -60,6 +60,7 @@ public class EEGFragment extends Fragment implements
 	 * TODO
 	 * - Graph raw EEG
 	 * - Progress Bars colors no longer edge-to-edge
+	 * - Cleanup temporary session files
 	 */
 
 	private final static String TAG = EEGFragment.class.getSimpleName();
@@ -94,8 +95,6 @@ public class EEGFragment extends Fragment implements
 
 	private static XYPlot eegRawHistoryPlot = null;
 	private static SimpleXYSeries eegRawHistorySeries = null;
-
-	static Menu menu;
 
 	private static Intent intentThinkGear; // = new Intent(getActivity(), ThinkGearService.class);
 
@@ -155,14 +154,6 @@ public class EEGFragment extends Fragment implements
 		ClipDrawable progressAttention = new ClipDrawable(progressBarAttentionDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
 		progressBarAttention.setProgressDrawable(progressAttention);
 		progressBarAttention.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
-
-//		int sdk = android.os.Build.VERSION.SDK_INT;
-//
-//		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-//			progressBarAttention.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
-//		} else {
-//			progressBarAttention.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
-//		}
 
 		progressBarMeditation = (ProgressBar) v.findViewById(R.id.progressBarMeditation);
 		ShapeDrawable progressBarMeditationDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
@@ -429,84 +420,12 @@ public class EEGFragment extends Fragment implements
 	// ################################################################
 
 	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-
-//
-////		this.menu = menu;
-//
-//		// inflate menu
-//		Log.e(TAG, "inflater.inflate(R.menu.action_bar_share_menu, menu);");
-//		inflater.inflate(R.menu.action_bar_share_menu, menu);
-//
-//		// Locate MenuItem
-//		MenuItem item = menu.findItem(R.id.menu_item_share);
-
-////		menu.g
-//
-////		menu.add("Share")
-////				  .setOnMenuItemClickListener(this.mShareButtonClickListener)
-////				  .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-//
-////		menu.
-//
-//		// Fetch and store ShareActionProvider
-//		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-//
-//		Intent i = new Intent(Intent.ACTION_SEND);
-////		i.setType("plain/text");
-////		i.setType("plain/csv");
-////		i.setType("text/comma-separated-values");
-//		i.setType("application/csv");
-//		File data = null;
-//		try {
-////			Date dateVal = new Date();
-////			String filename = dateVal.toString();
-//
-//
-//			String filename = SessionSingleton.getInstance().getTimestampPS4();
-//
-//////			data = File.createTempFile("Report", ".csv");
-////			data = File.createTempFile(filename, ".csv");
-//
-//
-////			String FILE = Environment.getExternalStorageDirectory() + File.separator
-////					  + "Foldername";
-//			String FILE = Environment.getExternalStorageDirectory().toString();
-//
-//
-//			String temp_path = FILE + File.separator + filename + ".csv";
-//
-//
-//			File F = new File(temp_path);
-//
-//			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
-//					  F, SessionSingleton.getInstance().getExportDataCSV());
-//
-//
-//			Uri U = Uri.fromFile(F);
-////			Uri U = Uri.fromFile(temp_path);
-//			i.putExtra(Intent.EXTRA_STREAM, U);
-//
-//
-//			mShareActionProvider.setShareIntent(Intent.createChooser(i, "Share Session"));
-//
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-
-//		return true;
-
-
-				menu.add("Share")
+		menu.add("Share")
 				  .setOnMenuItemClickListener(this.mShareButtonClickListener)
-//						  .setIntent(i)
-						  .setIcon(android.R.drawable.ic_menu_share)
-//				  .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+				  .setIcon(android.R.drawable.ic_menu_share)
 				  .setShowAsAction(SHOW_AS_ACTION_ALWAYS);
-
 
 		super.onCreateOptionsMenu(menu, inflater);
 
@@ -520,9 +439,14 @@ public class EEGFragment extends Fragment implements
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
 
-			Log.e(TAG, "public boolean onMenuItemClick(MenuItem item): " + item.toString());
+//			exportSession(item);
+			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext(), item);
 
-			exportSession(item);
+			if (i != null) {
+				startActivity(i);
+			} else {
+				Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
+			}
 
 			return false;
 		}
@@ -531,114 +455,42 @@ public class EEGFragment extends Fragment implements
 
 	// ################################################################
 
-	public void exportSession(MenuItem item) {
-
-		Log.e(TAG, "exportSession(MenuItem item): " + item.toString());
-
-		// Fetch and store ShareActionProvider
-		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-
-
-		Intent i = new Intent(Intent.ACTION_SEND);
-//		i.setType("plain/text");
-//		i.setType("plain/csv");
-//		i.setType("text/comma-separated-values");
-		i.setType("application/csv");
-		File data = null;
-		try {
-//			Date dateVal = new Date();
-//			String filename = dateVal.toString();
-
-
-			String filename = SessionSingleton.getInstance().getTimestampPS4();
-
-////			data = File.createTempFile("Report", ".csv");
-//			data = File.createTempFile(filename, ".csv");
-
-
-//			String FILE = Environment.getExternalStorageDirectory() + File.separator
-//					  + "Foldername";
-			String FILE = Environment.getExternalStorageDirectory().toString();
-
-
-			String temp_path = FILE + File.separator + filename + ".csv";
-
-
-			File F = new File(temp_path);
-
-			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
-					  F, SessionSingleton.getInstance().getExportDataCSV());
-
-
-			Uri U = Uri.fromFile(F);
-//			Uri U = Uri.fromFile(temp_path);
-			i.putExtra(Intent.EXTRA_STREAM, U);
-
-
-			Intent mShareIntent = Intent.createChooser(i, "Share Session");
-
-
-			startActivity(mShareIntent);
-
-////
-////			if (mShareIntent != null) {
-//			if (mShareActionProvider != null) {
-////
-//			mShareActionProvider.setShareIntent(Intent.createChooser(i, "Share Session"));
-////				mShareActionProvider.setShareIntent(mShareIntent);
-////
-//			} else {
-//				Log.e(TAG, "mShareActionProvider is null");
-////				mShareActionProvider.setShareIntent(i);
-//			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-
-	}
-
-
-	// ################################################################
-
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-////		// Handle action bar item clicks here. The action bar will
-////		// automatically handle clicks on the Home/Up button, so long
-////		// as you specify a parent activity in AndroidManifest.xml.
-////		int id = item.getItemId();
-////
-////		//noinspection SimplifiableIfStatement
-////		if (id == R.id.action_settings) {
-////			return true;
-////		}
-////
-////		return super.onOptionsItemSelected(item);
+//	public void exportSession(MenuItem item) {
 //
-////		Toast.makeText(getBaseContext(),
-////				  getResources().getText(R.string.app_name) +
-////						    " Version: " +
-////						    BuildConfig.VERSION_NAME,
-////				  Toast.LENGTH_SHORT).show();
+//		Log.d(TAG, "exportSession(MenuItem item): " + item.toString());
 //
-//		// The action bar home/up action should open or close the drawer.
-//		// ActionBarDrawerToggle will take care of this.
-////		if (mDrawerToggle.onOptionsItemSelected(item)) {
-////			return true;
-////		}
-////
-////		return false;
-//
-////		return mDrawerToggle.onOptionsItemSelected(item);
+//		// Fetch and store ShareActionProvider
+//		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 //
 //
-//		Log.e(TAG, "onOptionsItemSelected(): item.getTitle(): " + item.getTitle());
+//		Intent i = new Intent(Intent.ACTION_SEND);
+////		i.setType("plain/text");
+////		i.setType("plain/csv");
+////		i.setType("text/comma-separated-values");
+//		i.setType("application/csv"); // Produces the most correct options in the share menu
+//		try {
 //
+//			String filename = SessionSingleton.getInstance().getTimestampPS4();
 //
+//			String tempFilePath = Environment.getExternalStorageDirectory().toString()
+//					  + File.separator + filename + ".csv";
 //
+//			File tempFile = new File(tempFilePath);
 //
-//		return super.onOptionsItemSelected(item);
+//			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
+//					  tempFile, SessionSingleton.getInstance().getExportDataCSV());
+//
+//			Uri U = Uri.fromFile(tempFile);
+//			i.putExtra(Intent.EXTRA_STREAM, U);
+//
+//			Intent mShareIntent = Intent.createChooser(i, "Share Session");
+//
+//			startActivity(mShareIntent);
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
 //
 //	}
 
@@ -1132,31 +984,31 @@ public class EEGFragment extends Fragment implements
 
 
 
-	public static class GenerateCsv {
-		//		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
-		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
-			FileWriter writer = null;
-
-			try {
-				writer = new FileWriter(sFileName);
-				writer.append(fileContent);
-				writer.flush();
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally
-			{
-				try {
-					writer.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			return writer;
-		}
-	}
+//	public static class GenerateCsv {
+//		//		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
+//		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
+//			FileWriter writer = null;
+//
+//			try {
+//				writer = new FileWriter(sFileName);
+//				writer.append(fileContent);
+//				writer.flush();
+//
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}finally
+//			{
+//				try {
+//					writer.close();
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//			return writer;
+//		}
+//	}
 
 
 }

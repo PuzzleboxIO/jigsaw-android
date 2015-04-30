@@ -1,16 +1,28 @@
 package io.puzzlebox.jigsaw.data;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.opencsv.CSVWriter;
 
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import io.puzzlebox.jigsaw.R;
 
 /**
  * Created by sc on 4/21/15.
@@ -276,6 +288,84 @@ public class SessionSingleton {
 			e.printStackTrace();
 		}
 
+	}
+
+
+	// ################################################################
+
+	public Intent getExportSessionIntent(Context context, MenuItem item) {
+
+		Log.d(TAG, "exportSession(MenuItem item): " + item.toString());
+
+		// Fetch and store ShareActionProvider
+		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+
+		Intent mShareIntent = new Intent();
+
+		Intent i = new Intent(Intent.ACTION_SEND);
+//		i.setType("plain/text");
+//		i.setType("plain/csv");
+//		i.setType("text/comma-separated-values");
+		i.setType("application/csv"); // Produces the most correct options in the share menu
+		try {
+
+			String filename = SessionSingleton.getInstance().getTimestampPS4() + ".csv";
+
+			String tempFilePath = Environment.getExternalStorageDirectory().toString()
+					  + File.separator + filename;
+
+			File tempFile = new File(tempFilePath);
+
+			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
+					  tempFile, SessionSingleton.getInstance().getExportDataCSV());
+
+			Uri U = Uri.fromFile(tempFile);
+			i.putExtra(Intent.EXTRA_STREAM, U);
+
+//			i.putExtra(Intent.EXTRA_SUBJECT, context.getResources().getString(R.string.share_subject));
+			i.putExtra(Intent.EXTRA_SUBJECT, filename);
+			i.putExtra(Intent.EXTRA_TEXT, context.getResources().getString(R.string.share_message));
+
+			mShareIntent = Intent.createChooser(i, "Share Session");
+
+//			context.startActivity(mShareIntent);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mShareIntent;
+
+	}
+
+
+	// ################################################################
+
+	public static class GenerateCsv {
+		//		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
+		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
+			FileWriter writer = null;
+
+			try {
+				writer = new FileWriter(sFileName);
+				writer.append(fileContent);
+				writer.flush();
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally
+			{
+				try {
+					writer.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return writer;
+		}
 	}
 
 
