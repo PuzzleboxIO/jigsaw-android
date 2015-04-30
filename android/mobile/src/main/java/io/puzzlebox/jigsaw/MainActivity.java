@@ -134,234 +134,255 @@ public class MainActivity extends ActionBarActivity implements
 //	}
 
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.action_bar_share_menu, menu);
-
-		// Locate MenuItem
-		MenuItem item = menu.findItem(R.id.menu_item_share);
-
-		// Fetch and store ShareActionProvider
-		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-
-
-
-//		Intent googleDriveIntent = new Intent(this, CreateSessionFileInGoogleDrive.class);
-//		mShareActionProvider.setShareIntent(googleDriveIntent);
-
-
-
-//		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-////		sharingIntent.setType("text/comma_separated_values/csv");
-////		sharingIntent.setType("text/comma_separated_values");
-//		sharingIntent.setType("text/csv");
-////		sharingIntent.setType(getmimefromextension("csv"));
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//
+//		// Inflate the menu; this adds items to the action bar if it is present.
+//		getMenuInflater().inflate(R.menu.action_bar_share_menu, menu);
+//
+//		// Locate MenuItem
+//		MenuItem item = menu.findItem(R.id.menu_item_share);
+//
+//		// Fetch and store ShareActionProvider
+//		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 //
 //
-////		sharingIntent.setData( SessionSingleton.getInstance().getExportDataCSV() );
-////		sharingIntent.putExtra(Intent., SessionSingleton.getInstance().getExportDataCSV());
-//		sharingIntent.putExtra(Intent.EXTRA_STREAM, SessionSingleton.getInstance().getExportDataCSV());
-////		startActivity(Intent.createChooser(sharingIntent, getResources().getText(R.string.send_to)));
-//		mShareActionProvider.setShareIntent(sharingIntent);
-
-
-
-
-
-
-
-//		String to = textTo.getText().toString();
-//		String subject = textSubject.getText().toString();
-//		String message = textMessage.getText().toString();
-
-		Intent i = new Intent(Intent.ACTION_SEND);
-//		i.setType("plain/text");
-//		i.setType("plain/csv");
-//		i.setType("text/comma-separated-values");
-		i.setType("application/csv");
-		File data = null;
-		try {
-//			Date dateVal = new Date();
-//			String filename = dateVal.toString();
-
-
-			String filename = SessionSingleton.getInstance().getTimestampPS4();
-
-////			data = File.createTempFile("Report", ".csv");
-//			data = File.createTempFile(filename, ".csv");
-
-
-//			String FILE = Environment.getExternalStorageDirectory() + File.separator
-//					  + "Foldername";
-			String FILE = Environment.getExternalStorageDirectory().toString();
-
-
-//			Log.e(TAG, "data: " + data.toString());
-
-
+//
+////		mShareButtonClickListener
+//
+//
+//
+////		Intent googleDriveIntent = new Intent(this, CreateSessionFileInGoogleDrive.class);
+////		mShareActionProvider.setShareIntent(googleDriveIntent);
+//
+//
+//
+////		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+//////		sharingIntent.setType("text/comma_separated_values/csv");
+//////		sharingIntent.setType("text/comma_separated_values");
+////		sharingIntent.setType("text/csv");
+//////		sharingIntent.setType(getmimefromextension("csv"));
+////
+////
+//////		sharingIntent.setData( SessionSingleton.getInstance().getExportDataCSV() );
+//////		sharingIntent.putExtra(Intent., SessionSingleton.getInstance().getExportDataCSV());
+////		sharingIntent.putExtra(Intent.EXTRA_STREAM, SessionSingleton.getInstance().getExportDataCSV());
+//////		startActivity(Intent.createChooser(sharingIntent, getResources().getText(R.string.send_to)));
+////		mShareActionProvider.setShareIntent(sharingIntent);
+//
+//
+//
+//
+//
+//
+//
+////		String to = textTo.getText().toString();
+////		String subject = textSubject.getText().toString();
+////		String message = textMessage.getText().toString();
+//
+//		Intent i = new Intent(Intent.ACTION_SEND);
+////		i.setType("plain/text");
+////		i.setType("plain/csv");
+////		i.setType("text/comma-separated-values");
+//		i.setType("application/csv");
+//		File data = null;
+//		try {
+////			Date dateVal = new Date();
+////			String filename = dateVal.toString();
+//
+//
+//			String filename = SessionSingleton.getInstance().getTimestampPS4();
+//
+//////			data = File.createTempFile("Report", ".csv");
+////			data = File.createTempFile(filename, ".csv");
+//
+//
+////			String FILE = Environment.getExternalStorageDirectory() + File.separator
+////					  + "Foldername";
+//			String FILE = Environment.getExternalStorageDirectory().toString();
+//
+//
+////			Log.e(TAG, "data: " + data.toString());
+//
+//
+//////			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
+//////					  data, "Name,Data1");
+////
 ////			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
-////					  data, "Name,Data1");
+////					  data, SessionSingleton.getInstance().getExportDataCSV());
+//
+//
+////			i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(data));
+//
+//
+//
+//			String temp_path = FILE + File.separator + filename + ".csv";
+//
+//
+//			File F = new File(temp_path);
 //
 //			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
-//					  data, SessionSingleton.getInstance().getExportDataCSV());
-
-
-//			i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(data));
-
-
-
-			String temp_path = FILE + File.separator + filename + ".csv";
-
-
-			File F = new File(temp_path);
-
-			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
-					  F, SessionSingleton.getInstance().getExportDataCSV());
-
-
-
-			Uri U = Uri.fromFile(F);
-//			Uri U = Uri.fromFile(temp_path);
-			i.putExtra(Intent.EXTRA_STREAM, U);
-
-
-
-
-
-////			i.putExtra(Intent.EXTRA_EMAIL, new String[] { to });
-//			i.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.share_subject));
-//			i.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_message));
-////			startActivity(Intent.createChooser(i, "E-mail"));
-
-
-//			startActivity(Intent.createChooser(i, "Share Session"));
-
-			mShareActionProvider.setShareIntent(Intent.createChooser(i, "Share Session"));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-
-
-//
-//		String filepath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
-//		String filename = SessionSingleton.getInstance().getTimestampPS4();
-////		File outputDir = getCacheDir(); // context being the Activity pointer
+//					  F, SessionSingleton.getInstance().getExportDataCSV());
 //
 //
-//		try {
-//////			File outputFile = File.createTempFile("jigsaw-session", "csv", outputDir);
-////			File outputFile = File.createTempFile(filename, "csv", outputDir);
 //
-////			SessionSingleton.getInstance().exportDataToCSV(outputFile.toString());
-////			SessionSingleton.getInstance().exportDataToCSV(outputFile.toString(), filename);
-//			SessionSingleton.getInstance().exportDataToCSV(filepath, filename);
+//			Uri U = Uri.fromFile(F);
+////			Uri U = Uri.fromFile(temp_path);
+//			i.putExtra(Intent.EXTRA_STREAM, U);
 //
-////			Uri uriFile = FileProvider.getUriForFile(this, "io.puzzlebox", outputFile);
-////			Uri uriFile = FileProvider.getUriForFile(this, "io.puzzlebox.jigsaw", new File(filepath + "/" + filename + ".csv"));
-//			Uri uriFile = FileProvider.getUriForFile(this, "io.puzzlebox.jigsaw", new File(filepath + "/" + "jigsaw-session" + ".csv"));
-//			Uri uriFile = new Uri().fromParts()
 //
-//			Intent intent = new Intent(Intent.ACTION_SEND);
 //
-//			intent.setDataAndType(uriFile, "plain/csv");
 //
-//			intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//			intent.createChooser(intent, "Choose");
-////			startActivity(intent);
 //
-//			mShareActionProvider.setShareIntent(intent);
+//////			i.putExtra(Intent.EXTRA_EMAIL, new String[] { to });
+////			i.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.share_subject));
+////			i.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_message));
+//////			startActivity(Intent.createChooser(i, "E-mail"));
+//
+//
+////			startActivity(Intent.createChooser(i, "Share Session"));
+//
+//			mShareActionProvider.setShareIntent(Intent.createChooser(i, "Share Session"));
 //
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
+////
+////
+////
+//////
+//////		String filepath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+//////		String filename = SessionSingleton.getInstance().getTimestampPS4();
+////////		File outputDir = getCacheDir(); // context being the Activity pointer
+//////
+//////
+//////		try {
+//////////			File outputFile = File.createTempFile("jigsaw-session", "csv", outputDir);
+////////			File outputFile = File.createTempFile(filename, "csv", outputDir);
+//////
+////////			SessionSingleton.getInstance().exportDataToCSV(outputFile.toString());
+////////			SessionSingleton.getInstance().exportDataToCSV(outputFile.toString(), filename);
+//////			SessionSingleton.getInstance().exportDataToCSV(filepath, filename);
+//////
+////////			Uri uriFile = FileProvider.getUriForFile(this, "io.puzzlebox", outputFile);
+////////			Uri uriFile = FileProvider.getUriForFile(this, "io.puzzlebox.jigsaw", new File(filepath + "/" + filename + ".csv"));
+//////			Uri uriFile = FileProvider.getUriForFile(this, "io.puzzlebox.jigsaw", new File(filepath + "/" + "jigsaw-session" + ".csv"));
+//////			Uri uriFile = new Uri().fromParts()
+//////
+//////			Intent intent = new Intent(Intent.ACTION_SEND);
+//////
+//////			intent.setDataAndType(uriFile, "plain/csv");
+//////
+//////			intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//////			intent.createChooser(intent, "Choose");
+////////			startActivity(intent);
+//////
+//////			mShareActionProvider.setShareIntent(intent);
+//////
+//////		} catch (Exception e) {
+//////			e.printStackTrace();
+//////		}
+//////
+//////
+////
+////
+////
+////
+////
+////
+//////		String filepath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+//////		String filename = SessionSingleton.getInstance().getTimestampPS4();
+////////		File outputDir = getCacheDir(); // context being the Activity pointer
+//////
+//////
+//////		try {
+//////////			File outputFile = File.createTempFile("jigsaw-session", "csv", outputDir);
+////////			File outputFile = File.createTempFile(filename, "csv", outputDir);
+//////
+////////			SessionSingleton.getInstance().exportDataToCSV(outputFile.toString());
+////////			SessionSingleton.getInstance().exportDataToCSV(outputFile.toString(), filename);
+//////			SessionSingleton.getInstance().exportDataToCSV(filepath, filename);
+//////
+////////			Uri uriFile = FileProvider.getUriForFile(this, "io.puzzlebox", outputFile);
+//////			Uri uriFile = FileProvider.getUriForFile(this, "io.puzzlebox.jigsaw", new File(filepath + "/" + filename));
+//////
+//////			Intent intent = new Intent(Intent.ACTION_SEND);
+//////
+//////			intent.setDataAndType(uriFile, "plain/csv");
+//////
+//////			intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//////			intent.createChooser(intent, "Choose");
+//////			startActivity(intent);
+//////
+////////			mShareActionProvider.setShareIntent(intent);
+//////
+//////		} catch (Exception e) {
+//////			e.printStackTrace();
+//////		}
+////
+////
+//////		if (outputFile != null) {
+////////		Uri uriFile = FileProvider.getUriForFile(this, "com.example.ria.masterdetailnoten", backupFile);
+//////			Uri uriFile = FileProvider.getUriForFile(this, "io.puzzlebox", outputFile);
+//////			Intent intent = new Intent(Intent.ACTION_SEND);
+////////		intent.setDataAndType(uriFile, "application/vnd.ms-excel");
+////////		intent.setDataAndType(uriFile, "text/csv");
+//////			intent.setDataAndType(uriFile, "text/csv");
+////////		sharingIntent.setType("text/csv");
+//////			intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//////			intent.createChooser(intent, "Choose");
+//////			startActivity(intent);
+//////		}
+////
+////
+//////		PackageManager packManager = getPackageManager();
+//////		List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(googleDriveIntent, PackageManager.MATCH_DEFAULT_ONLY);
+//////
+//////		boolean resolved = false;
+//////		for (ResolveInfo resolveInfo : resolvedInfoList) {
+//////			if (resolveInfo.activityInfo.packageName.startsWith("com.google.drive")) {
+//////				googleDriveIntent.setClassName(
+//////						  resolveInfo.activityInfo.packageName,
+//////						  resolveInfo.activityInfo.name);
+//////				resolved = true;
+//////				break;
+//////			} else {
+//////				Log.e(TAG, resolveInfo.activityInfo.packageName);
+//////			}
+//////		}
+//////		if (resolved) {
+////////			startActivity(googleDriveIntent);
+//////			mShareActionProvider.setShareIntent(googleDriveIntent);
+//////		} else {
+//////			Log.d(TAG, "Google Drive app not found");
+////////			Toast.makeText(this, "Google Drive app not found, please install to store data", Toast.LENGTH_LONG).show();
+//////		}
+////
+////
+//////		googleDriveIntent.setT
+//////		mShareActionProvider.setShareIntent(googleDriveIntent);
+////
+////
 //
 //
-
-
-
-
-
-
-//		String filepath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
-//		String filename = SessionSingleton.getInstance().getTimestampPS4();
-////		File outputDir = getCacheDir(); // context being the Activity pointer
 //
+//		MenuItem.OnMenuItemClickListener mShareButtonClickListener = new MenuItem.OnMenuItemClickListener() {
 //
-//		try {
-//////			File outputFile = File.createTempFile("jigsaw-session", "csv", outputDir);
-////			File outputFile = File.createTempFile(filename, "csv", outputDir);
+//			@Override
+//			public boolean onMenuItemClick(MenuItem item) {
 //
-////			SessionSingleton.getInstance().exportDataToCSV(outputFile.toString());
-////			SessionSingleton.getInstance().exportDataToCSV(outputFile.toString(), filename);
-//			SessionSingleton.getInstance().exportDataToCSV(filepath, filename);
+//				Log.e(TAG, "public boolean onMenuItemClick(MenuItem item): " + item.toString());
 //
-////			Uri uriFile = FileProvider.getUriForFile(this, "io.puzzlebox", outputFile);
-//			Uri uriFile = FileProvider.getUriForFile(this, "io.puzzlebox.jigsaw", new File(filepath + "/" + filename));
+//				exportSession(item);
 //
-//			Intent intent = new Intent(Intent.ACTION_SEND);
-//
-//			intent.setDataAndType(uriFile, "plain/csv");
-//
-//			intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//			intent.createChooser(intent, "Choose");
-//			startActivity(intent);
-//
-////			mShareActionProvider.setShareIntent(intent);
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-
-
-//		if (outputFile != null) {
-////		Uri uriFile = FileProvider.getUriForFile(this, "com.example.ria.masterdetailnoten", backupFile);
-//			Uri uriFile = FileProvider.getUriForFile(this, "io.puzzlebox", outputFile);
-//			Intent intent = new Intent(Intent.ACTION_SEND);
-////		intent.setDataAndType(uriFile, "application/vnd.ms-excel");
-////		intent.setDataAndType(uriFile, "text/csv");
-//			intent.setDataAndType(uriFile, "text/csv");
-////		sharingIntent.setType("text/csv");
-//			intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//			intent.createChooser(intent, "Choose");
-//			startActivity(intent);
-//		}
-
-
-//		PackageManager packManager = getPackageManager();
-//		List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(googleDriveIntent, PackageManager.MATCH_DEFAULT_ONLY);
-//
-//		boolean resolved = false;
-//		for (ResolveInfo resolveInfo : resolvedInfoList) {
-//			if (resolveInfo.activityInfo.packageName.startsWith("com.google.drive")) {
-//				googleDriveIntent.setClassName(
-//						  resolveInfo.activityInfo.packageName,
-//						  resolveInfo.activityInfo.name);
-//				resolved = true;
-//				break;
-//			} else {
-//				Log.e(TAG, resolveInfo.activityInfo.packageName);
+//				return false;
 //			}
-//		}
-//		if (resolved) {
-////			startActivity(googleDriveIntent);
-//			mShareActionProvider.setShareIntent(googleDriveIntent);
-//		} else {
-//			Log.d(TAG, "Google Drive app not found");
-////			Toast.makeText(this, "Google Drive app not found, please install to store data", Toast.LENGTH_LONG).show();
-//		}
-
-
-//		googleDriveIntent.setT
-//		mShareActionProvider.setShareIntent(googleDriveIntent);
-
-
-		return true;
-
-	}
+//		};
+//
+//
+//		return true;
+//
+//	}
 
 
 //	@Override
@@ -470,6 +491,79 @@ public class MainActivity extends ActionBarActivity implements
 //	}
 
 
+
+//	MenuItem.OnMenuItemClickListener mShareButtonClickListener = new MenuItem.OnMenuItemClickListener() {
+//
+//		@Override
+//		public boolean onMenuItemClick(MenuItem item) {
+//
+//			Log.e(TAG, "public boolean onMenuItemClick(MenuItem item): " + item.toString());
+//
+//			exportSession(item);
+//
+//			return false;
+//		}
+//	};
+
+
+	// ################################################################
+
+//	public void exportSession(MenuItem item) {
+//
+//		Log.e(TAG, "exportSession(MenuItem item): " + item.toString());
+//
+//		// Fetch and store ShareActionProvider
+//		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+//
+//
+//		Intent i = new Intent(Intent.ACTION_SEND);
+////		i.setType("plain/text");
+////		i.setType("plain/csv");
+////		i.setType("text/comma-separated-values");
+//		i.setType("application/csv");
+//		File data = null;
+//		try {
+////			Date dateVal = new Date();
+////			String filename = dateVal.toString();
+//
+//
+//			String filename = SessionSingleton.getInstance().getTimestampPS4();
+//
+//////			data = File.createTempFile("Report", ".csv");
+////			data = File.createTempFile(filename, ".csv");
+//
+//
+////			String FILE = Environment.getExternalStorageDirectory() + File.separator
+////					  + "Foldername";
+//			String FILE = Environment.getExternalStorageDirectory().toString();
+//
+//
+//			String temp_path = FILE + File.separator + filename + ".csv";
+//
+//
+//			File F = new File(temp_path);
+//
+//			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
+//					  F, SessionSingleton.getInstance().getExportDataCSV());
+//
+//
+//			Uri U = Uri.fromFile(F);
+////			Uri U = Uri.fromFile(temp_path);
+//			i.putExtra(Intent.EXTRA_STREAM, U);
+//
+//
+//			mShareActionProvider.setShareIntent(Intent.createChooser(i, "Share Session"));
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//
+//	}
+
+
+
+
 	// ################################################################
 
 	@Override
@@ -500,7 +594,11 @@ public class MainActivity extends ActionBarActivity implements
 //
 //		return false;
 
+		Log.e(TAG, "onOptionsItemSelected(): " + item.toString());
+
 		return mDrawerToggle.onOptionsItemSelected(item);
+
+//		return super.onOptionsItemSelected(item);
 
 	}
 
@@ -628,31 +726,31 @@ public class MainActivity extends ActionBarActivity implements
 
 	// ################################################################
 
-	public static class GenerateCsv {
-//		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
-			public static FileWriter generateCsvFile(File sFileName,String fileContent) {
-			FileWriter writer = null;
-
-			try {
-				writer = new FileWriter(sFileName);
-				writer.append(fileContent);
-				writer.flush();
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally
-			{
-				try {
-					writer.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			return writer;
-		}
-	}
+//	public static class GenerateCsv {
+////		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
+//			public static FileWriter generateCsvFile(File sFileName,String fileContent) {
+//			FileWriter writer = null;
+//
+//			try {
+//				writer = new FileWriter(sFileName);
+//				writer.append(fileContent);
+//				writer.flush();
+//
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}finally
+//			{
+//				try {
+//					writer.close();
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//			return writer;
+//		}
+//	}
 
 
 //	public void restoreActionBar() {

@@ -1,5 +1,6 @@
 package io.puzzlebox.jigsaw;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
@@ -37,6 +39,9 @@ import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -44,6 +49,8 @@ import java.util.List;
 import io.puzzlebox.jigsaw.data.CreateSessionFileInGoogleDrive;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 import io.puzzlebox.jigsaw.protocol.ThinkGearService;
+
+import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 
 public class EEGFragment extends Fragment implements
 		  SeekBar.OnSeekBarChangeListener {
@@ -122,11 +129,14 @@ public class EEGFragment extends Fragment implements
 //			mParam2 = getArguments().getString(ARG_PARAM2);
 //		}
 
+		setHasOptionsMenu(true);
+
 	}
 
 
 	// ################################################################
 
+	@SuppressLint("NewApi")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
@@ -145,6 +155,14 @@ public class EEGFragment extends Fragment implements
 		ClipDrawable progressAttention = new ClipDrawable(progressBarAttentionDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
 		progressBarAttention.setProgressDrawable(progressAttention);
 		progressBarAttention.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+
+//		int sdk = android.os.Build.VERSION.SDK_INT;
+//
+//		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+//			progressBarAttention.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+//		} else {
+//			progressBarAttention.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+//		}
 
 		progressBarMeditation = (ProgressBar) v.findViewById(R.id.progressBarMeditation);
 		ShapeDrawable progressBarMeditationDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
@@ -410,14 +428,13 @@ public class EEGFragment extends Fragment implements
 
 	// ################################################################
 
-//	@Override
-//	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+
 //
-////		final String searchTags = "#" + mParamSearchTags.replaceAll(", ", " #") + " ";
-//
-//		super.onCreateOptionsMenu(menu, inflater);
-//
-//		this.menu = menu;
+////		this.menu = menu;
 //
 //		// inflate menu
 //		Log.e(TAG, "inflater.inflate(R.menu.action_bar_share_menu, menu);");
@@ -425,94 +442,204 @@ public class EEGFragment extends Fragment implements
 //
 //		// Locate MenuItem
 //		MenuItem item = menu.findItem(R.id.menu_item_share);
+
+////		menu.g
+//
+////		menu.add("Share")
+////				  .setOnMenuItemClickListener(this.mShareButtonClickListener)
+////				  .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+//
+////		menu.
 //
 //		// Fetch and store ShareActionProvider
 //		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 //
+//		Intent i = new Intent(Intent.ACTION_SEND);
+////		i.setType("plain/text");
+////		i.setType("plain/csv");
+////		i.setType("text/comma-separated-values");
+//		i.setType("application/csv");
+//		File data = null;
+//		try {
+////			Date dateVal = new Date();
+////			String filename = dateVal.toString();
 //
 //
+//			String filename = SessionSingleton.getInstance().getTimestampPS4();
 //
-////		Intent googleDriveIntent = new Intent(getActivity().getApplicationContext(), CreateSessionFileInGoogleDrive.class);
-////		mShareActionProvider.setShareIntent(googleDriveIntent);
-//
-//
-//
-//
-////		Intent tweetIntent = new Intent(Intent.ACTION_SEND);
-////		tweetIntent.putExtra(Intent.EXTRA_TEXT, searchTags);
-////		tweetIntent.setType("text/plain");
-////
-////		PackageManager packManager = getActivity().getApplicationContext().getPackageManager();
-////		List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(tweetIntent, PackageManager.MATCH_DEFAULT_ONLY);
-////
-////		boolean resolved = false;
-////		for (ResolveInfo resolveInfo : resolvedInfoList) {
-////			if (resolveInfo.activityInfo.packageName.startsWith("com.twitter.android")) {
-////				tweetIntent.setClassName(
-////						  resolveInfo.activityInfo.packageName,
-////						  resolveInfo.activityInfo.name);
-////				resolved = true;
-////				break;
-////			}
-////		}
-////		if (resolved) {
-//////			startActivity(tweetIntent);
-////		} else {
-////			Toast.makeText(getActivity().getBaseContext(), "Twitter app not found, please install to add to the conversation", Toast.LENGTH_LONG).show();
-////		}
-////
-////		mShareActionProvider.setShareIntent(tweetIntent);
+//////			data = File.createTempFile("Report", ".csv");
+////			data = File.createTempFile(filename, ".csv");
 //
 //
+////			String FILE = Environment.getExternalStorageDirectory() + File.separator
+////					  + "Foldername";
+//			String FILE = Environment.getExternalStorageDirectory().toString();
 //
 //
-////		Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-////		sharingIntent.setType("text/plain");
-////		String shareBody = "Here is the share content body";
-////		sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-////		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-////		startActivity(Intent.createChooser(sharingIntent, "Share via"));
+//			String temp_path = FILE + File.separator + filename + ".csv";
 //
 //
+//			File F = new File(temp_path);
+//
+//			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
+//					  F, SessionSingleton.getInstance().getExportDataCSV());
 //
 //
-//		Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//			Uri U = Uri.fromFile(F);
+////			Uri U = Uri.fromFile(temp_path);
+//			i.putExtra(Intent.EXTRA_STREAM, U);
 //
-//		PackageManager packManager = getActivity().getBaseContext().getPackageManager();
-//		List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(shareIntent, PackageManager.MATCH_DEFAULT_ONLY);
 //
-//		boolean resolved = false;
-//		for (ResolveInfo resolveInfo : resolvedInfoList) {
-//			resolved = true;
+//			mShareActionProvider.setShareIntent(Intent.createChooser(i, "Share Session"));
+//
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
 //		}
-//		if (resolved) {
-//			startActivity(shareIntent);
-//		}
-//
-//		mShareActionProvider.setShareIntent(shareIntent);
-//
-//
-//	}
 
+//		return true;
+
+
+				menu.add("Share")
+				  .setOnMenuItemClickListener(this.mShareButtonClickListener)
+//						  .setIntent(i)
+						  .setIcon(android.R.drawable.ic_menu_share)
+//				  .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+				  .setShowAsAction(SHOW_AS_ACTION_ALWAYS);
+
+
+		super.onCreateOptionsMenu(menu, inflater);
+
+	}
+
+
+	// ################################################################
+
+	MenuItem.OnMenuItemClickListener mShareButtonClickListener = new MenuItem.OnMenuItemClickListener() {
+
+		@Override
+		public boolean onMenuItemClick(MenuItem item) {
+
+			Log.e(TAG, "public boolean onMenuItemClick(MenuItem item): " + item.toString());
+
+			exportSession(item);
+
+			return false;
+		}
+	};
+
+
+	// ################################################################
+
+	public void exportSession(MenuItem item) {
+
+		Log.e(TAG, "exportSession(MenuItem item): " + item.toString());
+
+		// Fetch and store ShareActionProvider
+		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+
+		Intent i = new Intent(Intent.ACTION_SEND);
+//		i.setType("plain/text");
+//		i.setType("plain/csv");
+//		i.setType("text/comma-separated-values");
+		i.setType("application/csv");
+		File data = null;
+		try {
+//			Date dateVal = new Date();
+//			String filename = dateVal.toString();
+
+
+			String filename = SessionSingleton.getInstance().getTimestampPS4();
+
+////			data = File.createTempFile("Report", ".csv");
+//			data = File.createTempFile(filename, ".csv");
+
+
+//			String FILE = Environment.getExternalStorageDirectory() + File.separator
+//					  + "Foldername";
+			String FILE = Environment.getExternalStorageDirectory().toString();
+
+
+			String temp_path = FILE + File.separator + filename + ".csv";
+
+
+			File F = new File(temp_path);
+
+			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
+					  F, SessionSingleton.getInstance().getExportDataCSV());
+
+
+			Uri U = Uri.fromFile(F);
+//			Uri U = Uri.fromFile(temp_path);
+			i.putExtra(Intent.EXTRA_STREAM, U);
+
+
+			Intent mShareIntent = Intent.createChooser(i, "Share Session");
+
+
+			startActivity(mShareIntent);
+
+////
+////			if (mShareIntent != null) {
+//			if (mShareActionProvider != null) {
+////
+//			mShareActionProvider.setShareIntent(Intent.createChooser(i, "Share Session"));
+////				mShareActionProvider.setShareIntent(mShareIntent);
+////
+//			} else {
+//				Log.e(TAG, "mShareActionProvider is null");
+////				mShareActionProvider.setShareIntent(i);
+//			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+	}
+
+
+	// ################################################################
 
 //	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.main, menu);
+//	public boolean onOptionsItemSelected(MenuItem item) {
+////		// Handle action bar item clicks here. The action bar will
+////		// automatically handle clicks on the Home/Up button, so long
+////		// as you specify a parent activity in AndroidManifest.xml.
+////		int id = item.getItemId();
+////
+////		//noinspection SimplifiableIfStatement
+////		if (id == R.id.action_settings) {
+////			return true;
+////		}
+////
+////		return super.onOptionsItemSelected(item);
 //
-//		// Find the MenuItem that we know has the ShareActionProvider
-//		MenuItem item = menu.findItem(R.id.menu_item_share);
+////		Toast.makeText(getBaseContext(),
+////				  getResources().getText(R.string.app_name) +
+////						    " Version: " +
+////						    BuildConfig.VERSION_NAME,
+////				  Toast.LENGTH_SHORT).show();
 //
-//		// Get its ShareActionProvider
-//		mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+//		// The action bar home/up action should open or close the drawer.
+//		// ActionBarDrawerToggle will take care of this.
+////		if (mDrawerToggle.onOptionsItemSelected(item)) {
+////			return true;
+////		}
+////
+////		return false;
 //
-//		// Connect the dots: give the ShareActionProvider its Share Intent
-//		if (mShareActionProvider != null) {
-//			mShareActionProvider.setShareIntent(mShareIntent);
-//		}
+////		return mDrawerToggle.onOptionsItemSelected(item);
 //
-//		// Return true so Android will know we want to display the menu
-//		return true;
+//
+//		Log.e(TAG, "onOptionsItemSelected(): item.getTitle(): " + item.getTitle());
+//
+//
+//
+//
+//		return super.onOptionsItemSelected(item);
+//
 //	}
 
 
@@ -1002,6 +1129,34 @@ public class EEGFragment extends Fragment implements
 		}
 
 	};
+
+
+
+	public static class GenerateCsv {
+		//		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
+		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
+			FileWriter writer = null;
+
+			try {
+				writer = new FileWriter(sFileName);
+				writer.append(fileContent);
+				writer.flush();
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally
+			{
+				try {
+					writer.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return writer;
+		}
+	}
 
 
 }

@@ -1,5 +1,7 @@
 package io.puzzlebox.jigsaw.data;
 
+import android.util.Log;
+
 import com.opencsv.CSVWriter;
 
 import java.io.FileWriter;
@@ -21,6 +23,8 @@ public class SessionSingleton {
 
 	private static Date currentTimestamp;
 	private static Date sessionTimestamp;
+
+	private static String sessionFilename;
 
 	private static ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
 
@@ -70,6 +74,20 @@ public class SessionSingleton {
 		fragmentTags = new ArrayList<String>();
 	}
 
+
+	// ################################################################
+
+	public void setSessionFilename(String filename) {
+		sessionFilename = filename;
+	}
+
+	public String getSessionFilename() {
+		return sessionFilename;
+	}
+
+
+	// ################################################################
+
 	/**
 	 *
 	 * @return yyyy-MM-dd HH:mm:ss formate date as string
@@ -81,6 +99,9 @@ public class SessionSingleton {
 		currentTimestamp = new Date();
 		return currentTimestamp;
 	}
+
+
+	// ################################################################
 
 	public String getCurrentDate(){
 		try {
@@ -94,6 +115,8 @@ public class SessionSingleton {
 	}
 
 
+	// ################################################################
+
 	public String getCurrentTimestamp(){
 		try {
 			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS");
@@ -105,12 +128,16 @@ public class SessionSingleton {
 	}
 
 
+	// ################################################################
+
 	public String getTimestampPS4() {
 		Date mDate = new Date();
 		SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		return mDateFormat.format(mDate);
 	}
 
+
+	// ################################################################
 
 	public String getSessionTimestamp() {
 
@@ -160,11 +187,15 @@ public class SessionSingleton {
 	}
 
 
+	// ################################################################
+
 	public void resetSession() {
 		sessionTimestamp = new Date();
 		data = new ArrayList<HashMap<String, String>>();
 	}
 
+
+	// ################################################################
 
 	public List<String[]> getExportData() {
 		List<String[]> dataCSV = new ArrayList<String[]>();
@@ -193,6 +224,8 @@ public class SessionSingleton {
 	}
 
 
+	// ################################################################
+
 	public String getExportDataCSV() {
 
 		String output = "";
@@ -216,12 +249,22 @@ public class SessionSingleton {
 	}
 
 
-	public void exportDataToCSV() {
+	// ################################################################
+
+	public void exportDataToCSV(String filepath, String filename) {
 
 //		String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 
+		if (filepath == null)
+			filepath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+
+		if (filename == null)
+			filename = getTimestampPS4();
+
+		Log.i(TAG, "exportDataToCSV: " + filepath + "/" + filename + ".csv");
+
 		try {
-			String filenameCSV = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getTimestampPS4() + ".csv";
+			String filenameCSV = filepath  + "/" + filename + ".csv";
 			CSVWriter writer = new CSVWriter(new FileWriter(filenameCSV), ',');
 
 			List<String[]> dataCSV = getExportData();
@@ -235,6 +278,8 @@ public class SessionSingleton {
 
 	}
 
+
+	// ################################################################
 
 //	public void exportDataGoogleDrive() {
 //
