@@ -28,8 +28,8 @@ public class SessionSingleton {
 
 //	private static ArrayList<HashMap<String, String>> timestamp;
 
-	private static Date currentTimestamp;
-	private static Date sessionTimestamp;
+	private static Date currentTimestamp = new Date();
+	private static Date sessionTimestamp = new Date();
 
 	private static String sessionFilename;
 

@@ -2,14 +2,16 @@ package io.puzzlebox.jigsaw;
 
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.ActionBarDrawerToggle;
+//import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -20,6 +22,7 @@ import io.puzzlebox.jigsaw.data.SessionSingleton;
 import io.puzzlebox.jigsaw.ui.DrawerItem;
 import io.puzzlebox.jigsaw.ui.NavigationDrawerAdapter;
 
+//public class MainActivity extends ActionBarActivity implements
 public class MainActivity extends ActionBarActivity implements
 		  WelcomeFragment.OnFragmentInteractionListener,
 		  SessionFragment.OnFragmentInteractionListener,
@@ -82,9 +85,17 @@ public class MainActivity extends ActionBarActivity implements
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
+//		Toolbar mToolbar = new Toolbar(this);
+////		setSupportActionBar(mToolbar);
+//		mToolbar.setNavigationIcon(R.drawable.ic_drawer);
+//		mToolbar.setLogo(R.drawable.ic_welcome);
+
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				  R.drawable.ic_drawer, R.string.drawer_open,
 				  R.string.drawer_close) {
+//		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+//				  mToolbar, R.string.drawer_open,
+//				  R.string.drawer_close) {
 			public void onDrawerClosed(View view) {
 				getSupportActionBar().setTitle(mTitle);
 				invalidateOptionsMenu(); // creates call to
