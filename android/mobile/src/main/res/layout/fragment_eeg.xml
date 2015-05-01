@@ -25,8 +25,8 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="20dip"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
 
@@ -52,8 +52,8 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="20dip"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
 
@@ -79,8 +79,8 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="20dip"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
 
@@ -97,8 +97,8 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="20dip"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
 
@@ -115,8 +115,8 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="20dip"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
 
@@ -153,6 +153,17 @@
                 android:text="@string/buttonConnectEEG"
                 android:layout_gravity="center"
                 android:gravity="center"/>
+
+            <Button
+                android:id="@+id/buttonResetSession"
+                style="@style/button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_button"
+                android:text="@string/buttonResetSession"
+                android:layout_gravity="center"
+                android:gravity="center_vertical|center_horizontal"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -249,46 +260,46 @@
         <!--android:paddingLeft="@dimen/padding_large"-->
         <!--android:paddingRight="@dimen/padding_large" />-->
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+        <!--android:id="@+id/linearLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal">-->
 
-            <Button
-                android:id="@+id/buttonSaveSession"
-                style="@style/button_text"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/custom_button"
-                android:text="@string/buttonSaveSession"
-                android:layout_gravity="center"
-                android:gravity="center_vertical|center_horizontal"/>
+        <!--<Button-->
+        <!--android:id="@+id/buttonSaveSession"-->
+        <!--style="@style/button_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:background="@drawable/custom_button"-->
+        <!--android:text="@string/buttonSaveSession"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:gravity="center_vertical|center_horizontal"/>-->
 
-            <Button
-                android:id="@+id/buttonExportCSV"
-                style="@style/button_text"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/custom_button"
-                android:text="@string/buttonExportCSV"
-                android:layout_gravity="center"
-                android:gravity="center_vertical|center_horizontal"/>
+        <!--<Button-->
+        <!--android:id="@+id/buttonExportCSV"-->
+        <!--style="@style/button_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:background="@drawable/custom_button"-->
+        <!--android:text="@string/buttonExportCSV"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:gravity="center_vertical|center_horizontal"/>-->
 
-            <Button
-                android:id="@+id/buttonResetSession"
-                style="@style/button_text"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/custom_button"
-                android:text="@string/buttonResetSession"
-                android:layout_gravity="center"
-                android:gravity="center_vertical|center_horizontal"/>
-        </LinearLayout>
+        <!--<Button-->
+        <!--android:id="@+id/buttonResetSession"-->
+        <!--style="@style/button_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:background="@drawable/custom_button"-->
+        <!--android:text="@string/buttonResetSession"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:gravity="center_vertical|center_horizontal"/>-->
+        <!--</LinearLayout>-->
 
         <com.androidplot.xy.XYPlot
             android:id="@+id/eegRawHistoryPlot"
