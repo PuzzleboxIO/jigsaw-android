@@ -254,6 +254,8 @@ public class SessionSingleton {
 
 //		String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 
+		removeTemporarySessionFile();
+
 		if (filepath == null)
 			filepath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 
@@ -271,9 +273,28 @@ public class SessionSingleton {
 			writer.writeAll(dataCSV);
 			writer.close();
 
+			sessionFilename = filename;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+	}
+
+
+	// ################################################################
+
+	public boolean removeTemporarySessionFile() {
+
+		if (sessionFilename != null) {
+
+			File mFile = new File(Environment.getExternalStorageDirectory().toString()
+					  + File.separator + sessionFilename);
+
+			return mFile.exists() && mFile.delete();
+
+		} else
+		return false;
 
 	}
 
@@ -287,6 +308,8 @@ public class SessionSingleton {
 		// Fetch and store ShareActionProvider
 //		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 
+		removeTemporarySessionFile();
+
 
 		Intent mShareIntent = new Intent();
 
@@ -297,10 +320,10 @@ public class SessionSingleton {
 		i.setType("application/csv"); // Produces the most correct options in the share menu
 		try {
 
-			String filename = SessionSingleton.getInstance().getTimestampPS4() + ".csv";
+			sessionFilename = SessionSingleton.getInstance().getTimestampPS4() + ".csv";
 
 			String tempFilePath = Environment.getExternalStorageDirectory().toString()
-					  + File.separator + filename;
+					  + File.separator + sessionFilename;
 
 			File tempFile = new File(tempFilePath);
 
@@ -313,7 +336,7 @@ public class SessionSingleton {
 			i.putExtra(Intent.EXTRA_STREAM, U);
 
 //			i.putExtra(Intent.EXTRA_SUBJECT, context.getResources().getString(R.string.share_subject));
-			i.putExtra(Intent.EXTRA_SUBJECT, filename);
+			i.putExtra(Intent.EXTRA_SUBJECT, sessionFilename);
 			i.putExtra(Intent.EXTRA_TEXT, context.getResources().getString(R.string.share_message));
 
 			mShareIntent = Intent.createChooser(i, "Share Session");

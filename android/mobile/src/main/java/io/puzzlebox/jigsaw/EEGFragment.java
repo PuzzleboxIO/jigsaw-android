@@ -80,7 +80,7 @@ public class EEGFragment extends Fragment implements
 	private static ProgressBar progressBarBlink;
 	private static Button connectEEG;
 
-	private static ImageView imageViewStatus;
+//	private static ImageView imageViewStatus;
 
 	private static TextView textViewSessionTime;
 
@@ -174,7 +174,8 @@ public class EEGFragment extends Fragment implements
 //		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
 //		String progressBarRangeColor = "#FF00FF";
-		String progressBarRangeColor = "#990099";
+//		String progressBarRangeColor = "#990099";
+		String progressBarRangeColor = "#999999";
 		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarRangeColor));
 		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
 		progressBarBlink.setProgressDrawable(progressRange);
@@ -257,7 +258,7 @@ public class EEGFragment extends Fragment implements
 		});
 
 		if (ThinkGearService.eegConnected)
-			connectEEG.setText("");
+			connectEEG.setText("Disconnect EEG");
 
 
 //		Button saveSession = (Button) v.findViewById(R.id.buttonSaveSession);
@@ -664,7 +665,7 @@ public class EEGFragment extends Fragment implements
 				 * Power = 100
 				 */
 
-				percentOfMaxPower = (float)( ((100 - attentionSeekValue) - (100 - i)) / (float)(100 - attentionSeekValue) );
+				percentOfMaxPower = ( ((100 - attentionSeekValue) - (100 - i)) / (float)(100 - attentionSeekValue) );
 				power = thresholdValuesAttention[i] + (int)( minimumPower + ((maximumPower - minimumPower) * percentOfMaxPower) );
 				thresholdValuesAttention[i] = power;
 
@@ -674,7 +675,7 @@ public class EEGFragment extends Fragment implements
 		meditationSeekValue = seekBarMeditation.getProgress();
 		if (meditationSeekValue > 0) {
 			for (int i = meditationSeekValue; i < thresholdValuesMeditation.length; i++) {
-				percentOfMaxPower = (float)( ((100 - meditationSeekValue) - (100 - i)) / (float)(100 - meditationSeekValue) );
+				percentOfMaxPower = ( ((100 - meditationSeekValue) - (100 - i)) / (float)(100 - meditationSeekValue) );
 				power = thresholdValuesMeditation[i] + (int)( minimumPower + ((maximumPower - minimumPower) * percentOfMaxPower) );
 				thresholdValuesMeditation[i] = power;
 			}

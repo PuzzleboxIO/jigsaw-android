@@ -255,4 +255,18 @@ public class MainActivity extends AppCompatActivity implements
 	} // onPause
 
 
+	// ################################################################
+
+	@Override
+	public void onDestroy() {
+
+		Log.v(TAG, "onDestroy()");
+
+		super.onDestroy();
+
+		SessionSingleton.getInstance().removeTemporarySessionFile();
+
+
+	} // onDestroy
+
 }

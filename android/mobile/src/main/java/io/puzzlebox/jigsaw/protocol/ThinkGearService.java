@@ -28,9 +28,6 @@ public class ThinkGearService extends Service {
 	 * Configuration
 	 */
 
-	//	private final static boolean DEBUG = true;
-	private final static boolean DEBUG = false;
-
 	public static boolean eegConnected = false;
 	public static boolean eegConnecting = false;
 
