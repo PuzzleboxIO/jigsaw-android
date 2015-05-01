@@ -3,11 +3,12 @@ package io.puzzlebox.jigsaw;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.ActionBarDrawerToggle;
-//import android.support.v7.app.ActionBarDrawerToggle;
+//import android.support.v7.app.ActionBarActivity;
+//import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,7 +24,7 @@ import io.puzzlebox.jigsaw.ui.DrawerItem;
 import io.puzzlebox.jigsaw.ui.NavigationDrawerAdapter;
 
 //public class MainActivity extends ActionBarActivity implements
-public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends AppCompatActivity implements
 		  WelcomeFragment.OnFragmentInteractionListener,
 		  SessionFragment.OnFragmentInteractionListener,
 		  EEGFragment.OnFragmentInteractionListener
@@ -82,20 +83,20 @@ public class MainActivity extends ActionBarActivity implements
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setHomeButtonEnabled(true);
+			getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
+		}
 
-//		Toolbar mToolbar = new Toolbar(this);
-////		setSupportActionBar(mToolbar);
-//		mToolbar.setNavigationIcon(R.drawable.ic_drawer);
-//		mToolbar.setLogo(R.drawable.ic_welcome);
+		Toolbar mToolbar = new Toolbar(this);
 
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				  R.drawable.ic_drawer, R.string.drawer_open,
-				  R.string.drawer_close) {
 //		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-//				  mToolbar, R.string.drawer_open,
+//				  R.drawable.ic_drawer, R.string.drawer_open,
 //				  R.string.drawer_close) {
+					mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				  mToolbar, R.string.drawer_open,
+				  R.string.drawer_close) {
 			public void onDrawerClosed(View view) {
 				getSupportActionBar().setTitle(mTitle);
 				invalidateOptionsMenu(); // creates call to
@@ -202,7 +203,8 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	public void setTitle(CharSequence title) {
 		mTitle = title;
-		getSupportActionBar().setTitle(mTitle);
+		if (getSupportActionBar() != null)
+			getSupportActionBar().setTitle(mTitle);
 	}
 
 
