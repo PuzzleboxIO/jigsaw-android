@@ -189,6 +189,7 @@ public class SessionSingleton {
 	// ################################################################
 
 	public void resetSession() {
+		removeTemporarySessionFile();
 		sessionTimestamp = new Date();
 		data = new ArrayList<>();
 	}
