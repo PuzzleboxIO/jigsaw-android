@@ -1,13 +1,10 @@
 package io.puzzlebox.jigsaw;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -15,10 +12,7 @@ import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,14 +33,10 @@ import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.List;
 
-import io.puzzlebox.jigsaw.data.CreateSessionFileInGoogleDrive;
+//import io.puzzlebox.jigsaw.data.CreateSessionFileInGoogleDrive;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 import io.puzzlebox.jigsaw.protocol.ThinkGearService;
 
@@ -61,6 +51,7 @@ public class EEGFragment extends Fragment implements
 	 * - Graph raw EEG
 	 * - Progress Bars colors no longer edge-to-edge
 	 * - Cleanup temporary session files
+	 * - Power calculation not appearing in exported CSV files
 	 */
 
 	private final static String TAG = EEGFragment.class.getSimpleName();
@@ -87,7 +78,7 @@ public class EEGFragment extends Fragment implements
 	private static ProgressBar progressBarSignal;
 	private static ProgressBar progressBarPower;
 	private static ProgressBar progressBarBlink;
-	private static Button connectButton;
+	private static Button connectEEG;
 
 	private static ImageView imageViewStatus;
 
@@ -135,7 +126,6 @@ public class EEGFragment extends Fragment implements
 
 	// ################################################################
 
-	@SuppressLint("NewApi")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
@@ -258,7 +248,7 @@ public class EEGFragment extends Fragment implements
 		textViewSessionTime = (TextView) v.findViewById(R.id.textViewSessionTime);
 
 
-		Button connectEEG = (Button) v.findViewById(R.id.buttonConnectEEG);
+		connectEEG = (Button) v.findViewById(R.id.buttonConnectEEG);
 		connectEEG.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -266,34 +256,37 @@ public class EEGFragment extends Fragment implements
 			}
 		});
 
+		if (ThinkGearService.eegConnected)
+			connectEEG.setText("");
 
-		Button saveSession = (Button) v.findViewById(R.id.buttonSaveSession);
-		saveSession.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
 
-				Intent intent = new Intent(getActivity(), CreateSessionFileInGoogleDrive.class);
-				startActivity(intent);
+//		Button saveSession = (Button) v.findViewById(R.id.buttonSaveSession);
+//		saveSession.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//
+//				Intent intent = new Intent(getActivity(), CreateSessionFileInGoogleDrive.class);
+//				startActivity(intent);
+//
+////				Toast.makeText((getActivity()),
+////						  "Session data saved to Google Drive",
+////						  Toast.LENGTH_SHORT).show();
+//			}
+//		});
 
+//		Button exportToCSV = (Button) v.findViewById(R.id.buttonExportCSV);
+//		exportToCSV.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				Log.d(TAG, "SessionSingleton.getInstance().exportDataToCSV");
+////				String path = SessionSingleton.getInstance().getTimestampPS4();
+//				SessionSingleton.getInstance().exportDataToCSV(null, null);
+//
 //				Toast.makeText((getActivity()),
-//						  "Session data saved to Google Drive",
-//						  Toast.LENGTH_SHORT).show();
-			}
-		});
-
-		Button exportToCSV = (Button) v.findViewById(R.id.buttonExportCSV);
-		exportToCSV.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.d(TAG, "SessionSingleton.getInstance().exportDataToCSV");
-//				String path = SessionSingleton.getInstance().getTimestampPS4();
-				SessionSingleton.getInstance().exportDataToCSV(null, null);
-
-				Toast.makeText((getActivity()),
-						  "Session data exported to:\n" + SessionSingleton.getInstance().getTimestampPS4() + ".csv",
-						  Toast.LENGTH_LONG).show();
-			}
-		});
+//						  "Session data exported to:\n" + SessionSingleton.getInstance().getTimestampPS4() + ".csv",
+//						  Toast.LENGTH_LONG).show();
+//			}
+//		});
 
 		Button resetSession = (Button) v.findViewById(R.id.buttonResetSession);
 		resetSession.setOnClickListener(new View.OnClickListener() {
@@ -391,6 +384,8 @@ public class EEGFragment extends Fragment implements
 
 		super.onResume();
 
+		updateSessionTime();
+
 		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
 				  mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
 
@@ -451,48 +446,6 @@ public class EEGFragment extends Fragment implements
 			return false;
 		}
 	};
-
-
-	// ################################################################
-
-//	public void exportSession(MenuItem item) {
-//
-//		Log.d(TAG, "exportSession(MenuItem item): " + item.toString());
-//
-//		// Fetch and store ShareActionProvider
-//		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-//
-//
-//		Intent i = new Intent(Intent.ACTION_SEND);
-////		i.setType("plain/text");
-////		i.setType("plain/csv");
-////		i.setType("text/comma-separated-values");
-//		i.setType("application/csv"); // Produces the most correct options in the share menu
-//		try {
-//
-//			String filename = SessionSingleton.getInstance().getTimestampPS4();
-//
-//			String tempFilePath = Environment.getExternalStorageDirectory().toString()
-//					  + File.separator + filename + ".csv";
-//
-//			File tempFile = new File(tempFilePath);
-//
-//			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
-//					  tempFile, SessionSingleton.getInstance().getExportDataCSV());
-//
-//			Uri U = Uri.fromFile(tempFile);
-//			i.putExtra(Intent.EXTRA_STREAM, U);
-//
-//			Intent mShareIntent = Intent.createChooser(i, "Share Session");
-//
-//			startActivity(mShareIntent);
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//
-//	}
 
 
 	// ################################################################
@@ -578,31 +531,6 @@ public class EEGFragment extends Fragment implements
 
 	// ################################################################
 
-//	public void onClick(View v) {
-//
-//		Log.e(TAG, "onClick()");
-//
-//		switch (v.getId()) {
-//
-//			case R.id.buttonConnectEEG:
-//
-//// 				connectHeadset(v);
-////				connectHeadset();
-//
-//				if (! eegConnected) {
-////					connectHeadset(v);
-//					connectHeadset();
-//				} else {
-//					disconnectHeadset();
-//				}
-//
-//		}
-//
-//	} // onClick
-
-
-	// ################################################################
-
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
 
 		updatePowerThresholds();
@@ -633,7 +561,7 @@ public class EEGFragment extends Fragment implements
 	} // onStopTrackingTouch
 
 
-//	// ################################################################
+	// ################################################################
 
 	public void connectHeadset() {
 
@@ -911,10 +839,7 @@ public class EEGFragment extends Fragment implements
 
 	private void updateSessionTime() {
 
-//		textViewSessionTime.setText( SessionSingleton.getInstance().getCurrentTimestamp() );
-
 		textViewSessionTime.setText( SessionSingleton.getInstance().getSessionTimestamp() );
-
 
 	}
 
@@ -981,34 +906,5 @@ public class EEGFragment extends Fragment implements
 		}
 
 	};
-
-
-
-//	public static class GenerateCsv {
-//		//		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
-//		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
-//			FileWriter writer = null;
-//
-//			try {
-//				writer = new FileWriter(sFileName);
-//				writer.append(fileContent);
-//				writer.flush();
-//
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}finally
-//			{
-//				try {
-//					writer.close();
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//			return writer;
-//		}
-//	}
-
 
 }

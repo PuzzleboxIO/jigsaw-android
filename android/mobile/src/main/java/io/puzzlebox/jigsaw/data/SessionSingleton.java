@@ -1,12 +1,9 @@
 package io.puzzlebox.jigsaw.data;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -21,31 +18,26 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import io.puzzlebox.jigsaw.R;
 
-/**
- * Created by sc on 4/21/15.
- */
 public class SessionSingleton {
 
 	private static final String TAG = SessionSingleton.class.getSimpleName();
 
-	private static ArrayList<HashMap<String, String>> timestamp;
+//	private static ArrayList<HashMap<String, String>> timestamp;
 
 	private static Date currentTimestamp;
 	private static Date sessionTimestamp;
 
 	private static String sessionFilename;
 
-	private static ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
+	private static ArrayList<HashMap<String, String>> data = new ArrayList<>();
 
-	private static String query = "?q=session-xml";
-
-	private ArrayList<String> fragmentTags = new ArrayList<String>();
+//	private ArrayList<String> fragmentTags = new ArrayList<>();
 
 	private static SessionSingleton ourInstance = new SessionSingleton();
-
 
 	public static SessionSingleton getInstance() {
 		return ourInstance;
@@ -54,9 +46,9 @@ public class SessionSingleton {
 	private SessionSingleton() {
 	}
 
-	public void setData(ArrayList<HashMap<String, String>> data){
-		this.data = data;
-	}
+//	public void setData(ArrayList<HashMap<String, String>> data){
+//		this.data = data;
+//	}
 
 	public void appendData(HashMap<String, String> packet){
 		data.add(packet);
@@ -70,21 +62,17 @@ public class SessionSingleton {
 		return data;
 	}
 
-	public String getQuery() {
-		return query;
-	}
-
-	public ArrayList<String> getFragmentTags() {
-		return fragmentTags;
-	}
-
-	public void appendFragmentTag(String tag) {
-		fragmentTags.add(tag);
-	}
-
-	public void resetFragmentTags() {
-		fragmentTags = new ArrayList<String>();
-	}
+//	public ArrayList<String> getFragmentTags() {
+//		return fragmentTags;
+//	}
+//
+//	public void appendFragmentTag(String tag) {
+//		fragmentTags.add(tag);
+//	}
+//
+//	public void resetFragmentTags() {
+//		fragmentTags = new ArrayList<>();
+//	}
 
 
 	// ################################################################
@@ -117,9 +105,8 @@ public class SessionSingleton {
 
 	public String getCurrentDate(){
 		try {
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String currentDate = dateFormat.format(currentTimestamp);
-			return currentDate;
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+			return dateFormat.format(currentTimestamp);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -131,7 +118,7 @@ public class SessionSingleton {
 
 	public String getCurrentTimestamp(){
 		try {
-			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS");
+			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS", Locale.US);
 			return timeFormat.format(currentTimestamp);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -144,7 +131,7 @@ public class SessionSingleton {
 
 	public String getTimestampPS4() {
 		Date mDate = new Date();
-		SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
 		return mDateFormat.format(mDate);
 	}
 
@@ -160,10 +147,10 @@ public class SessionSingleton {
 		long diff = 0;
 
 //		java.text.DateFormat df = new java.text.SimpleDateFormat("hh:mm:ss");
-		java.text.DateFormat df = new SimpleDateFormat("HH:mm:ss.SSS");
+		java.text.DateFormat df = new SimpleDateFormat("HH:mm:ss.SSS", Locale.US);
 
 
-		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS");
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS", Locale.US);
 		String sessionTimestampString = timeFormat.format(sessionTimestamp);
 
 		try {
@@ -203,14 +190,14 @@ public class SessionSingleton {
 
 	public void resetSession() {
 		sessionTimestamp = new Date();
-		data = new ArrayList<HashMap<String, String>>();
+		data = new ArrayList<>();
 	}
 
 
 	// ################################################################
 
 	public List<String[]> getExportData() {
-		List<String[]> dataCSV = new ArrayList<String[]>();
+		List<String[]> dataCSV = new ArrayList<>();
 
 		dataCSV.add(new String[] {
 				  "Date",
@@ -218,7 +205,7 @@ public class SessionSingleton {
 				  "Attention",
 				  "Meditation",
 				  "Signal Level",
-				  "Power",
+//				  "Power",
 		});
 
 		for (int i = data.size() - 1; i >= 0; i--) {
@@ -228,7 +215,7 @@ public class SessionSingleton {
 					  data.get(i).get("Attention"),
 					  data.get(i).get("Meditation"),
 					  data.get(i).get("Signal Level"),
-					  data.get(i).get("Power"),
+//					  data.get(i).get("Power"),
 			});
 		}
 
@@ -298,7 +285,7 @@ public class SessionSingleton {
 		Log.d(TAG, "exportSession(MenuItem item): " + item.toString());
 
 		// Fetch and store ShareActionProvider
-		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+//		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 
 
 		Intent mShareIntent = new Intent();
@@ -317,7 +304,9 @@ public class SessionSingleton {
 
 			File tempFile = new File(tempFilePath);
 
-			FileWriter out = (FileWriter) GenerateCsv.generateCsvFile(
+//			FileWriter out = GenerateCsv.generateCsvFile(
+//					  tempFile, SessionSingleton.getInstance().getExportDataCSV());
+			GenerateCsv.generateCsvFile(
 					  tempFile, SessionSingleton.getInstance().getExportDataCSV());
 
 			Uri U = Uri.fromFile(tempFile);
@@ -353,15 +342,14 @@ public class SessionSingleton {
 				writer.flush();
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}finally
-			{
+			} finally {
 				try {
-					writer.close();
+					if (writer != null) {
+						writer.close();
+					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.d(TAG, "IOException: " + e);
 				}
 			}
 			return writer;

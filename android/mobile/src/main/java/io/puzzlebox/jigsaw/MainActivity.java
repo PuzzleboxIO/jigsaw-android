@@ -16,6 +16,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.puzzlebox.jigsaw.data.SessionSingleton;
 import io.puzzlebox.jigsaw.ui.DrawerItem;
 import io.puzzlebox.jigsaw.ui.NavigationDrawerAdapter;
 
@@ -102,6 +103,8 @@ public class MainActivity extends ActionBarActivity implements
 		if (savedInstanceState == null) {
 			SelectItem(0);
 		}
+
+		SessionSingleton.getInstance().resetSession();
 
 	}
 
