@@ -79,7 +79,7 @@
             android:textSize="18dp"/>
 
         <com.androidplot.xy.XYPlot
-            android:id="@+id/sessionPlot"
+            android:id="@+id/sessionPlot1"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_marginLeft="0dp"
@@ -87,6 +87,17 @@
             android:layout_marginTop="0dp"
             android:layout_weight="1"
             title="Session Plot" />
+
+        <com.androidplot.xy.XYPlot
+            android:id="@+id/sessionPlot2"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            title="Session Plot" />
+
 
     </LinearLayout>
 

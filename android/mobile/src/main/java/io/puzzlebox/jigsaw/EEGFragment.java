@@ -279,6 +279,7 @@ public class EEGFragment extends Fragment implements
 //			}
 //		});
 
+
 		Button resetSession = (Button) v.findViewById(R.id.buttonResetSession);
 		resetSession.setOnClickListener(new View.OnClickListener() {
 			@Override

@@ -39,8 +39,10 @@ public class SessionFragment extends Fragment {
 
 	private static TextView textViewSessionTime;
 
-	private static XYPlot sessionPlot = null;
-	private static SimpleXYSeries sessionPlotSeries = null;
+	private static XYPlot sessionPlot1 = null;
+	private static SimpleXYSeries sessionPlotSeries1 = null;
+	private static XYPlot sessionPlot2 = null;
+	private static SimpleXYSeries sessionPlotSeries2 = null;
 
 
 	private OnFragmentInteractionListener mListener;
@@ -101,49 +103,98 @@ public class SessionFragment extends Fragment {
 
 
 		// setup the Session History plot
-		sessionPlot = (XYPlot) v.findViewById(R.id.sessionPlot);
-		sessionPlotSeries = new SimpleXYSeries("Session Plot");
+		sessionPlot1 = (XYPlot) v.findViewById(R.id.sessionPlot1);
+		sessionPlotSeries1 = new SimpleXYSeries("Session Plot");
 
 		// Setup the boundary mode, boundary values only applicable in FIXED mode.
 
-		if (sessionPlot != null) {
+		if (sessionPlot1 != null) {
 
-			sessionPlot.setDomainBoundaries(0, 30, BoundaryMode.FIXED);
-//			sessionPlot.setRangeBoundaries(0, 100, BoundaryMode.GROW);
-			sessionPlot.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
+			sessionPlot1.setDomainBoundaries(0, 30, BoundaryMode.FIXED);
+//			sessionPlot1.setRangeBoundaries(0, 100, BoundaryMode.GROW);
+			sessionPlot1.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
 
-//			sessionPlot.addSeries(sessionPlotSeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
-			sessionPlot.addSeries(sessionPlotSeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null, null));
+//			sessionPlot1.addSeries(sessionPlotSeries1, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
+			sessionPlot1.addSeries(sessionPlotSeries1, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null, null));
 
 			// Thin out domain and range tick values so they don't overlap
-			sessionPlot.setDomainStepValue(1);
-			sessionPlot.setTicksPerRangeLabel(10);
+			sessionPlot1.setDomainStepValue(1);
+			sessionPlot1.setTicksPerRangeLabel(10);
 
-			sessionPlot.setRangeLabel("Attention");
+			sessionPlot1.setRangeLabel("Attention");
 
 			// Sets the dimensions of the widget to exactly contain the text contents
-			sessionPlot.getDomainLabelWidget().pack();
-			sessionPlot.getRangeLabelWidget().pack();
+			sessionPlot1.getDomainLabelWidget().pack();
+			sessionPlot1.getRangeLabelWidget().pack();
 
 			// Only display whole numbers in labels
-			sessionPlot.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
-			sessionPlot.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
+			sessionPlot1.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
+			sessionPlot1.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
 
 			// Hide domain and range labels
-			sessionPlot.getGraphWidget().setDomainLabelWidth(0);
-			sessionPlot.getGraphWidget().setRangeLabelWidth(0);
+			sessionPlot1.getGraphWidget().setDomainLabelWidth(0);
+			sessionPlot1.getGraphWidget().setRangeLabelWidth(0);
 
 			// Hide legend
-			sessionPlot.getLegendWidget().setVisible(false);
+			sessionPlot1.getLegendWidget().setVisible(false);
 
 			// setGridPadding(float left, float top, float right, float bottom)
-			sessionPlot.getGraphWidget().setGridPadding(0, 0, 0, 0);
+			sessionPlot1.getGraphWidget().setGridPadding(0, 0, 0, 0);
 
 
-			//		sessionPlot.getGraphWidget().setDrawMarkersEnabled(false);
+			//		sessionPlot1.getGraphWidget().setDrawMarkersEnabled(false);
 
 			//		final PlotStatistics histStats = new PlotStatistics(1000, false);
-			//		sessionPlot.addListener(histStats);
+			//		sessionPlot1.addListener(histStats);
+
+		}
+
+
+
+		// setup the Session History plot
+		sessionPlot2 = (XYPlot) v.findViewById(R.id.sessionPlot2);
+		sessionPlotSeries2 = new SimpleXYSeries("Session Plot");
+
+		// Setup the boundary mode, boundary values only applicable in FIXED mode.
+
+		if (sessionPlot2 != null) {
+
+			sessionPlot2.setDomainBoundaries(0, 30, BoundaryMode.FIXED);
+//			sessionPlot2.setRangeBoundaries(0, 100, BoundaryMode.GROW);
+			sessionPlot2.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
+
+//			sessionPlot2.addSeries(sessionPlotSeries2, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
+			sessionPlot2.addSeries(sessionPlotSeries2, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null, null));
+
+			// Thin out domain and range tick values so they don't overlap
+			sessionPlot2.setDomainStepValue(1);
+			sessionPlot2.setTicksPerRangeLabel(10);
+
+			sessionPlot2.setRangeLabel("Meditation");
+
+			// Sets the dimensions of the widget to exactly contain the text contents
+			sessionPlot2.getDomainLabelWidget().pack();
+			sessionPlot2.getRangeLabelWidget().pack();
+
+			// Only display whole numbers in labels
+			sessionPlot2.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
+			sessionPlot2.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
+
+			// Hide domain and range labels
+			sessionPlot2.getGraphWidget().setDomainLabelWidth(0);
+			sessionPlot2.getGraphWidget().setRangeLabelWidth(0);
+
+			// Hide legend
+			sessionPlot2.getLegendWidget().setVisible(false);
+
+			// setGridPadding(float left, float top, float right, float bottom)
+			sessionPlot2.getGraphWidget().setGridPadding(0, 0, 0, 0);
+
+
+			//		sessionPlot2.getGraphWidget().setDrawMarkersEnabled(false);
+
+			//		final PlotStatistics histStats = new PlotStatistics(1000, false);
+			//		sessionPlot2.addListener(histStats);
 
 		}
 
@@ -287,8 +338,11 @@ public class SessionFragment extends Fragment {
 			updateSessionTime();
 
 			updateSessionPlotHistory(
-					SessionSingleton.getInstance().getSessionRangeValues(
-							"Attention", 30));
+					  SessionSingleton.getInstance().getSessionRangeValues(
+								 "Attention", 30));
+			updateSessionPlotHistory2(
+					  SessionSingleton.getInstance().getSessionRangeValues(
+								 "Meditation", 30));
 
 
 		}
@@ -307,29 +361,56 @@ public class SessionFragment extends Fragment {
 
 	// ################################################################
 
-	public void updateSessionPlotHistory(Number[] sessionAttention) {
+	public void updateSessionPlotHistory(Number[] values) {
 
-		if (sessionPlot != null) {
-			sessionPlot.removeSeries(sessionPlotSeries);
+		if (sessionPlot1 != null) {
+			sessionPlot1.removeSeries(sessionPlotSeries1);
 
-			sessionPlotSeries = new SimpleXYSeries(Arrays.asList(sessionAttention), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Attention");
+			sessionPlotSeries1 = new SimpleXYSeries(Arrays.asList(values), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Attention");
 
 			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null);
-					LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null, null);
 			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.TRANSPARENT, null, null);
 			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(0, 0, 0), Color.TRANSPARENT, null, null);
+//			LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null, null);
+			LineAndPointFormatter format = new LineAndPointFormatter(Color.RED, Color.RED, null, null);
 
 			//		format.getFillPaint().setAlpha(220);
 
-			sessionPlot.addSeries(sessionPlotSeries, format);
+			sessionPlot1.addSeries(sessionPlotSeries1, format);
 
 
 			// Redraw the plots:
-			sessionPlot.redraw();
+			sessionPlot1.redraw();
 
 		}
 
 	} // updateSessionPlotHistory
 
+
+	// ################################################################
+
+	public void updateSessionPlotHistory2(Number[] values) {
+
+		if (sessionPlot2 != null) {
+			sessionPlot2.removeSeries(sessionPlotSeries2);
+
+			sessionPlotSeries2 = new SimpleXYSeries(Arrays.asList(values), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Meditation");
+
+			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null);
+			LineAndPointFormatter format = new LineAndPointFormatter(Color.BLUE, Color.BLUE, null, null);
+			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.TRANSPARENT, null, null);
+			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(0, 0, 0), Color.TRANSPARENT, null, null);
+
+			//		format.getFillPaint().setAlpha(220);
+
+			sessionPlot2.addSeries(sessionPlotSeries2, format);
+
+
+			// Redraw the plots:
+			sessionPlot2.redraw();
+
+		}
+
+	} // updateSessionPlotHistory
 
 }

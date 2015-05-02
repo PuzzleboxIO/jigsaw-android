@@ -68,7 +68,12 @@ public class SessionSingleton {
 		Integer[] currentEEG = new Integer[historySize];
 		for (int i = 0; i < historySize; i++) {
 //			currentEEG[i] = rawEEG.get(i);
-			currentEEG[i] = rawEEG.get( rawEEG.size() - (historySize - i) );
+//			currentEEG[i] = rawEEG.get( rawEEG.size() - (historySize - i) );
+			try {
+				currentEEG[i] = rawEEG.get(rawEEG.size() - (historySize - i));
+			} catch (ArrayIndexOutOfBoundsException e) {
+				currentEEG[i] = 0;
+			}
 		}
 		return currentEEG;
 	}
