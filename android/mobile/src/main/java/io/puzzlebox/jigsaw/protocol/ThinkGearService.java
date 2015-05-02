@@ -309,15 +309,17 @@ public class ThinkGearService extends Service {
 				break;
 			case TGDevice.MSG_RAW_DATA:
 
-				try {
-					rawEEG[arrayIndex] = msg.arg1;
-					arrayIndex = arrayIndex + 1;
-				} catch (ArrayIndexOutOfBoundsException e) {
-					Log.e(TAG, "ArrayIndexOutOfBoundsException:" + e);
-					e.printStackTrace();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				SessionSingleton.getInstance().appendRawEEG(msg.arg1);
+
+//				try {
+//					rawEEG[arrayIndex] = msg.arg1;
+//					arrayIndex = arrayIndex + 1;
+//				} catch (ArrayIndexOutOfBoundsException e) {
+//					Log.e(TAG, "ArrayIndexOutOfBoundsException:" + e);
+//					e.printStackTrace();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 
 //				if (arrayIndex == EEG_RAW_HISTORY_SIZE - 1) {
 ////					updateEEGRawHistory(rawEEG);
@@ -490,9 +492,9 @@ public class ThinkGearService extends Service {
 			SessionSingleton.getInstance().appendData(packet);
 
 			//				if (arrayIndex == EEG_RAW_HISTORY_SIZE - 1) {
-			SessionSingleton.getInstance().appendRawEEG(rawEEG);
-					arrayIndex = 0;
-//				}
+//			SessionSingleton.getInstance().appendRawEEG(rawEEG);
+//					arrayIndex = 0;
+////				}
 
 			broadcastPacketEEG(packet);
 		}

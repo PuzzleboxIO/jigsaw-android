@@ -12,6 +12,7 @@ import com.opencsv.CSVWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Locale;
 
 import io.puzzlebox.jigsaw.R;
+import io.puzzlebox.jigsaw.protocol.ThinkGearService;
 
 public class SessionSingleton {
 
@@ -34,6 +36,8 @@ public class SessionSingleton {
 	private static String sessionFilename;
 
 	private static ArrayList<HashMap<String, String>> data = new ArrayList<>();
+
+	private static ArrayList<Integer> rawEEG = new ArrayList<>();
 
 //	private ArrayList<String> fragmentTags = new ArrayList<>();
 
@@ -54,13 +58,31 @@ public class SessionSingleton {
 		data.add(packet);
 	}
 
-	public void appendRawEEG(Number[] rawEEG) {
-//		data.add(packet);
+//	public void appendRawEEG(Number[] rawEEG) {
+////		data.add(packet);
+//	}
+	public void appendRawEEG(int raw) {
+		rawEEG.add(raw);
 	}
+
+
+	public Integer[] getCurrentRawEEG() {
+
+		int historySize = ThinkGearService.EEG_RAW_HISTORY_SIZE;
+
+		Integer[] currentEEG = new Integer[historySize];
+		for (int i = 0; i < historySize; i++) {
+//			currentEEG[i] = rawEEG.get(i);
+			currentEEG[i] = rawEEG.get( rawEEG.size() - (historySize - i) );
+		}
+		return currentEEG;
+	}
+
 
 	public ArrayList<HashMap<String, String>> getData(){
 		return data;
 	}
+
 
 //	public ArrayList<String> getFragmentTags() {
 //		return fragmentTags;

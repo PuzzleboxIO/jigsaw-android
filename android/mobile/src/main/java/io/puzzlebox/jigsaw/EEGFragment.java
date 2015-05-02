@@ -50,8 +50,7 @@ public class EEGFragment extends Fragment implements
 	 * TODO
 	 * - Graph raw EEG
 	 * - Progress Bars colors no longer edge-to-edge
-	 * - Cleanup temporary session files
-	 * - Power calculation not appearing in exported CSV files
+\	 * - Power calculation not appearing in exported CSV files
 	 */
 
 	private final static String TAG = EEGFragment.class.getSimpleName();
@@ -175,7 +174,7 @@ public class EEGFragment extends Fragment implements
 		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
 //		String progressBarRangeColor = "#FF00FF";
 //		String progressBarRangeColor = "#990099";
-		String progressBarRangeColor = "#999999";
+		String progressBarRangeColor = "#BBBBBB";
 		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarRangeColor));
 		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
 		progressBarBlink.setProgressDrawable(progressRange);
@@ -752,6 +751,24 @@ public class EEGFragment extends Fragment implements
 
 	// ################################################################
 
+	public void hideEEGRawHistory() {
+
+		Log.v(TAG, "hideEEGRawHistory()");
+
+		if (eegRawHistoryPlot != null)
+			eegRawHistoryPlot.setVisibility(View.GONE);
+
+
+		//			removeView*(View)
+		//			eegRawHistoryPlot.remove
+		//			(XYPlot) v.findViewById(R.id.eegRawHistoryPlot)
+
+
+	} // hideEEGRawHistory
+
+
+	// ################################################################
+
 	public void updateEEGRawHistory(Number[] rawEEG) {
 
 		if (eegRawHistoryPlot != null) {
@@ -820,6 +837,8 @@ public class EEGFragment extends Fragment implements
 			progressBarPower.setProgress(ThinkGearService.eegPower);
 
 			progressBarBlink.setProgress(0);
+
+			updateEEGRawHistory(SessionSingleton.getInstance().getCurrentRawEEG());
 
 			updateSessionTime();
 
