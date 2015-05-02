@@ -44,11 +44,9 @@ import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 
 public class EEGFragment extends Fragment implements
 		  SeekBar.OnSeekBarChangeListener {
-//		  View.OnClickListener,
 
 	/**
 	 * TODO
-	 * - Graph raw EEG
 	 * - Progress Bars colors no longer edge-to-edge
 \	 * - Power calculation not appearing in exported CSV files
 	 */
@@ -77,7 +75,6 @@ public class EEGFragment extends Fragment implements
 	private static ProgressBar progressBarSignal;
 	private static ProgressBar progressBarPower;
 	private static ProgressBar progressBarBlink;
-	private static Button connectEEG;
 
 //	private static ImageView imageViewStatus;
 
@@ -86,16 +83,14 @@ public class EEGFragment extends Fragment implements
 	private static XYPlot eegRawHistoryPlot = null;
 	private static SimpleXYSeries eegRawHistorySeries = null;
 
-	private static Intent intentThinkGear; // = new Intent(getActivity(), ThinkGearService.class);
+	private static Intent intentThinkGear;
 
 
 	// ################################################################
 
-	public static EEGFragment newInstance(String param1, String param2) {
+	public static EEGFragment newInstance() {
 		EEGFragment fragment = new EEGFragment();
 		Bundle args = new Bundle();
-//		args.putString(ARG_PARAM1, param1);
-//		args.putString(ARG_PARAM2, param2);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -113,10 +108,6 @@ public class EEGFragment extends Fragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		if (getArguments() != null) {
-//			mParam1 = getArguments().getString(ARG_PARAM1);
-//			mParam2 = getArguments().getString(ARG_PARAM2);
-//		}
 
 		setHasOptionsMenu(true);
 
@@ -248,7 +239,7 @@ public class EEGFragment extends Fragment implements
 		textViewSessionTime = (TextView) v.findViewById(R.id.textViewSessionTime);
 
 
-		connectEEG = (Button) v.findViewById(R.id.buttonConnectEEG);
+		Button connectEEG = (Button) v.findViewById(R.id.buttonConnectEEG);
 		connectEEG.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -821,13 +812,9 @@ public class EEGFragment extends Fragment implements
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-//			String action = intent.getAction();
-
 			int eegAttention = Integer.valueOf(intent.getStringExtra("Attention"));
 			int eegMeditation = Integer.valueOf(intent.getStringExtra("Meditation"));
 			int eegSignal = Integer.valueOf(intent.getStringExtra("Signal Level"));
-//			int eegPower = Integer.valueOf(intent.getStringExtra("Power"));
-			String eegConnected = intent.getStringExtra("eegConnected");
 
 			progressBarAttention.setProgress(eegAttention);
 			progressBarMeditation.setProgress(eegMeditation);

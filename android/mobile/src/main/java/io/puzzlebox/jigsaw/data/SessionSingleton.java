@@ -12,7 +12,6 @@ import com.opencsv.CSVWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,8 +27,6 @@ public class SessionSingleton {
 
 	private static final String TAG = SessionSingleton.class.getSimpleName();
 
-//	private static ArrayList<HashMap<String, String>> timestamp;
-
 	private static Date currentTimestamp = new Date();
 	private static Date sessionTimestamp = new Date();
 
@@ -38,8 +35,6 @@ public class SessionSingleton {
 	private static ArrayList<HashMap<String, String>> data = new ArrayList<>();
 
 	private static ArrayList<Integer> rawEEG = new ArrayList<>();
-
-//	private ArrayList<String> fragmentTags = new ArrayList<>();
 
 	private static SessionSingleton ourInstance = new SessionSingleton();
 
@@ -99,13 +94,13 @@ public class SessionSingleton {
 
 	// ################################################################
 
-	public void setSessionFilename(String filename) {
-		sessionFilename = filename;
-	}
-
-	public String getSessionFilename() {
-		return sessionFilename;
-	}
+//	public void setSessionFilename(String filename) {
+//		sessionFilename = filename;
+//	}
+//
+//	public String getSessionFilename() {
+//		return sessionFilename;
+//	}
 
 
 	// ################################################################
@@ -243,6 +238,33 @@ public class SessionSingleton {
 		}
 
 		return dataCSV;
+	}
+
+
+	// ################################################################
+
+	public Number[] getSessionRangeValues(String key, Integer count) {
+
+		Number[] result = new Number[count];
+
+		for (int i = 0; i < count; i++) {
+			try {
+				result[i] = Integer.valueOf(
+						data.get( data.size() - (count - i ) ).get(key));
+			} catch (ArrayIndexOutOfBoundsException e) {
+				result[i] = 0;
+			} catch (Exception e) {
+				e.printStackTrace();
+				result[i] = 0;
+			}
+//			System.out.print(result[i] + ", ");
+//			Log.d(TAG, result[i].toString());
+		}
+
+//		Log.d(TAG, result.toString());
+
+		return result;
+
 	}
 
 
