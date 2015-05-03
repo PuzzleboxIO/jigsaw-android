@@ -1,3 +1,9 @@
+/**
+ * Puzzlebox Jigsaw
+ * Copyright 2015 Puzzlebox Productions, LLC
+ * License: GNU Affero General Public License Version 3
+ */
+
 package io.puzzlebox.jigsaw;
 
 import android.app.Activity;
