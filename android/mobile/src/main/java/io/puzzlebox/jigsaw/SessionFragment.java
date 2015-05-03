@@ -337,12 +337,28 @@ public class SessionFragment extends Fragment {
 
 			updateSessionTime();
 
-			updateSessionPlotHistory(
+			sessionPlotSeries1 = updateSessionPlotHistory(
+					  "Attention",
 					  SessionSingleton.getInstance().getSessionRangeValues(
-								 "Attention", 30));
-			updateSessionPlotHistory2(
+								 "Attention", 30),
+					  Color.RED,
+					  sessionPlot1,
+					  sessionPlotSeries1);
+//			updateSessionPlotHistory(
+//					  SessionSingleton.getInstance().getSessionRangeValues(
+//								 "Attention", 30));
+
+//			updateSessionPlotHistory2(
+//					  SessionSingleton.getInstance().getSessionRangeValues(
+//								 "Meditation", 30));
+
+			sessionPlotSeries2 = updateSessionPlotHistory(
+					  "Meditation",
 					  SessionSingleton.getInstance().getSessionRangeValues(
-								 "Meditation", 30));
+								 "Meditation", 30),
+					  Color.BLUE,
+					  sessionPlot2,
+					  sessionPlotSeries2);
 
 
 		}
@@ -361,56 +377,37 @@ public class SessionFragment extends Fragment {
 
 	// ################################################################
 
-	public void updateSessionPlotHistory(Number[] values) {
+//	public void updateSessionPlotHistory(Number[] values) {
+		public SimpleXYSeries updateSessionPlotHistory(String name,
+		                                     Number[] values,
+		                                     Integer color,
+		                                     XYPlot mPlot,
+		                                     SimpleXYSeries mSeries) {
 
-		if (sessionPlot1 != null) {
-			sessionPlot1.removeSeries(sessionPlotSeries1);
+//		if (sessionPlot1 != null) {
+//			sessionPlot1.removeSeries(sessionPlotSeries1);
 
-			sessionPlotSeries1 = new SimpleXYSeries(Arrays.asList(values), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Attention");
+		if (mPlot != null) {
+			mPlot.removeSeries(mSeries);
 
-			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null);
-			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.TRANSPARENT, null, null);
-			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(0, 0, 0), Color.TRANSPARENT, null, null);
-//			LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null, null);
-			LineAndPointFormatter format = new LineAndPointFormatter(Color.RED, Color.RED, null, null);
+			mSeries = new SimpleXYSeries(Arrays.asList(values), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, name);
+
+			LineAndPointFormatter format = new LineAndPointFormatter(color, color, null, null);
 
 			//		format.getFillPaint().setAlpha(220);
 
-			sessionPlot1.addSeries(sessionPlotSeries1, format);
+			mPlot.addSeries(mSeries, format);
 
 
 			// Redraw the plots:
-			sessionPlot1.redraw();
+			mPlot.redraw();
 
-		}
+			return mSeries;
+		} else
+			return null;
 
 	} // updateSessionPlotHistory
 
 
-	// ################################################################
-
-	public void updateSessionPlotHistory2(Number[] values) {
-
-		if (sessionPlot2 != null) {
-			sessionPlot2.removeSeries(sessionPlotSeries2);
-
-			sessionPlotSeries2 = new SimpleXYSeries(Arrays.asList(values), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Meditation");
-
-			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null);
-			LineAndPointFormatter format = new LineAndPointFormatter(Color.BLUE, Color.BLUE, null, null);
-			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.TRANSPARENT, null, null);
-			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(0, 0, 0), Color.TRANSPARENT, null, null);
-
-			//		format.getFillPaint().setAlpha(220);
-
-			sessionPlot2.addSeries(sessionPlotSeries2, format);
-
-
-			// Redraw the plots:
-			sessionPlot2.redraw();
-
-		}
-
-	} // updateSessionPlotHistory
 
 }
