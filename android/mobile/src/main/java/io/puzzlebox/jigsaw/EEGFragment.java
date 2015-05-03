@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
@@ -69,7 +70,7 @@ public class EEGFragment extends Fragment implements
 	/**
 	 * TODO
 	 * - Progress Bars colors no longer edge-to-edge
-\	 * - Power calculation not appearing in exported CSV files
+	 \	 * - Power calculation not appearing in exported CSV files
 	 */
 
 	private final static String TAG = EEGFragment.class.getSimpleName();
@@ -210,11 +211,13 @@ public class EEGFragment extends Fragment implements
 		if (eegRawHistoryPlot != null) {
 
 //			eegRawHistoryPlot.setDomainBoundaries(0, EEG_RAW_HISTORY_SIZE, BoundaryMode.FIXED);
-			eegRawHistoryPlot.setDomainBoundaries(0, ThinkGearService.EEG_RAW_HISTORY_SIZE, BoundaryMode.FIXED);
+//			eegRawHistoryPlot.setDomainBoundaries(0, ThinkGearService.EEG_RAW_HISTORY_SIZE, BoundaryMode.FIXED);
 			//		eegRawHistoryPlot.setDomainBoundaries(0, EEG_RAW_HISTORY_SIZE, BoundaryMode.AUTO);
 			//		eegRawHistoryPlot.setRangeBoundaries(-32767, 32767, BoundaryMode.FIXED);
 			//		eegRawHistoryPlot.setRangeBoundaries(-32767, 32767, BoundaryMode.AUTO);
-			eegRawHistoryPlot.setRangeBoundaries(-256, 256, BoundaryMode.GROW);
+//			eegRawHistoryPlot.setRangeBoundaries(-256, 256, BoundaryMode.GROW);
+			eegRawHistoryPlot.setDomainBoundaries(0, ThinkGearService.EEG_RAW_FREQUENCY, BoundaryMode.FIXED);
+			eegRawHistoryPlot.setRangeBoundaries(0, 1, BoundaryMode.GROW);
 
 			eegRawHistoryPlot.addSeries(eegRawHistorySeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
 
@@ -257,7 +260,30 @@ public class EEGFragment extends Fragment implements
 		seekBarMeditation.setOnSeekBarChangeListener(this);
 
 
+//		spinnerEEG = (Spinner) v.findViewById(R.id.spinnerEEG);
+
+		String[] items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InterAxon Muse"};
+
+//		if (ThinkGearService.eegConnected || ThinkGearService.eegConnecting)
+//			items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InterAxon Muse"};
+		if (MuseService.eegConnected || MuseService.eegConnecting)
+			items = new String[] {"InterAxon Muse", "Emotiv Insight", "NeuroSky MindWave Mobile"};
+
 		spinnerEEG = (Spinner) v.findViewById(R.id.spinnerEEG);
+
+//		ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+//				  android.R.layout.simple_spinner_item, items);
+
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+				  R.layout.spinner_item, items);
+
+//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item,list);
+
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerEEG.setAdapter(adapter);
+
+		if (android.os.Build.VERSION.SDK_INT >= 16)
+			spinnerEEG.setPopupBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
 
 //		imageViewStatus = (ImageView) v.findViewById(R.id.imageViewStatus);
 
@@ -273,8 +299,16 @@ public class EEGFragment extends Fragment implements
 			}
 		});
 
-		if (ThinkGearService.eegConnected)
+		if (ThinkGearService.eegConnected ) {
 			connectEEG.setText("Disconnect EEG");
+			spinnerEEG.setEnabled(false);
+		}
+		if (MuseService.eegConnected) {
+			connectEEG.setText("Disconnect EEG");
+//			spinnerEEG.setSelection(spinnerEEG.getPosition(DEFAULT_CURRENCY_TYPE));
+//			spinnerEEG.setSelection(spinnerEEG.getAdapter(). .getPosition(DEFAULT_CURRENCY_TYPE));
+			spinnerEEG.setEnabled(false);
+		}
 
 
 //		Button saveSession = (Button) v.findViewById(R.id.buttonSaveSession);
@@ -598,7 +632,7 @@ public class EEGFragment extends Fragment implements
 				} else {
 					disconnectHeadset();
 				}
-			break;
+				break;
 
 			case "Emotiv Insight":
 				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support coming soon", Toast.LENGTH_SHORT).show();
@@ -657,6 +691,10 @@ public class EEGFragment extends Fragment implements
 		progressBarPower.setProgress(0);
 
 //		setButtonText(R.id.buttonConnectEEG, "Connect EEG");
+
+
+		spinnerEEG.setEnabled(true);
+
 
 
 	} // disconnectHeadset
@@ -802,7 +840,8 @@ public class EEGFragment extends Fragment implements
 		}
 
 		if (MuseService.eegConnected) {
-			Log.d(TAG, "MuseService.eegConnected: eegSignal: " + MuseService.eegSignal);
+
+//			Log.d(TAG, "MuseService.eegConnected: eegSignal: " + MuseService.eegSignal);
 //			if (MuseService.eegSignal < 100) {
 //				MuseService.eegConcentration = 0;
 //				MuseService.eegMellow = 0;
@@ -898,7 +937,7 @@ public class EEGFragment extends Fragment implements
 			int eegMeditation = Integer.valueOf(intent.getStringExtra("Meditation"));
 			int eegSignal = Integer.valueOf(intent.getStringExtra("Signal Level"));
 
-			Log.e(TAG, "eegAttention: " + eegAttention);
+//			Log.e(TAG, "eegAttention: " + eegAttention);
 
 			progressBarAttention.setProgress(eegAttention);
 			progressBarMeditation.setProgress(eegMeditation);
@@ -954,16 +993,20 @@ public class EEGFragment extends Fragment implements
 					switch(value) {
 						case "STATE_CONNECTING":
 							updateStatusImage();
+							setButtonText(R.id.buttonConnectEEG, "Connecting");
+							spinnerEEG.setEnabled(false);
 							break;
 						case "STATE_CONNECTED":
 //							Toast.makeText(context, "EEG Connected", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
 							setButtonText(R.id.buttonConnectEEG, "Disconnect EEG");
+							spinnerEEG.setEnabled(false);
 							break;
 						case "STATE_NOT_FOUND":
 							Toast.makeText(context, "EEG Not Found", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
 							setButtonText(R.id.buttonConnectEEG, "Connect EEG");
+							spinnerEEG.setEnabled(true);
 							break;
 						case "STATE_NOT_PAIRED":
 							Toast.makeText(context, "EEG Not Paired", Toast.LENGTH_SHORT).show();
@@ -974,6 +1017,7 @@ public class EEGFragment extends Fragment implements
 //							Toast.makeText(context, "EEG Disconnected", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
 							setButtonText(R.id.buttonConnectEEG, "Connect EEG");
+							spinnerEEG.setEnabled(true);
 							break;
 						case "MSG_LOW_BATTERY":
 							Toast.makeText(context, "EEG Battery Low", Toast.LENGTH_SHORT).show();

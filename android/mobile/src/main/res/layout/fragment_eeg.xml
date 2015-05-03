@@ -160,7 +160,9 @@
                 android:id="@+id/spinnerEEG"
                 android:entries="@array/eeg_hardware"
                 android:layout_weight="1"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown"
+                android:transitionGroup="false"/>
+                <!--android:theme="@style/Dropdown"/>-->
 
             <!--<Button-->
             <!--android:id="@+id/buttonOpen"-->
@@ -291,11 +293,11 @@
         <!--</LinearLayout>-->
 
 
-        <Spinner
-            android:id="@+id/muses_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:visibility="gone"/>
+        <!--<Spinner-->
+        <!--android:id="@+id/muses_spinner"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="60dp"-->
+        <!--/>-->
 
 
         <LinearLayout

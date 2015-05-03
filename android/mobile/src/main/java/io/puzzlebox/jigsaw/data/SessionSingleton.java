@@ -36,6 +36,8 @@ public class SessionSingleton {
 
 	private static ArrayList<Integer> rawEEG = new ArrayList<>();
 
+	private static int frequencyRawEEG = 512; // default 512 Hz
+
 	private static SessionSingleton ourInstance = new SessionSingleton();
 
 	public static SessionSingleton getInstance() {
@@ -63,7 +65,8 @@ public class SessionSingleton {
 
 	public Integer[] getCurrentRawEEG() {
 
-		int historySize = ThinkGearService.EEG_RAW_HISTORY_SIZE;
+//		int historySize = ThinkGearService.EEG_RAW_HISTORY_SIZE;
+		int historySize = frequencyRawEEG;
 
 		Integer[] currentEEG = new Integer[historySize];
 		for (int i = 0; i < historySize; i++) {
@@ -157,6 +160,16 @@ public class SessionSingleton {
 		return mDateFormat.format(mDate);
 	}
 
+
+	// ################################################################
+
+	public void setFrequencyRawEEG(int frequency) {
+		frequencyRawEEG = frequency;
+	}
+
+	public Integer getFrequencyRawEEG() {
+		return frequencyRawEEG;
+	}
 
 	// ################################################################
 

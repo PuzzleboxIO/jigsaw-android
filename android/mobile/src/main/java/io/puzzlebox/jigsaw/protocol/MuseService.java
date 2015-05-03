@@ -51,6 +51,8 @@ public class MuseService extends Service {
 
 	private final static String TAG = MuseService.class.getSimpleName();
 
+	public final static int EEG_RAW_FREQUENCY = 220; // 220 Hz sample rate
+
 	public static boolean eegConnected = false;
 	public static boolean eegConnecting = false;
 
@@ -69,6 +71,11 @@ public class MuseService extends Service {
 	private DataListener dataListener = null;
 	private boolean dataTransmission = true;
 	private static MuseFileWriter fileWriter = null;
+
+	public final static boolean rawEnabled = true;
+	public final static int EEG_RAW_HISTORY_SIZE = EEG_RAW_FREQUENCY; // number of points to plot in EEG history
+	private static Number[] rawEEG = new Number[EEG_RAW_HISTORY_SIZE];
+	private static int arrayIndex = 0;
 
 	// ################################################################
 
@@ -411,12 +418,6 @@ public class MuseService extends Service {
 
 	private void configure_library() {
 		muse.registerConnectionListener(connectionListener);
-//		muse.registerDataListener(dataListener,
-//				  MuseDataPacketType.ACCELEROMETER);
-//		muse.registerDataListener(dataListener,
-//				  MuseDataPacketType.EEG);
-//		muse.registerDataListener(dataListener,
-//				  MuseDataPacketType.ALPHA_RELATIVE);
 
 		muse.registerDataListener(dataListener,
 				  MuseDataPacketType.ARTIFACTS);
@@ -429,6 +430,14 @@ public class MuseService extends Service {
 				  MuseDataPacketType.CONCENTRATION);
 		muse.registerDataListener(dataListener,
 				  MuseDataPacketType.MELLOW);
+
+		muse.registerDataListener(dataListener,
+				  MuseDataPacketType.EEG);
+
+//		muse.registerDataListener(dataListener,
+//				  MuseDataPacketType.ACCELEROMETER);
+//		muse.registerDataListener(dataListener,
+//				  MuseDataPacketType.ALPHA_RELATIVE);
 
 		// https://sites.google.com/a/interaxon.ca/muse-developer-site/museio/presets
 		muse.setPreset(MusePreset.PRESET_14);
@@ -515,11 +524,16 @@ public class MuseService extends Service {
 //			}
 
 			switch (p.getPacketType()) {
-//				case EEG:
+				case EEG:
+
+					SessionSingleton.getInstance().appendRawEEG(
+//							  String.format(
+//										 "%6.2f", p.getValues().get(Eeg.FP1.ordinal()))
+							  (int)Math.round(p.getValues().get(Eeg.FP1.ordinal()))
+					);
 //					updateEeg(p.getValues());
-//					Log.i("updateEeg", "fp1: " + String.format(
-//							  "%6.2f", p.getValues().get(Eeg.FP1.ordinal())));
-//					break;
+//					Log.i("updateEeg", "fp1: " + );
+					break;
 //				case ACCELEROMETER:
 //					acc_x = String.format(
 //							  "%6.2f", p.getValues().get(Accelerometer.FORWARD_BACKWARD.ordinal()));
@@ -570,7 +584,7 @@ public class MuseService extends Service {
 					processPacketEEG();
 
 				case CONCENTRATION:
-					Log.e(TAG, "CONCENTRATION: " + p.getValues());
+//					Log.e(TAG, "CONCENTRATION: " + p.getValues());
 
 					if (p.getValues().size() == 1) {
 						if (p.getValues().get(0) == 0.0)
@@ -579,7 +593,7 @@ public class MuseService extends Service {
 							eegConcentration = 100 - (int)Math.round((p.getValues().get(0) * 100));
 					}
 
-					Log.i(TAG, "eegConcentration: " + eegConcentration);
+//					Log.i(TAG, "eegConcentration: " + eegConcentration);
 
 //					eegConcentration = 100 - (int)Math.round((p.getValues().get(MuseDataPacketType.CONCENTRATION.ordinal()) * 100));
 					break;
