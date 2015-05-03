@@ -44,6 +44,12 @@ import io.puzzlebox.jigsaw.data.SessionSingleton;
  */
 public class MuseService extends Service {
 
+	/**
+	 * TODO
+	 * - Handle NEEDS_UPDATE connection state
+	 */
+
+
 	private final static String TAG = MuseService.class.getSimpleName();
 
 	public static boolean eegConnected = false;
@@ -51,6 +57,7 @@ public class MuseService extends Service {
 
 	public static int eegConcentration = 0;
 	public static int eegMellow = 0;
+	public static int eegSignal = 0;
 	public static String acc_x = "";
 	public static String acc_y = "";
 	public static String acc_z = "";
@@ -134,6 +141,10 @@ public class MuseService extends Service {
 
 		fileWriter.addAnnotationString(1, "MainActivity onCreate");
 		dataListener.setFileWriter(fileWriter);
+
+
+		Log.e(TAG, "MuseDataPacketType.HORSESHOE.ordinal()" + MuseDataPacketType.HORSESHOE.ordinal());
+
 
 	}
 
@@ -345,16 +356,14 @@ public class MuseService extends Service {
 			packet.put("Time", SessionSingleton.getInstance().getCurrentTimestamp());
 //			packet.put("Attention", String.valueOf(eegAttention));
 //			packet.put("Meditation", String.valueOf(eegMeditation));
-//			packet.put("Signal Level", String.valueOf(eegSignal));
+			packet.put("Attention", String.valueOf(eegConcentration));
+			packet.put("Meditation", String.valueOf(eegMellow));
+
+			packet.put("Signal Level", String.valueOf(eegSignal));
 ////			packet.put("Power", String.valueOf(eegPower));
 
 			Log.d(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
 			SessionSingleton.getInstance().appendData(packet);
-
-			//				if (arrayIndex == EEG_RAW_HISTORY_SIZE - 1) {
-//			SessionSingleton.getInstance().appendRawEEG(rawEEG);
-//					arrayIndex = 0;
-////				}
 
 			broadcastPacketEEG(packet);
 		}
@@ -370,9 +379,11 @@ public class MuseService extends Service {
 
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.thinkgear.packet");
 
-		intent.putExtra("Date", packet.get("Date")).putExtra("Time", packet.get("Time")).putExtra("Attention", packet.get("Attention"));
-//		intent.putExtra("Meditation", packet.get("Meditation"));
-//		intent.putExtra("Signal Level", packet.get("Signal Level"));
+		intent.putExtra("Date", packet.get("Date"));
+		intent.putExtra("Time", packet.get("Time"));
+		intent.putExtra("Attention", packet.get("Attention"));
+		intent.putExtra("Meditation", packet.get("Meditation"));
+		intent.putExtra("Signal Level", packet.get("Signal Level"));
 ////			intent.putExtra("Power", packet.get("Power"));
 //		intent.putExtra("eegConnected", String.valueOf(eegConnected));
 //		intent.putExtra("eegConnecting", String.valueOf(eegConnecting));
@@ -400,16 +411,26 @@ public class MuseService extends Service {
 
 	private void configure_library() {
 		muse.registerConnectionListener(connectionListener);
-		muse.registerDataListener(dataListener,
-				  MuseDataPacketType.ACCELEROMETER);
-		muse.registerDataListener(dataListener,
-				  MuseDataPacketType.EEG);
-		muse.registerDataListener(dataListener,
-				  MuseDataPacketType.ALPHA_RELATIVE);
+//		muse.registerDataListener(dataListener,
+//				  MuseDataPacketType.ACCELEROMETER);
+//		muse.registerDataListener(dataListener,
+//				  MuseDataPacketType.EEG);
+//		muse.registerDataListener(dataListener,
+//				  MuseDataPacketType.ALPHA_RELATIVE);
+
 		muse.registerDataListener(dataListener,
 				  MuseDataPacketType.ARTIFACTS);
 		muse.registerDataListener(dataListener,
 				  MuseDataPacketType.BATTERY);
+		muse.registerDataListener(dataListener,
+				  MuseDataPacketType.HORSESHOE);
+
+		muse.registerDataListener(dataListener,
+				  MuseDataPacketType.CONCENTRATION);
+		muse.registerDataListener(dataListener,
+				  MuseDataPacketType.MELLOW);
+
+		// https://sites.google.com/a/interaxon.ca/muse-developer-site/museio/presets
 		muse.setPreset(MusePreset.PRESET_14);
 		muse.enableDataTransmission(dataTransmission);
 	}
@@ -479,6 +500,20 @@ public class MuseService extends Service {
 
 		@Override
 		public void receiveMuseDataPacket(MuseDataPacket p) {
+
+//			if (p.getPacketType() != MuseDataPacketType.EEG) {
+//				Log.d(TAG, p.getValues().toString());
+//			}
+
+//			if (p.getPacketType().compareTo(MuseDataPacketType.HORSESHOE))
+
+//			try {
+////				Log.d(TAG, p.getValues().get(MuseDataPacketType.HORSESHOE.ordinal()).toString());
+//				Log.d(TAG, "p.getValues().size(): " + p.getValues().size());
+//			} catch (Exception e) {
+////				e.printStackTrace();
+//			}
+
 			switch (p.getPacketType()) {
 //				case EEG:
 //					updateEeg(p.getValues());
@@ -495,7 +530,8 @@ public class MuseService extends Service {
 //					Log.i(TAG, "Accelerometer: (" + acc_x + "," + acc_y + "," + acc_z + ") (x,y,z)");
 //					break;
 //				case ALPHA_RELATIVE:
-//					updateAlphaRelative(p.getValues());
+////					updateAlphaRelative(p.getValues());
+//					Log.d(TAG, "ALPHA_RELATIVE " + p.getValues().get(Eeg.FP1.ordinal()));
 //					break;
 				case BATTERY:
 					fileWriter.addDataPacket(1, p);
@@ -504,22 +540,61 @@ public class MuseService extends Service {
 					if (fileWriter.getBufferedMessagesSize() > 8096)
 						fileWriter.flush();
 					break;
-				case BETA_ABSOLUTE:
-					Log.d(TAG, "BETA_ABSOLUTE: " + p.getValues());
-					break;
-				case BETA_RELATIVE:
-					Log.d(TAG, "BETA_RELATIVE: " + p.getValues());
-					break;
-				case BETA_SCORE:
-					Log.d(TAG, "BETA_SCORE: " + p.getValues());
-					break;
+//				case BETA_ABSOLUTE:
+//					Log.d(TAG, "BETA_ABSOLUTE: " + p.getValues().toString());
+//					break;
+//				case BETA_RELATIVE:
+//					Log.d(TAG, "BETA_RELATIVE: " + p.getValues());
+//					break;
+//				case BETA_SCORE:
+//					Log.d(TAG, "BETA_SCORE: " + p.getValues());
+//					break;
+				case HORSESHOE:
+//					Log.e(TAG , "HORSESHOE");
+//					Log.e(TAG, "HORSESHOE: " + p.getValues().get(MuseDataPacketType.HORSESHOE.ordinal()));
+//					Log.d(TAG, "HORSESHOE: " + p.getValues().toString());
+
+					eegSignal = (int)Math.round(p.getValues().get(0) +
+							  p.getValues().get(1) +
+							  p.getValues().get(2) +
+							  p.getValues().get(3));
+
+//					eegSignal = Math.round( (eegSignal / 16 ) * 100 );
+					eegSignal = (int)Math.round( (eegSignal / 16.0 ) * 100 );
+
+//					Log.e(TAG, "eegSignal: " + eegSignal);
+////					Log.e(TAG, "eegSignal: " + eegSignal / 16.0);
+
+//					eegSignal = 0;
+
+					processPacketEEG();
+
 				case CONCENTRATION:
-					Log.e(TAG, "CONCENTRATION" + p.getValues());
-					eegConcentration = 100 - (int)Math.round((p.getValues().get(0) * 100));
+					Log.e(TAG, "CONCENTRATION: " + p.getValues());
+
+					if (p.getValues().size() == 1) {
+						if (p.getValues().get(0) == 0.0)
+							eegConcentration = 0;
+						else
+							eegConcentration = 100 - (int)Math.round((p.getValues().get(0) * 100));
+					}
+
+					Log.i(TAG, "eegConcentration: " + eegConcentration);
+
+//					eegConcentration = 100 - (int)Math.round((p.getValues().get(MuseDataPacketType.CONCENTRATION.ordinal()) * 100));
 					break;
 				case MELLOW:
-					Log.e(TAG, "MELLOW" + p.getValues());
-					eegMellow = 100 - (int)Math.round((p.getValues().get(0) * 100));
+//					Log.e(TAG, "MELLOW" + p.getValues().get(MuseDataPacketType.MELLOW.ordinal()));
+//					Log.e(TAG, "MELLOW" + p.getValues().toString());
+//					eegMellow = 100 - (int)Math.round((p.getValues().get(MuseDataPacketType.MELLOW.ordinal()) * 100));
+
+					if (p.getValues().size() == 1) {
+						if (p.getValues().get(0) == 0.0)
+							eegMellow = 0;
+						else
+							eegMellow = 100 - (int)Math.round((p.getValues().get(0) * 100));
+					}
+
 					break;
 				default:
 					break;
@@ -532,10 +607,11 @@ public class MuseService extends Service {
 		@Override
 		public void receiveMuseArtifactPacket(MuseArtifactPacket p) {
 			if (p.getHeadbandOn() && p.getBlink()) {
-				Log.i("Artifacts", "blink");
+//				Log.i("Artifacts", "blink");
 				broadcastEventEEG("eegBlink", String.valueOf(255));
 			}
 		}
+
 
 
 		// ################################################################

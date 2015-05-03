@@ -47,7 +47,7 @@ public class ThinkGearService extends Service {
 	private static Number[] rawEEG = new Number[EEG_RAW_HISTORY_SIZE];
 	private static int arrayIndex = 0;
 
-//	private Looper mServiceLooper;
+	//	private Looper mServiceLooper;
 	private ServiceHandler mServiceHandler;
 	//	private final IBinder binder = new ThinkGearBinder();
 
@@ -506,18 +506,20 @@ public class ThinkGearService extends Service {
 
 	// ################################################################
 
-		private  void broadcastPacketEEG(HashMap<String, String> packet) {
+	private  void broadcastPacketEEG(HashMap<String, String> packet) {
 
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.thinkgear.packet");
 
-			intent.putExtra("Date", packet.get("Date")).putExtra("Time", packet.get("Time")).putExtra("Attention", packet.get("Attention"));
-			intent.putExtra("Meditation", packet.get("Meditation"));
-			intent.putExtra("Signal Level", packet.get("Signal Level"));
-//			intent.putExtra("Power", packet.get("Power"));
-			intent.putExtra("eegConnected", String.valueOf(eegConnected));
-			intent.putExtra("eegConnecting", String.valueOf(eegConnecting));
+		intent.putExtra("Date", packet.get("Date"));
+		intent.putExtra("Time", packet.get("Time"));
+		intent.putExtra("Attention", packet.get("Attention"));
+		intent.putExtra("Meditation", packet.get("Meditation"));
+		intent.putExtra("Signal Level", packet.get("Signal Level"));
+////			intent.putExtra("Power", packet.get("Power"));
+//		intent.putExtra("eegConnected", String.valueOf(eegConnected));
+//		intent.putExtra("eegConnecting", String.valueOf(eegConnecting));
 
-			LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
 	}
 

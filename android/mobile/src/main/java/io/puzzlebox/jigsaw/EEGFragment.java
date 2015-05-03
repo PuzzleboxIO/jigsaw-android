@@ -588,9 +588,7 @@ public class EEGFragment extends Fragment implements
 		 * Called when the "Connect" button is pressed
 		 */
 
-		Log.v(TAG, "connectHeadset()");
-
-		Log.e(TAG, String.valueOf(spinnerEEG.getSelectedItem()));
+		Log.v(TAG, "connectHeadset(): + spinnerEEG.getSelectedItem()");
 
 		switch (String.valueOf(spinnerEEG.getSelectedItem())) {
 
@@ -608,7 +606,6 @@ public class EEGFragment extends Fragment implements
 
 			case "InterAxon Muse":
 				if (! MuseService.eegConnected) {
-					Log.e(TAG, "! MuseService.eegConnected");
 					getActivity().startService(intentMuse);
 				} else {
 					disconnectHeadset();
