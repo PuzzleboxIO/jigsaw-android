@@ -271,11 +271,11 @@ public class EEGFragment extends Fragment implements
 
 		spinnerEEG = (Spinner) v.findViewById(R.id.spinnerEEG);
 
-		ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
-				  android.R.layout.simple_spinner_item, items);
-
 //		ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
-//				  R.layout.spinner_item, items);
+//				  android.R.layout.simple_spinner_item, items);
+
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+				  R.layout.spinner_item, items);
 
 //		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item,list);
 
