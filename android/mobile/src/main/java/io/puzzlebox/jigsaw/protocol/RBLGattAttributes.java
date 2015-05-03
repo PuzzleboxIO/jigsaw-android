@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.puzzlebox.jigsaw;
+package io.puzzlebox.jigsaw.protocol;
 
 import java.util.HashMap;
 

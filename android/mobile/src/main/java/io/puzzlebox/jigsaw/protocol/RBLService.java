@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package io.puzzlebox.jigsaw;
+package io.puzzlebox.jigsaw.protocol;
 
+import android.annotation.TargetApi;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -29,6 +30,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -38,6 +40,7 @@ import java.util.UUID;
  * Service for managing connection and data communication with a GATT server
  * hosted on a given Bluetooth LE device.
  */
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class RBLService extends Service {
 	private final static String TAG = RBLService.class.getSimpleName();
 
@@ -140,7 +143,8 @@ public class RBLService extends Service {
 	}
 
 	public class LocalBinder extends Binder {
-		RBLService getService() {
+//		RBLService getService() {
+		public RBLService getService() {
 			return RBLService.this;
 		}
 	}

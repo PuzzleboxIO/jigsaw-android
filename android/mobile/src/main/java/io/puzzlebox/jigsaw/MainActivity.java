@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements
 		String backStackName = "";
 		switch (position) {
 			case 0:
-//				backStackName = "welcome";
 				backStackName = "welcome";
 				try{
 					fragment = getFragmentManager().findFragmentByTag(backStackName);
