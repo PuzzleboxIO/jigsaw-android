@@ -3,8 +3,10 @@
 
     <string name="title_fragment_eeg">EEG</string>
 
-    <string name="label_attention">Attention</string>
-    <string name="label_meditation">Meditation</string>
+    <!--<string name="label_attention">Attention</string>-->
+    <!--<string name="label_meditation">Meditation</string>-->
+    <string name="label_attention">Concentration</string>
+    <string name="label_meditation">Mental Relaxation</string>
     <!--<string name="label_cognitiv">Cognitiv</string>-->
     <string name="label_signal">Sensor Contact</string>
     <string name="label_power">Target</string>

@@ -1,17 +1,13 @@
 package io.puzzlebox.jigsaw.protocol;
 
-import android.app.Activity;
 import android.app.Service;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.*;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.interaxon.libmuse.ConnectionState;
@@ -28,15 +24,12 @@ import com.interaxon.libmuse.MuseFileWriter;
 import com.interaxon.libmuse.MuseManager;
 import com.interaxon.libmuse.MusePreset;
 import com.interaxon.libmuse.MuseVersion;
-import com.neurosky.thinkgear.TGDevice;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
 /**
@@ -47,6 +40,9 @@ public class MuseService extends Service {
 	private final static String TAG = MuseService.class.getSimpleName();
 
 	public static boolean eegConnected = false;
+
+	public static int eegConcentration = 0;
+	public static int eegMellow = 0;
 
 	private ServiceHandler mServiceHandler;
 
@@ -128,12 +124,13 @@ public class MuseService extends Service {
 
 		Log.i("Muse Headband", "libmuse version=" + LibMuseVersion.SDK_VERSION);
 
-//		fileWriter = MuseManager.getMuseFileWriter(new File(
-//				  getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
-//				  "testlibmusefile.muse"));
+		// API 19
 		fileWriter = MuseManager.getMuseFileWriter(new File(
 				  getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
 				  "testlibmusefile.muse"));
+
+		fileWriter.addAnnotationString(1, "MainActivity onCreate");
+		dataListener.setFileWriter(fileWriter);
 
 		createService();
 
@@ -481,76 +478,6 @@ public class MuseService extends Service {
 
 	// ################################################################
 
-	public static int calculateSignal(int signal) {
-
-		/**
-		 * The ThinkGear protocol states that a signal level of 200 will be
-		 * returned when a clean ground/reference is not detected at the ear clip,
-		 *  and a value of 0 when the signal is perfectly clear. We need to
-		 *  convert this information into usable settings for the Signal
-		 *  progress bar
-		 */
-
-		int value;
-
-		switch (signal) {
-			case 200:
-				value = 0;
-				break;
-			case 0:
-				value = 100;
-				break;
-			default:
-				value = (int)(100 - ((signal / 200.0) * 100));
-				break;
-		}
-
-		return(value);
-
-	} // calculateSignal
-
-
-	// ################################################################
-
-//	public void updateStatusImage() {
-//
-//		if(DEBUG) {
-//			Log.v(TAG, (new StringBuilder("Attention: ")).append(eegAttention).toString());
-//			Log.v(TAG, (new StringBuilder("Meditation: ")).append(eegMeditation).toString());
-//			Log.v(TAG, (new StringBuilder("Power: ")).append(eegPower).toString());
-//			Log.v(TAG, (new StringBuilder("Signal: ")).append(eegSignal).toString());
-//			Log.v(TAG, (new StringBuilder("Connecting: ")).append(eegConnecting).toString());
-//			Log.v(TAG, (new StringBuilder("Connected: ")).append(eegConnected).toString());
-//		}
-////
-////		if(eegPower > 0) {
-////			imageViewStatus.setImageResource(R.drawable.status_4_active);
-////			return;
-////		}
-////
-////		if(eegSignal > 90) {
-////			imageViewStatus.setImageResource(R.drawable.status_3_processing);
-////			return;
-////		}
-////
-////		if(eegConnected) {
-////			imageViewStatus.setImageResource(R.drawable.status_2_connected);
-////			return;
-////		}
-////
-////		if(eegConnecting) {
-////			imageViewStatus.setImageResource(R.drawable.status_1_connecting);
-////			return;
-////		} else {
-////			imageViewStatus.setImageResource(R.drawable.status_default);
-////			return;
-////		}
-//
-//	} // updateStatusImage
-
-
-	// ################################################################
-
 	public void processPacketEEG() {
 		try {
 //			Log.e(TAG, "SessionSingleton.getInstance().updateTimestamp");
@@ -893,20 +820,39 @@ public class MuseService extends Service {
 		public void receiveMuseDataPacket(MuseDataPacket p) {
 			switch (p.getPacketType()) {
 				case EEG:
-					updateEeg(p.getValues());
+//					updateEeg(p.getValues());
+//					Log.e("updateEeg", "fp1: " + String.format(
+//							  "%6.2f", p.getValues().get(Eeg.FP1.ordinal())));
 					break;
-				case ACCELEROMETER:
-					updateAccelerometer(p.getValues());
-					break;
-				case ALPHA_RELATIVE:
-					updateAlphaRelative(p.getValues());
-					break;
+//				case ACCELEROMETER:
+//					updateAccelerometer(p.getValues());
+//					break;
+//				case ALPHA_RELATIVE:
+//					updateAlphaRelative(p.getValues());
+//					break;
 				case BATTERY:
 					fileWriter.addDataPacket(1, p);
 					// It's library client responsibility to flush the buffer,
 					// otherwise you may get memory overflow.
 					if (fileWriter.getBufferedMessagesSize() > 8096)
 						fileWriter.flush();
+					break;
+				case BETA_ABSOLUTE:
+					Log.d(TAG, "BETA_ABSOLUTE: " + p.getValues());
+					break;
+				case BETA_RELATIVE:
+					Log.d(TAG, "BETA_RELATIVE: " + p.getValues());
+					break;
+				case BETA_SCORE:
+					Log.d(TAG, "BETA_SCORE: " + p.getValues());
+					break;
+				case CONCENTRATION:
+					Log.e(TAG, "CONCENTRATION" + p.getValues());
+					eegConcentration = 100 - (int)Math.round((p.getValues().get(0) * 100));
+					break;
+				case MELLOW:
+					Log.e(TAG, "MELLOW" + p.getValues());
+					eegMellow = 100 - (int)Math.round((p.getValues().get(0) * 100));
 					break;
 				default:
 					break;
@@ -917,94 +863,95 @@ public class MuseService extends Service {
 		public void receiveMuseArtifactPacket(MuseArtifactPacket p) {
 			if (p.getHeadbandOn() && p.getBlink()) {
 				Log.i("Artifacts", "blink");
+				broadcastEventEEG("eegBlink", String.valueOf(255));
 			}
 		}
 
-		private void updateAccelerometer(final ArrayList<Double> data) {
-
-//			final View v = getActivity().getLayoutInflater().inflate(R.layout.fragment_muse, mContainer, false);
-
-//			Activity activity = activityRef.get();
-//			if (activity != null) {
-//				activity.runOnUiThread(new Runnable() {
-//					@Override
-//					public void run() {
-//						acc_x = (TextView) v.findViewById(R.id.acc_x);
-//						acc_y = (TextView) v.findViewById(R.id.acc_y);
-//						acc_z = (TextView) v.findViewById(R.id.acc_z);
-//						acc_x.setText(String.format(
-//								  "%6.2f", data.get(Accelerometer.FORWARD_BACKWARD.ordinal())));
-//						acc_y.setText(String.format(
-//								  "%6.2f", data.get(Accelerometer.UP_DOWN.ordinal())));
-//						acc_z.setText(String.format(
-//								  "%6.2f", data.get(Accelerometer.LEFT_RIGHT.ordinal())));
-//					}
-//				});
-//			}
-		}
-
-		private void updateEeg(final ArrayList<Double> data) {
-
-			Log.e("updateEeg", "fp1: " + String.format(
-					  "%6.2f", data.get(Eeg.FP1.ordinal())));
-
-//			tp9.setText(String.format(
-//					  "%6.2f", data.get(Eeg.TP9.ordinal())));
-//			fp1.setText(String.format(
-//					  "%6.2f", data.get(Eeg.FP1.ordinal())));
-//			fp2.setText(String.format(
-//					  "%6.2f", data.get(Eeg.FP2.ordinal())));
-//			tp10.setText(String.format(
-//					  "%6.2f", data.get(Eeg.TP10.ordinal())));
-
-//			final View v = getActivity().getLayoutInflater().inflate(R.layout.fragment_muse, mContainer, false);
-
-//		Activity activity = activityRef.get();
-//		if (activity != null) {
-//			activity.runOnUiThread(new Runnable() {
-//				@Override
-//				public void run() {
-////						TextView tp9 = (TextView) v.findViewById(R.id.eeg_tp9);
-////						TextView fp1 = (TextView) v.findViewById(R.id.eeg_fp1);
-////						TextView fp2 = (TextView) v.findViewById(R.id.eeg_fp2);
-////						TextView tp10 = (TextView) v.findViewById(R.id.eeg_tp10);
-//					tp9.setText(String.format(
-//							  "%6.2f", data.get(Eeg.TP9.ordinal())));
-//					fp1.setText(String.format(
-//							  "%6.2f", data.get(Eeg.FP1.ordinal())));
-//					fp2.setText(String.format(
-//							  "%6.2f", data.get(Eeg.FP2.ordinal())));
-//					tp10.setText(String.format(
-//							  "%6.2f", data.get(Eeg.TP10.ordinal())));
-//				}
-//			});
+//		private void updateAccelerometer(final ArrayList<Double> data) {
+//
+////			final View v = getActivity().getLayoutInflater().inflate(R.layout.fragment_muse, mContainer, false);
+//
+////			Activity activity = activityRef.get();
+////			if (activity != null) {
+////				activity.runOnUiThread(new Runnable() {
+////					@Override
+////					public void run() {
+////						acc_x = (TextView) v.findViewById(R.id.acc_x);
+////						acc_y = (TextView) v.findViewById(R.id.acc_y);
+////						acc_z = (TextView) v.findViewById(R.id.acc_z);
+////						acc_x.setText(String.format(
+////								  "%6.2f", data.get(Accelerometer.FORWARD_BACKWARD.ordinal())));
+////						acc_y.setText(String.format(
+////								  "%6.2f", data.get(Accelerometer.UP_DOWN.ordinal())));
+////						acc_z.setText(String.format(
+////								  "%6.2f", data.get(Accelerometer.LEFT_RIGHT.ordinal())));
+////					}
+////				});
+////			}
 //		}
-		}
 
-		private void updateAlphaRelative(final ArrayList<Double> data) {
-//			final View v = getActivity().getLayoutInflater().inflate(R.layout.fragment_muse, mContainer, false);
-
-//			Activity activity = activityRef.get();
-//			if (activity != null) {
-//				activity.runOnUiThread(new Runnable() {
-//					@Override
-//					public void run() {
-////						elem1 = (TextView) v.findViewById(R.id.elem1);
-////						elem2 = (TextView) v.findViewById(R.id.elem2);
-////						elem3 = (TextView) v.findViewById(R.id.elem3);
-////						elem4 = (TextView) v.findViewById(R.id.elem4);
-//						elem1.setText(String.format(
-//								  "%6.2f", data.get(Eeg.TP9.ordinal())));
-//						elem2.setText(String.format(
-//								  "%6.2f", data.get(Eeg.FP1.ordinal())));
-//						elem3.setText(String.format(
-//								  "%6.2f", data.get(Eeg.FP2.ordinal())));
-//						elem4.setText(String.format(
-//								  "%6.2f", data.get(Eeg.TP10.ordinal())));
-//					}
-//				});
-//			}
-		}
+//		private void updateEeg(final ArrayList<Double> data) {
+//
+////			Log.e("updateEeg", "fp1: " + String.format(
+////					  "%6.2f", data.get(Eeg.FP1.ordinal())));
+//
+////			tp9.setText(String.format(
+////					  "%6.2f", data.get(Eeg.TP9.ordinal())));
+////			fp1.setText(String.format(
+////					  "%6.2f", data.get(Eeg.FP1.ordinal())));
+////			fp2.setText(String.format(
+////					  "%6.2f", data.get(Eeg.FP2.ordinal())));
+////			tp10.setText(String.format(
+////					  "%6.2f", data.get(Eeg.TP10.ordinal())));
+//
+////			final View v = getActivity().getLayoutInflater().inflate(R.layout.fragment_muse, mContainer, false);
+//
+////		Activity activity = activityRef.get();
+////		if (activity != null) {
+////			activity.runOnUiThread(new Runnable() {
+////				@Override
+////				public void run() {
+//////						TextView tp9 = (TextView) v.findViewById(R.id.eeg_tp9);
+//////						TextView fp1 = (TextView) v.findViewById(R.id.eeg_fp1);
+//////						TextView fp2 = (TextView) v.findViewById(R.id.eeg_fp2);
+//////						TextView tp10 = (TextView) v.findViewById(R.id.eeg_tp10);
+////					tp9.setText(String.format(
+////							  "%6.2f", data.get(Eeg.TP9.ordinal())));
+////					fp1.setText(String.format(
+////							  "%6.2f", data.get(Eeg.FP1.ordinal())));
+////					fp2.setText(String.format(
+////							  "%6.2f", data.get(Eeg.FP2.ordinal())));
+////					tp10.setText(String.format(
+////							  "%6.2f", data.get(Eeg.TP10.ordinal())));
+////				}
+////			});
+////		}
+//		}
+//
+//		private void updateAlphaRelative(final ArrayList<Double> data) {
+////			final View v = getActivity().getLayoutInflater().inflate(R.layout.fragment_muse, mContainer, false);
+//
+////			Activity activity = activityRef.get();
+////			if (activity != null) {
+////				activity.runOnUiThread(new Runnable() {
+////					@Override
+////					public void run() {
+//////						elem1 = (TextView) v.findViewById(R.id.elem1);
+//////						elem2 = (TextView) v.findViewById(R.id.elem2);
+//////						elem3 = (TextView) v.findViewById(R.id.elem3);
+//////						elem4 = (TextView) v.findViewById(R.id.elem4);
+////						elem1.setText(String.format(
+////								  "%6.2f", data.get(Eeg.TP9.ordinal())));
+////						elem2.setText(String.format(
+////								  "%6.2f", data.get(Eeg.FP1.ordinal())));
+////						elem3.setText(String.format(
+////								  "%6.2f", data.get(Eeg.FP2.ordinal())));
+////						elem4.setText(String.format(
+////								  "%6.2f", data.get(Eeg.TP10.ordinal())));
+////					}
+////				});
+////			}
+//		}
 
 		public void setFileWriter(MuseFileWriter fileWriter) {
 			this.fileWriter  = fileWriter;
@@ -1157,21 +1104,21 @@ public class MuseService extends Service {
 //		}
 //	}
 
-		private void configure_library() {
-			muse.registerConnectionListener(connectionListener);
-			muse.registerDataListener(dataListener,
-					  MuseDataPacketType.ACCELEROMETER);
-			muse.registerDataListener(dataListener,
-					  MuseDataPacketType.EEG);
-			muse.registerDataListener(dataListener,
-					  MuseDataPacketType.ALPHA_RELATIVE);
-			muse.registerDataListener(dataListener,
-					  MuseDataPacketType.ARTIFACTS);
-			muse.registerDataListener(dataListener,
-					  MuseDataPacketType.BATTERY);
-			muse.setPreset(MusePreset.PRESET_14);
-			muse.enableDataTransmission(dataTransmission);
-		}
+//		private void configure_library() {
+//			muse.registerConnectionListener(connectionListener);
+//			muse.registerDataListener(dataListener,
+//					  MuseDataPacketType.ACCELEROMETER);
+//			muse.registerDataListener(dataListener,
+//					  MuseDataPacketType.EEG);
+//			muse.registerDataListener(dataListener,
+//					  MuseDataPacketType.ALPHA_RELATIVE);
+//			muse.registerDataListener(dataListener,
+//					  MuseDataPacketType.ARTIFACTS);
+//			muse.registerDataListener(dataListener,
+//					  MuseDataPacketType.BATTERY);
+//			muse.setPreset(MusePreset.PRESET_14);
+//			muse.enableDataTransmission(dataTransmission);
+//		}
 
 //	@Override
 //	public boolean onCreateOptionsMenu(Menu menu) {
