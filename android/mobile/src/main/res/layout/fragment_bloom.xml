@@ -4,10 +4,229 @@
              android:layout_height="match_parent"
              tools:context="io.puzzlebox.jigsaw.BloomFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/layoutScore"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:gravity="top"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textViewLabelAttention"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_medium"
+            android:text="@string/label_attention" />
+
+        <ProgressBar
+            android:id="@+id/progressBarAttention"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="25dip"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large" />
+
+        <SeekBar
+            android:id="@+id/seekBarAttention"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="72"
+            android:layout_marginLeft="@dimen/padding_large"
+            android:layout_marginRight="@dimen/padding_large"/>
+
+        <TextView
+            android:id="@+id/textViewLabelMeditation"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_medium"
+            android:text="@string/label_meditation" />
+
+        <ProgressBar
+            android:id="@+id/progressBarMeditation"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="25dip"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large" />
+
+        <SeekBar
+            android:id="@+id/seekBarMeditation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="0"
+            android:layout_marginLeft="@dimen/padding_large"
+            android:layout_marginRight="@dimen/padding_large"/>
+
+        <TextView
+            android:id="@+id/textViewLabelSignal"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_medium"
+            android:text="@string/label_signal" />
+
+        <ProgressBar
+            android:id="@+id/progressBarSignal"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="25dip"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large" />
+
+        <TextView
+            android:id="@+id/textViewLabelPower"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_medium"
+            android:text="@string/label_power" />
+
+        <ProgressBar
+            android:id="@+id/progressBarPower"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="25dip"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large" />
+
+        <LinearLayout
+            android:id="@+id/layoutControl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="0dp" >
+            </View>
+
+            <Button
+                android:id="@+id/connectBloom"
+                style="@style/button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_button"
+                android:text="@string/connectBloom"
+                android:layout_gravity="center"/>
+
+            <Button
+                android:id="@+id/buttonConnectEEG"
+                style="@style/button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_button"
+                android:text="@string/buttonConnectEEG"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:gravity="center"/>
+
+            <Button
+                android:id="@+id/buttonOpen"
+                style="@style/button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_button"
+                android:text="@string/buttonOpen"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <Button
+                android:id="@+id/buttonClose"
+                style="@style/button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_button"
+                android:text="@string/buttonClose"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <Button
+                android:id="@+id/buttonDemo"
+                style="@style/button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/custom_button"
+                android:text="@string/buttonDemo"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/textViewLabelServo"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_medium"
+            android:text="@string/label_servo" />
+
+        <SeekBar
+            android:id="@+id/ServoSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:max="100"
+            android:progress="0"
+            android:layout_marginLeft="@dimen/padding_large"
+            android:layout_marginRight="@dimen/padding_large"/>
+        <!--android:progressDrawable="@drawable/seekbar_style" />-->
+
+        <TextView
+            android:id="@+id/textViewLabelRange"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_medium"
+            android:text="@string/label_range" />
+
+        <ProgressBar
+            android:id="@+id/progressBarRange"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="25dip"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large" />
+
+        <!--<TextView-->
+        <!--android:id="@+id/textViewLabelBloom"-->
+        <!--style="@android:style/TextAppearance.Small"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingLeft="@dimen/padding_medium"-->
+        <!--android:text="@string/label_bloom" />-->
+
+        <!--<ProgressBar-->
+        <!--android:id="@+id/progressBarBloom"-->
+        <!--style="?android:attr/progressBarStyleHorizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="25dip"-->
+        <!--android:paddingLeft="@dimen/padding_large"-->
+        <!--android:paddingRight="@dimen/padding_large" />-->
+
+
+        <com.androidplot.xy.XYPlot
+            android:id="@+id/eegRawHistoryPlot"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            title="EEG Raw Wave" />
+
+
+    </LinearLayout>
+
 
 </FrameLayout>
