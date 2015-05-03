@@ -24,7 +24,8 @@ import io.puzzlebox.jigsaw.ui.NavigationDrawerAdapter;
 public class MainActivity extends AppCompatActivity implements
 		  WelcomeFragment.OnFragmentInteractionListener,
 		  SessionFragment.OnFragmentInteractionListener,
-		  EEGFragment.OnFragmentInteractionListener
+		  EEGFragment.OnFragmentInteractionListener,
+		  MuseFragment.OnFragmentInteractionListener
 {
 
 	private final static String TAG = MainActivity.class.getSimpleName();
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements
 		dataList.add(new DrawerItem(getString(R.string.title_fragment_welcome), R.drawable.ic_welcome));
 		dataList.add(new DrawerItem(getString(R.string.title_fragment_session), R.drawable.ic_welcome));
 		dataList.add(new DrawerItem(getString(R.string.title_fragment_eeg), R.drawable.ic_welcome));
+		dataList.add(new DrawerItem(getString(R.string.title_fragment_muse), R.drawable.ic_welcome));
 
 		adapter = new NavigationDrawerAdapter(this, R.layout.navigation_drawer_item,
 				  dataList);
@@ -139,16 +141,16 @@ public class MainActivity extends AppCompatActivity implements
 		String backStackName = "";
 		switch (position) {
 			case 0:
-//				fragment = new WelcomeFragment();
+//				backStackName = "welcome";
 				backStackName = "welcome";
 				try{
 					fragment = getFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
 					e.printStackTrace();
-//					fragment = new WelcomeFragment();
 				}
 				if (fragment == null)
-					fragment = new WelcomeFragment();
+//					fragment = new WelcomeFragment();
+					fragment = new EEGFragment();
 				break;
 			case 1:
 //				fragment = new SessionFragment();
@@ -172,6 +174,17 @@ public class MainActivity extends AppCompatActivity implements
 				}
 				if (fragment == null)
 					fragment = new EEGFragment();
+
+				break;
+			case 3:
+				backStackName = "muse";
+				try{
+					fragment = getFragmentManager().findFragmentByTag(backStackName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (fragment == null)
+					fragment = new MuseFragment();
 
 				break;
 			default:
