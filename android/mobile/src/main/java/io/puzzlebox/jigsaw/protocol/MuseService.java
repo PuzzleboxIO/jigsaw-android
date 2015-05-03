@@ -49,7 +49,6 @@ public class MuseService extends Service {
 	 * - Handle NEEDS_UPDATE connection state
 	 */
 
-
 	private final static String TAG = MuseService.class.getSimpleName();
 
 	public static boolean eegConnected = false;
@@ -58,6 +57,7 @@ public class MuseService extends Service {
 	public static int eegConcentration = 0;
 	public static int eegMellow = 0;
 	public static int eegSignal = 0;
+	public static int eegPower = 0;
 	public static String acc_x = "";
 	public static String acc_y = "";
 	public static String acc_z = "";

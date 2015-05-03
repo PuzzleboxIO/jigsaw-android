@@ -784,16 +784,39 @@ public class EEGFragment extends Fragment implements
 //			progressBarAttention.setProgress(eegAttention);
 //			progressBarMeditation.setProgress(eegMeditation);
 //		}
-		if (ThinkGearService.eegSignal < 100) {
-			ThinkGearService.eegAttention = 0;
-			ThinkGearService.eegMeditation = 0;
-			progressBarAttention.setProgress(ThinkGearService.eegAttention);
-			progressBarMeditation.setProgress(ThinkGearService.eegMeditation);
+
+		if (ThinkGearService.eegConnected) {
+
+			if (ThinkGearService.eegSignal < 100) {
+				ThinkGearService.eegAttention = 0;
+				ThinkGearService.eegMeditation = 0;
+				progressBarAttention.setProgress(ThinkGearService.eegAttention);
+				progressBarMeditation.setProgress(ThinkGearService.eegMeditation);
+			}
+
+			ThinkGearService.eegPower = calculateSpeed();
+
+			progressBarPower.setProgress(ThinkGearService.eegPower);
+
+
 		}
 
-		ThinkGearService.eegPower = calculateSpeed();
+		if (MuseService.eegConnected) {
+			Log.d(TAG, "MuseService.eegConnected: eegSignal: " + MuseService.eegSignal);
+//			if (MuseService.eegSignal < 100) {
+//				MuseService.eegConcentration = 0;
+//				MuseService.eegMellow = 0;
+//				progressBarAttention.setProgress(MuseService.eegConcentration);
+//				progressBarMeditation.setProgress(MuseService.eegMellow);
+//			}
 
-		progressBarPower.setProgress(ThinkGearService.eegPower);
+			MuseService.eegPower = calculateSpeed();
+
+			progressBarPower.setProgress(MuseService.eegPower);
+
+
+		}
+
 
 
 	} // updatePower
@@ -875,12 +898,14 @@ public class EEGFragment extends Fragment implements
 			int eegMeditation = Integer.valueOf(intent.getStringExtra("Meditation"));
 			int eegSignal = Integer.valueOf(intent.getStringExtra("Signal Level"));
 
+			Log.e(TAG, "eegAttention: " + eegAttention);
+
 			progressBarAttention.setProgress(eegAttention);
 			progressBarMeditation.setProgress(eegMeditation);
 			progressBarSignal.setProgress(eegSignal);
 
 			updatePower();
-			progressBarPower.setProgress(ThinkGearService.eegPower);
+//			progressBarPower.setProgress(ThinkGearService.eegPower);
 
 			progressBarBlink.setProgress(0);
 
