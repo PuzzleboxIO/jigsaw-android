@@ -55,8 +55,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import io.puzzlebox.jigsaw.data.SessionSingleton;
+import io.puzzlebox.jigsaw.protocol.MuseService;
 import io.puzzlebox.jigsaw.protocol.RBLGattAttributes;
 import io.puzzlebox.jigsaw.protocol.RBLService;
+import io.puzzlebox.jigsaw.protocol.ThinkGearService;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 
@@ -111,19 +113,19 @@ public class BloomFragment extends Fragment
 	 */
 
 
-//	boolean DEBUG = true;
-	boolean DEBUG = false;
+////	boolean DEBUG = true;
+//	boolean DEBUG = false;
 
 
-	int eegAttention = 0;
-	int eegMeditation = 0;
+//	int eegAttention = 0;
+//	int eegMeditation = 0;
 	int eegPower = 0;
-	int eegSignal = 0;
-	boolean eegConnected = false;
-	boolean eegConnecting = false;
-	boolean demoFlightMode = false;
-	Number[] rawEEG = new Number[512];
-	int arrayIndex = 0;
+//	int eegSignal = 0;
+//	boolean eegConnected = false;
+//	boolean eegConnecting = false;
+//	boolean demoFlightMode = false;
+//	Number[] rawEEG = new Number[512];
+//	int arrayIndex = 0;
 
 
 	int bloomRange = 0;
@@ -860,6 +862,19 @@ public class BloomFragment extends Fragment
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
+			int eegAttention = Integer.valueOf(intent.getStringExtra("Attention"));
+			int eegMeditation = Integer.valueOf(intent.getStringExtra("Meditation"));
+			int eegSignal = Integer.valueOf(intent.getStringExtra("Signal Level"));
+
+//			Log.e(TAG, "eegAttention: " + eegAttention);
+
+			progressBarAttention.setProgress(eegAttention);
+			progressBarMeditation.setProgress(eegMeditation);
+			progressBarSignal.setProgress(eegSignal);
+
+			updatePower();
+
+
 //			updateSessionTime();
 
 			sessionPlotSeries1 = updateSessionPlotHistory(
@@ -1295,37 +1310,37 @@ public class BloomFragment extends Fragment
 
 	public void updateStatusImage() {
 
-		if(DEBUG) {
-			Log.v(TAG, (new StringBuilder("Attention: ")).append(eegAttention).toString());
-			Log.v(TAG, (new StringBuilder("Meditation: ")).append(eegMeditation).toString());
-			Log.v(TAG, (new StringBuilder("Power: ")).append(eegPower).toString());
-			Log.v(TAG, (new StringBuilder("Signal: ")).append(eegSignal).toString());
-			Log.v(TAG, (new StringBuilder("Connecting: ")).append(eegConnecting).toString());
-			Log.v(TAG, (new StringBuilder("Connected: ")).append(eegConnected).toString());
-		}
-//
-//		if(eegPower > 0) {
-//			imageViewStatus.setImageResource(R.drawable.status_4_active);
-//			return;
+//		if(DEBUG) {
+//			Log.v(TAG, (new StringBuilder("Attention: ")).append(eegAttention).toString());
+//			Log.v(TAG, (new StringBuilder("Meditation: ")).append(eegMeditation).toString());
+//			Log.v(TAG, (new StringBuilder("Power: ")).append(eegPower).toString());
+//			Log.v(TAG, (new StringBuilder("Signal: ")).append(eegSignal).toString());
+//			Log.v(TAG, (new StringBuilder("Connecting: ")).append(eegConnecting).toString());
+//			Log.v(TAG, (new StringBuilder("Connected: ")).append(eegConnected).toString());
 //		}
-//
-//		if(eegSignal > 90) {
-//			imageViewStatus.setImageResource(R.drawable.status_3_processing);
-//			return;
-//		}
-//
-//		if(eegConnected) {
-//			imageViewStatus.setImageResource(R.drawable.status_2_connected);
-//			return;
-//		}
-//
-//		if(eegConnecting) {
-//			imageViewStatus.setImageResource(R.drawable.status_1_connecting);
-//			return;
-//		} else {
-//			imageViewStatus.setImageResource(R.drawable.status_default);
-//			return;
-//		}
+////
+////		if(eegPower > 0) {
+////			imageViewStatus.setImageResource(R.drawable.status_4_active);
+////			return;
+////		}
+////
+////		if(eegSignal > 90) {
+////			imageViewStatus.setImageResource(R.drawable.status_3_processing);
+////			return;
+////		}
+////
+////		if(eegConnected) {
+////			imageViewStatus.setImageResource(R.drawable.status_2_connected);
+////			return;
+////		}
+////
+////		if(eegConnecting) {
+////			imageViewStatus.setImageResource(R.drawable.status_1_connecting);
+////			return;
+////		} else {
+////			imageViewStatus.setImageResource(R.drawable.status_default);
+////			return;
+////		}
 
 	} // updateStatusImage
 
@@ -1381,131 +1396,131 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
-	private final Handler handlerThinkGear = new Handler() {
-
-		/**
-		 * Handles data packets from NeuroSky ThinkGear device
-		 */
-
-		public void handleMessage(Message msg) {
-
-			parseEEG(msg);
-
-		}
-
-	}; // handlerThinkGear
+//	private final Handler handlerThinkGear = new Handler() {
+//
+//		/**
+//		 * Handles data packets from NeuroSky ThinkGear device
+//		 */
+//
+//		public void handleMessage(Message msg) {
+//
+//			parseEEG(msg);
+//
+//		}
+//
+//	}; // handlerThinkGear
 
 
 	// ################################################################
 
-	public void parseEEG(Message msg) {
-
-		switch (msg.what) {
-
-			case TGDevice.MSG_STATE_CHANGE:
-
-				switch (msg.arg1) {
-					case TGDevice.STATE_IDLE:
-						break;
-					case TGDevice.STATE_CONNECTING:
-						if (DEBUG)
-							Log.v(TAG, "Connecting to EEG");
-//						appendDebugConsole("Connecting to EEG\n");
-						eegConnecting = true;
-						eegConnected = false;
-						updateStatusImage();
-						break;
-					case TGDevice.STATE_CONNECTED:
-						if (DEBUG)
-							Log.v(TAG, "EEG Connected");
-//						appendDebugConsole("Bluetooth Connected\n");
-						setButtonText(R.id.buttonConnectEEG, "Disconnect EEG");
-						eegConnecting = false;
-						eegConnected = true;
-						updateStatusImage();
-						tgDevice.start();
-						break;
-					case TGDevice.STATE_NOT_FOUND:
-						if (DEBUG)
-							Log.v(TAG, "EEG headset not found");
-//						appendDebugConsole("EEG headset not found\n");
-						eegConnecting = false;
-						eegConnected = false;
-						updateStatusImage();
-						break;
-					case TGDevice.STATE_NOT_PAIRED:
-						if (DEBUG)
-							Log.v(TAG, "EEG headset not paired");
-//						appendDebugConsole("EEG headset not paired\n");
-						eegConnecting = false;
-						eegConnected = false;
-						updateStatusImage();
-						break;
-					case TGDevice.STATE_DISCONNECTED:
-						if (DEBUG)
-							Log.v(TAG, "EEG Disconnected");
-//						appendDebugConsole("EEG Disconnected\n");
-						eegConnecting = false;
-						eegConnected = false;
-						updateStatusImage();
-//						disconnectHeadset();
-						break;
-				}
-
-				break;
-
-			case TGDevice.MSG_POOR_SIGNAL:
-				//			Log.v(TAG, "PoorSignal: " + msg.arg1);
-//				eegSignal = calculateSignal(msg.arg1);
-				progressBarSignal.setProgress(eegSignal);
-				updateStatusImage();
-				break;
-			case TGDevice.MSG_ATTENTION:
-				//			Log.v(TAG, "Attention: " + eegAttention);
-				eegAttention = msg.arg1;
-				progressBarAttention.setProgress(eegAttention);
-//				updatePower();
-
-				break;
-			case TGDevice.MSG_MEDITATION:
-				eegMeditation = msg.arg1;
-				if (DEBUG)
-					Log.v(TAG, "Meditation: " + eegMeditation);
-				progressBarMeditation.setProgress(eegMeditation);
-//				updatePower();
-
-				break;
-			case TGDevice.MSG_BLINK:
-				//tv.append("Blink: " + msg.arg1 + "\n");
-				break;
-			case TGDevice.MSG_RAW_DATA:
-
-				rawEEG[arrayIndex] = msg.arg1;
-				arrayIndex = arrayIndex + 1;
-
-//				if (arrayIndex == EEG_RAW_HISTORY_SIZE - 1)
-//					updateEEGRawHistory(rawEEG);
-
-				break;
-			case TGDevice.MSG_RAW_COUNT:
-				//tv.append("Raw Count: " + msg.arg1 + "\n");
-				break;
-			case TGDevice.MSG_RAW_MULTI:
-				//TGRawMulti rawM = (TGRawMulti)msg.obj;
-				//tv.append("Raw1: " + rawM.ch1 + "\nRaw2: " + rawM.ch2);
-			case TGDevice.MSG_HEART_RATE:
-				//				appendDebugConsole("Heart rate: " + msg.arg1 + "\n");
-				break;
-			case TGDevice.MSG_LOW_BATTERY:
-				// TODO Fragment Context
-//				Toast.makeText(((OrbitTabActivity)getActivity()), "EEG battery low!", Toast.LENGTH_SHORT).show();
-				Toast.makeText((getActivity()), "EEG battery low!", Toast.LENGTH_SHORT).show();
-				break;
-			default:
-				break;
-		}
-
-	} // handleMessage
+//	public void parseEEG(Message msg) {
+//
+//		switch (msg.what) {
+//
+//			case TGDevice.MSG_STATE_CHANGE:
+//
+//				switch (msg.arg1) {
+//					case TGDevice.STATE_IDLE:
+//						break;
+//					case TGDevice.STATE_CONNECTING:
+//						if (DEBUG)
+//							Log.v(TAG, "Connecting to EEG");
+////						appendDebugConsole("Connecting to EEG\n");
+//						eegConnecting = true;
+//						eegConnected = false;
+//						updateStatusImage();
+//						break;
+//					case TGDevice.STATE_CONNECTED:
+//						if (DEBUG)
+//							Log.v(TAG, "EEG Connected");
+////						appendDebugConsole("Bluetooth Connected\n");
+//						setButtonText(R.id.buttonConnectEEG, "Disconnect EEG");
+//						eegConnecting = false;
+//						eegConnected = true;
+//						updateStatusImage();
+//						tgDevice.start();
+//						break;
+//					case TGDevice.STATE_NOT_FOUND:
+//						if (DEBUG)
+//							Log.v(TAG, "EEG headset not found");
+////						appendDebugConsole("EEG headset not found\n");
+//						eegConnecting = false;
+//						eegConnected = false;
+//						updateStatusImage();
+//						break;
+//					case TGDevice.STATE_NOT_PAIRED:
+//						if (DEBUG)
+//							Log.v(TAG, "EEG headset not paired");
+////						appendDebugConsole("EEG headset not paired\n");
+//						eegConnecting = false;
+//						eegConnected = false;
+//						updateStatusImage();
+//						break;
+//					case TGDevice.STATE_DISCONNECTED:
+//						if (DEBUG)
+//							Log.v(TAG, "EEG Disconnected");
+////						appendDebugConsole("EEG Disconnected\n");
+//						eegConnecting = false;
+//						eegConnected = false;
+//						updateStatusImage();
+////						disconnectHeadset();
+//						break;
+//				}
+//
+//				break;
+//
+//			case TGDevice.MSG_POOR_SIGNAL:
+//				//			Log.v(TAG, "PoorSignal: " + msg.arg1);
+////				eegSignal = calculateSignal(msg.arg1);
+//				progressBarSignal.setProgress(eegSignal);
+//				updateStatusImage();
+//				break;
+//			case TGDevice.MSG_ATTENTION:
+//				//			Log.v(TAG, "Attention: " + eegAttention);
+//				eegAttention = msg.arg1;
+//				progressBarAttention.setProgress(eegAttention);
+////				updatePower();
+//
+//				break;
+//			case TGDevice.MSG_MEDITATION:
+//				eegMeditation = msg.arg1;
+//				if (DEBUG)
+//					Log.v(TAG, "Meditation: " + eegMeditation);
+//				progressBarMeditation.setProgress(eegMeditation);
+////				updatePower();
+//
+//				break;
+//			case TGDevice.MSG_BLINK:
+//				//tv.append("Blink: " + msg.arg1 + "\n");
+//				break;
+//			case TGDevice.MSG_RAW_DATA:
+//
+//				rawEEG[arrayIndex] = msg.arg1;
+//				arrayIndex = arrayIndex + 1;
+//
+////				if (arrayIndex == EEG_RAW_HISTORY_SIZE - 1)
+////					updateEEGRawHistory(rawEEG);
+//
+//				break;
+//			case TGDevice.MSG_RAW_COUNT:
+//				//tv.append("Raw Count: " + msg.arg1 + "\n");
+//				break;
+//			case TGDevice.MSG_RAW_MULTI:
+//				//TGRawMulti rawM = (TGRawMulti)msg.obj;
+//				//tv.append("Raw1: " + rawM.ch1 + "\nRaw2: " + rawM.ch2);
+//			case TGDevice.MSG_HEART_RATE:
+//				//				appendDebugConsole("Heart rate: " + msg.arg1 + "\n");
+//				break;
+//			case TGDevice.MSG_LOW_BATTERY:
+//				// TODO Fragment Context
+////				Toast.makeText(((OrbitTabActivity)getActivity()), "EEG battery low!", Toast.LENGTH_SHORT).show();
+//				Toast.makeText((getActivity()), "EEG battery low!", Toast.LENGTH_SHORT).show();
+//				break;
+//			default:
+//				break;
+//		}
+//
+//	} // handleMessage
 
 
 	// ################################################################
@@ -1760,15 +1775,15 @@ public class BloomFragment extends Fragment
 //	// ################################################################
 //
 //	//	public int updatePower() {
-//	public void updatePower() {
-//
-//		/**
-//		 * This method updates the power level of the
-//		 * "Throttle" and triggers the audio stream
-//		 * which is used to fly the helicopter
-//		 */
-//
-//		// Set Attention and Meditation to zero if we've lost signal
+	public void updatePower() {
+
+		/**
+		 * This method updates the power level of the
+		 * "Throttle" and triggers the audio stream
+		 * which is used to fly the helicopter
+		 */
+
+		// Set Attention and Meditation to zero if we've lost signal
 //		if (eegSignal < 100) {
 //			eegAttention = 0;
 //			eegMeditation = 0;
@@ -1779,15 +1794,51 @@ public class BloomFragment extends Fragment
 //		eegPower = calculateSpeed();
 //
 //		progressBarPower.setProgress(eegPower);
-//
-//
-//
-//		updateServoPosition();
-//		updateBloomRGB();
-//
-//
-//
-//
+
+
+
+		if (ThinkGearService.eegConnected) {
+
+			if (ThinkGearService.eegSignal < 100) {
+				ThinkGearService.eegAttention = 0;
+				ThinkGearService.eegMeditation = 0;
+				progressBarAttention.setProgress(ThinkGearService.eegAttention);
+				progressBarMeditation.setProgress(ThinkGearService.eegMeditation);
+			}
+
+			ThinkGearService.eegPower = calculateSpeed();
+			eegPower = ThinkGearService.eegPower;
+
+			progressBarPower.setProgress(ThinkGearService.eegPower);
+
+
+		}
+
+		if (MuseService.eegConnected) {
+
+//			Log.d(TAG, "MuseService.eegConnected: eegSignal: " + MuseService.eegSignal);
+//			if (MuseService.eegSignal < 100) {
+//				MuseService.eegConcentration = 0;
+//				MuseService.eegMellow = 0;
+//				progressBarAttention.setProgress(MuseService.eegConcentration);
+//				progressBarMeditation.setProgress(MuseService.eegMellow);
+//			}
+
+			MuseService.eegPower = calculateSpeed();
+
+			progressBarPower.setProgress(MuseService.eegPower);
+			eegPower = MuseService.eegPower;
+
+
+		}
+
+
+		updateServoPosition();
+		updateBloomRGB();
+
+
+
+
 //		// TODO Fragment Context
 //
 ////		((OrbitTabActivity)getActivity()).eegPower = eegPower;
@@ -1807,9 +1858,43 @@ public class BloomFragment extends Fragment
 ////			fragmentAdvanced.progressBarSignal.setProgress(eegSignal);
 ////			fragmentAdvanced.progressBarPower.setProgress(eegPower);
 ////		}
-//
-//
-//	} // updatePower
+
+
+	} // updatePower
+
+
+	// ################################################################
+
+	public int calculateSpeed() {
+
+		/**
+		 * This method is used for calculating whether
+		 * or not the "Attention" or "Meditation" levels
+		 * are sufficient to trigger the helicopter throttle
+		 */
+
+		int attention = progressBarAttention.getProgress();
+		int meditation = progressBarMeditation.getProgress();
+		int attentionSeekValue = seekBarAttention.getProgress();
+		int meditationSeekValue = seekBarMeditation.getProgress();
+
+		int speed = 0;
+
+		if (attention > attentionSeekValue)
+			speed = thresholdValuesAttention[attention];
+		if (meditation > meditationSeekValue)
+			speed = speed + thresholdValuesMeditation[meditation];
+
+		if (speed > maximumPower)
+			speed = maximumPower;
+		if (speed < minimumPower)
+			speed = 0;
+
+
+		return(speed);
+
+
+	} // calculateSpeed
 
 
 	// ################################################################
