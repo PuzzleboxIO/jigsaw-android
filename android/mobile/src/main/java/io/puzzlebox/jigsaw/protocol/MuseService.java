@@ -47,6 +47,7 @@ public class MuseService extends Service {
 	private final static String TAG = MuseService.class.getSimpleName();
 
 	public static boolean eegConnected = false;
+	public static boolean eegConnecting = false;
 
 	public static int eegConcentration = 0;
 	public static int eegMellow = 0;
@@ -56,11 +57,11 @@ public class MuseService extends Service {
 
 	private ServiceHandler mServiceHandler;
 
-	private Muse muse = null;
+	private static Muse muse = null;
 	private ConnectionListener connectionListener = null;
 	private DataListener dataListener = null;
 	private boolean dataTransmission = true;
-	private MuseFileWriter fileWriter = null;
+	private static MuseFileWriter fileWriter = null;
 
 	// ################################################################
 
@@ -226,24 +227,6 @@ public class MuseService extends Service {
 
 		Log.v(TAG, "connectHeadset()");
 
-//		if(bluetoothAdapter == null) {
-//
-//			// Alert user that Bluetooth is not available
-//			Toast.makeText(this, "Bluetooth not available", Toast.LENGTH_LONG).show();
-//
-//		} else {
-//
-//			if (tgDevice.getState() != TGDevice.STATE_CONNECTING && tgDevice.getState() != TGDevice.STATE_CONNECTED) {
-//				tgDevice.connect(rawEnabled);
-//			}
-//
-//
-//			else if (tgDevice.getState() == TGDevice.STATE_CONNECTED)
-//			/** "Disconnect" button was pressed */
-//				disconnectHeadset();
-//
-//		}
-
 		Spinner musesSpinner = new AppCompatSpinner(getApplicationContext());
 
 		MuseManager.refreshPairedMuses();
@@ -268,8 +251,6 @@ public class MuseService extends Service {
 		else {
 			muse = pairedMuses.get(musesSpinner.getSelectedItemPosition());
 
-			Log.e(TAG, "ConnectionState state = muse.getConnectionState();");
-
 			ConnectionState state = muse.getConnectionState();
 			if (state == ConnectionState.CONNECTED ||
 					  state == ConnectionState.CONNECTING) {
@@ -277,13 +258,9 @@ public class MuseService extends Service {
 				return;
 			}
 
-			Log.e(TAG, "configure_library();");
-
 			configure_library();
 
-			Log.e(TAG, "fileWriter.open();");
 			fileWriter.open();
-			Log.e(TAG, "fileWriter.addAnnotationString(1, \"Connect clicked\");");
 			fileWriter.addAnnotationString(1, "Connect clicked");
 			/**
 			 * In most cases libmuse native library takes care about
@@ -297,9 +274,6 @@ public class MuseService extends Service {
 				Log.e("ERROR: Muse Headband", e.toString());
 			}
 		}
-
-
-		Log.e(TAG, "end of connectHeadset");
 
 	} // connectHeadset
 
@@ -324,15 +298,44 @@ public class MuseService extends Service {
 //			tgDevice.stop();
 //			tgDevice.close();
 //		}
+//		updatedCurrentMuse();
+
+		muse.disconnect(true);
+		fileWriter.addAnnotationString(1, "Disconnect clicked");
+		fileWriter.flush();
+		fileWriter.close();
 
 	} // disconnectHeadset
 
 
 	// ################################################################
 
+	public void updatedCurrentMuse() {
+
+		Spinner musesSpinner = new AppCompatSpinner(getApplicationContext());
+
+		MuseManager.refreshPairedMuses();
+
+		List<Muse> pairedMuses = MuseManager.getPairedMuses();
+		List<String> spinnerItems = new ArrayList<String>();
+		for (Muse m: pairedMuses) {
+			String dev_id = m.getName() + "-" + m.getMacAddress();
+			Log.i("Muse Headband", dev_id);
+			spinnerItems.add(dev_id);
+		}
+
+		ArrayAdapter<String> adapterArray = new ArrayAdapter<String> (
+				  getApplicationContext(), android.R.layout.simple_spinner_item, spinnerItems);
+		musesSpinner.setAdapter(adapterArray);
+
+		muse = pairedMuses.get(musesSpinner.getSelectedItemPosition());
+
+	}
+
+	// ################################################################
+
 	public void processPacketEEG() {
 		try {
-//			Log.e(TAG, "SessionSingleton.getInstance().updateTimestamp");
 			SessionSingleton.getInstance().updateTimestamp();
 
 			HashMap<String, String> packet;
@@ -438,6 +441,20 @@ public class MuseService extends Service {
 					  " - " + Integer.toString(
 					  museVersion.getProtocolVersion());
 
+			if (current == ConnectionState.CONNECTED) {
+				eegConnected = true;
+				eegConnecting = false;
+				broadcastEventEEG("eegStatus", "STATE_CONNECTED");
+			} else if (current == ConnectionState.CONNECTING) {
+				eegConnected = false;
+				eegConnecting = true;
+				broadcastEventEEG("eegStatus", "STATE_CONNECTING");
+			} else if (current == ConnectionState.DISCONNECTED) {
+				eegConnected = false;
+				eegConnecting = false;
+				broadcastEventEEG("eegStatus", "STATE_DISCONNECTED");
+			}
+
 		}
 	}
 
@@ -463,11 +480,11 @@ public class MuseService extends Service {
 		@Override
 		public void receiveMuseDataPacket(MuseDataPacket p) {
 			switch (p.getPacketType()) {
-				case EEG:
+//				case EEG:
 //					updateEeg(p.getValues());
-//					Log.e("updateEeg", "fp1: " + String.format(
+//					Log.i("updateEeg", "fp1: " + String.format(
 //							  "%6.2f", p.getValues().get(Eeg.FP1.ordinal())));
-					break;
+//					break;
 //				case ACCELEROMETER:
 //					acc_x = String.format(
 //							  "%6.2f", p.getValues().get(Accelerometer.FORWARD_BACKWARD.ordinal()));
