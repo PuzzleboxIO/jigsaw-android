@@ -54,6 +54,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.puzzlebox.jigsaw.data.BloomSingleton;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 import io.puzzlebox.jigsaw.protocol.MuseService;
 import io.puzzlebox.jigsaw.protocol.RBLGattAttributes;
@@ -90,22 +91,22 @@ public class BloomFragment extends Fragment
 
 	private static TextView textViewSessionTime;
 
-	private BluetoothGattCharacteristic characteristicTx = null;
-	private RBLService mBluetoothLeService;
-	private BluetoothAdapter mBluetoothAdapter;
-	private BluetoothDevice mDevice = null;
-	private String mDeviceAddress;
-
-	private boolean flag = true;
-	private boolean connState = false;
-	private boolean scanFlag = false;
-
-	private byte[] data = new byte[3];
-	private static final int REQUEST_ENABLE_BT = 1;
-	private static final long SCAN_PERIOD = 2000;
-
-	final private static char[] hexArray = { '0', '1', '2', '3', '4', '5', '6',
-			  '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+//	private BluetoothGattCharacteristic characteristicTx = null;
+//	private RBLService mBluetoothLeService;
+//	private BluetoothAdapter mBluetoothAdapter;
+//	private BluetoothDevice mDevice = null;
+//	private String mDeviceAddress;
+//
+//	private boolean flag = true;
+//	private boolean connState = false;
+//	private boolean scanFlag = false;
+//
+//	private byte[] data = new byte[3];
+//	private static final int REQUEST_ENABLE_BT = 1;
+//	private static final long SCAN_PERIOD = 2000;
+//
+//	final private static char[] hexArray = { '0', '1', '2', '3', '4', '5', '6',
+//			  '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
 
 	/**
@@ -186,9 +187,9 @@ public class BloomFragment extends Fragment
 		@Override
 		public void onServiceConnected(ComponentName componentName,
 		                               IBinder service) {
-			mBluetoothLeService = ((RBLService.LocalBinder) service)
+			BloomSingleton.getInstance().mBluetoothLeService = ((RBLService.LocalBinder) service)
 					  .getService();
-			if (!mBluetoothLeService.initialize()) {
+			if (!BloomSingleton.getInstance().mBluetoothLeService.initialize()) {
 				Log.e(TAG, "Unable to initialize Bluetooth");
 				getActivity().finish();
 			}
@@ -196,7 +197,7 @@ public class BloomFragment extends Fragment
 
 		@Override
 		public void onServiceDisconnected(ComponentName componentName) {
-			mBluetoothLeService = null;
+			BloomSingleton.getInstance().mBluetoothLeService = null;
 		}
 	};
 
@@ -215,9 +216,9 @@ public class BloomFragment extends Fragment
 				Toast.makeText(getActivity(), "Bloom Connected",
 						  Toast.LENGTH_SHORT).show();
 
-				getGattService(mBluetoothLeService.getSupportedGattService());
+				getGattService(BloomSingleton.getInstance().mBluetoothLeService.getSupportedGattService());
 			} else if (RBLService.ACTION_DATA_AVAILABLE.equals(action)) {
-				data = intent.getByteArrayExtra(RBLService.EXTRA_DATA);
+				BloomSingleton.getInstance().data = intent.getByteArrayExtra(RBLService.EXTRA_DATA);
 
 //				readAnalogInValue(data);
 			} else if (RBLService.ACTION_GATT_RSSI.equals(action)) {
@@ -247,13 +248,8 @@ public class BloomFragment extends Fragment
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		if (getArguments() != null) {
-//			mParam1 = getArguments().getString(ARG_PARAM1);
-//			mParam2 = getArguments().getString(ARG_PARAM2);
-//		}
 	}
 
-//	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
@@ -403,7 +399,6 @@ public class BloomFragment extends Fragment
 
 			}
 
-//			@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 			                              boolean fromUser) {
@@ -411,8 +406,8 @@ public class BloomFragment extends Fragment
 
 				buf[1] = (byte) servoSeekBar.getProgress();
 
-				characteristicTx.setValue(buf);
-				mBluetoothLeService.writeCharacteristic(characteristicTx);
+				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 			}
 		});
 
@@ -421,11 +416,15 @@ public class BloomFragment extends Fragment
 //		rssiValue = (TextView) v.findViewById(R.id.rssiValue);
 
 		connectBloom = (Button) v.findViewById(R.id.connectBloom);
+		if (BloomSingleton.getInstance().connState)
+			setButtonEnable();
+
+
 		connectBloom.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (scanFlag == false) {
+				if (!BloomSingleton.getInstance().scanFlag) {
 					scanLeDevice();
 
 					Timer mTimer = new Timer();
@@ -433,10 +432,10 @@ public class BloomFragment extends Fragment
 
 						@Override
 						public void run() {
-							if (mDevice != null) {
-								mDeviceAddress = mDevice.getAddress();
-								mBluetoothLeService.connect(mDeviceAddress);
-								scanFlag = true;
+							if (BloomSingleton.getInstance().mDevice != null) {
+								BloomSingleton.getInstance().mDeviceAddress = BloomSingleton.getInstance().mDevice.getAddress();
+								BloomSingleton.getInstance().mBluetoothLeService.connect(BloomSingleton.getInstance().mDeviceAddress);
+								BloomSingleton.getInstance().scanFlag = true;
 							} else {
 								getActivity().runOnUiThread(new Runnable() {
 									public void run() {
@@ -451,18 +450,18 @@ public class BloomFragment extends Fragment
 								});
 							}
 						}
-					}, SCAN_PERIOD);
+					}, BloomSingleton.getInstance().SCAN_PERIOD);
 				}
 
-				System.out.println(connState);
+				System.out.println(BloomSingleton.getInstance().connState);
 //				Log.e(TAG, connState);
 //				if (connState == false) {
-				if (connState == false && mDeviceAddress != null) {
-					mBluetoothLeService.connect(mDeviceAddress);
+				if (BloomSingleton.getInstance().connState == false && BloomSingleton.getInstance().mDeviceAddress != null) {
+					BloomSingleton.getInstance().mBluetoothLeService.connect(BloomSingleton.getInstance().mDeviceAddress);
 				} else {
-					if (mBluetoothLeService != null) {
-						mBluetoothLeService.disconnect();
-						mBluetoothLeService.close();
+					if (BloomSingleton.getInstance().mBluetoothLeService != null) {
+						BloomSingleton.getInstance().mBluetoothLeService.disconnect();
+						BloomSingleton.getInstance().mBluetoothLeService.close();
 						setButtonDisable();
 					}
 				}
@@ -488,36 +487,33 @@ public class BloomFragment extends Fragment
 
 		buttonOpen = (Button) v.findViewById(R.id.buttonOpen);
 		buttonOpen.setOnClickListener(new View.OnClickListener() {
-//			@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 			@Override
 			public void onClick(View v) {
 				byte[] buf = new byte[] { (byte) 0x01, (byte) 0x00, (byte) 0x00 };
-				characteristicTx.setValue(buf);
-				mBluetoothLeService.writeCharacteristic(characteristicTx);
+				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 			}
 		});
 		buttonOpen.setVisibility(View.GONE);
 
 		buttonClose = (Button) v.findViewById(R.id.buttonClose);
 		buttonClose.setOnClickListener(new View.OnClickListener() {
-//			@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 			@Override
 			public void onClick(View v) {
 				byte[] buf = new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00 };
-				characteristicTx.setValue(buf);
-				mBluetoothLeService.writeCharacteristic(characteristicTx);
+				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 			}
 		});
 		buttonClose.setVisibility(View.GONE);
 
 		buttonDemo = (Button) v.findViewById(R.id.buttonDemo);
 		buttonDemo.setOnClickListener(new View.OnClickListener() {
-//			@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 			@Override
 			public void onClick(View v) {
 				byte[] buf = new byte[] { (byte) 0x05, (byte) 0x00, (byte) 0x00 };
-				characteristicTx.setValue(buf);
-				mBluetoothLeService.writeCharacteristic(characteristicTx);
+				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 			}
 		});
 
@@ -530,8 +526,8 @@ public class BloomFragment extends Fragment
 		}
 
 		final BluetoothManager mBluetoothManager = (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
-		mBluetoothAdapter = mBluetoothManager.getAdapter();
-		if (mBluetoothAdapter == null) {
+		BloomSingleton.getInstance().mBluetoothAdapter = mBluetoothManager.getAdapter();
+		if (BloomSingleton.getInstance().mBluetoothAdapter == null) {
 			Toast.makeText(getActivity(), "Ble not supported", Toast.LENGTH_SHORT)
 					  .show();
 			getActivity().finish();
@@ -757,15 +753,6 @@ public class BloomFragment extends Fragment
 
 		super.onPause();
 
-//		try {
-//
-//			disconnectHeadset();
-//
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			Log.v(TAG, "Exception: onPause()");
-//			e.printStackTrace();
-//		}
 
 		LocalBroadcastManager.getInstance(
 				  getActivity().getApplicationContext()).unregisterReceiver(
@@ -781,10 +768,13 @@ public class BloomFragment extends Fragment
 	public void onResume() {
 		super.onResume();
 
-		if (!mBluetoothAdapter.isEnabled()) {
+		updatePowerThresholds();
+		updatePower();
+
+		if (!BloomSingleton.getInstance().mBluetoothAdapter.isEnabled()) {
 			Intent enableBtIntent = new Intent(
 					  BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+			startActivityForResult(enableBtIntent, BloomSingleton.getInstance().REQUEST_ENABLE_BT);
 		}
 
 		getActivity().registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
@@ -998,18 +988,18 @@ public class BloomFragment extends Fragment
 //	}
 
 	private void setButtonEnable() {
-		flag = true;
-		connState = true;
+		BloomSingleton.getInstance().flag = true;
+		BloomSingleton.getInstance().connState = true;
 
-		servoSeekBar.setEnabled(flag);
+		servoSeekBar.setEnabled(BloomSingleton.getInstance().flag);
 		connectBloom.setText("Disconnect Bloom");
 	}
 
 	private void setButtonDisable() {
-		flag = false;
-		connState = false;
+		BloomSingleton.getInstance().flag = false;
+		BloomSingleton.getInstance().connState = false;
 
-		servoSeekBar.setEnabled(flag);
+		servoSeekBar.setEnabled(BloomSingleton.getInstance().flag);
 		connectBloom.setText("Connect Bloom");
 	}
 
@@ -1017,8 +1007,8 @@ public class BloomFragment extends Fragment
 		new Thread() {
 			public void run() {
 
-				while (flag) {
-					mBluetoothLeService.readRssi();
+				while (BloomSingleton.getInstance().flag) {
+					BloomSingleton.getInstance().mBluetoothLeService.readRssi();
 					try {
 						sleep(500);
 					} catch (InterruptedException e) {
@@ -1029,7 +1019,6 @@ public class BloomFragment extends Fragment
 		}.start();
 	}
 
-//	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	private void getGattService(BluetoothGattService gattService) {
 		if (gattService == null)
 			return;
@@ -1037,14 +1026,14 @@ public class BloomFragment extends Fragment
 		setButtonEnable();
 		startReadRssi();
 
-		characteristicTx = gattService
+		BloomSingleton.getInstance().characteristicTx = gattService
 				  .getCharacteristic(RBLService.UUID_BLE_SHIELD_TX);
 
 		BluetoothGattCharacteristic characteristicRx = gattService
 				  .getCharacteristic(RBLService.UUID_BLE_SHIELD_RX);
-		mBluetoothLeService.setCharacteristicNotification(characteristicRx,
+		BloomSingleton.getInstance().mBluetoothLeService.setCharacteristicNotification(characteristicRx,
 				  true);
-		mBluetoothLeService.readCharacteristic(characteristicRx);
+		BloomSingleton.getInstance().mBluetoothLeService.readCharacteristic(characteristicRx);
 	}
 
 	private static IntentFilter makeGattUpdateIntentFilter() {
@@ -1062,18 +1051,17 @@ public class BloomFragment extends Fragment
 	private void scanLeDevice() {
 		new Thread() {
 
-//			@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 			@Override
 			public void run() {
-				mBluetoothAdapter.startLeScan(mLeScanCallback);
+				BloomSingleton.getInstance().mBluetoothAdapter.startLeScan(mLeScanCallback);
 
 				try {
-					Thread.sleep(SCAN_PERIOD);
+					Thread.sleep(BloomSingleton.getInstance().SCAN_PERIOD);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 
-				mBluetoothAdapter.stopLeScan(mLeScanCallback);
+				BloomSingleton.getInstance().mBluetoothAdapter.stopLeScan(mLeScanCallback);
 			}
 		}.start();
 	}
@@ -1096,7 +1084,7 @@ public class BloomFragment extends Fragment
 					if (stringToUuidString(serviceUuid).equals(
 							  RBLGattAttributes.BLE_SHIELD_SERVICE
 										 .toUpperCase(Locale.ENGLISH))) {
-						mDevice = device;
+						BloomSingleton.getInstance().mDevice = device;
 					}
 				}
 			});
@@ -1108,8 +1096,8 @@ public class BloomFragment extends Fragment
 		int v;
 		for (int j = 0; j < bytes.length; j++) {
 			v = bytes[j] & 0xFF;
-			hexChars[j * 2] = hexArray[v >>> 4];
-			hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+			hexChars[j * 2] = BloomSingleton.getInstance().hexArray[v >>> 4];
+			hexChars[j * 2 + 1] = BloomSingleton.getInstance().hexArray[v & 0x0F];
 		}
 		return new String(hexChars);
 	}
@@ -1133,7 +1121,7 @@ public class BloomFragment extends Fragment
 	public void onStop() {
 		super.onStop();
 
-		flag = false;
+		BloomSingleton.getInstance().flag = false;
 
 		getActivity().unregisterReceiver(mGattUpdateReceiver);
 
@@ -1179,7 +1167,7 @@ public class BloomFragment extends Fragment
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// User chose not to enable Bluetooth.
-		if (requestCode == REQUEST_ENABLE_BT
+		if (requestCode == BloomSingleton.getInstance().REQUEST_ENABLE_BT
 				  && resultCode == Activity.RESULT_CANCELED) {
 			getActivity().finish();
 			return;
@@ -1940,7 +1928,6 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
-//	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 	public void updateBloomRGB() {
 
 
@@ -1991,23 +1978,23 @@ public class BloomFragment extends Fragment
 
 
 		if (sendRed)
-			if (characteristicTx != null) {
+			if (BloomSingleton.getInstance().characteristicTx != null) {
 
 				byte[] buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) bloomColorRed};
 
-				characteristicTx.setValue(buf);
-				mBluetoothLeService.writeCharacteristic(characteristicTx);
+				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 
 			}
 
 
 		if (sendBlue)
-			if (characteristicTx != null) {
+			if (BloomSingleton.getInstance().characteristicTx != null) {
 
 				byte[] buf = new byte[]{(byte) 0x0A, (byte) 0x02, (byte) bloomColorBlue};
 
-				characteristicTx.setValue(buf);
-				mBluetoothLeService.writeCharacteristic(characteristicTx);
+				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 
 			}
 

@@ -490,7 +490,7 @@ public class ThinkGearService extends Service {
 			packet.put("Signal Level", String.valueOf(eegSignal));
 //			packet.put("Power", String.valueOf(eegPower));
 
-			Log.d(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
+			Log.v(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
 			SessionSingleton.getInstance().appendData(packet);
 
 			//				if (arrayIndex == EEG_RAW_HISTORY_SIZE - 1) {

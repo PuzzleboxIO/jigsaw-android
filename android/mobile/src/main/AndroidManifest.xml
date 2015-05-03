@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.puzzlebox.jigsaw" >
+          package="io.puzzlebox.jigsaw" >
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -32,15 +32,17 @@
         <service
             android:name=".protocol.ThinkGearService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false" />
 
         <service
             android:name=".protocol.MuseService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false" />
 
-    </application>
+        <service
+            android:name=".protocol.RBLService"
+            android:enabled="true" />
 
-</manifest>
+</application>
+
+    </manifest>
