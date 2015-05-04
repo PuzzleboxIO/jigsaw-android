@@ -20,6 +20,11 @@ Instructions:
 
 Certain devices require downloading of proprietary SDK libraries:
 
+- The .jar files should be added to mobile/libs
+
+- Please verify the filenames against listing in mobile/build.gradle
+
+
 NeuroSky MindWave Mobile EEG
 http://store.neurosky.com/products/developer-tools-3-android
 
@@ -28,8 +33,3 @@ https://emotiv.com/store/
 
 InterAxon Muse
 https://sites.google.com/a/interaxon.ca/muse-developer-site/download
-
-
-- The .jar files should be added to mobile/libs
-
-- Please verify the filenames against listing in mobile/build.gradle
