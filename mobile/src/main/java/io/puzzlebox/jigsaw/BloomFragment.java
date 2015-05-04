@@ -646,6 +646,8 @@ public class BloomFragment extends Fragment
 				  getActivity().getApplicationContext()).unregisterReceiver(
 				  mPacketReceiver);
 
+		getActivity().unregisterReceiver(mGattUpdateReceiver);
+
 
 	} // onPause
 
