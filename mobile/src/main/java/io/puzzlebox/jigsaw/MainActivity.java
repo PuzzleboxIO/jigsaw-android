@@ -74,10 +74,10 @@ public class MainActivity extends AppCompatActivity implements
 
 
 		// Add Drawer Item to dataList
-		dataList.add(new DrawerItem(getString(R.string.title_fragment_welcome), R.drawable.ic_welcome));
-		dataList.add(new DrawerItem(getString(R.string.title_fragment_session), R.drawable.ic_welcome));
-		dataList.add(new DrawerItem(getString(R.string.title_fragment_eeg), R.drawable.ic_welcome));
-		dataList.add(new DrawerItem(getString(R.string.title_fragment_bloom), R.drawable.ic_welcome));
+		dataList.add(new DrawerItem(getString(R.string.title_fragment_welcome), R.mipmap.ic_puzzlebox));
+		dataList.add(new DrawerItem(getString(R.string.title_fragment_session), R.mipmap.ic_session));
+		dataList.add(new DrawerItem(getString(R.string.title_fragment_eeg), R.mipmap.ic_eeg));
+		dataList.add(new DrawerItem(getString(R.string.title_fragment_bloom), R.mipmap.ic_bloom));
 
 		adapter = new NavigationDrawerAdapter(this, R.layout.navigation_drawer_item,
 				  dataList);
