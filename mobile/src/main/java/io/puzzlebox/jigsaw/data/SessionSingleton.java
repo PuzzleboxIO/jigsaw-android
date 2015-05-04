@@ -30,6 +30,8 @@ public class SessionSingleton {
 	private static Date currentTimestamp = new Date();
 	private static Date sessionTimestamp = new Date();
 
+	private static String sessionName;
+
 	private static String sessionFilename;
 
 	private static ArrayList<HashMap<String, String>> data = new ArrayList<>();
@@ -158,6 +160,17 @@ public class SessionSingleton {
 		Date mDate = new Date();
 		SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
 		return mDateFormat.format(mDate);
+	}
+
+
+	// ################################################################
+
+	public void setSessionName(String profileName) {
+		sessionName = profileName;
+	}
+
+	public String getSessionName() {
+		return sessionName;
 	}
 
 
@@ -322,8 +335,10 @@ public class SessionSingleton {
 		if (filepath == null)
 			filepath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 
-		if (filename == null)
-			filename = getTimestampPS4();
+		if (filename == null) {
+//			filename = getTimestampPS4();
+			filename = sessionName + "_" + getTimestampPS4();
+		}
 
 		Log.i(TAG, "exportDataToCSV: " + filepath + "/" + filename + ".csv");
 
@@ -383,7 +398,8 @@ public class SessionSingleton {
 		i.setType("application/csv"); // Produces the most correct options in the share menu
 		try {
 
-			sessionFilename = SessionSingleton.getInstance().getTimestampPS4() + ".csv";
+//			sessionFilename = SessionSingleton.getInstance().getTimestampPS4() + ".csv";
+			sessionFilename = sessionName + "_" + SessionSingleton.getInstance().getTimestampPS4() + ".csv";
 
 			String tempFilePath = Environment.getExternalStorageDirectory().toString()
 					  + File.separator + sessionFilename;

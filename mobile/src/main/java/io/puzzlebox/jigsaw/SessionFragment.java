@@ -16,6 +16,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +46,7 @@ public class SessionFragment extends Fragment {
 
 	private final static String TAG = SessionFragment.class.getSimpleName();
 
+	private static EditText editTextSessionProfile;
 	private static TextView textViewSessionTime;
 
 	private static XYPlot sessionPlot1 = null;
@@ -85,6 +89,28 @@ public class SessionFragment extends Fragment {
 
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.fragment_session, container, false);
+
+		editTextSessionProfile = (EditText) v.findViewById(R.id.editTextSessionProfile);
+
+		if (SessionSingleton.getInstance().getSessionName() == null)
+			SessionSingleton.getInstance().setSessionName(getString(R.string.session_profile));
+
+		editTextSessionProfile.setText(SessionSingleton.getInstance().getSessionName());
+
+		editTextSessionProfile.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				SessionSingleton.getInstance().setSessionName(editTextSessionProfile.getText().toString());
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		});
 
 		textViewSessionTime = (TextView) v.findViewById(R.id.textViewSessionTime);
 
