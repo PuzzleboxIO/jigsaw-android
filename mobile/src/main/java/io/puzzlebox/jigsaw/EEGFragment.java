@@ -207,7 +207,7 @@ public class EEGFragment extends Fragment implements
 
 		// setup the Raw EEG History plot
 		eegRawHistoryPlot = (XYPlot) v.findViewById(R.id.eegRawHistoryPlot);
-		eegRawHistorySeries = new SimpleXYSeries("Raw EEG");
+//		eegRawHistorySeries = new SimpleXYSeries("Raw EEG");
 
 		// Use index value as xVal, instead of explicit, user provided xVals.
 		//		eegRawHistorySeries.useImplicitXVals();

@@ -11,6 +11,8 @@ import io.puzzlebox.jigsaw.protocol.RBLService;
  */
 public class BloomSingleton {
 
+	public boolean demoActive = false;
+
 	public BluetoothGattCharacteristic characteristicTx = null;
 	public RBLService mBluetoothLeService;
 	public BluetoothAdapter mBluetoothAdapter;

@@ -78,10 +78,10 @@ public class BloomFragment extends Fragment
 
 	private OnFragmentInteractionListener mListener;
 
-	private static XYPlot sessionPlot1 = null;
-	private static SimpleXYSeries sessionPlotSeries1 = null;
-	private static XYPlot sessionPlot2 = null;
-	private static SimpleXYSeries sessionPlotSeries2 = null;
+//	private static XYPlot sessionPlot1 = null;
+//	private static SimpleXYSeries sessionPlotSeries1 = null;
+//	private static XYPlot sessionPlot2 = null;
+//	private static SimpleXYSeries sessionPlotSeries2 = null;
 
 	View v;
 
@@ -118,22 +118,7 @@ public class BloomFragment extends Fragment
 	/**
 	 * Configuration
 	 */
-
-
-////	boolean DEBUG = true;
-//	boolean DEBUG = false;
-
-
-//	int eegAttention = 0;
-//	int eegMeditation = 0;
 	int eegPower = 0;
-//	int eegSignal = 0;
-//	boolean eegConnected = false;
-//	boolean eegConnecting = false;
-//	boolean demoFlightMode = false;
-//	Number[] rawEEG = new Number[512];
-//	int arrayIndex = 0;
-
 
 	int bloomRange = 0;
 	int bloomRangeMax = 128;
@@ -165,28 +150,8 @@ public class BloomFragment extends Fragment
 	int minimumPower = 0; // minimum power for the bloom
 	int maximumPower = 100; // maximum power for the bloom
 
-//	private final int EEG_RAW_HISTORY_SIZE = 512; // number of points to plot in EEG history
-//	private XYPlot eegRawHistoryPlot = null;
-//	private SimpleXYSeries eegRawHistorySeries = null;
 
-
-
-	/**
-	 * Bluetooth
-	 */
-	BluetoothAdapter bluetoothAdapter;
-	//	ArrayList<String> pairedBluetoothDevices;
-
-
-	/**
-	 * NeuroSky ThinkGear Device
-	 */
-	TGDevice tgDevice;
-	int tgSignal = 0;
-	//	final boolean rawEnabled = false;
-	final boolean rawEnabled = true;
-
-
+	// ################################################################
 
 	private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -206,6 +171,9 @@ public class BloomFragment extends Fragment
 			BloomSingleton.getInstance().mBluetoothLeService = null;
 		}
 	};
+
+
+	// ################################################################
 
 	private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
 		@Override
@@ -234,27 +202,32 @@ public class BloomFragment extends Fragment
 	};
 
 
+	// ################################################################
 
-
-
-//	public static BloomFragment newInstance(String param1, String param2) {
 	public static BloomFragment newInstance() {
 		BloomFragment fragment = new BloomFragment();
 		Bundle args = new Bundle();
-//		args.putString(ARG_PARAM1, param1);
-//		args.putString(ARG_PARAM2, param2);
 		fragment.setArguments(args);
 		return fragment;
 	}
+
+
+	// ################################################################
 
 	public BloomFragment() {
 		// Required empty public constructor
 	}
 
+
+	// ################################################################
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
+
+
+	// ################################################################
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -324,8 +297,6 @@ public class BloomFragment extends Fragment
 //		progressBarBloom.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 
-
-
 //		// setup the Raw EEG History plot
 //		eegRawHistoryPlot = (XYPlot) v.findViewById(R.id.eegRawHistoryPlot);
 //		eegRawHistorySeries = new SimpleXYSeries("Raw EEG");
@@ -378,7 +349,6 @@ public class BloomFragment extends Fragment
 //		}
 
 
-
 		seekBarAttention = (SeekBar) v.findViewById(R.id.seekBarAttention);
 		seekBarAttention.setOnSeekBarChangeListener(this);
 		seekBarMeditation = (SeekBar) v.findViewById(R.id.seekBarMeditation);
@@ -386,7 +356,6 @@ public class BloomFragment extends Fragment
 
 
 //		imageViewStatus = (ImageView) v.findViewById(R.id.imageViewStatus);
-
 
 
 		servoSeekBar = (SeekBar) v.findViewById(R.id.ServoSeekBar);
@@ -416,7 +385,6 @@ public class BloomFragment extends Fragment
 				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 			}
 		});
-
 
 
 //		rssiValue = (TextView) v.findViewById(R.id.rssiValue);
@@ -475,22 +443,6 @@ public class BloomFragment extends Fragment
 		});
 
 
-
-
-
-//		connectEEG = (Button) v.findViewById(R.id.buttonConnectEEG);
-//		connectEEG.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//
-//				connectHeadset(v);
-//
-//			}
-//		});
-
-
-
-
 		buttonOpen = (Button) v.findViewById(R.id.buttonOpen);
 		buttonOpen.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -517,7 +469,13 @@ public class BloomFragment extends Fragment
 		buttonDemo.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				byte[] buf = new byte[] { (byte) 0x05, (byte) 0x00, (byte) 0x00 };
+				byte[] buf = new byte[]{(byte) 0x05, (byte) 0x00, (byte) 0x00};
+				if (BloomSingleton.getInstance().demoActive) {
+					BloomSingleton.getInstance().demoActive = true;
+				} else {
+					buf = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00};
+					BloomSingleton.getInstance().demoActive = false;
+				}
 				BloomSingleton.getInstance().characteristicTx.setValue(buf);
 				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
 			}
@@ -546,141 +504,101 @@ public class BloomFragment extends Fragment
 		getActivity().bindService(gattServiceIntent, mServiceConnection, getActivity().BIND_AUTO_CREATE);
 
 
-//		return inflater.inflate(R.layout.fragment_remote_control, container, false);
-
-
-//		/**
-//		 * Prepare Bluetooth and NeuroSky ThinkGear EEG interface
-//		 */
+//		// setup the Session History plot
+//		sessionPlot1 = (XYPlot) v.findViewById(R.id.sessionPlot1);
+//		sessionPlotSeries1 = new SimpleXYSeries("Session Plot");
 //
-//		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+//		// Setup the boundary mode, boundary values only applicable in FIXED mode.
 //
-//		if (bluetoothAdapter == null) {
-//			// Alert user that Bluetooth is not available
-//			// TODO Fix for Fragment Context
-////			Toast.makeText(((OrbitTabActivity) getActivity()), "Bluetooth not available", Toast.LENGTH_LONG).show();
-//			Toast.makeText((getActivity()), "Bluetooth not available", Toast.LENGTH_LONG).show();
+//		if (sessionPlot1 != null) {
 //
-//		} else {
-//			/** create the TGDevice */
-//			tgDevice = new TGDevice(bluetoothAdapter, handlerThinkGear);
+//			sessionPlot1.setDomainBoundaries(0, 30, BoundaryMode.FIXED);
+////			sessionPlot1.setRangeBoundaries(0, 100, BoundaryMode.GROW);
+//			sessionPlot1.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
 //
-//			/** Retrieve a list of paired Bluetooth adapters */
-//			//			Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
-//			//			pairedBluetoothDevices = new ArrayList<String>(Arrays.asList(pairedDevices.toString()));
-//			/**
-//			 * NOTE: To get device names iterate through pairedBluetoothDevices
-//			 * and call the getName() method on each BluetoothDevice object.
-//			 */
+////			sessionPlot1.addSeries(sessionPlotSeries1, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
+//			sessionPlot1.addSeries(sessionPlotSeries1, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null, null));
+//
+//			// Thin out domain and range tick values so they don't overlap
+//			sessionPlot1.setDomainStepValue(1);
+//			sessionPlot1.setTicksPerRangeLabel(10);
+//
+//			sessionPlot1.setRangeLabel("Attention");
+//
+//			// Sets the dimensions of the widget to exactly contain the text contents
+//			sessionPlot1.getDomainLabelWidget().pack();
+//			sessionPlot1.getRangeLabelWidget().pack();
+//
+//			// Only display whole numbers in labels
+//			sessionPlot1.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
+//			sessionPlot1.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
+//
+//			// Hide domain and range labels
+//			sessionPlot1.getGraphWidget().setDomainLabelWidth(0);
+//			sessionPlot1.getGraphWidget().setRangeLabelWidth(0);
+//
+//			// Hide legend
+//			sessionPlot1.getLegendWidget().setVisible(false);
+//
+//			// setGridPadding(float left, float top, float right, float bottom)
+//			sessionPlot1.getGraphWidget().setGridPadding(0, 0, 0, 0);
+//
+//
+//			//		sessionPlot1.getGraphWidget().setDrawMarkersEnabled(false);
+//
+//			//		final PlotStatistics histStats = new PlotStatistics(1000, false);
+//			//		sessionPlot1.addListener(histStats);
+//
 //		}
-
-
-
-
-
-
-
-		// setup the Session History plot
-		sessionPlot1 = (XYPlot) v.findViewById(R.id.sessionPlot1);
-		sessionPlotSeries1 = new SimpleXYSeries("Session Plot");
-
-		// Setup the boundary mode, boundary values only applicable in FIXED mode.
-
-		if (sessionPlot1 != null) {
-
-			sessionPlot1.setDomainBoundaries(0, 30, BoundaryMode.FIXED);
-//			sessionPlot1.setRangeBoundaries(0, 100, BoundaryMode.GROW);
-			sessionPlot1.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
-
-//			sessionPlot1.addSeries(sessionPlotSeries1, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
-			sessionPlot1.addSeries(sessionPlotSeries1, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null, null));
-
-			// Thin out domain and range tick values so they don't overlap
-			sessionPlot1.setDomainStepValue(1);
-			sessionPlot1.setTicksPerRangeLabel(10);
-
-			sessionPlot1.setRangeLabel("Attention");
-
-			// Sets the dimensions of the widget to exactly contain the text contents
-			sessionPlot1.getDomainLabelWidget().pack();
-			sessionPlot1.getRangeLabelWidget().pack();
-
-			// Only display whole numbers in labels
-			sessionPlot1.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
-			sessionPlot1.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
-
-			// Hide domain and range labels
-			sessionPlot1.getGraphWidget().setDomainLabelWidth(0);
-			sessionPlot1.getGraphWidget().setRangeLabelWidth(0);
-
-			// Hide legend
-			sessionPlot1.getLegendWidget().setVisible(false);
-
-			// setGridPadding(float left, float top, float right, float bottom)
-			sessionPlot1.getGraphWidget().setGridPadding(0, 0, 0, 0);
-
-
-			//		sessionPlot1.getGraphWidget().setDrawMarkersEnabled(false);
-
-			//		final PlotStatistics histStats = new PlotStatistics(1000, false);
-			//		sessionPlot1.addListener(histStats);
-
-		}
-
-
-
-		// setup the Session History plot
-		sessionPlot2 = (XYPlot) v.findViewById(R.id.sessionPlot2);
-		sessionPlotSeries2 = new SimpleXYSeries("Session Plot");
-
-		// Setup the boundary mode, boundary values only applicable in FIXED mode.
-
-		if (sessionPlot2 != null) {
-
-			sessionPlot2.setDomainBoundaries(0, 30, BoundaryMode.FIXED);
-//			sessionPlot2.setRangeBoundaries(0, 100, BoundaryMode.GROW);
-			sessionPlot2.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
-
-//			sessionPlot2.addSeries(sessionPlotSeries2, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
-			sessionPlot2.addSeries(sessionPlotSeries2, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null, null));
-
-			// Thin out domain and range tick values so they don't overlap
-			sessionPlot2.setDomainStepValue(1);
-			sessionPlot2.setTicksPerRangeLabel(10);
-
-			sessionPlot2.setRangeLabel("Meditation");
-
-			// Sets the dimensions of the widget to exactly contain the text contents
-			sessionPlot2.getDomainLabelWidget().pack();
-			sessionPlot2.getRangeLabelWidget().pack();
-
-			// Only display whole numbers in labels
-			sessionPlot2.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
-			sessionPlot2.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
-
-			// Hide domain and range labels
-			sessionPlot2.getGraphWidget().setDomainLabelWidth(0);
-			sessionPlot2.getGraphWidget().setRangeLabelWidth(0);
-
-			// Hide legend
-			sessionPlot2.getLegendWidget().setVisible(false);
-
-			// setGridPadding(float left, float top, float right, float bottom)
-			sessionPlot2.getGraphWidget().setGridPadding(0, 0, 0, 0);
-
-
-			//		sessionPlot2.getGraphWidget().setDrawMarkersEnabled(false);
-
-			//		final PlotStatistics histStats = new PlotStatistics(1000, false);
-			//		sessionPlot2.addListener(histStats);
-
-		}
-
-
-
-
-
-
+//
+//
+//
+//		// setup the Session History plot
+//		sessionPlot2 = (XYPlot) v.findViewById(R.id.sessionPlot2);
+//		sessionPlotSeries2 = new SimpleXYSeries("Session Plot");
+//
+//		// Setup the boundary mode, boundary values only applicable in FIXED mode.
+//
+//		if (sessionPlot2 != null) {
+//
+//			sessionPlot2.setDomainBoundaries(0, 30, BoundaryMode.FIXED);
+////			sessionPlot2.setRangeBoundaries(0, 100, BoundaryMode.GROW);
+//			sessionPlot2.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
+//
+////			sessionPlot2.addSeries(sessionPlotSeries2, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
+//			sessionPlot2.addSeries(sessionPlotSeries2, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.RED, null, null));
+//
+//			// Thin out domain and range tick values so they don't overlap
+//			sessionPlot2.setDomainStepValue(1);
+//			sessionPlot2.setTicksPerRangeLabel(10);
+//
+//			sessionPlot2.setRangeLabel("Meditation");
+//
+//			// Sets the dimensions of the widget to exactly contain the text contents
+//			sessionPlot2.getDomainLabelWidget().pack();
+//			sessionPlot2.getRangeLabelWidget().pack();
+//
+//			// Only display whole numbers in labels
+//			sessionPlot2.getGraphWidget().setDomainValueFormat(new DecimalFormat("0"));
+//			sessionPlot2.getGraphWidget().setRangeValueFormat(new DecimalFormat("0"));
+//
+//			// Hide domain and range labels
+//			sessionPlot2.getGraphWidget().setDomainLabelWidth(0);
+//			sessionPlot2.getGraphWidget().setRangeLabelWidth(0);
+//
+//			// Hide legend
+//			sessionPlot2.getLegendWidget().setVisible(false);
+//
+//			// setGridPadding(float left, float top, float right, float bottom)
+//			sessionPlot2.getGraphWidget().setGridPadding(0, 0, 0, 0);
+//
+//
+//			//		sessionPlot2.getGraphWidget().setDrawMarkersEnabled(false);
+//
+//			//		final PlotStatistics histStats = new PlotStatistics(1000, false);
+//			//		sessionPlot2.addListener(histStats);
+//
+//		}
 
 
 		/**
@@ -692,17 +610,7 @@ public class BloomFragment extends Fragment
 //		updatePowerThresholds();
 //		updatePower();
 
-
-
 		return v;
-
-
-
-
-
-
-
-
 
 	}
 
@@ -748,9 +656,6 @@ public class BloomFragment extends Fragment
 	}
 
 
-
-
-
 	// ################################################################
 
 	public void onPause() {
@@ -785,8 +690,8 @@ public class BloomFragment extends Fragment
 
 		getActivity().registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 
-//		if (eegConnected)
-//			setButtonText(R.id.buttonConnectEEG, "Disconnect EEG");
+//		if (BloomSingleton.getInstance().connState)
+//			setButtonText(R.id.connectBloom, "Disconnect Bloom");
 
 //		updateSessionTime();
 
@@ -795,9 +700,6 @@ public class BloomFragment extends Fragment
 
 
 	}
-
-
-
 
 
 	// ################################################################
@@ -873,28 +775,28 @@ public class BloomFragment extends Fragment
 
 //			updateSessionTime();
 
-			sessionPlotSeries1 = updateSessionPlotHistory(
-					  "Attention",
-					  SessionSingleton.getInstance().getSessionRangeValues(
-								 "Attention", 30),
-					  Color.RED,
-					  sessionPlot1,
-					  sessionPlotSeries1);
-//			updateSessionPlotHistory(
+//			sessionPlotSeries1 = updateSessionPlotHistory(
+//					  "Attention",
 //					  SessionSingleton.getInstance().getSessionRangeValues(
-//								 "Attention", 30));
-
-//			updateSessionPlotHistory2(
+//								 "Attention", 30),
+//					  Color.RED,
+//					  sessionPlot1,
+//					  sessionPlotSeries1);
+////			updateSessionPlotHistory(
+////					  SessionSingleton.getInstance().getSessionRangeValues(
+////								 "Attention", 30));
+//
+////			updateSessionPlotHistory2(
+////					  SessionSingleton.getInstance().getSessionRangeValues(
+////								 "Meditation", 30));
+//
+//			sessionPlotSeries2 = updateSessionPlotHistory(
+//					  "Meditation",
 //					  SessionSingleton.getInstance().getSessionRangeValues(
-//								 "Meditation", 30));
-
-			sessionPlotSeries2 = updateSessionPlotHistory(
-					  "Meditation",
-					  SessionSingleton.getInstance().getSessionRangeValues(
-								 "Meditation", 30),
-					  Color.BLUE,
-					  sessionPlot2,
-					  sessionPlotSeries2);
+//								 "Meditation", 30),
+//					  Color.BLUE,
+//					  sessionPlot2,
+//					  sessionPlotSeries2);
 
 
 		}
@@ -913,7 +815,6 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
-	//	public void updateSessionPlotHistory(Number[] values) {
 	public SimpleXYSeries updateSessionPlotHistory(String name,
 	                                               Number[] values,
 	                                               Integer color,
@@ -945,11 +846,7 @@ public class BloomFragment extends Fragment
 	} // updateSessionPlotHistory
 
 
-
-
 	// ################################################################
-
-
 
 	private void displayData(String data) {
 		if (data != null) {
@@ -975,6 +872,9 @@ public class BloomFragment extends Fragment
 		}
 	}
 
+
+	// ################################################################
+
 //	private void readAnalogInValue(byte[] data) {
 //		for (int i = 0; i < data.length; i += 3) {
 //			if (data[i] == 0x0A) {
@@ -993,6 +893,9 @@ public class BloomFragment extends Fragment
 //		}
 //	}
 
+
+	// ################################################################
+
 	private void setButtonEnable() {
 		BloomSingleton.getInstance().flag = true;
 		BloomSingleton.getInstance().connState = true;
@@ -1001,6 +904,9 @@ public class BloomFragment extends Fragment
 		connectBloom.setText("Disconnect Bloom");
 	}
 
+
+	// ################################################################
+
 	private void setButtonDisable() {
 		BloomSingleton.getInstance().flag = false;
 		BloomSingleton.getInstance().connState = false;
@@ -1008,6 +914,9 @@ public class BloomFragment extends Fragment
 		servoSeekBar.setEnabled(BloomSingleton.getInstance().flag);
 		connectBloom.setText("Connect Bloom");
 	}
+
+
+	// ################################################################
 
 	private void startReadRssi() {
 		new Thread() {
@@ -1024,6 +933,9 @@ public class BloomFragment extends Fragment
 			};
 		}.start();
 	}
+
+
+	// ################################################################
 
 	private void getGattService(BluetoothGattService gattService) {
 		if (gattService == null)
@@ -1042,6 +954,9 @@ public class BloomFragment extends Fragment
 		BloomSingleton.getInstance().mBluetoothLeService.readCharacteristic(characteristicRx);
 	}
 
+
+	// ################################################################
+
 	private static IntentFilter makeGattUpdateIntentFilter() {
 		final IntentFilter intentFilter = new IntentFilter();
 
@@ -1053,6 +968,9 @@ public class BloomFragment extends Fragment
 
 		return intentFilter;
 	}
+
+
+	// ################################################################
 
 	private void scanLeDevice() {
 		new Thread() {
@@ -1071,6 +989,9 @@ public class BloomFragment extends Fragment
 			}
 		}.start();
 	}
+
+
+	// ################################################################
 
 	private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
 
@@ -1097,6 +1018,9 @@ public class BloomFragment extends Fragment
 		}
 	};
 
+
+	// ################################################################
+
 	private String bytesToHex(byte[] bytes) {
 		char[] hexChars = new char[bytes.length * 2];
 		int v;
@@ -1107,6 +1031,9 @@ public class BloomFragment extends Fragment
 		}
 		return new String(hexChars);
 	}
+
+
+	// ################################################################
 
 	private String stringToUuidString(String uuid) {
 		StringBuffer newString = new StringBuffer();
@@ -1123,52 +1050,34 @@ public class BloomFragment extends Fragment
 		return newString.toString();
 	}
 
-	@Override
-	public void onStop() {
-		super.onStop();
 
-		BloomSingleton.getInstance().flag = false;
+	// ################################################################
 
-		getActivity().unregisterReceiver(mGattUpdateReceiver);
-
-
-
-//		try {
+//	@Override
+//	public void onStop() {
+//		super.onStop();
 //
-//			disconnectHeadset();
+//		BloomSingleton.getInstance().flag = false;
+//
+//		getActivity().unregisterReceiver(mGattUpdateReceiver);
+//
+//	}
+
+
+	// ################################################################
+
+//	@Override
+//	public void onDestroy() {
+//		super.onDestroy();
+//
+//		if (mServiceConnection != null)
+//			getActivity().unbindService(mServiceConnection);
 //
 //
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			Log.v(TAG, "Exception: onStop()");
-//			e.printStackTrace();
-//		}
+//	}
 
 
-
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-
-		if (mServiceConnection != null)
-			getActivity().unbindService(mServiceConnection);
-
-
-		try {
-
-			if(bluetoothAdapter != null)
-				tgDevice.close();
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Log.v(TAG, "Exception: onDestroy()");
-			e.printStackTrace();
-		}
-
-
-	}
+	// ################################################################
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1181,36 +1090,6 @@ public class BloomFragment extends Fragment
 
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-
-
-
-	// ################################################################
-
-//	public void onStop() {
-//
-//		Log.v(TAG, "onStop()");
-//
-//		super.onStop();
-//
-//		try {
-//
-//			disconnectHeadset();
-//
-//
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			Log.v(TAG, "Exception: onStop()");
-//			e.printStackTrace();
-//		}
-//
-//	} // onStop
-
-
-	// ################################################################
-
-
-
-
 
 
 	// ################################################################
@@ -1302,62 +1181,6 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
-	public void updateStatusImage() {
-
-//		if(DEBUG) {
-//			Log.v(TAG, (new StringBuilder("Attention: ")).append(eegAttention).toString());
-//			Log.v(TAG, (new StringBuilder("Meditation: ")).append(eegMeditation).toString());
-//			Log.v(TAG, (new StringBuilder("Power: ")).append(eegPower).toString());
-//			Log.v(TAG, (new StringBuilder("Signal: ")).append(eegSignal).toString());
-//			Log.v(TAG, (new StringBuilder("Connecting: ")).append(eegConnecting).toString());
-//			Log.v(TAG, (new StringBuilder("Connected: ")).append(eegConnected).toString());
-//		}
-////
-////		if(eegPower > 0) {
-////			imageViewStatus.setImageResource(R.drawable.status_4_active);
-////			return;
-////		}
-////
-////		if(eegSignal > 90) {
-////			imageViewStatus.setImageResource(R.drawable.status_3_processing);
-////			return;
-////		}
-////
-////		if(eegConnected) {
-////			imageViewStatus.setImageResource(R.drawable.status_2_connected);
-////			return;
-////		}
-////
-////		if(eegConnecting) {
-////			imageViewStatus.setImageResource(R.drawable.status_1_connecting);
-////			return;
-////		} else {
-////			imageViewStatus.setImageResource(R.drawable.status_default);
-////			return;
-////		}
-
-	} // updateStatusImage
-
-
-	// ################################################################
-
-//	public void onClick(View v) {
-//
-//		Log.e(TAG, "onClick()");
-//
-//		switch (v.getId()) {
-//
-//			case R.id.buttonConnectEEG:
-//
-//				connectHeadset(v);
-//
-//		}
-//
-//	} // onClick
-
-
-	// ################################################################
-
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
 
 		updatePowerThresholds();
@@ -1388,259 +1211,6 @@ public class BloomFragment extends Fragment
 	} // onStopTrackingTouch
 
 
-	// ################################################################
-
-//	private final Handler handlerThinkGear = new Handler() {
-//
-//		/**
-//		 * Handles data packets from NeuroSky ThinkGear device
-//		 */
-//
-//		public void handleMessage(Message msg) {
-//
-//			parseEEG(msg);
-//
-//		}
-//
-//	}; // handlerThinkGear
-
-
-	// ################################################################
-
-//	public void parseEEG(Message msg) {
-//
-//		switch (msg.what) {
-//
-//			case TGDevice.MSG_STATE_CHANGE:
-//
-//				switch (msg.arg1) {
-//					case TGDevice.STATE_IDLE:
-//						break;
-//					case TGDevice.STATE_CONNECTING:
-//						if (DEBUG)
-//							Log.v(TAG, "Connecting to EEG");
-////						appendDebugConsole("Connecting to EEG\n");
-//						eegConnecting = true;
-//						eegConnected = false;
-//						updateStatusImage();
-//						break;
-//					case TGDevice.STATE_CONNECTED:
-//						if (DEBUG)
-//							Log.v(TAG, "EEG Connected");
-////						appendDebugConsole("Bluetooth Connected\n");
-//						setButtonText(R.id.buttonConnectEEG, "Disconnect EEG");
-//						eegConnecting = false;
-//						eegConnected = true;
-//						updateStatusImage();
-//						tgDevice.start();
-//						break;
-//					case TGDevice.STATE_NOT_FOUND:
-//						if (DEBUG)
-//							Log.v(TAG, "EEG headset not found");
-////						appendDebugConsole("EEG headset not found\n");
-//						eegConnecting = false;
-//						eegConnected = false;
-//						updateStatusImage();
-//						break;
-//					case TGDevice.STATE_NOT_PAIRED:
-//						if (DEBUG)
-//							Log.v(TAG, "EEG headset not paired");
-////						appendDebugConsole("EEG headset not paired\n");
-//						eegConnecting = false;
-//						eegConnected = false;
-//						updateStatusImage();
-//						break;
-//					case TGDevice.STATE_DISCONNECTED:
-//						if (DEBUG)
-//							Log.v(TAG, "EEG Disconnected");
-////						appendDebugConsole("EEG Disconnected\n");
-//						eegConnecting = false;
-//						eegConnected = false;
-//						updateStatusImage();
-////						disconnectHeadset();
-//						break;
-//				}
-//
-//				break;
-//
-//			case TGDevice.MSG_POOR_SIGNAL:
-//				//			Log.v(TAG, "PoorSignal: " + msg.arg1);
-////				eegSignal = calculateSignal(msg.arg1);
-//				progressBarSignal.setProgress(eegSignal);
-//				updateStatusImage();
-//				break;
-//			case TGDevice.MSG_ATTENTION:
-//				//			Log.v(TAG, "Attention: " + eegAttention);
-//				eegAttention = msg.arg1;
-//				progressBarAttention.setProgress(eegAttention);
-////				updatePower();
-//
-//				break;
-//			case TGDevice.MSG_MEDITATION:
-//				eegMeditation = msg.arg1;
-//				if (DEBUG)
-//					Log.v(TAG, "Meditation: " + eegMeditation);
-//				progressBarMeditation.setProgress(eegMeditation);
-////				updatePower();
-//
-//				break;
-//			case TGDevice.MSG_BLINK:
-//				//tv.append("Blink: " + msg.arg1 + "\n");
-//				break;
-//			case TGDevice.MSG_RAW_DATA:
-//
-//				rawEEG[arrayIndex] = msg.arg1;
-//				arrayIndex = arrayIndex + 1;
-//
-////				if (arrayIndex == EEG_RAW_HISTORY_SIZE - 1)
-////					updateEEGRawHistory(rawEEG);
-//
-//				break;
-//			case TGDevice.MSG_RAW_COUNT:
-//				//tv.append("Raw Count: " + msg.arg1 + "\n");
-//				break;
-//			case TGDevice.MSG_RAW_MULTI:
-//				//TGRawMulti rawM = (TGRawMulti)msg.obj;
-//				//tv.append("Raw1: " + rawM.ch1 + "\nRaw2: " + rawM.ch2);
-//			case TGDevice.MSG_HEART_RATE:
-//				//				appendDebugConsole("Heart rate: " + msg.arg1 + "\n");
-//				break;
-//			case TGDevice.MSG_LOW_BATTERY:
-//				// TODO Fragment Context
-////				Toast.makeText(((OrbitTabActivity)getActivity()), "EEG battery low!", Toast.LENGTH_SHORT).show();
-//				Toast.makeText((getActivity()), "EEG battery low!", Toast.LENGTH_SHORT).show();
-//				break;
-//			default:
-//				break;
-//		}
-//
-//	} // handleMessage
-
-
-	// ################################################################
-
-//	public void connectHeadset(View view) {
-//
-//		/**
-//		 * Called when the "Connect" button is pressed
-//		 */
-//
-//		Log.v(TAG, "connectHeadset()");
-//
-//		/** Stop audio stream */
-//		// TODO Fragment Context
-////		((OrbitTabActivity)getActivity()).stopControl();
-////		( getActivity() ).stopControl();
-//
-//		if(bluetoothAdapter == null) {
-//
-//			// Alert user that Bluetooth is not available
-//			// TODO
-////			Toast.makeText(((OrbitTabActivity)getActivity()), "Bluetooth not available", Toast.LENGTH_LONG).show();
-//
-//		} else {
-//
-//			if (tgDevice.getState() != TGDevice.STATE_CONNECTING && tgDevice.getState() != TGDevice.STATE_CONNECTED) {
-//				tgDevice.connect(rawEnabled);
-//				// TODO
-////				((OrbitTabActivity)getActivity()).maximizeAudioVolume(); // Automatically set media volume to maximum
-////				( getActivity() ).maximizeAudioVolume(); // Automatically set media volume to maximum
-//			}
-//
-//
-//			else if (tgDevice.getState() == TGDevice.STATE_CONNECTED)
-//			/** "Disconnect" button was pressed */
-//				disconnectHeadset();
-//
-//		}
-//
-//	} // connectHeadset
-//
-//
-//	// ################################################################
-//
-//	public void disconnectHeadset() {
-//
-//		/**
-//		 * Called when "Disconnect" button is pressed
-//		 */
-//
-//		eegConnecting = false;
-//		eegConnected = false;
-//
-//		eegAttention = 0;
-//		eegMeditation = 0;
-//		eegSignal = 0;
-//		eegPower = 0;
-//
-//		updateStatusImage();
-//
-//		progressBarAttention.setProgress(eegAttention);
-//		progressBarMeditation.setProgress(eegMeditation);
-//		progressBarSignal.setProgress(eegSignal);
-//		progressBarPower.setProgress(eegPower);
-//
-//		//TODO Fragment Context
-////		String id = ((OrbitTabActivity)getActivity()).getTabFragmentAdvanced();
-////
-////		FragmentTabAdvanced fragmentAdvanced =
-////				  (FragmentTabAdvanced) getFragmentManager().findFragmentByTag(id);
-////
-////		if (fragmentAdvanced != null) {
-////			fragmentAdvanced.progressBarAttention.setProgress(eegAttention);
-////			fragmentAdvanced.progressBarMeditation.setProgress(eegMeditation);
-////			fragmentAdvanced.progressBarSignal.setProgress(eegSignal);
-////			fragmentAdvanced.progressBarPower.setProgress(eegPower);
-////		}
-//
-//		//TODO Broken or missing classes
-////		setButtonText(R.id.buttonConnect, "Connect");
-////
-////
-////		if (tgDevice.getState() == TGDevice.STATE_CONNECTED) {
-////			tgDevice.stop();
-////			tgDevice.close();
-////
-//		// TODO Fragment Context
-////		((OrbitTabActivity)getActivity()).stopControl();
-////		(getActivity()).stopControl();
-//
-////			disconnectHeadset();
-////
-////		}
-//
-//
-//	} // disconnectHeadset
-//
-//
-//	// ################################################################
-//
-//	public int calculateSignal(int signal) {
-//
-//		/**
-//		 * The ThinkGear protocol states that a signal level of 200 will be
-//		 * returned when a clean ground/reference is not detected at the ear clip,
-//		 *  and a value of 0 when the signal is perfectly clear. We need to
-//		 *  convert this information into usable settings for the Signal
-//		 *  progress bar
-//		 */
-//
-//		int value;
-//
-//		switch (signal) {
-//			case 200:
-//				value = 0;
-//			case 0:
-//				value = 100;
-//			default:
-//				value = (int)(100 - ((signal / 200.0) * 100));
-//		}
-//
-//		return(value);
-//
-//	} // calculateSignal
-//
-//
 	// ################################################################
 
 	public void updatePowerThresholds() {
@@ -1709,66 +1279,11 @@ public class BloomFragment extends Fragment
 			}
 		}
 
-
-
-
-
-
-
-
 	} // updatePowerThresholds
 
 
 	// ################################################################
-//
-//	public int calculateSpeed() {
-//
-//		/**
-//		 * This method is used for calculating whether
-//		 * or not the "Attention" or "Meditation" levels
-//		 * are sufficient to trigger the helicopter throttle
-//		 */
-//
-//		int attention = progressBarAttention.getProgress();
-//		int meditation = progressBarMeditation.getProgress();
-//		int attentionSeekValue = seekBarAttention.getProgress();
-//		int meditationSeekValue = seekBarMeditation.getProgress();
-//
-//		int speed = 0;
-//
-//		if (attention > attentionSeekValue)
-//			speed = thresholdValuesAttention[attention];
-//		if (meditation > meditationSeekValue)
-//			speed = speed + thresholdValuesMeditation[meditation];
-//
-//		if (speed > maximumPower)
-//			speed = maximumPower;
-//		if (speed < minimumPower)
-//			speed = 0;
-//
-//		// If control signal is being generated, set the
-//		// power level equal to the current throttle slider
-//
-//		// TODO Fragment Context
-////		String id = ((OrbitTabActivity)getActivity()).getTabFragmentAdvanced();
-////
-////		FragmentTabAdvanced fragmentAdvanced =
-////				  (FragmentTabAdvanced) getFragmentManager().findFragmentByTag(id);
-////
-////		if (fragmentAdvanced != null) {
-////			if ((fragmentAdvanced.checkBoxGenerateAudio.isChecked()) && (speed > 0)) {
-////				speed = fragmentAdvanced.seekBarThrottle.getProgress();
-////			}
-////		}
-//
-//		return(speed);
-//
-//	} // calculateSpeed
-//
-//
-//	// ################################################################
-//
-//	//	public int updatePower() {
+
 	public void updatePower() {
 
 		/**
@@ -1776,20 +1291,6 @@ public class BloomFragment extends Fragment
 		 * "Throttle" and triggers the audio stream
 		 * which is used to fly the helicopter
 		 */
-
-		// Set Attention and Meditation to zero if we've lost signal
-//		if (eegSignal < 100) {
-//			eegAttention = 0;
-//			eegMeditation = 0;
-//			progressBarAttention.setProgress(eegAttention);
-//			progressBarMeditation.setProgress(eegMeditation);
-//		}
-//
-//		eegPower = calculateSpeed();
-//
-//		progressBarPower.setProgress(eegPower);
-
-
 
 		if (ThinkGearService.eegConnected) {
 
@@ -1829,29 +1330,6 @@ public class BloomFragment extends Fragment
 
 		updateServoPosition();
 		updateBloomRGB();
-
-
-
-
-//		// TODO Fragment Context
-//
-////		((OrbitTabActivity)getActivity()).eegPower = eegPower;
-////		((OrbitTabActivity)getActivity()).updatePower();
-////		(getActivity()).eegPower = eegPower;
-////		(getActivity()).updatePower();
-////
-////
-////		String id = ((OrbitTabActivity)getActivity()).getTabFragmentAdvanced();
-////
-////		FragmentTabAdvanced fragmentAdvanced =
-////				  (FragmentTabAdvanced) getFragmentManager().findFragmentByTag(id);
-////
-////		if (fragmentAdvanced != null) {
-////			fragmentAdvanced.progressBarAttention.setProgress(eegAttention);
-////			fragmentAdvanced.progressBarMeditation.setProgress(eegMeditation);
-////			fragmentAdvanced.progressBarSignal.setProgress(eegSignal);
-////			fragmentAdvanced.progressBarPower.setProgress(eegPower);
-////		}
 
 
 	} // updatePower
@@ -1924,9 +1402,6 @@ public class BloomFragment extends Fragment
 //			mBluetoothLeService.writeCharacteristic(characteristicTx);
 //
 //		}
-
-
-
 
 
 	}
@@ -2005,7 +1480,6 @@ public class BloomFragment extends Fragment
 			}
 
 	}
-
 
 
 	// ################################################################
@@ -2132,44 +1606,6 @@ public class BloomFragment extends Fragment
 //		textViewScore.setText(Integer.toString(scoreCurrent));
 //
 //	} // resetCurrentScore
-
-
-
-	// ################################################################
-
-	public void demoMode(View view) {
-
-		/**
-		 * Demo mode is called when the "Test Helicopter" button is pressed.
-		 * This method can be easily adjusted for testing new features
-		 * during development.
-		 */
-
-		Log.v(TAG, "Sending Test Signal to Helicopter");
-//		appendDebugConsole("Sending Test Signal to Helicopter\n");
-//
-//		demoFlightMode = true;
-//		flightActive = true;
-//
-//		FragmentTabAdvanced fragmentAdvanced =
-//				  (FragmentTabAdvanced) getSupportFragmentManager().findFragmentByTag( getTabFragmentAdvanced() );
-//
-//		//		if (fragmentAdvanced.checkBoxGenerateAudio.isChecked())
-//		if (generateAudio && (fragmentAdvanced != null))
-//			eegPower = fragmentAdvanced.seekBarThrottle.getProgress();
-//		else
-//			eegPower = 100;
-//
-//		playControl();
-//
-//		demoFlightMode = false;
-
-
-	} // demoMode
-
-
-
-
 
 
 }

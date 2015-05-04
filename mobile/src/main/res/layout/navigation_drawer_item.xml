@@ -18,6 +18,7 @@
 
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:minHeight="55dp"
             >
 
@@ -31,9 +32,10 @@
                 android:id="@+id/drawer_itemName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/White"
-                />
+                android:layout_marginLeft="5dp"
+                android:textSize="20sp"/>
 
         </LinearLayout>
 

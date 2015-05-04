@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements
 	// ################################################################
 
 	public void onFragmentInteraction(Uri uri) {
-		Log.e(TAG, "onFragmentInteraction()");
+//		Log.d(TAG, "onFragmentInteraction()");
 	}
 
 
@@ -96,10 +96,7 @@ public class MainActivity extends AppCompatActivity implements
 
 		Toolbar mToolbar = new Toolbar(this);
 
-//		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-//				  R.drawable.ic_drawer, R.string.drawer_open,
-//				  R.string.drawer_close) {
-					mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				  mToolbar, R.string.drawer_open,
 				  R.string.drawer_close) {
 			public void onDrawerClosed(View view) {
