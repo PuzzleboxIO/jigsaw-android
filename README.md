@@ -29,7 +29,7 @@ NeuroSky MindWave Mobile EEG
 http://store.neurosky.com/products/developer-tools-3-android
 
 Emotiv EPOC and Emotiv Insight
-https://emotiv.com/store/
+http://wiki.emotiv.com/tiki-index.php?page=Downloads
 
 InterAxon Muse
 https://sites.google.com/a/interaxon.ca/muse-developer-site/download
