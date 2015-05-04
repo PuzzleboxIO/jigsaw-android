@@ -128,6 +128,7 @@ public class SessionFragment extends Fragment {
 			sessionPlot1.setTicksPerRangeLabel(10);
 
 //			sessionPlot1.setRangeLabel("Attention");
+			sessionPlot1.setRangeLabel("");
 
 			// Sets the dimensions of the widget to exactly contain the text contents
 			sessionPlot1.getDomainLabelWidget().pack();
@@ -177,6 +178,7 @@ public class SessionFragment extends Fragment {
 			sessionPlot2.setTicksPerRangeLabel(10);
 
 //			sessionPlot2.setRangeLabel("Meditation");
+			sessionPlot2.setRangeLabel("");
 
 			// Sets the dimensions of the widget to exactly contain the text contents
 			sessionPlot2.getDomainLabelWidget().pack();
