@@ -72,48 +72,10 @@ import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BloomFragment extends Fragment
 		  implements SeekBar.OnSeekBarChangeListener {
-//		  implements View.OnClickListener,
 
 	private final static String TAG = BloomFragment.class.getSimpleName();
 
 	private OnFragmentInteractionListener mListener;
-
-//	private static XYPlot sessionPlot1 = null;
-//	private static SimpleXYSeries sessionPlotSeries1 = null;
-//	private static XYPlot sessionPlot2 = null;
-//	private static SimpleXYSeries sessionPlotSeries2 = null;
-
-	View v;
-
-	private Button connectBloom = null;
-	private Button connectEEG = null;
-
-	private Button buttonDemo = null;
-	private Button buttonOpen = null;
-	private Button buttonClose = null;
-
-	private TextView rssiValue = null;
-	private SeekBar servoSeekBar;
-
-	private static TextView textViewSessionTime;
-
-//	private BluetoothGattCharacteristic characteristicTx = null;
-//	private RBLService mBluetoothLeService;
-//	private BluetoothAdapter mBluetoothAdapter;
-//	private BluetoothDevice mDevice = null;
-//	private String mDeviceAddress;
-//
-//	private boolean flag = true;
-//	private boolean connState = false;
-//	private boolean scanFlag = false;
-//
-//	private byte[] data = new byte[3];
-//	private static final int REQUEST_ENABLE_BT = 1;
-//	private static final long SCAN_PERIOD = 2000;
-//
-//	final private static char[] hexArray = { '0', '1', '2', '3', '4', '5', '6',
-//			  '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-
 
 	/**
 	 * Configuration
@@ -131,24 +93,60 @@ public class BloomFragment extends Fragment
 	/**
 	 * UI
 	 */
-	Configuration config;
+//	Configuration config;
 	ProgressBar progressBarAttention;
 	SeekBar seekBarAttention;
 	ProgressBar progressBarMeditation;
 	SeekBar seekBarMeditation;
 	ProgressBar progressBarSignal;
 	ProgressBar progressBarPower;
-	Button connectButton;
+//	Button connectButton;
 
 	ProgressBar progressBarRange;
-	ProgressBar progressBarBloom;
+//	ProgressBar progressBarBloom;
 
-	ImageView imageViewStatus;
+//	ImageView imageViewStatus;
+
+	private Button connectBloom = null;
+
+	private Button buttonDemo = null;
+	private Button buttonOpen = null;
+	private Button buttonClose = null;
+
+	private TextView rssiValue = null;
+	private SeekBar servoSeekBar;
+
+//	private static TextView textViewSessionTime;
 
 	int[] thresholdValuesAttention = new int[101];
 	int[] thresholdValuesMeditation = new int[101];
 	int minimumPower = 0; // minimum power for the bloom
 	int maximumPower = 100; // maximum power for the bloom
+
+	//	private static XYPlot sessionPlot1 = null;
+	//	private static SimpleXYSeries sessionPlotSeries1 = null;
+	//	private static XYPlot sessionPlot2 = null;
+	//	private static SimpleXYSeries sessionPlotSeries2 = null;
+
+	/**
+	 * Bluetooth LE
+	 */
+	//	private BluetoothGattCharacteristic characteristicTx = null;
+	//	private RBLService mBluetoothLeService;
+	//	private BluetoothAdapter mBluetoothAdapter;
+	//	private BluetoothDevice mDevice = null;
+	//	private String mDeviceAddress;
+	//
+	//	private boolean flag = true;
+	//	private boolean connState = false;
+	//	private boolean scanFlag = false;
+	//
+	//	private byte[] data = new byte[3];
+	//	private static final int REQUEST_ENABLE_BT = 1;
+	//	private static final long SCAN_PERIOD = 2000;
+	//
+	//	final private static char[] hexArray = { '0', '1', '2', '3', '4', '5', '6',
+	//			  '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
 
 	// ################################################################
@@ -183,7 +181,7 @@ public class BloomFragment extends Fragment
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 
-		v = inflater.inflate(R.layout.fragment_bloom, container, false);
+		View v = inflater.inflate(R.layout.fragment_bloom, container, false);
 
 //		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 //		setContentView(R.layout.main);
@@ -631,7 +629,7 @@ public class BloomFragment extends Fragment
 	 * >Communicating with Other Fragments</a> for more information.
 	 */
 	public interface OnFragmentInteractionListener {
-		public void onFragmentInteraction(Uri uri);
+		void onFragmentInteraction(Uri uri);
 	}
 
 

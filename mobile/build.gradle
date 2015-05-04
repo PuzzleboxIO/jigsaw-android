@@ -29,5 +29,5 @@ dependencies {
     compile 'com.opencsv:opencsv:3.3'
     provided files('libs/ThinkGear.jar')
     provided files('libs/libmuseandroid.jar')
-    provided files('libs/Melon_Alpha_Android_SDK.jar')
+//    provided files('libs/Melon_Alpha_Android_SDK.jar')
 }
