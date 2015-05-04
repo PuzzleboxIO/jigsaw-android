@@ -43,6 +43,6 @@
             android:name=".protocol.RBLService"
             android:enabled="true" />
 
-</application>
+    </application>
 
-    </manifest>
+</manifest>
