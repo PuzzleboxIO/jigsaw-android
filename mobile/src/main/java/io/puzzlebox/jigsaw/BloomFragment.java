@@ -1053,9 +1053,12 @@ public class BloomFragment extends Fragment
 	public void onDestroy() {
 		super.onDestroy();
 
-		if (mServiceConnection != null)
-			getActivity().unbindService(mServiceConnection);
-
+		try {
+			if (mServiceConnection != null)
+				getActivity().unbindService(mServiceConnection);
+		} catch (IllegalArgumentException e) {
+			Log.w(TAG, "Exception in onDestroy(): " + e);
+		}
 
 	}
 
