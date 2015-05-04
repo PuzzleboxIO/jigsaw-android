@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -29,9 +28,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
@@ -42,20 +39,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidplot.xy.BoundaryMode;
-import com.androidplot.xy.LineAndPointFormatter;
-import com.androidplot.xy.SimpleXYSeries;
-import com.androidplot.xy.XYPlot;
-import com.neurosky.thinkgear.TGDevice;
-
-import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -110,10 +97,10 @@ public class BloomFragment extends Fragment
 	private Button connectBloom = null;
 
 	private Button buttonDemo = null;
-	private Button buttonOpen = null;
-	private Button buttonClose = null;
+//	private Button buttonOpen = null;
+//	private Button buttonClose = null;
 
-	private TextView rssiValue = null;
+//	private TextView rssiValue = null;
 	private SeekBar servoSeekBar;
 
 //	private static TextView textViewSessionTime;
@@ -337,8 +324,6 @@ public class BloomFragment extends Fragment
 //		rssiValue = (TextView) v.findViewById(R.id.rssiValue);
 
 		connectBloom = (Button) v.findViewById(R.id.connectBloom);
-		if (BloomSingleton.getInstance().connState)
-			setButtonEnable();
 
 
 		connectBloom.setOnClickListener(new View.OnClickListener() {
@@ -377,7 +362,7 @@ public class BloomFragment extends Fragment
 				System.out.println(BloomSingleton.getInstance().connState);
 //				Log.e(TAG, connState);
 //				if (connState == false) {
-				if (BloomSingleton.getInstance().connState == false && BloomSingleton.getInstance().mDeviceAddress != null) {
+				if (!BloomSingleton.getInstance().connState && BloomSingleton.getInstance().mDeviceAddress != null) {
 					BloomSingleton.getInstance().mBluetoothLeService.connect(BloomSingleton.getInstance().mDeviceAddress);
 				} else {
 					if (BloomSingleton.getInstance().mBluetoothLeService != null) {
@@ -390,7 +375,7 @@ public class BloomFragment extends Fragment
 		});
 
 
-		buttonOpen = (Button) v.findViewById(R.id.buttonOpen);
+		Button buttonOpen = (Button) v.findViewById(R.id.buttonOpen);
 		buttonOpen.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -401,7 +386,7 @@ public class BloomFragment extends Fragment
 		});
 		buttonOpen.setVisibility(View.GONE);
 
-		buttonClose = (Button) v.findViewById(R.id.buttonClose);
+		Button buttonClose = (Button) v.findViewById(R.id.buttonClose);
 		buttonClose.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -588,6 +573,10 @@ public class BloomFragment extends Fragment
 //		updatePowerThresholds();
 //		updatePower();
 
+		if (BloomSingleton.getInstance().connState)
+			setButtonEnable();
+
+
 		return v;
 
 	}
@@ -635,6 +624,42 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
+	@Override
+	public void onResume() {
+
+		super.onResume();
+
+
+		updatePowerThresholds();
+		updatePower();
+
+
+		if (!BloomSingleton.getInstance().mBluetoothAdapter.isEnabled()) {
+			Intent enableBtIntent = new Intent(
+					BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableBtIntent, BloomSingleton.getInstance().REQUEST_ENABLE_BT);
+		}
+
+		getActivity().registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+
+		Intent gattServiceIntent = new Intent(getActivity(),
+				RBLService.class);
+		getActivity().bindService(gattServiceIntent, mServiceConnection, getActivity().BIND_AUTO_CREATE);
+
+//		if (BloomSingleton.getInstance().connState)
+//			setButtonText(R.id.connectBloom, "Disconnect Bloom");
+
+//		updateSessionTime();
+
+		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
+
+
+	}
+
+
+	// ################################################################
+
 	public void onPause() {
 
 		Log.v(TAG, "onPause()");
@@ -644,9 +669,11 @@ public class BloomFragment extends Fragment
 
 		LocalBroadcastManager.getInstance(
 				  getActivity().getApplicationContext()).unregisterReceiver(
-				  mPacketReceiver);
+				mPacketReceiver);
 
 		getActivity().unregisterReceiver(mGattUpdateReceiver);
+
+		getActivity().unbindService(mServiceConnection);
 
 
 	} // onPause
@@ -655,30 +682,30 @@ public class BloomFragment extends Fragment
 	// ################################################################
 
 	@Override
-	public void onResume() {
-		super.onResume();
+	public void onDestroy() {
+		super.onDestroy();
 
-		updatePowerThresholds();
-		updatePower();
-
-		if (!BloomSingleton.getInstance().mBluetoothAdapter.isEnabled()) {
-			Intent enableBtIntent = new Intent(
-					  BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			startActivityForResult(enableBtIntent, BloomSingleton.getInstance().REQUEST_ENABLE_BT);
+		try {
+			if (mServiceConnection != null)
+				getActivity().unbindService(mServiceConnection);
+		} catch (IllegalArgumentException e) {
+			Log.w(TAG, "Exception in onDestroy(): " + e);
 		}
 
-		getActivity().registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-
-//		if (BloomSingleton.getInstance().connState)
-//			setButtonText(R.id.connectBloom, "Disconnect Bloom");
-
-//		updateSessionTime();
-
-		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
-				  mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
-
-
 	}
+
+
+	// ################################################################
+
+//	@Override
+//	public void onStop() {
+//		super.onStop();
+//
+//		BloomSingleton.getInstance().flag = false;
+//
+//		getActivity().unregisterReceiver(mGattUpdateReceiver);
+//
+//	}
 
 
 	// ################################################################
@@ -1038,35 +1065,6 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
-//	@Override
-//	public void onStop() {
-//		super.onStop();
-//
-//		BloomSingleton.getInstance().flag = false;
-//
-//		getActivity().unregisterReceiver(mGattUpdateReceiver);
-//
-//	}
-
-
-	// ################################################################
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-
-		try {
-			if (mServiceConnection != null)
-				getActivity().unbindService(mServiceConnection);
-		} catch (IllegalArgumentException e) {
-			Log.w(TAG, "Exception in onDestroy(): " + e);
-		}
-
-	}
-
-
-	// ################################################################
-
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// User chose not to enable Bluetooth.
@@ -1251,7 +1249,7 @@ public class BloomFragment extends Fragment
 				 * Power = 100
 				 */
 
-				percentOfMaxPower = (float)( ((100 - attentionSeekValue) - (100 - i)) / (float)(100 - attentionSeekValue) );
+				percentOfMaxPower = ( ((100 - attentionSeekValue) - (100 - i)) / (float)(100 - attentionSeekValue) );
 				power = thresholdValuesAttention[i] + (int)( minimumPower + ((maximumPower - minimumPower) * percentOfMaxPower) );
 				thresholdValuesAttention[i] = power;
 
@@ -1261,7 +1259,7 @@ public class BloomFragment extends Fragment
 		meditationSeekValue = seekBarMeditation.getProgress();
 		if (meditationSeekValue > 0) {
 			for (int i = meditationSeekValue; i < thresholdValuesMeditation.length; i++) {
-				percentOfMaxPower = (float)( ((100 - meditationSeekValue) - (100 - i)) / (float)(100 - meditationSeekValue) );
+				percentOfMaxPower = ( ((100 - meditationSeekValue) - (100 - i)) / (float)(100 - meditationSeekValue) );
 				power = thresholdValuesMeditation[i] + (int)( minimumPower + ((maximumPower - minimumPower) * percentOfMaxPower) );
 				thresholdValuesMeditation[i] = power;
 			}
