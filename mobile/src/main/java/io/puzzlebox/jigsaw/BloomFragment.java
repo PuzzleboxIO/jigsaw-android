@@ -153,57 +153,6 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
-	private final ServiceConnection mServiceConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName componentName,
-		                               IBinder service) {
-			BloomSingleton.getInstance().mBluetoothLeService = ((RBLService.LocalBinder) service)
-					  .getService();
-			if (!BloomSingleton.getInstance().mBluetoothLeService.initialize()) {
-				Log.e(TAG, "Unable to initialize Bluetooth");
-				getActivity().finish();
-			}
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName componentName) {
-			BloomSingleton.getInstance().mBluetoothLeService = null;
-		}
-	};
-
-
-	// ################################################################
-
-	private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			final String action = intent.getAction();
-
-			if (RBLService.ACTION_GATT_DISCONNECTED.equals(action)) {
-//				Toast.makeText(getApplicationContext(), "Disconnected",
-				Toast.makeText(getActivity(), "Bloom Disconnected",
-						  Toast.LENGTH_SHORT).show();
-				setButtonDisable();
-			} else if (RBLService.ACTION_GATT_SERVICES_DISCOVERED
-					  .equals(action)) {
-				Toast.makeText(getActivity(), "Bloom Connected",
-						  Toast.LENGTH_SHORT).show();
-
-				getGattService(BloomSingleton.getInstance().mBluetoothLeService.getSupportedGattService());
-			} else if (RBLService.ACTION_DATA_AVAILABLE.equals(action)) {
-				BloomSingleton.getInstance().data = intent.getByteArrayExtra(RBLService.EXTRA_DATA);
-
-//				readAnalogInValue(data);
-			} else if (RBLService.ACTION_GATT_RSSI.equals(action)) {
-				displayData(intent.getStringExtra(RBLService.EXTRA_DATA));
-			}
-		}
-	};
-
-
-	// ################################################################
-
 	public static BloomFragment newInstance() {
 		BloomFragment fragment = new BloomFragment();
 		Bundle args = new Bundle();
@@ -469,22 +418,53 @@ public class BloomFragment extends Fragment
 		buttonDemo.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				byte[] buf = new byte[]{(byte) 0x05, (byte) 0x00, (byte) 0x00};
-				if (BloomSingleton.getInstance().demoActive) {
-					BloomSingleton.getInstance().demoActive = true;
-				} else {
-					buf = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00};
-					BloomSingleton.getInstance().demoActive = false;
-				}
+				byte[] buf;
+//				if (! BloomSingleton.getInstance().demoActive) {
+				BloomSingleton.getInstance().demoActive = true;
+
+				// bloomOpen()
+//				buf = new byte[]{(byte) 0x01, (byte) 0x00, (byte) 0x00};
+//				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+
+				// loopRGB()
+				buf = new byte[]{(byte) 0x06, (byte) 0x00, (byte) 0x00};
 				BloomSingleton.getInstance().characteristicTx.setValue(buf);
 				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+
+				// Set Red to 0
+				buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) 0x00}; // R = 0
+				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+
+				// bloomClose()
+//				buf = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00};
+//				BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//				BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+
+
+//				} else {
+//					BloomSingleton.getInstance().demoActive = false;
+////					buf = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00};
+////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
+////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//					buf = new byte[]{(byte) 0x0A, (byte) 0x00, (byte) 0x00}; // R = 0
+//					BloomSingleton.getInstance().characteristicTx.setValue(buf);
+//					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+////					buf = new byte[]{(byte) 0x0A, (byte) 0x01, (byte) 0x00}; // G = 0
+////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
+////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+////					buf = new byte[]{(byte) 0x0A, (byte) 0x02, (byte) 0x00}; // B = 0
+////					BloomSingleton.getInstance().characteristicTx.setValue(buf);
+////					BloomSingleton.getInstance().mBluetoothLeService.writeCharacteristic(BloomSingleton.getInstance().characteristicTx);
+//				}
 			}
 		});
 
 
 		if (!getActivity().getPackageManager().hasSystemFeature(
 				  PackageManager.FEATURE_BLUETOOTH_LE)) {
-			Toast.makeText(getActivity(), "Ble not supported", Toast.LENGTH_SHORT)
+			Toast.makeText(getActivity(), "Bluetooth LE not supported", Toast.LENGTH_SHORT)
 					  .show();
 			getActivity().finish();
 		}
@@ -492,7 +472,7 @@ public class BloomFragment extends Fragment
 		final BluetoothManager mBluetoothManager = (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
 		BloomSingleton.getInstance().mBluetoothAdapter = mBluetoothManager.getAdapter();
 		if (BloomSingleton.getInstance().mBluetoothAdapter == null) {
-			Toast.makeText(getActivity(), "Ble not supported", Toast.LENGTH_SHORT)
+			Toast.makeText(getActivity(), "Bluetooth LE not supported", Toast.LENGTH_SHORT)
 					  .show();
 			getActivity().finish();
 			return v;
@@ -651,7 +631,6 @@ public class BloomFragment extends Fragment
 	 * >Communicating with Other Fragments</a> for more information.
 	 */
 	public interface OnFragmentInteractionListener {
-		// TODO: Update argument type and name
 		public void onFragmentInteraction(Uri uri);
 	}
 
@@ -739,18 +718,18 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
-	private void resetSession() {
-
-		Log.d(TAG, "SessionSingleton.getInstance().resetSession()");
-		SessionSingleton.getInstance().resetSession();
-
-		textViewSessionTime.setText( R.string.session_time );
-
-		Toast.makeText((getActivity().getApplicationContext()),
-				  "Session data reset",
-				  Toast.LENGTH_SHORT).show();
-
-	}
+//	private void resetSession() {
+//
+//		Log.d(TAG, "SessionSingleton.getInstance().resetSession()");
+//		SessionSingleton.getInstance().resetSession();
+//
+//		textViewSessionTime.setText( R.string.session_time );
+//
+//		Toast.makeText((getActivity().getApplicationContext()),
+//				  "Session data reset",
+//				  Toast.LENGTH_SHORT).show();
+//
+//	}
 
 
 	// ################################################################
@@ -806,44 +785,44 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
-	private void updateSessionTime() {
-
-		textViewSessionTime.setText( SessionSingleton.getInstance().getSessionTimestamp() );
-
-	}
+//	private void updateSessionTime() {
+//
+//		textViewSessionTime.setText( SessionSingleton.getInstance().getSessionTimestamp() );
+//
+//	}
 
 
 	// ################################################################
 
-	public SimpleXYSeries updateSessionPlotHistory(String name,
-	                                               Number[] values,
-	                                               Integer color,
-	                                               XYPlot mPlot,
-	                                               SimpleXYSeries mSeries) {
-
-//		if (sessionPlot1 != null) {
-//			sessionPlot1.removeSeries(sessionPlotSeries1);
-
-		if (mPlot != null) {
-			mPlot.removeSeries(mSeries);
-
-			mSeries = new SimpleXYSeries(Arrays.asList(values), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, name);
-
-			LineAndPointFormatter format = new LineAndPointFormatter(color, color, null, null);
-
-			//		format.getFillPaint().setAlpha(220);
-
-			mPlot.addSeries(mSeries, format);
-
-
-			// Redraw the plots:
-			mPlot.redraw();
-
-			return mSeries;
-		} else
-			return null;
-
-	} // updateSessionPlotHistory
+//	public SimpleXYSeries updateSessionPlotHistory(String name,
+//	                                               Number[] values,
+//	                                               Integer color,
+//	                                               XYPlot mPlot,
+//	                                               SimpleXYSeries mSeries) {
+//
+////		if (sessionPlot1 != null) {
+////			sessionPlot1.removeSeries(sessionPlotSeries1);
+//
+//		if (mPlot != null) {
+//			mPlot.removeSeries(mSeries);
+//
+//			mSeries = new SimpleXYSeries(Arrays.asList(values), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, name);
+//
+//			LineAndPointFormatter format = new LineAndPointFormatter(color, color, null, null);
+//
+//			//		format.getFillPaint().setAlpha(220);
+//
+//			mPlot.addSeries(mSeries, format);
+//
+//
+//			// Redraw the plots:
+//			mPlot.redraw();
+//
+//			return mSeries;
+//		} else
+//			return null;
+//
+//	} // updateSessionPlotHistory
 
 
 	// ################################################################
@@ -902,6 +881,8 @@ public class BloomFragment extends Fragment
 
 		servoSeekBar.setEnabled(BloomSingleton.getInstance().flag);
 		connectBloom.setText("Disconnect Bloom");
+
+		buttonDemo.setEnabled(true);
 	}
 
 
@@ -913,6 +894,10 @@ public class BloomFragment extends Fragment
 
 		servoSeekBar.setEnabled(BloomSingleton.getInstance().flag);
 		connectBloom.setText("Connect Bloom");
+
+		buttonDemo.setEnabled(false);
+
+		progressBarRange.setProgress(0);
 	}
 
 
@@ -930,7 +915,7 @@ public class BloomFragment extends Fragment
 						e.printStackTrace();
 					}
 				}
-			};
+			}
 		}.start();
 	}
 
@@ -1066,15 +1051,15 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
-//	@Override
-//	public void onDestroy() {
-//		super.onDestroy();
-//
-//		if (mServiceConnection != null)
-//			getActivity().unbindService(mServiceConnection);
-//
-//
-//	}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		if (mServiceConnection != null)
+			getActivity().unbindService(mServiceConnection);
+
+
+	}
 
 
 	// ################################################################
@@ -1122,61 +1107,61 @@ public class BloomFragment extends Fragment
 
 	// ################################################################
 
-	public void updateScreenLayoutSmall() {
-
-//		String button_test_fly_small = getResources().getString(R.string.button_test_fly_small);
-//		setButtonText(R.id.buttonTestFly, button_test_fly_small);
+//	public void updateScreenLayoutSmall() {
 //
-//		textViewLabelScores.setVisibility(View.VISIBLE);
-//		viewSpaceScore.setVisibility(View.VISIBLE);
-
-
-		ViewGroup.LayoutParams layoutParams;
-
-//		layoutParams = (android.view.ViewGroup.LayoutParams) viewSpaceScoreLast.getLayoutParams();
-//		layoutParams.width = 10;
-//		viewSpaceScoreLast.setLayoutParams(layoutParams);
-//
-//		layoutParams = (android.view.ViewGroup.LayoutParams) viewSpaceScoreHigh.getLayoutParams();
-//		layoutParams.width = 10;
-//		viewSpaceScoreHigh.setLayoutParams(layoutParams);
+////		String button_test_fly_small = getResources().getString(R.string.button_test_fly_small);
+////		setButtonText(R.id.buttonTestFly, button_test_fly_small);
+////
+////		textViewLabelScores.setVisibility(View.VISIBLE);
+////		viewSpaceScore.setVisibility(View.VISIBLE);
 //
 //
-//		String labelScore = getResources().getString(R.string.textview_label_score_small);
-//		textViewLabelScore.setText(labelScore);
+//		ViewGroup.LayoutParams layoutParams;
 //
-//		String labelLastScore = getResources().getString(R.string.textview_label_last_score_small);
-//		textViewLabelLastScore.setText(labelLastScore);
+////		layoutParams = (android.view.ViewGroup.LayoutParams) viewSpaceScoreLast.getLayoutParams();
+////		layoutParams.width = 10;
+////		viewSpaceScoreLast.setLayoutParams(layoutParams);
+////
+////		layoutParams = (android.view.ViewGroup.LayoutParams) viewSpaceScoreHigh.getLayoutParams();
+////		layoutParams.width = 10;
+////		viewSpaceScoreHigh.setLayoutParams(layoutParams);
+////
+////
+////		String labelScore = getResources().getString(R.string.textview_label_score_small);
+////		textViewLabelScore.setText(labelScore);
+////
+////		String labelLastScore = getResources().getString(R.string.textview_label_last_score_small);
+////		textViewLabelLastScore.setText(labelLastScore);
+////
+////		String labelHighScore = getResources().getString(R.string.textview_label_high_score_small);
+////		textViewLabelHighScore.setText(labelHighScore);
 //
-//		String labelHighScore = getResources().getString(R.string.textview_label_high_score_small);
-//		textViewLabelHighScore.setText(labelHighScore);
-
-
-//		// HTC Droid DNA - AndroidPlot has issues with OpenGL Render
-//		if ((Build.MANUFACTURER.contains("HTC")) &&
-//				  (Build.MODEL.contains("HTC6435LVW"))) {
 //
-//			Log.v(TAG, "Device detected: HTC Droid DNA");
-//			hideEEGRawHistory();
+////		// HTC Droid DNA - AndroidPlot has issues with OpenGL Render
+////		if ((Build.MANUFACTURER.contains("HTC")) &&
+////				  (Build.MODEL.contains("HTC6435LVW"))) {
+////
+////			Log.v(TAG, "Device detected: HTC Droid DNA");
+////			hideEEGRawHistory();
+////
+////		}
 //
-//		}
-
-
-	} // updateScreenLayoutSmall
+//
+//	} // updateScreenLayoutSmall
 
 
 	// ################################################################
 
-	public void setButtonText(int buttonId, String text) {
-
-		/**
-		 * Shortcut for changing the text on a button
-		 */
-
-		Button button = (Button) v.findViewById(buttonId);
-		button.setText(text);
-
-	} // setButtonText
+//	public void setButtonText(int buttonId, String text) {
+//
+//		/**
+//		 * Shortcut for changing the text on a button
+//		 */
+//
+//		Button button = (Button) v.findViewById(buttonId);
+//		button.setText(text);
+//
+//	} // setButtonText
 
 
 	// ################################################################
@@ -1606,6 +1591,56 @@ public class BloomFragment extends Fragment
 //		textViewScore.setText(Integer.toString(scoreCurrent));
 //
 //	} // resetCurrentScore
+
+	// ################################################################
+
+	private final ServiceConnection mServiceConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(ComponentName componentName,
+		                               IBinder service) {
+			BloomSingleton.getInstance().mBluetoothLeService = ((RBLService.LocalBinder) service)
+					  .getService();
+			if (!BloomSingleton.getInstance().mBluetoothLeService.initialize()) {
+				Log.e(TAG, "Unable to initialize Bluetooth");
+				getActivity().finish();
+			}
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName componentName) {
+			BloomSingleton.getInstance().mBluetoothLeService = null;
+		}
+	};
+
+
+	// ################################################################
+
+	private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			final String action = intent.getAction();
+
+			if (RBLService.ACTION_GATT_DISCONNECTED.equals(action)) {
+//				Toast.makeText(getApplicationContext(), "Disconnected",
+				Toast.makeText(getActivity(), "Bloom Disconnected",
+						  Toast.LENGTH_SHORT).show();
+				setButtonDisable();
+			} else if (RBLService.ACTION_GATT_SERVICES_DISCOVERED
+					  .equals(action)) {
+				Toast.makeText(getActivity(), "Bloom Connected",
+						  Toast.LENGTH_SHORT).show();
+
+				getGattService(BloomSingleton.getInstance().mBluetoothLeService.getSupportedGattService());
+			} else if (RBLService.ACTION_DATA_AVAILABLE.equals(action)) {
+				BloomSingleton.getInstance().data = intent.getByteArrayExtra(RBLService.EXTRA_DATA);
+
+//				readAnalogInValue(data);
+			} else if (RBLService.ACTION_GATT_RSSI.equals(action)) {
+				displayData(intent.getStringExtra(RBLService.EXTRA_DATA));
+			}
+		}
+	};
 
 
 }

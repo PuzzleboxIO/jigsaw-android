@@ -166,6 +166,7 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/custom_button"
                 android:text="@string/buttonDemo"
+                android:enabled="false"
                 android:layout_gravity="center"/>
 
         </LinearLayout>
