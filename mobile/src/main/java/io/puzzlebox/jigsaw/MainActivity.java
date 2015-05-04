@@ -154,23 +154,19 @@ public class MainActivity extends AppCompatActivity implements
 					e.printStackTrace();
 				}
 				if (fragment == null)
-//					fragment = new WelcomeFragment();
-					fragment = new EEGFragment();
+					fragment = new WelcomeFragment();
 				break;
 			case 1:
-//				fragment = new SessionFragment();
 				backStackName = "session";
 				try{
 					fragment = getFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
 					e.printStackTrace();
-//					fragment = new SessionFragment();
 				}
 				if (fragment == null)
 					fragment = new SessionFragment();
 				break;
 			case 2:
-//				fragment = new EEGFragment();
 				backStackName = "eeg";
 				try{
 					fragment = getFragmentManager().findFragmentByTag(backStackName);
