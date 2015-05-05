@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		dataList = new ArrayList<>();
+//		dataList = new ArrayList<>();
 		mTitle = mDrawerTitle = getTitle();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.navigation_drawer);
@@ -73,10 +73,12 @@ public class MainActivity extends AppCompatActivity implements
 
 
 		// Add Drawer Item to dataList
-		dataList.add(new DrawerItem(getString(R.string.title_fragment_welcome), R.mipmap.ic_puzzlebox));
-		dataList.add(new DrawerItem(getString(R.string.title_fragment_session), R.mipmap.ic_session));
-		dataList.add(new DrawerItem(getString(R.string.title_fragment_eeg), R.mipmap.ic_eeg));
-//		dataList.add(new DrawerItem(getString(R.string.title_fragment_bloom), R.mipmap.ic_bloom));
+//		dataList.add(new DrawerItem(getString(R.string.title_fragment_welcome), R.mipmap.ic_puzzlebox));
+//		dataList.add(new DrawerItem(getString(R.string.title_fragment_session), R.mipmap.ic_session));
+//		dataList.add(new DrawerItem(getString(R.string.title_fragment_eeg), R.mipmap.ic_eeg));
+////		dataList.add(new DrawerItem(getString(R.string.title_fragment_bloom), R.mipmap.ic_bloom));
+
+		dataList = getDrawerDataList();
 
 		adapter = new NavigationDrawerAdapter(this, R.layout.navigation_drawer_item,
 				  dataList);
@@ -131,6 +133,20 @@ public class MainActivity extends AppCompatActivity implements
 
 		return mDrawerToggle.onOptionsItemSelected(item);
 
+	}
+
+
+	// ################################################################
+
+	protected List<DrawerItem> getDrawerDataList() {
+		List<DrawerItem> dataList = new ArrayList<>();
+
+		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_welcome), io.puzzlebox.jigsaw.R.mipmap.ic_puzzlebox));
+		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session));
+		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg));
+//		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_bloom), io.puzzlebox.jigsaw.R.mipmap.ic_bloom));
+
+		return dataList;
 	}
 
 
