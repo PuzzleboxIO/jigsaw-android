@@ -121,8 +121,17 @@ public class MainActivity extends AppCompatActivity implements
 
 		SessionSingleton.getInstance().resetSession();
 
+
+		onCreateCustom();
+
 	}
 
+
+	// ################################################################
+
+	protected void onCreateCustom() {
+		// For use with custom applications
+	}
 
 	// ################################################################
 
