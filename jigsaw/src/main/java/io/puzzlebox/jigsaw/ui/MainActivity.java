@@ -29,8 +29,8 @@ import io.puzzlebox.jigsaw.data.SessionSingleton;
 public class MainActivity extends AppCompatActivity implements
 		  WelcomeFragment.OnFragmentInteractionListener,
 		  SessionFragment.OnFragmentInteractionListener,
-		  EEGFragment.OnFragmentInteractionListener,
-		  BloomFragment.OnFragmentInteractionListener
+		  EEGFragment.OnFragmentInteractionListener
+//		  BloomFragment.OnFragmentInteractionListener
 {
 
 	private final static String TAG = MainActivity.class.getSimpleName();
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements
 		dataList.add(new DrawerItem(getString(R.string.title_fragment_welcome), R.mipmap.ic_puzzlebox));
 		dataList.add(new DrawerItem(getString(R.string.title_fragment_session), R.mipmap.ic_session));
 		dataList.add(new DrawerItem(getString(R.string.title_fragment_eeg), R.mipmap.ic_eeg));
-		dataList.add(new DrawerItem(getString(R.string.title_fragment_bloom), R.mipmap.ic_bloom));
+//		dataList.add(new DrawerItem(getString(R.string.title_fragment_bloom), R.mipmap.ic_bloom));
 
 		adapter = new NavigationDrawerAdapter(this, R.layout.navigation_drawer_item,
 				  dataList);
@@ -173,17 +173,17 @@ public class MainActivity extends AppCompatActivity implements
 					fragment = new EEGFragment();
 
 				break;
-			case 3:
-				backStackName = "bloom";
-				try{
-					fragment = getFragmentManager().findFragmentByTag(backStackName);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				if (fragment == null)
-					fragment = new BloomFragment();
-
-				break;
+//			case 3:
+//				backStackName = "bloom";
+//				try{
+//					fragment = getFragmentManager().findFragmentByTag(backStackName);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				if (fragment == null)
+//					fragment = new BloomFragment();
+//
+//				break;
 			default:
 				break;
 		}
