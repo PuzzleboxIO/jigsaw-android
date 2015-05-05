@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Jigsaw</string>
-    <string name="hello_round">Puzzlebox Jigsaw for Android Wear coming soon</string>
-    <string name="hello_square">Puzzlebox Jigsaw for Android Wear coming soon</string>
+    <string name="hello_round">Puzzlebox Jigsaw\nfor Android Wear\ncoming soon</string>
+    <string name="hello_square">Puzzlebox Jigsaw\nfor Android Wear\ncoming soon</string>
 </resources>
