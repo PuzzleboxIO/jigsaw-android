@@ -28,7 +28,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.google.android.gms:play-services:7.3.0'
     provided 'com.androidplot:androidplot-core:0.6.1'
-    compile 'com.opencsv:opencsv:3.3'
+    provided 'com.opencsv:opencsv:3.3'
     provided files('libs/ThinkGear.jar')
     provided files('libs/libmuseandroid.jar')
 //    provided files('libs/Melon_Alpha_Android_SDK.jar')

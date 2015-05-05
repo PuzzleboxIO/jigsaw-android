@@ -4,7 +4,7 @@
  * License: GNU Affero General Public License Version 3
  */
 
-package io.puzzlebox.jigsaw;
+package io.puzzlebox.jigsaw.ui;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -47,6 +47,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.BloomSingleton;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 import io.puzzlebox.jigsaw.protocol.MuseService;

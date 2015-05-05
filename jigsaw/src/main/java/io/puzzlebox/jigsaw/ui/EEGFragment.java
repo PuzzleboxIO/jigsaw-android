@@ -4,7 +4,7 @@
  * License: GNU Affero General Public License Version 3
  */
 
-package io.puzzlebox.jigsaw;
+package io.puzzlebox.jigsaw.ui;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -19,7 +19,6 @@ import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
@@ -31,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -42,28 +40,12 @@ import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
-import com.interaxon.libmuse.ConnectionState;
-import com.interaxon.libmuse.LibMuseVersion;
-import com.interaxon.libmuse.Muse;
-import com.interaxon.libmuse.MuseArtifactPacket;
-import com.interaxon.libmuse.MuseConnectionListener;
-import com.interaxon.libmuse.MuseConnectionPacket;
-import com.interaxon.libmuse.MuseDataListener;
-import com.interaxon.libmuse.MuseDataPacket;
-import com.interaxon.libmuse.MuseDataPacketType;
-import com.interaxon.libmuse.MuseFileWriter;
-import com.interaxon.libmuse.MuseManager;
-import com.interaxon.libmuse.MusePreset;
-import com.interaxon.libmuse.MuseVersion;
 
-import java.io.File;
-import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 //import io.puzzlebox.jigsaw.data.CreateSessionFileInGoogleDrive;
+import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 import io.puzzlebox.jigsaw.protocol.MuseService;
 import io.puzzlebox.jigsaw.protocol.ThinkGearService;

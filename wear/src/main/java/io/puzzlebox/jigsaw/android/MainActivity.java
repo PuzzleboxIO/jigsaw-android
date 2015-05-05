@@ -1,4 +1,4 @@
-package io.puzzlebox.jigsaw;
+package io.puzzlebox.jigsaw.android;
 
 import android.app.Activity;
 import android.os.Bundle;

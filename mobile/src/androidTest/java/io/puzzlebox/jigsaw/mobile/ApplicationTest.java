@@ -1,4 +1,4 @@
-package io.puzzlebox.jigsaw;
+package io.puzzlebox.jigsaw.mobile;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

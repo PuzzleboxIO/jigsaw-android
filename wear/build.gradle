@@ -6,7 +6,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "io.puzzlebox.jigsaw"
+        applicationId "io.puzzlebox.jigsaw.android"
         minSdkVersion 20
         targetSdkVersion 22
         versionCode 1

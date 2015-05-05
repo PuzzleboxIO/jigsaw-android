@@ -4,7 +4,7 @@
  * License: GNU Affero General Public License Version 3
  */
 
-package io.puzzlebox.jigsaw;
+package io.puzzlebox.jigsaw.android;
 
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -23,9 +23,14 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+//import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
+import io.puzzlebox.jigsaw.ui.BloomFragment;
 import io.puzzlebox.jigsaw.ui.DrawerItem;
+import io.puzzlebox.jigsaw.ui.EEGFragment;
 import io.puzzlebox.jigsaw.ui.NavigationDrawerAdapter;
+import io.puzzlebox.jigsaw.ui.SessionFragment;
+import io.puzzlebox.jigsaw.ui.WelcomeFragment;
 
 public class MainActivity extends AppCompatActivity implements
 		  WelcomeFragment.OnFragmentInteractionListener,
@@ -77,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements
 		dataList.add(new DrawerItem(getString(R.string.title_fragment_welcome), R.mipmap.ic_puzzlebox));
 		dataList.add(new DrawerItem(getString(R.string.title_fragment_session), R.mipmap.ic_session));
 		dataList.add(new DrawerItem(getString(R.string.title_fragment_eeg), R.mipmap.ic_eeg));
-//		dataList.add(new DrawerItem(getString(R.string.title_fragment_bloom), R.mipmap.ic_bloom));
+		dataList.add(new DrawerItem(getString(R.string.title_fragment_bloom), R.mipmap.ic_bloom));
 
 		adapter = new NavigationDrawerAdapter(this, R.layout.navigation_drawer_item,
 				  dataList);
@@ -174,17 +179,17 @@ public class MainActivity extends AppCompatActivity implements
 					fragment = new EEGFragment();
 
 				break;
-//			case 3:
-//				backStackName = "bloom";
-//				try{
-//					fragment = getFragmentManager().findFragmentByTag(backStackName);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//				if (fragment == null)
-//					fragment = new BloomFragment();
-//
-//				break;
+			case 3:
+				backStackName = "bloom";
+				try{
+					fragment = getFragmentManager().findFragmentByTag(backStackName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (fragment == null)
+					fragment = new BloomFragment();
+
+				break;
 			default:
 				break;
 		}

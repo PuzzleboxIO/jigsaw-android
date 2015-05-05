@@ -4,7 +4,7 @@
  * License: GNU Affero General Public License Version 3
  */
 
-package io.puzzlebox.jigsaw;
+package io.puzzlebox.jigsaw.ui;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -38,6 +38,7 @@ import com.androidplot.xy.XYPlot;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
+import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;

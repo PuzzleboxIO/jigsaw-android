@@ -113,6 +113,7 @@
     <orderEntry type="library" exported="" name="play-services-nearby-7.3.0" level="project" />
     <orderEntry type="library" exported="" name="libmuseandroid" level="project" />
     <orderEntry type="library" exported="" name="androidplot-core-0.6.1" level="project" />
+    <orderEntry type="library" exported="" name="1_androidplot-core-0.6.1" level="project" />
     <orderEntry type="library" exported="" name="opencsv-3.3" level="project" />
     <orderEntry type="library" exported="" name="1_opencsv-3.3" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.1.1" level="project" />

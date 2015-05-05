@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="io.puzzlebox.jigsaw" >
+          package="io.puzzlebox.jigsaw.android" >
 
-    <uses-feature
-        android:name="android.hardware.bluetooth_le"
-        android:required="false" />
+    <!--<uses-feature-->
+        <!--android:name="android.hardware.bluetooth_le"-->
+        <!--android:required="false" />-->
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--<uses-permission android:name="android.permission.BLUETOOTH" />-->
+    <!--<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />-->
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
 
     <application
         android:allowBackup="true"
@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".MainActivity"
+            android:name="io.puzzlebox.jigsaw.ui.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,19 +29,19 @@
 
         <!--<activity android:name=".data.CreateSessionFileInGoogleDrive" />-->
 
-        <service
-            android:name=".protocol.ThinkGearService"
-            android:enabled="true"
-            android:exported="false" />
+        <!--<service-->
+            <!--android:name=".protocol.ThinkGearService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="false" />-->
 
-        <service
-            android:name=".protocol.MuseService"
-            android:enabled="true"
-            android:exported="false" />
+        <!--<service-->
+            <!--android:name=".protocol.MuseService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="false" />-->
 
-        <service
-            android:name=".protocol.RBLService"
-            android:enabled="true" />
+        <!--<service-->
+            <!--android:name=".protocol.RBLService"-->
+            <!--android:enabled="true" />-->
 
     </application>
 

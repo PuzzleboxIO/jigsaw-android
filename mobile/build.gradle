@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "io.puzzlebox.jigsaw"
+        applicationId "io.puzzlebox.jigsaw.android"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
@@ -21,13 +21,14 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+//    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':jigsaw')
     wearApp project(':wear')
-    compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.google.android.gms:play-services:7.3.0'
-    provided 'com.androidplot:androidplot-core:0.6.1'
-    compile 'com.opencsv:opencsv:3.3'
-    provided files('libs/ThinkGear.jar')
-    provided files('libs/libmuseandroid.jar')
+//    compile 'com.android.support:appcompat-v7:22.1.1'
+//    compile 'com.google.android.gms:play-services:7.3.0'
+//    provided 'com.androidplot:androidplot-core:0.6.1'
+//    compile 'com.opencsv:opencsv:3.3'
+//    provided files('libs/ThinkGear.jar')
+//    provided files('libs/libmuseandroid.jar')
 //    provided files('libs/Melon_Alpha_Android_SDK.jar')
 }
