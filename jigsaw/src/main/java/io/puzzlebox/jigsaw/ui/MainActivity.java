@@ -160,14 +160,16 @@ public class MainActivity extends AppCompatActivity implements
 
 	public void SelectItem(int position) {
 
-		android.app.Fragment fragment = null;
+//		android.app.Fragment fragment = null;
+		android.support.v4.app.Fragment fragment = null;
 		Bundle args = new Bundle();
 		String backStackName = "";
 		switch (position) {
 			case 0:
 				backStackName = "welcome";
 				try{
-					fragment = getFragmentManager().findFragmentByTag(backStackName);
+//					fragment = getFragmentManager().findFragmentByTag(backStackName);
+					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -177,7 +179,8 @@ public class MainActivity extends AppCompatActivity implements
 			case 1:
 				backStackName = "session";
 				try{
-					fragment = getFragmentManager().findFragmentByTag(backStackName);
+//					fragment = getFragmentManager().findFragmentByTag(backStackName);
+					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -187,7 +190,8 @@ public class MainActivity extends AppCompatActivity implements
 			case 2:
 				backStackName = "eeg";
 				try{
-					fragment = getFragmentManager().findFragmentByTag(backStackName);
+//					fragment = getFragmentManager().findFragmentByTag(backStackName);
+					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -201,7 +205,8 @@ public class MainActivity extends AppCompatActivity implements
 
 		if (fragment != null)
 			fragment.setArguments(args);
-		android.app.FragmentManager frgManager = getFragmentManager();
+//		android.app.FragmentManager frgManager = getFragmentManager();
+		android.support.v4.app.FragmentManager frgManager = getSupportFragmentManager();
 		frgManager.beginTransaction().replace(R.id.container, fragment)
 				  .addToBackStack(backStackName)
 				  .commit();
