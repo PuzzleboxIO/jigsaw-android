@@ -10,11 +10,11 @@ android {
         minSdkVersion 15 // API 4.0.3
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0.0"
+        versionName "2.0.0"
     }
     buildTypes {
         release {
-            debuggable true
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
