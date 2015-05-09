@@ -42,7 +42,7 @@ public class SupportFragment extends Fragment {
 	/**
 	 * Configuration
 	 */
-	static String supportURL = "file:///android_asset/tutorial/support.html";
+	static String supportURL = "file:///android_asset/support.html";
 	static String contactURL = "http://puzzlebox.io/cgi-bin/puzzlebox/support_contact/puzzlebox_orbit_support_gateway.py";
 	String versionName = "";
 
