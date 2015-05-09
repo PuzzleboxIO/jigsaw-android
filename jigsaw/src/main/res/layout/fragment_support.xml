@@ -13,18 +13,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="140dp"
-            android:orientation="vertical" >
+        <!--<LinearLayout-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="140dp"-->
+            <!--android:orientation="vertical" >-->
 
-            <WebView
-                android:id="@+id/webViewSupport"
-                android:layout_width="fill_parent"
-                android:layout_height="140dp"
-                android:scrollbars="none" />
+            <!--<WebView-->
+                <!--android:id="@+id/webViewSupport"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="140dp"-->
+                <!--android:scrollbars="none" />-->
 
-            </LinearLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/textViewLabelHeader"-->
+                <!--style="@android:style/TextAppearance.Large"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
+                <!--android:text="@string/label_support_title" />-->
+
+            <!--</LinearLayout>-->
 
             <View
                 android:layout_width="fill_parent"

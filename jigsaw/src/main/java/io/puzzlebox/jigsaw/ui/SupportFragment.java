@@ -42,7 +42,7 @@ public class SupportFragment extends Fragment {
 	/**
 	 * Configuration
 	 */
-	static String supportURL = "file:///android_asset/support.html";
+//	static String supportURL = "file:///android_asset/support.html";
 	static String contactURL = "http://puzzlebox.io/cgi-bin/puzzlebox/support_contact/puzzlebox_orbit_support_gateway.py";
 	String versionName = "";
 
@@ -123,16 +123,16 @@ public class SupportFragment extends Fragment {
 			}
 		});
 
-		WebView webview = (WebView) v.findViewById(R.id.webViewSupport);
-
-		webview.getSettings().setJavaScriptEnabled(true);
-
-		webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(false);
-
-		// Allow launching of Forums and Development Tracker in external browsers
-//		webview.setWebViewClient(new compatibilityWebViewClient());
-
-		webview.loadUrl(supportURL);
+//		WebView webview = (WebView) v.findViewById(R.id.webViewSupport);
+//
+//		webview.getSettings().setJavaScriptEnabled(true);
+//
+//		webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(false);
+//
+//		// Allow launching of Forums and Development Tracker in external browsers
+////		webview.setWebViewClient(new compatibilityWebViewClient());
+//
+//		webview.loadUrl(supportURL);
 
 		return v;
 
