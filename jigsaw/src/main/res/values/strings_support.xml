@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_fragment_support">Support</string>
+
+    <string name="label_support_title">Questions, Comments, or Ideas?</string>
+
+    <string name="label_support_name">Name:</string>
+    <string name="label_support_email">Email:</string>
+    <string name="label_support_message">Message:</string>
+    <string name="button_support_send">Send to Puzzlebox</string>
+
+</resources>
