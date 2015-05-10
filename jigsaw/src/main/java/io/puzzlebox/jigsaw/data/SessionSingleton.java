@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Locale;
 
 import io.puzzlebox.jigsaw.R;
-import io.puzzlebox.jigsaw.protocol.ThinkGearService;
 
 public class SessionSingleton {
 
@@ -304,20 +303,22 @@ public class SessionSingleton {
 	public String getExportDataCSV() {
 
 		String output = "";
+		String current;
 
 		List<String[]> dataCSV = getExportData();
 
 		if (dataCSV == null)
 			return output;
 
-////		for (int i = dataCSV.size() - 1; i >= 0; i--) {
-//		for (int i = 0; i <= dataCSV.size() - 1; i++) {
-//			output = output + dataCSV.get(i) + "\n";
-//		}
 
 		for (String[] line: dataCSV) {
-			output = output + Arrays.toString(line) + "\n";
-//			Log.e(TAG, Arrays.toString(line));
+
+			current = Arrays.toString(line);
+			current = current.replaceAll("\\[", "");
+			current = current.replaceAll("]", "");
+			output = output + current + "\n";
+
+//			Log.e(TAG, current);
 		}
 
 		return output;
