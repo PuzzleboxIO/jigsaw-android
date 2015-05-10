@@ -17,6 +17,13 @@ https://www.gnu.org/licenses/agpl-3.0.html
 
 ============
 
+Download APK:
+
+Google Play: https://play.google.com/store/apps/details?id=io.puzzlebox.jigsaw.android
+
+
+============
+
 Instructions:
 
 Certain devices require downloading of proprietary SDK libraries:

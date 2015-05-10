@@ -30,7 +30,7 @@ public class SessionSingleton {
 	private static Date currentTimestamp = new Date();
 	private static Date sessionTimestamp = new Date();
 
-	private static String sessionName;
+	private static String sessionName = "Untitled"; // default for when Session fragment is never loaded
 
 	private static String sessionFilename;
 
