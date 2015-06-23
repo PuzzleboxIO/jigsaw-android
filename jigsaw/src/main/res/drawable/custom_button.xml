@@ -3,14 +3,19 @@
 
     <item
         android:state_pressed="true">
-        
+
         <shape>
+
+            <!--<solid-->
+            <!--            android:color="#E0FFFF" />-->
+
             <solid
-                android:color="#E0FFFF" />
+                android:color="#F8F8F8" />
 
             <!--<stroke-->
-                <!--android:width="1dp"-->
-                <!--android:color="#992f2f" />-->
+            <!--android:width="1dp"-->
+            <!--android:color="#992f2f" />-->
+
             <stroke
                 android:width="1dp"
                 android:color="#555555" />
@@ -18,24 +23,32 @@
             <corners
                 android:radius="6dp" />
 
+            <!--<padding-->
+                <!--android:bottom="5dp"-->
+                <!--android:left="10dp"-->
+                <!--android:right="10dp"-->
+                <!--android:top="5dp" />-->
             <padding
-                android:bottom="5dp"
+                android:bottom="6dp"
                 android:left="10dp"
                 android:right="10dp"
-                android:top="5dp" />
+                android:top="6dp" />
         </shape>
     </item>
-    
+
     <item>
         <shape>
             <gradient
                 android:angle="270"
-                android:endColor="#87CEEB"
-                android:startColor="#ADD8E6" />
+                android:endColor="#C1C1C1"
+                android:startColor="#D0D0D0" />
+
+            <!--android:endColor="#87CEEB"-->
+            <!--android:startColor="#ADD8E6" />-->
 
             <!--<stroke-->
-                <!--android:width="1dp"-->
-                <!--android:color="#992f2f" />-->
+            <!--android:width="1dp"-->
+            <!--android:color="#992f2f" />-->
             <stroke
                 android:width="1dp"
                 android:color="#555555" />
@@ -43,11 +56,16 @@
             <corners
                 android:radius="6dp" />
 
+            <!--<padding-->
+                <!--android:bottom="5dp"-->
+                <!--android:left="10dp"-->
+                <!--android:right="10dp"-->
+                <!--android:top="5dp" />-->
             <padding
-                android:bottom="5dp"
+                android:bottom="6dp"
                 android:left="10dp"
                 android:right="10dp"
-                android:top="5dp" />
+                android:top="6dp" />
         </shape>
     </item>
 

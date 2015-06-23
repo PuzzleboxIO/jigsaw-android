@@ -240,6 +240,8 @@ public class EEGFragment extends Fragment implements
 			//		final PlotStatistics histStats = new PlotStatistics(1000, false);
 			//		eegRawHistoryPlot.addListener(histStats);
 
+		} else {
+			Log.e(TAG, "eegRawHistoryPlot is null");
 		}
 
 
@@ -251,7 +253,8 @@ public class EEGFragment extends Fragment implements
 
 //		spinnerEEG = (Spinner) v.findViewById(R.id.spinnerEEG);
 
-		String[] items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InterAxon Muse"};
+//		String[] items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InterAxon Muse"};
+		String[] items = new String[] {"NeuroSky MindWave Mobile", "NeuroSky MindSet"};
 
 //		if (ThinkGearService.eegConnected || ThinkGearService.eegConnecting)
 //			items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InterAxon Muse"};
@@ -623,6 +626,14 @@ public class EEGFragment extends Fragment implements
 				}
 				break;
 
+			case "NeuroSky MindSet":
+				if (! ThinkGearService.eegConnected) {
+					getActivity().startService(intentThinkGear);
+				} else {
+					disconnectHeadset();
+				}
+				break;
+
 			case "Emotiv Insight":
 				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support coming soon", Toast.LENGTH_SHORT).show();
 				break;
@@ -656,6 +667,11 @@ public class EEGFragment extends Fragment implements
 		switch (String.valueOf(spinnerEEG.getSelectedItem())) {
 
 			case "NeuroSky MindWave Mobile":
+				ThinkGearService.disconnectHeadset();
+				getActivity().stopService(intentThinkGear);
+				break;
+
+			case "NeuroSky MindSet":
 				ThinkGearService.disconnectHeadset();
 				getActivity().stopService(intentThinkGear);
 				break;
