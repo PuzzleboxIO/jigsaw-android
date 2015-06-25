@@ -148,8 +148,8 @@ public class MainActivity extends AppCompatActivity implements
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_welcome), io.puzzlebox.jigsaw.R.mipmap.ic_puzzlebox));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session_color));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
-//		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_training), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
-		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_training), R.drawable.bgbox));
+		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_training), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
+//		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_training), R.drawable.bgbox));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_support), io.puzzlebox.jigsaw.R.mipmap.ic_support));
 
 		return dataList;

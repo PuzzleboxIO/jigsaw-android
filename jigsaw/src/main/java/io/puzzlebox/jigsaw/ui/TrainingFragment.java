@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
-import android.graphics.Point;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.Display;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import io.puzzlebox.jigsaw.data.SessionSingleton;
 import io.puzzlebox.jigsaw.protocol.EngineConnector;
 import io.puzzlebox.jigsaw.protocol.EngineInterface;
 
@@ -36,6 +38,7 @@ import io.puzzlebox.jigsaw.data.DataSpinner;
 import io.puzzlebox.jigsaw.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -52,6 +55,7 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 
 	Spinner spinAction;
 	Button btnTrain,btnClear;
+	Button btConnect;
 	ProgressBar progressBarTime,progressPower;
 	AdapterSpinner spinAdapter;
 	ImageView imgBox;
@@ -110,7 +114,7 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 //		super.onCreate(savedInstanceState);
 //		setContentView(R.layout.fragment_training);
 //		engineConnector = EngineConnector.shareInstance();
-		engineConnector = EngineConnector.shareInstance(getActivity().getApplicationContext());
+		engineConnector = EngineConnector.shareInstance(getActivity());
 		engineConnector.delegate = this;
 //		init();
 //	}
@@ -119,13 +123,25 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 //	public void init()
 //	{
 		spinAction=(Spinner)v.findViewById(R.id.spinnerAction);
-		btnTrain=(Button)v.findViewById(R.id.btstartTraing);
+		btnTrain=(Button)v.findViewById(R.id.btstartTraining);
+
+		btConnect = (Button) v.findViewById(R.id.btConnect);
+		btConnect.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				engineConnector.resetEngine();
+
+				engineConnector = EngineConnector.shareInstance(getActivity());
+				engineConnector.delegate = TrainingFragment.this;
+			}
+		});
+
 		btnClear=(Button)v.findViewById(R.id.btClearData);
 		btnClear.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				switch (indexAction) {
 					case 0:
 						engineConnector.trainningClear(IEE_MentalCommandAction_t.MC_NEUTRAL.ToInt());
@@ -159,14 +175,12 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 				indexAction=arg2;
 			}
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
 			}
 		});
 		btnTrain.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				if(!engineConnector.isConnected)
 					Toast.makeText(getActivity(), "You need to connect to your headset.", Toast.LENGTH_SHORT).show();
 				else{
@@ -317,22 +331,21 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 		timerTask=new TimerTask() {
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				handlerUpdateUI.sendEmptyMessage(0);
 			}
 		};
 	}
 
-//	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-//		Display display = getWindowManager().getDefaultDisplay();
-		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		Point size = new Point();
-		display.getSize(size);
-		widthScreen = size.x;
-		startLeft = imgBox.getLeft();
-		startRight = imgBox.getRight();
-	}
+////	@Override
+//	public void onWindowFocusChanged(boolean hasFocus) {
+////		Display display = getWindowManager().getDefaultDisplay();
+//		Display display = getActivity().getWindowManager().getDefaultDisplay();
+//		Point size = new Point();
+//		display.getSize(size);
+//		widthScreen = size.x;
+//		startLeft = imgBox.getLeft();
+//		startRight = imgBox.getRight();
+//	}
 
 	private void moveImage() {
 		float power = _currentPower;
@@ -375,25 +388,22 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 	}
 	@Override
 	public void userAdd(int userId) {
-		// TODO Auto-generated method stub
 		this.userId=userId;
 	}
 	@Override
 	public void currentAction(int typeAction, float power) {
-		// TODO Auto-generated method stub
 		progressPower.setProgress((int)(power*100));
 		_currentAction = typeAction;
 		_currentPower  = power;
+		processPacketEEG();
 	}
 
 	@Override
 	public void userRemoved() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void trainStarted() {
-		// TODO Auto-generated method stub
 		progressBarTime.setVisibility(View.VISIBLE);
 		btnClear.setClickable(false);
 		spinAction.setClickable(false);
@@ -404,7 +414,6 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 
 	@Override
 	public void trainSucceed() {
-		// TODO Auto-generated method stub
 		progressBarTime.setVisibility(View.INVISIBLE);
 		btnTrain.setText("Train");
 		enableClick();
@@ -437,7 +446,6 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 
 	@Override
 	public void trainCompleted() {
-		// TODO Auto-generated method stub
 		ProfileManagerUser.shareInstance().saveUserProfile(this.userId);
 		DataSpinner data=model.get(indexAction);
 		data.setChecked(true);
@@ -447,7 +455,6 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 
 	@Override
 	public void trainRejected() {
-		// TODO Auto-generated method stub
 		DataSpinner data=model.get(indexAction);
 		data.setChecked(false);
 		model.set(indexAction, data);
@@ -459,7 +466,6 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 
 	@Override
 	public void trainErased() {
-		// TODO Auto-generated method stub
 		new AlertDialog.Builder(getActivity())
 				  .setTitle("Training Erased")
 				  .setMessage("")
@@ -480,7 +486,6 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 
 	@Override
 	public void trainReset() {
-		// TODO Auto-generated method stub
 		if(timer!=null){
 			timer.cancel();
 			timerTask.cancel();
@@ -495,5 +500,54 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 //		android.os.Process.killProcess(android.os.Process.myPid());
 //		finish();
 //	}
+
+	// ################################################################
+
+	public void processPacketEEG() {
+
+//		Log.d(TAG, "processPacketEEG()");
+
+		try {
+			SessionSingleton.getInstance().updateTimestamp();
+
+			HashMap<String, String> packet;
+			packet = new HashMap<>();
+
+			packet.put("Date", SessionSingleton.getInstance().getCurrentDate());
+			packet.put("Time", SessionSingleton.getInstance().getCurrentTimestamp());
+			packet.put("Attention", String.valueOf( (int)(_currentPower*100) ));
+			packet.put("Meditation", String.valueOf(0));
+
+//			packet.put("Signal Level", String.valueOf(eegSignal));
+			packet.put("Signal Level", String.valueOf(0));
+
+			Log.v(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
+			SessionSingleton.getInstance().appendData(packet);
+
+			broadcastPacketEEG(packet);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// ################################################################
+
+	private  void broadcastPacketEEG(HashMap<String, String> packet) {
+
+		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.thinkgear.packet");
+
+		intent.putExtra("Date", packet.get("Date"));
+		intent.putExtra("Time", packet.get("Time"));
+		intent.putExtra("Attention", packet.get("Attention"));
+		intent.putExtra("Meditation", packet.get("Meditation"));
+		intent.putExtra("Signal Level", packet.get("Signal Level"));
+////			intent.putExtra("Power", packet.get("Power"));
+//		intent.putExtra("eegConnected", String.valueOf(eegConnected));
+//		intent.putExtra("eegConnecting", String.valueOf(eegConnecting));
+
+		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+
+	}
 
 }

@@ -47,6 +47,7 @@ import java.util.Arrays;
 //import io.puzzlebox.jigsaw.data.CreateSessionFileInGoogleDrive;
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
+import io.puzzlebox.jigsaw.protocol.InsightService;
 import io.puzzlebox.jigsaw.protocol.MuseService;
 import io.puzzlebox.jigsaw.protocol.ThinkGearService;
 
@@ -858,6 +859,24 @@ public class EEGFragment extends Fragment implements
 			MuseService.eegPower = calculateSpeed();
 
 			progressBarPower.setProgress(MuseService.eegPower);
+
+
+		}
+
+
+		if (InsightService.eegConnected) {
+
+//			Log.d(TAG, "MuseService.eegConnected: eegSignal: " + MuseService.eegSignal);
+//			if (MuseService.eegSignal < 100) {
+//				MuseService.eegConcentration = 0;
+//				MuseService.eegMellow = 0;
+//				progressBarAttention.setProgress(MuseService.eegConcentration);
+//				progressBarMeditation.setProgress(MuseService.eegMellow);
+//			}
+
+			InsightService.eegPower = calculateSpeed();
+
+			progressBarPower.setProgress(InsightService.eegPower);
 
 
 		}

@@ -402,7 +402,7 @@ public class MuseService extends Service {
 
 	// ################################################################
 
-	private  void broadcastEventEEG(String name, String value) {
+	private void broadcastEventEEG(String name, String value) {
 
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.thinkgear.event");
 

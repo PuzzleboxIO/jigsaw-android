@@ -70,6 +70,11 @@ public class EngineConnector {
 		timer.schedule(timerTask, 0, 10);
 	}
 
+	public void resetEngine(){
+		engineConnectInstance = null;
+	}
+
+
 	public void enableMentalcommandActions(IEE_MentalCommandAction_t _MetalcommandAction) {
 		long MetaCommandActions;
 		long[] activeAction = IEdk.IEE_MentalCommandGetActiveActions(userId);

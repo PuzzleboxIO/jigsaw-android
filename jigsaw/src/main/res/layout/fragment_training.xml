@@ -100,16 +100,28 @@
         android:background="#2d2d2d" >
 
         <Button
-            android:id="@+id/btstartTraing"
+            android:id="@+id/btConnect"
             android:layout_width="200dp"
             android:layout_height="50dp"
-            android:layout_centerInParent="true"
             android:background="@drawable/training_border"
+            android:enabled="true"
+            android:text="Connect"
+            android:textColor="#ffffff"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btstartTraining"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/training_border"
+            android:layout_toRightOf="@+id/btConnect"
             android:enabled="true"
             android:text="Train"
             android:textColor="#ffffff"
             android:textSize="15dp"
             android:textStyle="bold" />
+        <!--android:layout_centerInParent="true"-->
     </RelativeLayout>
 
 </RelativeLayout>

@@ -19,6 +19,12 @@ public class InsightService extends Service {
 
 	private final static String TAG = InsightService.class.getSimpleName();
 
+//	public static boolean eegConnected = false;
+	public static boolean eegConnected = true;
+	public static boolean eegConnecting = false;
+
+	public static int eegPower = 0;
+
 	EngineConnector engineConnector;
 
 	private ServiceHandler mServiceHandler;
