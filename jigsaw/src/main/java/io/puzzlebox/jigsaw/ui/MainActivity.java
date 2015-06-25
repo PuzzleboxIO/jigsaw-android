@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements
 		  WelcomeFragment.OnFragmentInteractionListener,
 		  SessionFragment.OnFragmentInteractionListener,
 		  EEGFragment.OnFragmentInteractionListener,
+		  TrainingFragment.OnFragmentInteractionListener,
 		  SupportFragment.OnFragmentInteractionListener
 {
 
@@ -143,9 +144,12 @@ public class MainActivity extends AppCompatActivity implements
 	protected List<DrawerItem> getDrawerDataList() {
 		List<DrawerItem> dataList = new ArrayList<>();
 
+
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_welcome), io.puzzlebox.jigsaw.R.mipmap.ic_puzzlebox));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session_color));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
+//		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_training), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
+		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_training), R.drawable.bgbox));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_support), io.puzzlebox.jigsaw.R.mipmap.ic_support));
 
 		return dataList;
@@ -191,6 +195,16 @@ public class MainActivity extends AppCompatActivity implements
 					fragment = new EEGFragment();
 				break;
 			case 3:
+				backStackName = "training";
+				try{
+					fragment = getFragmentManager().findFragmentByTag(backStackName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (fragment == null)
+					fragment = new TrainingFragment();
+				break;
+			case 4:
 				backStackName = "support";
 				try{
 					fragment = getFragmentManager().findFragmentByTag(backStackName);

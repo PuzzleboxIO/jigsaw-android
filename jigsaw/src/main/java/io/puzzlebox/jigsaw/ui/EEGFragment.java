@@ -254,7 +254,8 @@ public class EEGFragment extends Fragment implements
 //		spinnerEEG = (Spinner) v.findViewById(R.id.spinnerEEG);
 
 //		String[] items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InterAxon Muse"};
-		String[] items = new String[] {"NeuroSky MindWave Mobile", "NeuroSky MindSet"};
+		String[] items = new String[] {"Emotiv Insight", "NeuroSky MindWave Mobile", "InterAxon Muse"};
+//		String[] items = new String[] {"NeuroSky MindWave Mobile", "NeuroSky MindSet"};
 
 //		if (ThinkGearService.eegConnected || ThinkGearService.eegConnecting)
 //			items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InterAxon Muse"};
