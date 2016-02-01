@@ -29,7 +29,8 @@ import io.puzzlebox.jigsaw.data.SessionSingleton;
 public class MainActivity extends AppCompatActivity implements
 		  WelcomeFragment.OnFragmentInteractionListener,
 		  SessionFragment.OnFragmentInteractionListener,
-		  EEGFragment.OnFragmentInteractionListener
+		  EEGFragment.OnFragmentInteractionListener,
+		  SupportFragment.OnFragmentInteractionListener
 {
 
 	private final static String TAG = MainActivity.class.getSimpleName();
@@ -69,12 +70,6 @@ public class MainActivity extends AppCompatActivity implements
 
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 				  GravityCompat.START);
-
-
-		// Add Drawer Item to dataList
-//		dataList.add(new DrawerItem(getString(R.string.title_fragment_welcome), R.mipmap.ic_puzzlebox));
-//		dataList.add(new DrawerItem(getString(R.string.title_fragment_session), R.mipmap.ic_session));
-//		dataList.add(new DrawerItem(getString(R.string.title_fragment_eeg), R.mipmap.ic_eeg));
 
 		dataList = getDrawerDataList();
 
@@ -149,8 +144,9 @@ public class MainActivity extends AppCompatActivity implements
 		List<DrawerItem> dataList = new ArrayList<>();
 
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_welcome), io.puzzlebox.jigsaw.R.mipmap.ic_puzzlebox));
-		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session));
-		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg));
+		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session_color));
+		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
+		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_support), io.puzzlebox.jigsaw.R.mipmap.ic_support));
 
 		return dataList;
 	}
@@ -197,8 +193,18 @@ public class MainActivity extends AppCompatActivity implements
 				}
 				if (fragment == null)
 					fragment = new EEGFragment();
-
 				break;
+			case 3:
+				backStackName = "support";
+				try{
+					fragment = getFragmentManager().findFragmentByTag(backStackName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (fragment == null)
+					fragment = new SupportFragment();
+				break;
+
 			default:
 				break;
 		}

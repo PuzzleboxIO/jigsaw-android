@@ -37,9 +37,9 @@
             android:enabled="true"
             android:exported="false" />
 
-        <service
-            android:name=".protocol.RBLService"
-            android:enabled="true" />
+        <!--<service-->
+            <!--android:name=".protocol.RBLService"-->
+            <!--android:enabled="true" />-->
 
     </application>
 

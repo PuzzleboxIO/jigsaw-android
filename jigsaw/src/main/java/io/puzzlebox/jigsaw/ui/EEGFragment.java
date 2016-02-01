@@ -59,7 +59,7 @@ public class EEGFragment extends Fragment implements
 	/**
 	 * TODO
 	 * - Progress Bars colors no longer edge-to-edge
-	 \	 * - Power calculation not appearing in exported CSV files
+	 * - Power calculation not appearing in exported CSV files
 	 */
 
 	private final static String TAG = EEGFragment.class.getSimpleName();
