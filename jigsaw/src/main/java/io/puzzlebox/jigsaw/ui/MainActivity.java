@@ -197,7 +197,8 @@ public class MainActivity extends AppCompatActivity implements
 			case 3:
 				backStackName = "support";
 				try{
-					fragment = getFragmentManager().findFragmentByTag(backStackName);
+//					fragment = getFragmentManager().findFragmentByTag(backStackName);
+                    fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
