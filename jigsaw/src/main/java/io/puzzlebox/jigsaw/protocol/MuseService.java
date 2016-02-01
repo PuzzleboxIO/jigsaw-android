@@ -16,6 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+/**
+ * Dependencies
+ * Available from: http://www.choosemuse.com/developer-kit/
+ * jigsaw-android/jigsaw/libs/libmuseandroid.jar
+ * jigsaw-android/jigsaw/src/main/jniLibs/armeabi/libmuse.so
+ */
 import com.interaxon.libmuse.Accelerometer;
 import com.interaxon.libmuse.ConnectionState;
 import com.interaxon.libmuse.Eeg;
