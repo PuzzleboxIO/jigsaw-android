@@ -13,7 +13,11 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
-
+/**
+ * Dependencies
+ * Available from: http://store.neurosky.com/products/developer-tools-3-android
+ * jigsaw-android/jigsaw/libs/ThinkGear.jar
+ */
 import com.neurosky.thinkgear.TGDevice;
 
 import java.util.HashMap;
