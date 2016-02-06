@@ -156,6 +156,87 @@
 
             </LinearLayout>
 
+
+            <TextView
+                android:id="@+id/textViewLabelTraining"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_medium"
+                android:text="@string/label_training" />
+
+            <ProgressBar
+                android:id="@+id/progressBarTraining"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dip"
+                android:paddingLeft="@dimen/padding_small"
+                android:paddingRight="@dimen/padding_small"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+
+            <TextView
+                android:id="@+id/textViewLabelCognitiv"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_medium"
+                android:text="@string/label_cognitiv" />
+
+            <ProgressBar
+                android:id="@+id/progressBarCognitiv"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dip"
+                android:paddingLeft="@dimen/padding_small"
+                android:paddingRight="@dimen/padding_small"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+
+            <LinearLayout
+                android:id="@+id/layoutTraining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinnerTraining"
+                    android:entries="@array/eeg_training"
+                    android:layout_weight="1"
+                    android:spinnerMode="dropdown"
+                    android:transitionGroup="false"/>
+
+                <Button
+                    android:id="@+id/buttonTrain"
+                    style="@style/button_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/custom_button"
+                    android:text="@string/buttonTrain"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+
+                <Button
+                    android:id="@+id/buttonClear"
+                    style="@style/button_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/custom_button"
+                    android:text="@string/buttonClear"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+
+                <!--android:theme="@style/Dropdown"/>-->
+
+            </LinearLayout>
+
             <!--<Button-->
             <!--android:id="@+id/buttonSaveSession"-->
             <!--style="@style/button_text"-->

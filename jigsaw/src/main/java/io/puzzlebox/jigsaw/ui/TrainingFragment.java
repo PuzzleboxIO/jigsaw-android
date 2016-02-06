@@ -36,6 +36,7 @@ import io.puzzlebox.jigsaw.data.AdapterSpinner;
 import io.puzzlebox.jigsaw.data.DataSpinner;
 
 import io.puzzlebox.jigsaw.R;
+import io.puzzlebox.jigsaw.protocol.InsightService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,7 +71,7 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 	float startRight    = 0;
 	float widthScreen   = 0;
 
-	boolean isTrainning = false;
+	boolean isTraining = false;
 
 
 	// ################################################################
@@ -181,6 +182,11 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 
 			@Override
 			public void onClick(View v) {
+
+
+				InsightService.eegConnected = true;
+
+
 				if(!engineConnector.isConnected)
 					Toast.makeText(getActivity(), "You need to connect to your headset.", Toast.LENGTH_SHORT).show();
 				else{
@@ -277,8 +283,8 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 	};
 
 	public void startTrainingMentalcommand(IEE_MentalCommandAction_t MentalCommandAction) {
-		isTrainning = engineConnector.startTrainingMetalcommand(isTrainning, MentalCommandAction);
-		btnTrain.setText((isTrainning) ? "Abort Trainning" : "Train");
+		isTraining = engineConnector.startTrainingMetalcommand(isTraining, MentalCommandAction);
+		btnTrain.setText((isTraining) ? "Abort Trainning" : "Train");
 	}
 
 	public void setDataSpinner()
@@ -349,7 +355,7 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 
 	private void moveImage() {
 		float power = _currentPower;
-		if(isTrainning){
+		if(isTraining){
 			imgBox.setLeft((int)(startLeft));
 			imgBox.setRight((int) startRight);
 			imgBox.setScaleX(1.0f);
@@ -461,7 +467,7 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 		spinAdapter.notifyDataSetChanged();
 		ProfileManagerUser.shareInstance().saveUserProfile(this.userId);
 		enableClick();
-		isTrainning = false;
+		isTraining = false;
 	}
 
 	@Override
@@ -481,7 +487,7 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 		model.set(indexAction, data);
 		spinAdapter.notifyDataSetChanged();
 		enableClick();
-		isTrainning = false;
+		isTraining = false;
 	}
 
 	@Override
@@ -490,7 +496,7 @@ public class TrainingFragment extends Fragment implements EngineInterface {
 			timer.cancel();
 			timerTask.cancel();
 		}
-		isTrainning = false;
+		isTraining = false;
 		progressBarTime.setVisibility(View.INVISIBLE);
 		progressBarTime.setProgress(0);
 		enableClick();

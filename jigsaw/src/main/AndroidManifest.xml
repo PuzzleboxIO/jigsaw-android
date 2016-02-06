@@ -38,6 +38,11 @@
             android:exported="false" />
 
         <!--<service-->
+            <!--android:name=".protocol.InsightService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="false" />-->
+
+        <!--<service-->
             <!--android:name=".protocol.RBLService"-->
             <!--android:enabled="true" />-->
 

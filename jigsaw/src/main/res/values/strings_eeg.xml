@@ -7,7 +7,6 @@
     <string name="label_meditation">Meditation</string>
     <!--<string name="label_attention">Concentration</string>-->
     <!--<string name="label_meditation">Mental Relaxation</string>-->
-    <!--<string name="label_cognitiv">Cognitiv</string>-->
     <string name="label_signal">Sensor Contact</string>
     <string name="label_power">Target</string>
 
@@ -21,6 +20,20 @@
         <item>NeuroSky MindWave Mobile</item>
         <item>Emotiv Insight</item>
         <item>InterAxon Muse</item>
+    </string-array>
+
+    <string name="label_training">Training</string>
+    <string name="label_cognitiv">Cognitiv</string>
+
+    <string name="buttonTrain">Train</string>
+    <string name="buttonClear">Clear</string>
+
+    <string-array name="eeg_training">
+        <item>Neutral</item>
+        <item>Push</item>
+        <item>Pull</item>
+        <item>Left</item>
+        <item>Right</item>
     </string-array>
 
 </resources>

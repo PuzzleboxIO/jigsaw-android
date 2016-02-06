@@ -230,7 +230,7 @@ public class MuseService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-//		Toast.makeText(this, "Destroying ThinkGear Service", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "Destroying Muse Service", Toast.LENGTH_SHORT).show();
 		Log.e(TAG, "onDestroy()");
 	}
 

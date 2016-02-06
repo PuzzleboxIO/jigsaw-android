@@ -7,10 +7,15 @@
 package io.puzzlebox.jigsaw.ui;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -19,6 +24,7 @@ import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
@@ -43,18 +49,22 @@ import com.androidplot.xy.XYPlot;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.UUID;
 
 //import io.puzzlebox.jigsaw.data.CreateSessionFileInGoogleDrive;
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
+import io.puzzlebox.jigsaw.protocol.ThinkGearService;
 import io.puzzlebox.jigsaw.protocol.InsightService;
 import io.puzzlebox.jigsaw.protocol.MuseService;
-import io.puzzlebox.jigsaw.protocol.ThinkGearService;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 
 public class EEGFragment extends Fragment implements
-		  SeekBar.OnSeekBarChangeListener {
+		  SeekBar.OnSeekBarChangeListener
+//		  BluetoothAdapter.LeScanCallback
+{
+
 
 	/**
 	 * TODO
@@ -67,6 +77,23 @@ public class EEGFragment extends Fragment implements
 	private static OnFragmentInteractionListener mListener;
 
 	private static View v;
+
+
+	private BluetoothAdapter mBluetoothAdapter;
+	private BluetoothGatt mConnectedGatt;
+	BluetoothDevice device;
+	Handler mHandler;
+
+
+	/* Client Configuration Descriptor */
+	private static final UUID CONFIG_DESCRIPTOR = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+
+	/** Health Thermometer service UUID */
+	public final static UUID HT_SERVICE_UUID = UUID.fromString("00001809-0000-1000-8000-00805f9b34fb");
+	/** Health Thermometer Measurement characteristic UUID */
+//	private static final UUID HT_MEASUREMENT_CHARACTERISTIC_UUID = UUID.fromString("00002A1C-0000-1000-8000-00805f9b34fb");
+	private static final UUID HT_MEASUREMENT_CHARACTERISTIC_UUID = UUID.fromString("00002A6E-0000-1000-8000-00805f9b34fb");
+
 
 	/**
 	 * Configuration
@@ -86,6 +113,8 @@ public class EEGFragment extends Fragment implements
 	private static ProgressBar progressBarSignal;
 	private static ProgressBar progressBarPower;
 	private static ProgressBar progressBarBlink;
+	private static ProgressBar progressBarTraining;
+	private static ProgressBar progressBarCognitiv;
 
 	private static Spinner spinnerEEG;
 
@@ -98,6 +127,7 @@ public class EEGFragment extends Fragment implements
 
 	private static Intent intentThinkGear;
 	private static Intent intentMuse;
+	private static Intent intentInsight;
 
 
 	// ################################################################
@@ -187,6 +217,22 @@ public class EEGFragment extends Fragment implements
 
 		progressBarBlink.setMax(ThinkGearService.blinkRangeMax);
 
+		progressBarTraining = (ProgressBar) v.findViewById(R.id.progressBarTraining);
+		ShapeDrawable progressBarTrainingDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
+		String progressBarTrainingColor = "#FF0000";
+		progressBarPowerDrawable.getPaint().setColor(Color.parseColor(progressBarTrainingColor));
+		ClipDrawable progressTraining = new ClipDrawable(progressBarPowerDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		progressBarTraining.setProgressDrawable(progressTraining);
+		progressBarTraining.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+
+		progressBarCognitiv = (ProgressBar) v.findViewById(R.id.progressBarCognitiv);
+		ShapeDrawable progressBarCognitivDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
+		String progressBarCognitivColor = "#0000FF";
+		progressBarPowerDrawable.getPaint().setColor(Color.parseColor(progressBarCognitivColor));
+		ClipDrawable progressCognitiv = new ClipDrawable(progressBarPowerDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		progressBarCognitiv.setProgressDrawable(progressPower);
+		progressBarCognitiv.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+
 
 		// setup the Raw EEG History plot
 		eegRawHistoryPlot = (XYPlot) v.findViewById(R.id.eegRawHistoryPlot);
@@ -258,8 +304,10 @@ public class EEGFragment extends Fragment implements
 		String[] items = new String[] {"Emotiv Insight", "NeuroSky MindWave Mobile", "InterAxon Muse"};
 //		String[] items = new String[] {"NeuroSky MindWave Mobile", "NeuroSky MindSet"};
 
-//		if (ThinkGearService.eegConnected || ThinkGearService.eegConnecting)
-//			items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InterAxon Muse"};
+		if (ThinkGearService.eegConnected || ThinkGearService.eegConnecting)
+			items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InterAxon Muse"};
+		if (InsightService.eegConnected || InsightService.eegConnecting)
+			items = new String[] {"Emotiv Insight", "NeuroSky MindWave Mobile", "InterAxon Muse"};
 		if (MuseService.eegConnected || MuseService.eegConnecting)
 			items = new String[] {"InterAxon Muse", "Emotiv Insight", "NeuroSky MindWave Mobile"};
 
@@ -301,6 +349,10 @@ public class EEGFragment extends Fragment implements
 			connectEEG.setText("Disconnect EEG");
 //			spinnerEEG.setSelection(spinnerEEG.getPosition(DEFAULT_CURRENCY_TYPE));
 //			spinnerEEG.setSelection(spinnerEEG.getAdapter(). .getPosition(DEFAULT_CURRENCY_TYPE));
+			spinnerEEG.setEnabled(false);
+		}
+		if (InsightService.eegConnected) {
+			connectEEG.setText("Disconnect EEG");
 			spinnerEEG.setEnabled(false);
 		}
 
@@ -347,6 +399,18 @@ public class EEGFragment extends Fragment implements
 
 		intentThinkGear = new Intent(getActivity(), ThinkGearService.class);
 		intentMuse = new Intent(getActivity(), MuseService.class);
+		intentInsight = new Intent(getActivity(), InsightService.class);
+
+
+
+//		         /*
+//         * Bluetooth in Android 4.3 is accessed via the BluetoothManager, rather than
+//         * the old static BluetoothAdapter.getInstance()
+//         */
+//		BluetoothManager manager = (BluetoothManager) getActivity().getSystemService(BLUETOOTH_SERVICE);
+//		mBluetoothAdapter = manager.getAdapter();
+//		startScan();
+//		mHandler = new Handler();
 
 
 		/**
@@ -419,6 +483,14 @@ public class EEGFragment extends Fragment implements
 				  getActivity().getApplicationContext()).unregisterReceiver(
 				  mEventReceiver);
 
+
+		//Disconnect from any active tag connection
+		if (mConnectedGatt != null) {
+			mConnectedGatt.close();
+			mConnectedGatt.disconnect();
+			mConnectedGatt = null;
+		}
+
 	} // onPause
 
 
@@ -439,7 +511,61 @@ public class EEGFragment extends Fragment implements
 		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
 				  mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
 
+
+//		        /*
+//         * We need to enforce that Bluetooth is first enabled, and take the
+//         * user to settings to enable it if they have not done so.
+//         */
+//		if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+//			//Bluetooth is disabled
+//			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//			startActivity(enableBtIntent);
+////			finish();
+//			return;
+//		}
+
+        /*
+         * Check for Bluetooth LE Support.  In production, our manifest entry will keep this
+         * from installing on these devices, but this will allow test devices or other
+         * sideloads to report whether or not the feature exists.
+         */
+//		if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+//			Toast.makeText(this, "No LE Support.", Toast.LENGTH_SHORT).show();
+//			finish();
+//			return;
+//		}
+
+		//Begin scanning for LE devices
+//		startScan();
+
+
 	}
+
+
+
+//	private Runnable mStopRunnable = new Runnable() {
+//		@Override
+//		public void run() {
+//			stopScan();
+//		}
+//	};
+//	private Runnable mStartRunnable = new Runnable() {
+//		@Override
+//		public void run() {
+//			startScan();
+//		}
+//	};
+//
+//	private void startScan() {
+//		//Scan for devices advertising the thermometer service
+//		mBluetoothAdapter.startLeScan(new UUID[]{HT_SERVICE_UUID}, this);
+//		mHandler.postDelayed(mStopRunnable, 5000);
+//	}
+//
+//	private void stopScan() {
+//		mBluetoothAdapter.stopLeScan(this);
+//		mHandler.postDelayed(mStartRunnable, 2500);
+//	}
 
 
 	// ################################################################
@@ -637,7 +763,16 @@ public class EEGFragment extends Fragment implements
 				break;
 
 			case "Emotiv Insight":
-				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support coming soon", Toast.LENGTH_SHORT).show();
+
+				Log.d(TAG, "here");
+
+//				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support coming soon", Toast.LENGTH_SHORT).show();
+				if (! InsightService.eegConnected) {
+					Log.d(TAG, "start");
+					getActivity().startService(intentInsight);
+				} else {
+					disconnectHeadset();
+				}
 				break;
 
 			case "InterAxon Muse":
@@ -679,7 +814,9 @@ public class EEGFragment extends Fragment implements
 				break;
 
 			case "Emotiv Insight":
-				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support coming soon", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support coming soon", Toast.LENGTH_SHORT).show();
+				InsightService.disconnectHeadset();
+				getActivity().stopService(intentInsight);
 				break;
 
 			case "InterAxon Muse":
@@ -866,21 +1003,11 @@ public class EEGFragment extends Fragment implements
 
 		if (InsightService.eegConnected) {
 
-//			Log.d(TAG, "MuseService.eegConnected: eegSignal: " + MuseService.eegSignal);
-//			if (MuseService.eegSignal < 100) {
-//				MuseService.eegConcentration = 0;
-//				MuseService.eegMellow = 0;
-//				progressBarAttention.setProgress(MuseService.eegConcentration);
-//				progressBarMeditation.setProgress(MuseService.eegMellow);
-//			}
-
 			InsightService.eegPower = calculateSpeed();
 
 			progressBarPower.setProgress(InsightService.eegPower);
 
-
 		}
-
 
 
 	} // updatePower
@@ -1066,6 +1193,208 @@ public class EEGFragment extends Fragment implements
 		}
 
 	};
+
+//	private BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+//		/* State Machine Tracking */
+//		private int mState = 0;
+//
+//		private void reset() { mState = 0; }
+//
+//		private void advance() { mState++; }
+//
+//		private String connectionState(int status) {
+//			switch (status) {
+//				case BluetoothProfile.STATE_CONNECTED:
+//					return "Connected";
+//				case BluetoothProfile.STATE_DISCONNECTED:
+//					return "Disconnected";
+//				case BluetoothProfile.STATE_CONNECTING:
+//					return "Connecting";
+//				case BluetoothProfile.STATE_DISCONNECTING:
+//					return "Disconnecting";
+//				default:
+//					return String.valueOf(status);
+//			}
+//		}
+//
+//		/*
+//			* Send an enable command to each sensor by writing a configuration
+//			* characteristic.  This is specific to the SensorTag to keep power
+//			* low by disabling sensors you aren't using.
+//			*/
+//		private void enableNextSensor(BluetoothGatt gatt) {
+//			Log.i(TAG,"******************************************************************enableNextSensor");
+//			BluetoothGattCharacteristic characteristic;
+//			characteristic = gatt.getService(HT_SERVICE_UUID)
+//					  .getCharacteristic(HT_MEASUREMENT_CHARACTERISTIC_UUID);
+//			// Check characteristic property
+//			final int properties = characteristic.getProperties();
+//
+//			if ((properties | BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
+//				Log.i(TAG,"**************************READ");
+//				// If there is an active notification on a characteristic, clear
+//				// it first so it doesn't update the data field on the user interface.
+//                /*if (mNotifyCharacteristic != null) {
+//                    mBluetoothLeService.setCharacteristicNotification(
+//                            mNotifyCharacteristic, false);
+//                    mNotifyCharacteristic = null;
+//                }
+//                mBluetoothLeService.readCharacteristic(characteristic);*/
+//			}
+//			if ((properties | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
+//				Log.i(TAG,"**************************NOTIFY");
+//				//mNotifyCharacteristic = characteristic;
+//				gatt.setCharacteristicNotification(
+//						  characteristic, true);
+//
+//				BluetoothGattDescriptor descriptor = characteristic.getDescriptor(
+//						  CONFIG_DESCRIPTOR);
+//				descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+//				gatt.writeDescriptor(descriptor);
+//			}
+//
+//		}
+//
+//		@Override
+//		public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+//			Log.i(TAG,"*********************************************************onCharacteristicWrite****************************");
+//			//After writing the enable flag, next we read the initial value
+//			readNextSensor(gatt);
+//		}
+//
+//		/*
+//			* Read the data characteristic's value for each sensor explicitly
+//			*/
+//		private void readNextSensor(BluetoothGatt gatt) {
+//			BluetoothGattCharacteristic characteristic;
+//			characteristic = gatt.getService(HT_SERVICE_UUID)
+//					  .getCharacteristic(HT_MEASUREMENT_CHARACTERISTIC_UUID);
+//			gatt.readCharacteristic(characteristic);
+//		}
+//
+//		@Override
+//		public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+//			//For each read, pass the data up to the UI thread to update the display
+//			if (HT_MEASUREMENT_CHARACTERISTIC_UUID.equals(characteristic.getUuid())) {
+//				//mHandler.sendMessage(Message.obtain(null, MSG_HUMIDITY, characteristic));
+//				//  updateTemperatureValue(characteristic);
+//				Log.i(TAG,"*********************************************************onCharacteristicRead****************************");
+//			}
+//
+//			//After reading the initial value, next we enable notifications
+//			setNotifyNextSensor(gatt);
+//		}
+//
+//		@Override
+//		public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+//			//Once notifications are enabled, we move to the next sensor and start over with enable
+//			advance();
+//			enableNextSensor(gatt);
+//		}
+//
+//		private void setNotifyNextSensor(BluetoothGatt gatt) {
+//			BluetoothGattCharacteristic characteristic;
+//			characteristic = gatt.getService(HT_SERVICE_UUID)
+//					  .getCharacteristic(HT_MEASUREMENT_CHARACTERISTIC_UUID);
+//			Log.i(TAG,"******************setNotify");
+//
+//			//Enable local notifications
+//			gatt.setCharacteristicNotification(characteristic, true);
+//			//Enabled remote notifications
+//			BluetoothGattDescriptor desc = characteristic.getDescriptor(CONFIG_DESCRIPTOR);
+//			desc.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+//			gatt.writeDescriptor(desc);
+//		}
+//
+//		@Override
+//		public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+//			Log.d(TAG, "******************************************************************Connetion State change =>" + status + "<= " + connectionState(newState));
+//			Log.d(TAG, "******************************************************************Gatt success =>" + BluetoothGatt.GATT_SUCCESS + "<= ");
+//			Log.d(TAG, "******************************************************************Connetion State connect =>" + BluetoothProfile.STATE_CONNECTED + "<= ");
+//			if (status == BluetoothGatt.GATT_SUCCESS && newState == BluetoothProfile.STATE_CONNECTED) {
+//				//hello.setText("Device Connected");
+//				Log.d(TAG,"***********************GATT_SUCCESS");
+//                /*
+//                 * Once successfully connected, we must next discover all the services on the
+//                 * device before we can read and write their characteristics.
+//                 */
+//				gatt.discoverServices();
+//
+//			} else if (status != BluetoothGatt.GATT_SUCCESS) {
+//				//hello.setText("Gatt Disconnected");
+//                /*
+//                 * If there is a failure at any stage, simply disconnect
+//                 */
+//				gatt.close();
+//				gatt.disconnect();
+//			}
+//		}
+//		@Override
+//		public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+//			Log.d(TAG, "Services Discovered: "+status);
+//
+//			//hello.setText("Services Discovered");
+//
+//			//if(status == BluetoothGatt.GATT_SUCCESS)
+//			//mHandler.sendMessage(Message.obtain(null, MSG_PROGRESS, "Enabling Sensors..."));
+//        /*
+//         * With services discovered, we are going to reset our state machine and start
+//         * working through the sensors we need to enable
+//         */
+//			reset();
+//			enableNextSensor(gatt);
+//		}
+//
+//		@Override
+//		public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+//
+//			Log.i(TAG,"*********************************************************onCharacteristicChanged**** I am here************************");
+//            /*
+//             * After notifications are enabled, all updates from the device on characteristic
+//             * value changes will be posted here.  Similar to read, we hand these up to the
+//             * UI thread to update the display.
+//             */
+//			if (HT_MEASUREMENT_CHARACTERISTIC_UUID.equals(characteristic.getUuid())) {
+//				// mHandler.sendMessage(Message.obtain(null, MSG_HUMIDITY, characteristic));
+//				Log.i(TAG,"*********************************************************onCharacteristicChanged****************************");
+//			}
+//
+//		}
+//	};
+//
+//    /* BluetoothAdapter.LeScanCallback */
+//
+//	@Override
+//	public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+//		Log.i(TAG, "New LE Device: " + device.getName() + " @ " + rssi);
+//
+//		if(device.getName() !=  null && device.getName().equals("TC-Geetha")) {
+//			Log.i(TAG,"*******Inside connectGatt");
+//            /*
+//             * Make a connection with the device using the special LE-specific
+//             * connectGatt() method, passing in a callback for GATT events
+//             */
+//
+//			mConnectedGatt = device.connectGatt(this, false, mGattCallback);
+//		}
+//        /*
+//         * We need to parse out of the AD structures from the scan record
+//         */
+//       /* List<AdRecord> records = AdRecord.parseScanRecord(scanRecord);
+//        if (records.size() == 0) {
+//            Log.i(TAG, "Scan Record Empty");
+//        } else {
+//            Log.i(TAG, "Scan Record: "
+//                    + TextUtils.join(",", records));
+//        }*/
+//
+//        /*
+//         * Create a new beacon from the list of obtains AD structures
+//         * and pass it up to the main thread
+//         */
+//		//TemperatureBeacon beacon = new TemperatureBeacon(records, device.getAddress(), rssi);
+//		//mHandler.sendMessage(Message.obtain(null, 0, beacon));
+//	}
 
 
 }

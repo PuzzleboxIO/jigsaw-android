@@ -1,31 +1,57 @@
 package io.puzzlebox.jigsaw.protocol;
 
+import android.app.AlertDialog;
 import android.app.Service;
-import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.*;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
-import com.neurosky.thinkgear.TGDevice;
+import io.puzzlebox.jigsaw.R;
+import io.puzzlebox.jigsaw.data.DataSpinner;
+import io.puzzlebox.jigsaw.data.ProfileManagerUser;
+import io.puzzlebox.jigsaw.data.SessionSingleton;
+import io.puzzlebox.jigsaw.protocol.EngineConnector;
+import io.puzzlebox.jigsaw.protocol.EngineInterface;
+import io.puzzlebox.jigsaw.ui.EEGFragment;
 
+import com.emotiv.insight.IEdk;
+import com.emotiv.insight.IEdk.IEE_MentalCommandTrainingControl_t;
+import com.emotiv.insight.IEmoStateDLL.IEE_MentalCommandAction_t;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
-/**
- * Created by sc on 6/24/15.
- */
-public class InsightService extends Service {
+
+//public class InsightService extends Service {
+public class InsightService extends Service implements EngineInterface {
 
 	private final static String TAG = InsightService.class.getSimpleName();
 
-//	public static boolean eegConnected = false;
-	public static boolean eegConnected = true;
+	public static boolean eegConnected = false;
+//	public static boolean eegConnected = true;
 	public static boolean eegConnecting = false;
 
 	public static int eegPower = 0;
 
+	boolean isTraining = false;
+
+	int indexAction;
+	int _currentAction;
+	float _currentPower = 0;
+	int userId=0;
+	int count=0;
+
 	EngineConnector engineConnector;
+
+	Timer timer;
+	TimerTask timerTask;
+	ArrayList<DataSpinner> model = new ArrayList<DataSpinner>();
 
 	private ServiceHandler mServiceHandler;
 
@@ -92,8 +118,7 @@ public class InsightService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
-//		Toast.makeText(this, "Starting ThinkGear Service", Toast.LENGTH_SHORT).show();
-		Toast.makeText(this, "Connecting to NeuroSky EEG", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Connecting to Insight EEG", Toast.LENGTH_SHORT).show();
 
 		// For each start request, send a message to start a job and deliver the
 		// start ID so we know which request we're stopping when we finish the job
@@ -101,9 +126,6 @@ public class InsightService extends Service {
 		msg.arg1 = startId;
 		mServiceHandler.sendMessage(msg);
 
-//		mContext = this.getApplicationContext();
-
-//		createService();
 
 		connectHeadset();
 
@@ -146,7 +168,7 @@ public class InsightService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-//		Toast.makeText(this, "Destroying ThinkGear Service", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "Destroying Insight Service", Toast.LENGTH_SHORT).show();
 		Log.e(TAG, "onDestroy()");
 	}
 
@@ -271,7 +293,7 @@ public class InsightService extends Service {
 //
 ////				if (arrayIndex == EEG_RAW_HISTORY_SIZE - 1) {
 //////					updateEEGRawHistory(rawEEG);
-////					arrayIndex = 0; // TODO should pass data to other fragments
+////					arrayIndex = 0;
 ////				}
 //
 //		  break;
@@ -322,7 +344,39 @@ public class InsightService extends Service {
 //
 //		}
 
+
+//		engineConnector = EngineConnector.shareInstance(getActivity());
+//		engineConnector.delegate = this;
+
+		engineConnector = EngineConnector.shareInstance(this);
+		engineConnector.delegate = this;
+
+
 	} // connectHeadset
+
+
+// ################################################################
+
+	public static void disconnectHeadset() {
+
+		/**
+		 * Called when "Disconnect" button is pressed
+		 */
+
+//		eegConnecting = false;
+//		eegConnected = false;
+//
+//		eegAttention = 0;
+//		eegMeditation = 0;
+//		eegSignal = 0;
+//		eegPower = 0;
+//
+//		if (tgDevice.getState() == TGDevice.STATE_CONNECTED) {
+//			tgDevice.stop();
+//			tgDevice.close();
+//		}
+
+	} // disconnectHeadset
 
 
 	// ################################################################
@@ -356,28 +410,32 @@ public class InsightService extends Service {
 	} // calculateSignal
 
 
-// ################################################################
+	// ################################################################
 
-	public static void disconnectHeadset() {
+	public void processPacketEEG() {
+		try {
+			SessionSingleton.getInstance().updateTimestamp();
 
-		/**
-		 * Called when "Disconnect" button is pressed
-		 */
+			HashMap<String, String> packet;
+			packet = new HashMap<>();
 
-//		eegConnecting = false;
-//		eegConnected = false;
-//
-//		eegAttention = 0;
-//		eegMeditation = 0;
-//		eegSignal = 0;
-//		eegPower = 0;
-//
-//		if (tgDevice.getState() == TGDevice.STATE_CONNECTED) {
-//			tgDevice.stop();
-//			tgDevice.close();
-//		}
+			packet.put("Date", SessionSingleton.getInstance().getCurrentDate());
+			packet.put("Time", SessionSingleton.getInstance().getCurrentTimestamp());
+			packet.put("Attention", String.valueOf( (int)(_currentPower*100) ));
+			packet.put("Meditation", String.valueOf(0));
 
-	} // disconnectHeadset
+//			packet.put("Signal Level", String.valueOf(eegSignal));
+			packet.put("Signal Level", String.valueOf(0));
+
+			Log.v(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
+			SessionSingleton.getInstance().appendData(packet);
+
+			broadcastPacketEEG(packet);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 
 	// ################################################################
@@ -412,5 +470,165 @@ public class InsightService extends Service {
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
 	}
+
+
+	Handler handlerUpdateUI=new Handler(){
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case 0:
+					count ++;
+					int trainningTime=(int) IEdk.IEE_MentalCommandGetTrainingTime(userId)[1]/1000;
+
+
+					// TODO
+
+//					progressBarTime.setProgress(count / trainningTime);
+//					if (progressBarTime.getProgress() >= 100) {
+//						timerTask.cancel();
+//						timer.cancel();
+//					}
+					break;
+				case 1:
+//					moveImage();
+					break;
+				default:
+					break;
+			}
+		};
+	};
+
+	public void TimerTask()
+	{
+		count = 0;
+		timerTask=new TimerTask() {
+			@Override
+			public void run() {
+				handlerUpdateUI.sendEmptyMessage(0);
+			}
+		};
+	}
+
+	@Override
+	public void userAdd(int userId) {
+		this.userId=userId;
+	}
+
+	@Override
+	public void currentAction(int typeAction, float power) {
+//		progressPower.setProgress((int)(power*100));
+		_currentAction = typeAction;
+		_currentPower  = power;
+		processPacketEEG();
+	}
+
+	@Override
+	public void userRemoved() {
+	}
+
+	@Override
+	public void trainStarted() {
+
+
+		// TODO
+
+
+//		progressBarTime.setVisibility(View.VISIBLE);
+//		btnClear.setClickable(false);
+//		spinAction.setClickable(false);
+		timer = new Timer();
+		TimerTask();
+		timer.schedule(timerTask, 0, 10);
+	}
+
+	@Override
+	public void trainSucceed() {
+
+
+		// TODO
+
+
+//		progressBarTime.setVisibility(View.INVISIBLE);
+//		btnTrain.setText("Train");
+//		enableClick();
+//		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+//				  getActivity());
+//		// set title
+//		alertDialogBuilder.setTitle("Training Succeeded");
+//		// set dialog message
+//		alertDialogBuilder
+//				  .setMessage("Training is successful. Accept this training?")
+//				  .setCancelable(false)
+//				  .setIcon(R.mipmap.ic_launcher)
+//				  .setPositiveButton("Yes",
+//							 new DialogInterface.OnClickListener() {
+//								 public void onClick(
+//											DialogInterface dialog,int which) {
+//									 engineConnector.setTrainControl(IEE_MentalCommandTrainingControl_t.MC_ACCEPT.getType());
+//								 }
+//							 })
+//				  .setNegativeButton("No",
+//						    new DialogInterface.OnClickListener() {
+//							    public void onClick(DialogInterface dialog, int id) {
+//								    engineConnector.setTrainControl(IEE_MentalCommandTrainingControl_t.MC_REJECT.getType());
+//							    }
+//						    });
+//
+//		AlertDialog alertDialog = alertDialogBuilder.create();
+//		alertDialog.show();
+	}
+
+	@Override
+	public void trainCompleted() {
+		ProfileManagerUser.shareInstance().saveUserProfile(this.userId);
+		DataSpinner data=model.get(indexAction);
+		data.setChecked(true);
+		model.set(indexAction, data);
+//		spinAdapter.notifyDataSetChanged(); // TODO
+	}
+
+	@Override
+	public void trainRejected() {
+		DataSpinner data=model.get(indexAction);
+		data.setChecked(false);
+		model.set(indexAction, data);
+//		spinAdapter.notifyDataSetChanged(); // TODO
+		ProfileManagerUser.shareInstance().saveUserProfile(this.userId);
+//		enableClick(); // TODO
+		isTraining = false;
+	}
+
+	@Override
+	public void trainErased() {
+//		new AlertDialog.Builder(getActivity())
+//				  .setTitle("Training Erased")
+//				  .setMessage("")
+//				  .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//					  public void onClick(DialogInterface dialog, int which) {
+//					  }
+//				  })
+//				  .setIcon(android.R.drawable.ic_dialog_alert)
+//				  .show();
+		ProfileManagerUser.shareInstance().saveUserProfile(this.userId);
+		DataSpinner data=model.get(indexAction);
+		data.setChecked(false);
+		model.set(indexAction, data);
+		// TODO
+//		spinAdapter.notifyDataSetChanged();
+//		enableClick();
+		isTraining = false;
+	}
+
+	@Override
+	public void trainReset() {
+		if(timer!=null){
+			timer.cancel();
+			timerTask.cancel();
+		}
+		isTraining = false;
+		// TODO
+//		progressBarTime.setVisibility(View.INVISIBLE);
+//		progressBarTime.setProgress(0);
+//		enableClick();
+	};
 
 }
