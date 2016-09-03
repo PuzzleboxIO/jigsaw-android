@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
 
     defaultConfig {
         applicationId "io.puzzlebox.jigsaw.android"
 //        minSdkVersion 9 // API 2.3 TODO getActivity()
         minSdkVersion 15 // API 4.0.3
-        targetSdkVersion 22
+        targetSdkVersion 24
         versionCode 2
         versionName "1.0.1"
     }

@@ -96,7 +96,7 @@ public class SupportFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState) {
+									 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 //		View v = inflater.inflate(io.puzzlebox.jigsaw.R.layout.fragment_welcome, container, false);
 //		View v = inflater.inflate(R.layout.fragment_welcome, container, false);
@@ -149,7 +149,7 @@ public class SupportFragment extends Fragment {
 			mListener = (OnFragmentInteractionListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
-					  + " must implement OnFragmentInteractionListener");
+					+ " must implement OnFragmentInteractionListener");
 		}
 	}
 
@@ -165,7 +165,7 @@ public class SupportFragment extends Fragment {
 
 	// ################################################################
 
-//	public void sendMessage(View view) {
+	//	public void sendMessage(View view) {
 	public void sendMessage() {
 
 		Log.v(TAG, "sendMessage()");
@@ -193,85 +193,85 @@ public class SupportFragment extends Fragment {
 	} // sendMessage
 
 
-		// ################################################################
+	// ################################################################
 
-		public String getDeviceDetails() {
+	public String getDeviceDetails() {
 
-			String output = "";
-
-
-			output = "Manufacturer: " + Build.MANUFACTURER + "\n";
-			output = output + "Model: " + Build.MODEL + "\n";
-			output = output + "Product: " + Build.PRODUCT + "\n";
-			if (Build.VERSION.SDK_INT >= 8)
-				output = output + "Hardware: " + Build.HARDWARE + "\n";
-			output = output + "Device: " + Build.DEVICE + "\n";
-			output = output +
-					  getResources().getString(R.string.app_name) +
-					  " Version: " + versionName + "\n";
-			output = output + "Android Version: " + Build.VERSION.SDK_INT + "\n";
+		String output = "";
 
 
-			return (output);
+		output = "Manufacturer: " + Build.MANUFACTURER + "\n";
+		output = output + "Model: " + Build.MODEL + "\n";
+		output = output + "Product: " + Build.PRODUCT + "\n";
+		if (Build.VERSION.SDK_INT >= 8)
+			output = output + "Hardware: " + Build.HARDWARE + "\n";
+		output = output + "Device: " + Build.DEVICE + "\n";
+		output = output +
+				getResources().getString(R.string.app_name) +
+				" Version: " + versionName + "\n";
+		output = output + "Android Version: " + Build.VERSION.SDK_INT + "\n";
 
 
-		} // getDeviceDetails
+		return (output);
+
+
+	} // getDeviceDetails
 
 
 
-		// ################################################################	// ################################################################
+	// ################################################################	// ################################################################
 
-		class EmailMessage extends AsyncTask<String, Void, Object> {
+	class EmailMessage extends AsyncTask<String, Void, Object> {
 
-			String contactURL = "";
-			String name = "";
-			String email = "";
-			String message = "";
+		String contactURL = "";
+		String name = "";
+		String email = "";
+		String message = "";
 
-			public void setData(String contact, String full_name, String email_address, String content) {
-				contactURL = contact;
-				name = full_name;
-				email = email_address;
-				message = content;
-			}
+		public void setData(String contact, String full_name, String email_address, String content) {
+			contactURL = contact;
+			name = full_name;
+			email = email_address;
+			message = content;
+		}
 
-			protected Object doInBackground(String... vars) {
+		protected Object doInBackground(String... vars) {
+			try {
+
+				// Create a new HttpClient and Post Header
+				HttpClient httpclient = new DefaultHttpClient();
+				HttpPost httppost = new HttpPost(contactURL);
+
 				try {
+					// Add your data
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+					nameValuePairs.add(new BasicNameValuePair("email_name", name));
+					nameValuePairs.add(new BasicNameValuePair("email_from", email));
+					nameValuePairs.add(new BasicNameValuePair("email_subject", "[" +
+							getResources().getString(R.string.app_name) +
+							" Support] (Android " + versionName + ")"));
+					nameValuePairs.add(new BasicNameValuePair("email_body", message));
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-					// Create a new HttpClient and Post Header
-					HttpClient httpclient = new DefaultHttpClient();
-					HttpPost httppost = new HttpPost(contactURL);
+					// Execute HTTP Post Request
+					@SuppressWarnings("unused")
+					HttpResponse response = httpclient.execute(httppost);
 
-					try {
-						// Add your data
-						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-						nameValuePairs.add(new BasicNameValuePair("email_name", name));
-						nameValuePairs.add(new BasicNameValuePair("email_from", email));
-						nameValuePairs.add(new BasicNameValuePair("email_subject", "[" +
-								  getResources().getString(R.string.app_name) +
-								  " Support] (Android " + versionName + ")"));
-						nameValuePairs.add(new BasicNameValuePair("email_body", message));
-						httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-						// Execute HTTP Post Request
-						@SuppressWarnings("unused")
-						HttpResponse response = httpclient.execute(httppost);
-
-					} catch (ClientProtocolException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-
-				} catch (Exception e) {
+				} catch (ClientProtocolException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
-				return null;
-
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
-		} // emailMessage
+			return null;
+
+		}
+
+	} // emailMessage
 
 
 //	private class compatibilityWebViewClient extends WebViewClient {
