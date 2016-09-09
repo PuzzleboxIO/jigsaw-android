@@ -20,7 +20,7 @@
     <string-array name="eeg_hardware">
         <item>NeuroSky MindWave Mobile</item>
         <item>Emotiv Insight</item>
-        <item>InterAxon Muse</item>
+        <item>InteraXon Muse</item>
     </string-array>
 
 </resources>

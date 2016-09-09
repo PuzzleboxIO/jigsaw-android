@@ -75,6 +75,7 @@ public class EEGFragment extends Fragment implements
 	private static int[] thresholdValuesMeditation = new int[101];
 	private static int minimumPower = 0; // minimum power for the action
 	private static int maximumPower = 100; // maximum power for the action
+	private static boolean enableMuse = false;
 
 	/**
 	 * UI
@@ -132,7 +133,7 @@ public class EEGFragment extends Fragment implements
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState) {
+									 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		v = inflater.inflate(R.layout.fragment_eeg, container, false);
 
@@ -625,14 +626,19 @@ public class EEGFragment extends Fragment implements
 				break;
 
 			case "Emotiv Insight":
-				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support coming soon", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support only availble in developer edition", Toast.LENGTH_SHORT).show();
 				break;
 
 			case "InterAxon Muse":
-				if (! MuseService.eegConnected) {
-					getActivity().startService(intentMuse);
+
+				if (enableMuse) {
+					if (!MuseService.eegConnected) {
+						getActivity().startService(intentMuse);
+					} else {
+						disconnectHeadset();
+					}
 				} else {
-					disconnectHeadset();
+					Toast.makeText(getActivity().getApplicationContext(), "InteaXon Muse support only availble in developer edition", Toast.LENGTH_SHORT).show();
 				}
 
 				break;

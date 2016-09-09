@@ -9,8 +9,8 @@ android {
         applicationId "io.puzzlebox.jigsaw.android"
         minSdkVersion 20
         targetSdkVersion 24
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.2.0"
     }
     buildTypes {
         release {
