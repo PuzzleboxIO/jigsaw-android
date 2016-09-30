@@ -253,12 +253,12 @@ public class EEGFragment extends Fragment implements
 
 //		spinnerEEG = (Spinner) v.findViewById(R.id.spinnerEEG);
 
-		String[] items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InterAxon Muse"};
+		String[] items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InteraXon Muse"};
 
 //		if (ThinkGearService.eegConnected || ThinkGearService.eegConnecting)
-//			items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InterAxon Muse"};
+//			items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InteraXon Muse"};
 		if (MuseService.eegConnected || MuseService.eegConnecting)
-			items = new String[] {"InterAxon Muse", "Emotiv Insight", "NeuroSky MindWave Mobile"};
+			items = new String[] {"InteraXon Muse", "Emotiv Insight", "NeuroSky MindWave Mobile"};
 
 		spinnerEEG = (Spinner) v.findViewById(R.id.spinnerEEG);
 
@@ -626,10 +626,10 @@ public class EEGFragment extends Fragment implements
 				break;
 
 			case "Emotiv Insight":
-				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support only availble in developer edition", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support only available in developer edition", Toast.LENGTH_SHORT).show();
 				break;
 
-			case "InterAxon Muse":
+			case "InteraXon Muse":
 
 				if (enableMuse) {
 					if (!MuseService.eegConnected) {
@@ -638,7 +638,7 @@ public class EEGFragment extends Fragment implements
 						disconnectHeadset();
 					}
 				} else {
-					Toast.makeText(getActivity().getApplicationContext(), "InteaXon Muse support only availble in developer edition", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
 				}
 
 				break;
@@ -668,12 +668,17 @@ public class EEGFragment extends Fragment implements
 				break;
 
 			case "Emotiv Insight":
-				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support coming soon", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support only available in developer edition", Toast.LENGTH_SHORT).show();
 				break;
 
-			case "InterAxon Muse":
-				MuseService.disconnectHeadset();
-				getActivity().stopService(intentMuse);
+			case "InteraXon Muse":
+				if (enableMuse) {
+					MuseService.disconnectHeadset();
+					getActivity().stopService(intentMuse);
+				} else {
+					Toast.makeText(getActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
+				}
+
 				break;
 		}
 
