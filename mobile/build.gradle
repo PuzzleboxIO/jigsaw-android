@@ -8,7 +8,7 @@ android {
         applicationId "io.puzzlebox.jigsaw.android"
 //        minSdkVersion 9 // API 2.3 TODO getActivity()
         minSdkVersion 15 // API 4.0.3
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 3
         versionName "1.2.0"
     }
