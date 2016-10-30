@@ -134,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/custom_button"
+                android:background="@drawable/shape_rounded_corners_grey"
                 android:text="@string/buttonConnectEEG"
                 android:layout_gravity="center"
                 android:gravity="center"/>
@@ -157,7 +157,7 @@
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="30dp"-->
         <!--android:layout_centerHorizontal="true"-->
-        <!--android:background="@drawable/custom_button"-->
+        <!--android:background="@drawable/shape_rounded_corners_grey"-->
         <!--android:text="@string/buttonSaveSession"-->
         <!--android:layout_gravity="center"-->
         <!--android:gravity="center_vertical|center_horizontal"/>-->
@@ -168,7 +168,7 @@
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="30dp"-->
         <!--android:layout_centerHorizontal="true"-->
-        <!--android:background="@drawable/custom_button"-->
+        <!--android:background="@drawable/shape_rounded_corners_grey"-->
         <!--android:text="@string/buttonExportCSV"-->
         <!--android:layout_gravity="center"-->
         <!--android:gravity="center_vertical|center_horizontal"/>-->
@@ -179,7 +179,7 @@
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="30dp"-->
         <!--android:layout_centerHorizontal="true"-->
-        <!--android:background="@drawable/custom_button"-->
+        <!--android:background="@drawable/shape_rounded_corners_grey"-->
         <!--android:text="@string/buttonResetSession"-->
         <!--android:layout_gravity="center"-->
         <!--android:gravity="center_vertical|center_horizontal"/>-->
@@ -198,7 +198,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/custom_button"
+                android:background="@drawable/shape_rounded_corners_grey"
                 android:text="@string/buttonResetSession"
                 android:layout_gravity="center"
                 android:gravity="center_vertical|center_horizontal"/>

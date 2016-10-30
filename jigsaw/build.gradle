@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 24 // API 7.0
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 25 // API 7.0
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
 //        minSdkVersion 9 // API 2.3 TODO getActivity()
@@ -24,14 +24,14 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-//    wearApp project(':wear')
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //    wearApp project(':wear')
     provided 'com.androidplot:androidplot-core:0.6.1'
     provided 'com.opencsv:opencsv:3.3'
-//    provided files('libs/ThinkGear.jar')
+    //    provided files('libs/ThinkGear.jar')
     provided files('libs/libStreamSDK_v1.2.0.jar')
     provided files('libs/libmuseandroid.jar')
-//    provided files('libs/Melon_Alpha_Android_SDK.jar')
+    //    provided files('libs/Melon_Alpha_Android_SDK.jar')
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.google.android.gms:play-services:9.6.1'

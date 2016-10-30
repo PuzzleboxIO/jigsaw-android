@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle"   >
+
+    <background
+        android:color="@color/GreyTint" >
+    </background>
+    <!--android:color="@color/White" >-->
+
+    <solid
+        android:color="@color/GreyTint" >
+    </solid>
+
+    <stroke
+        android:width="2dp"
+        android:color="@color/GreyTint" >
+    </stroke>
+
+    <padding
+        android:left="10dp"
+        android:top="6dp"
+        android:right="10dp"
+        android:bottom="6dp"    >
+    </padding>
+
+    <corners
+        android:radius="11dp"   >
+    </corners>
+
+</shape>

@@ -121,6 +121,7 @@
                     android:id="@+id/buttonSendMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rounded_corners_grey"
                     android:gravity="center"
                     android:onClick="sendMessage"
                     android:paddingLeft="@dimen/padding_medium"
