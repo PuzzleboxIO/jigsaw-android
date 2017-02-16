@@ -11,6 +11,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -48,7 +49,10 @@ import java.util.Arrays;
 //import io.puzzlebox.jigsaw.data.CreateSessionFileInGoogleDrive;
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
-import io.puzzlebox.jigsaw.protocol.MuseService;
+
+// TODO 2017-02-15 Disable Muse
+//import io.puzzlebox.jigsaw.protocol.MuseService;
+
 import io.puzzlebox.jigsaw.protocol.ThinkGearService;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
@@ -128,12 +132,16 @@ public class EEGFragment extends Fragment implements
 
 	}
 
-
 	// ################################################################
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 									 Bundle savedInstanceState) {
+
+
+		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
 		// Inflate the layout for this fragment
 		v = inflater.inflate(R.layout.fragment_eeg, container, false);
 
@@ -257,8 +265,10 @@ public class EEGFragment extends Fragment implements
 
 //		if (ThinkGearService.eegConnected || ThinkGearService.eegConnecting)
 //			items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InteraXon Muse"};
-		if (MuseService.eegConnected || MuseService.eegConnecting)
-			items = new String[] {"InteraXon Muse", "Emotiv Insight", "NeuroSky MindWave Mobile"};
+
+		// TODO 2017-02-15 Disable Muse
+//		if (MuseService.eegConnected || MuseService.eegConnecting)
+//			items = new String[] {"InteraXon Muse", "Emotiv Insight", "NeuroSky MindWave Mobile"};
 
 		spinnerEEG = (Spinner) v.findViewById(R.id.spinnerEEG);
 
@@ -294,12 +304,14 @@ public class EEGFragment extends Fragment implements
 			connectEEG.setText("Disconnect EEG");
 			spinnerEEG.setEnabled(false);
 		}
-		if (MuseService.eegConnected) {
-			connectEEG.setText("Disconnect EEG");
-//			spinnerEEG.setSelection(spinnerEEG.getPosition(DEFAULT_CURRENCY_TYPE));
-//			spinnerEEG.setSelection(spinnerEEG.getAdapter(). .getPosition(DEFAULT_CURRENCY_TYPE));
-			spinnerEEG.setEnabled(false);
-		}
+
+		// TODO 2017-02-15 Disable Muse
+//		if (MuseService.eegConnected) {
+//			connectEEG.setText("Disconnect EEG");
+////			spinnerEEG.setSelection(spinnerEEG.getPosition(DEFAULT_CURRENCY_TYPE));
+////			spinnerEEG.setSelection(spinnerEEG.getAdapter(). .getPosition(DEFAULT_CURRENCY_TYPE));
+//			spinnerEEG.setEnabled(false);
+//		}
 
 
 //		Button saveSession = (Button) v.findViewById(R.id.buttonSaveSession);
@@ -343,7 +355,9 @@ public class EEGFragment extends Fragment implements
 
 
 		intentThinkGear = new Intent(getActivity(), ThinkGearService.class);
-		intentMuse = new Intent(getActivity(), MuseService.class);
+
+		// TODO 2017-02-15 Disable Muse
+//		intentMuse = new Intent(getActivity(), MuseService.class);
 
 
 		/**
@@ -469,6 +483,19 @@ public class EEGFragment extends Fragment implements
 		super.onCreateOptionsMenu(menu, inflater);
 
 	}
+
+
+	// ################################################################
+
+
+//	@Override
+//	public void setUserVisibleHint(boolean isVisibleToUser) {
+//		super.setUserVisibleHint(isVisibleToUser);
+//		if(isVisibleToUser) {
+//			Activity a = getActivity();
+//			if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//		}
+//	}
 
 
 	// ################################################################
@@ -629,19 +656,20 @@ public class EEGFragment extends Fragment implements
 				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support only available in developer edition", Toast.LENGTH_SHORT).show();
 				break;
 
-			case "InteraXon Muse":
-
-				if (enableMuse) {
-					if (!MuseService.eegConnected) {
-						getActivity().startService(intentMuse);
-					} else {
-						disconnectHeadset();
-					}
-				} else {
-					Toast.makeText(getActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
-				}
-
-				break;
+			// TODO 2017-02-15 Disable Muse
+//			case "InteraXon Muse":
+//
+//				if (enableMuse) {
+//					if (!MuseService.eegConnected) {
+//						getActivity().startService(intentMuse);
+//					} else {
+//						disconnectHeadset();
+//					}
+//				} else {
+//					Toast.makeText(getActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
+//				}
+//
+//				break;
 
 		}
 
@@ -671,15 +699,16 @@ public class EEGFragment extends Fragment implements
 				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support only available in developer edition", Toast.LENGTH_SHORT).show();
 				break;
 
-			case "InteraXon Muse":
-				if (enableMuse) {
-					MuseService.disconnectHeadset();
-					getActivity().stopService(intentMuse);
-				} else {
-					Toast.makeText(getActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
-				}
-
-				break;
+			// TODO 2017-02-15 Disable Muse
+//			case "InteraXon Muse":
+//				if (enableMuse) {
+//					MuseService.disconnectHeadset();
+//					getActivity().stopService(intentMuse);
+//				} else {
+//					Toast.makeText(getActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
+//				}
+//
+//				break;
 		}
 
 
@@ -840,22 +869,23 @@ public class EEGFragment extends Fragment implements
 
 		}
 
-		if (MuseService.eegConnected) {
-
-//			Log.d(TAG, "MuseService.eegConnected: eegSignal: " + MuseService.eegSignal);
-//			if (MuseService.eegSignal < 100) {
-//				MuseService.eegConcentration = 0;
-//				MuseService.eegMellow = 0;
-//				progressBarAttention.setProgress(MuseService.eegConcentration);
-//				progressBarMeditation.setProgress(MuseService.eegMellow);
-//			}
-
-			MuseService.eegPower = calculateSpeed();
-
-			progressBarPower.setProgress(MuseService.eegPower);
-
-
-		}
+		// TODO 2017-02-15 Disable Muse
+//		if (MuseService.eegConnected) {
+//
+////			Log.d(TAG, "MuseService.eegConnected: eegSignal: " + MuseService.eegSignal);
+////			if (MuseService.eegSignal < 100) {
+////				MuseService.eegConcentration = 0;
+////				MuseService.eegMellow = 0;
+////				progressBarAttention.setProgress(MuseService.eegConcentration);
+////				progressBarMeditation.setProgress(MuseService.eegMellow);
+////			}
+//
+//			MuseService.eegPower = calculateSpeed();
+//
+//			progressBarPower.setProgress(MuseService.eegPower);
+//
+//
+//		}
 
 
 
