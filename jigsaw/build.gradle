@@ -23,11 +23,10 @@ android {
 
 }
 
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //    wearApp project(':wear')
-    provided 'com.androidplot:androidplot-core:0.6.1'
-    provided 'com.opencsv:opencsv:3.3'
     //    provided files('libs/ThinkGear.jar')
     provided files('libs/libStreamSDK_v1.2.0.jar')
     //    provided files('libs/libmuseandroid.jar')jar
@@ -38,4 +37,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:10.2.0'
     compile 'com.google.android.gms:play-services-auth:10.2.0'
     compile 'com.google.android.gms:play-services-gcm:10.2.0'
+    provided 'com.androidplot:androidplot-core:0.6.1'
+    provided 'com.opencsv:opencsv:3.3'
 }
