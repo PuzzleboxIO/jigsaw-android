@@ -1,6 +1,7 @@
 package io.puzzlebox.jigsaw.ui;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -97,6 +98,11 @@ public class SupportFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 									 Bundle savedInstanceState) {
+
+
+		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
 		// Inflate the layout for this fragment
 //		View v = inflater.inflate(io.puzzlebox.jigsaw.R.layout.fragment_welcome, container, false);
 //		View v = inflater.inflate(R.layout.fragment_welcome, container, false);
@@ -161,6 +167,19 @@ public class SupportFragment extends Fragment {
 		super.onDetach();
 		mListener = null;
 	}
+
+
+	// ################################################################
+
+
+//	@Override
+//	public void setUserVisibleHint(boolean isVisibleToUser) {
+//		super.setUserVisibleHint(isVisibleToUser);
+//		if(isVisibleToUser) {
+//			Activity a = getActivity();
+//			if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//		}
+//	}
 
 
 	// ################################################################

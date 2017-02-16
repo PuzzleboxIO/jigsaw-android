@@ -8,6 +8,7 @@ package io.puzzlebox.jigsaw.ui;
 
 import android.app.Activity;
 //import android.app.Fragment;
+import android.content.pm.ActivityInfo;
 import android.support.v4.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
@@ -56,6 +57,9 @@ public class WelcomeFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
+
+		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 		return inflater.inflate(R.layout.fragment_welcome, container, false);
 	}
 
@@ -95,5 +99,20 @@ public class WelcomeFragment extends Fragment {
 	public interface OnFragmentInteractionListener {
 		public void onFragmentInteraction(Uri uri);
 	}
+
+
+
+
+	// ################################################################
+
+
+//	@Override
+//	public void setUserVisibleHint(boolean isVisibleToUser) {
+//		super.setUserVisibleHint(isVisibleToUser);
+//		if(isVisibleToUser) {
+//			Activity a = getActivity();
+//			if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//		}
+//	}
 
 }

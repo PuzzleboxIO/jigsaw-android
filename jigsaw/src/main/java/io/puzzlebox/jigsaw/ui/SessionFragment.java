@@ -11,6 +11,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -88,6 +89,8 @@ public class SessionFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
+
+		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.fragment_session, container, false);
@@ -326,6 +329,19 @@ public class SessionFragment extends Fragment {
 		super.onCreateOptionsMenu(menu, inflater);
 
 	}
+
+
+	// ################################################################
+
+
+//	@Override
+//	public void setUserVisibleHint(boolean isVisibleToUser) {
+//		super.setUserVisibleHint(isVisibleToUser);
+//		if(isVisibleToUser) {
+//			Activity a = getActivity();
+//			if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//		}
+//	}
 
 
 	// ################################################################
