@@ -35,7 +35,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/button_arcade"
+                    app:srcCompat="@drawable/button_arcade_selector"
                     android:id="@+id/imageButton1"
                     android:visibility="invisible"
                     android:scaleType="fitCenter"
@@ -46,7 +46,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/button_arcade"
+                    app:srcCompat="@drawable/button_arcade_selector"
                     android:id="@+id/imageButton2"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
@@ -56,7 +56,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/button_arcade"
+                    app:srcCompat="@drawable/button_arcade_selector"
                     android:id="@+id/imageButton3"
                     android:visibility="invisible"
                     android:scaleType="fitCenter"
@@ -74,7 +74,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/button_arcade"
+                    app:srcCompat="@drawable/button_arcade_selector"
                     android:id="@+id/imageButton4"
                     android:visibility="visible"
                     android:scaleType="fitCenter"
@@ -85,7 +85,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/button_arcade"
+                    app:srcCompat="@drawable/button_arcade_selector"
                     android:id="@+id/imageButton5"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
@@ -95,7 +95,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/button_arcade"
+                    app:srcCompat="@drawable/button_arcade_selector"
                     android:id="@+id/imageButton6"
                     android:visibility="visible"
                     android:scaleType="fitCenter"
@@ -113,7 +113,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/button_arcade"
+                    app:srcCompat="@drawable/button_arcade_selector"
                     android:id="@+id/imageButton7"
                     android:visibility="invisible"
                     android:scaleType="fitCenter"
@@ -124,7 +124,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/button_arcade"
+                    app:srcCompat="@drawable/button_arcade_selector"
                     android:id="@+id/imageButton8"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
@@ -134,7 +134,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/button_arcade"
+                    app:srcCompat="@drawable/button_arcade_selector"
                     android:id="@+id/imageButton9"
                     android:visibility="invisible"
                     android:scaleType="fitCenter"
