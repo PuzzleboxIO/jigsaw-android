@@ -140,27 +140,22 @@ public class JoystickFragment extends Fragment {
 			}
 		}
 
-
-
-
-
-		switch (angle) {
-			case 0-45:
-				// Upper Right
-				break;
-			case 91-180:
-				// Upper Left
-				break;
-			case 181-240:
-				// Lower Left
-				break;
-			case 241-359:
-				// Lower Right
-				break;
-			default:
-				break;
-		}
-
+//		switch (angle) {
+//			case 0-45:
+//				// Upper Right
+//				break;
+//			case 91-180:
+//				// Upper Left
+//				break;
+//			case 181-240:
+//				// Lower Left
+//				break;
+//			case 241-359:
+//				// Lower Right
+//				break;
+//			default:
+//				break;
+//		}
 
 		return "ls: " + x + ", " + y;
 
