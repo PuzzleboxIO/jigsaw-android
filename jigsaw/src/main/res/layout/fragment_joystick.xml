@@ -95,7 +95,7 @@
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
                     android:layout_weight="0.33"
-                    android:visibility="invisible"/>
+                    android:visibility="visible"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
