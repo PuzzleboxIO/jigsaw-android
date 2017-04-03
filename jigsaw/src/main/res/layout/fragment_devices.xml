@@ -1,35 +1,83 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="io.puzzlebox.jigsaw.ui.DevicesFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="io.puzzlebox.jigsaw.ui.DevicesFragment">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical" >
+    <!-- Input Devices -->
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:textColor="#505050"
+              android:textStyle="bold"
+              android:textSize="12sp"
+              android:text="@string/label_device_input_select" />
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:padding="5dp"
-                  android:textColor="#505050"
-                  android:textStyle="bold"
-                  android:textSize="12sp"
-                  android:text="@string/label_device_input_select" />
-
-        <!-- Input Devices Carousel -->
-        <HorizontalScrollView android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:scrollbars="none">
-
-            <!-- Input Devices Carousel items container - lays out items horizontally -->
-            <LinearLayout android:id="@+id/carousel_devices_input"
-                          android:layout_width="match_parent"
+    <!-- Carousel -->
+    <HorizontalScrollView android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:orientation="horizontal"/>
+                          android:scrollbars="none">
 
-        </HorizontalScrollView>
+        <!-- Input Devices Carousel items container - lays out items horizontally -->
+        <LinearLayout android:id="@+id/carousel_devices_input"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"/>
 
-    </LinearLayout>
+    </HorizontalScrollView>
 
-</FrameLayout>
+
+
+
+    <!-- Output Devices -->
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:textColor="#505050"
+              android:textStyle="bold"
+              android:textSize="12sp"
+              android:text="@string/label_device_output_select" />
+
+    <!-- Carousel -->
+    <HorizontalScrollView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:scrollbars="none">
+
+        <!-- Input Devices Carousel items container - lays out items horizontally -->
+        <LinearLayout android:id="@+id/carousel_devices_output"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"/>
+
+    </HorizontalScrollView>
+
+
+
+    <!-- Device Profile -->
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:textColor="#505050"
+              android:textStyle="bold"
+              android:textSize="12sp"
+              android:text="@string/label_device_profile_select" />
+
+    <!-- Carousel -->
+    <HorizontalScrollView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:scrollbars="none">
+
+        <!-- Input Devices Carousel items container - lays out items horizontally -->
+        <LinearLayout android:id="@+id/carousel_device_profile"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"/>
+
+    </HorizontalScrollView>
+
+
+
+
+</LinearLayout>
+

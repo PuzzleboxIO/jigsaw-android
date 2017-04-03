@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Array of device profiles resource IDs -->
+    <string-array name="devices_profile_array">
+        <item>@mipmap/ic_carousel_puzzlebox_orbit_ir</item>
+    </string-array>
+
+    <!-- Array of device profiles Company/Manufacturer names -->
+    <string-array name="devices_profile_company_array">
+        <item>Puzzlebox</item>
+    </string-array>
+
+    <!-- Array of output devices Product names -->
+    <string-array name="devices_profile_product_array">
+        <item>Audio Infrared</item>
+    </string-array>
+
+</resources>

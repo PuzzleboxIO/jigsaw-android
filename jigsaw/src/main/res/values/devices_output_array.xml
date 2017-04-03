@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Array of output devices resource IDs -->
+    <string-array name="devices_output_array">
+        <item>@mipmap/ic_carousel_puzzlebox_orbit</item>
+    </string-array>
+
+    <!-- Array of output devices Company/Manufacturer names -->
+    <string-array name="devices_output_company_array">
+        <item>Puzzlebox</item>
+    </string-array>
+
+    <!-- Array of output devices Product names -->
+    <string-array name="devices_output_product_array">
+        <item>Orbit</item>
+    </string-array>
+
+</resources>

@@ -25,6 +25,8 @@ public class DevicesFragment extends Fragment {
 	 * Input carousel container layout
 	 */
 	private LinearLayout mInputCarouselContainer;
+	private LinearLayout mOutputCarouselContainer;
+	private LinearLayout mProfileCarouselContainer;
 
 	private OnFragmentInteractionListener mListener;
 
@@ -53,8 +55,8 @@ public class DevicesFragment extends Fragment {
 
 		// Get reference to carousel container
 		mInputCarouselContainer = (LinearLayout) v.findViewById(R.id.carousel_devices_input);
-
-
+		mOutputCarouselContainer = (LinearLayout) v.findViewById(R.id.carousel_devices_output);
+		mProfileCarouselContainer = (LinearLayout) v.findViewById(R.id.carousel_device_profile);
 
 
 		// Compute the width of a carousel item based on the screen width and number of initial items.
@@ -64,12 +66,15 @@ public class DevicesFragment extends Fragment {
 
 		// Get the array of input devices resources
 		final TypedArray devicesInputResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_input_array);
+		final TypedArray devicesOutputResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_output_array);
+		final TypedArray devicesProfileResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_profile_array);
 
-		// Populate the carousel with items
 		ImageView imageItem;
+
+
+		// Populate the input devices carousel with items
 		for (int i = 0 ; i < devicesInputResourcesTypedArray.length() ; ++i) {
 			// Create new ImageView
-//			imageItem = new ImageView(this);
 			imageItem = new ImageView(getActivity());
 
 			// Set the shadow background
@@ -84,6 +89,28 @@ public class DevicesFragment extends Fragment {
 			/// Add image view to the carousel container
 			mInputCarouselContainer.addView(imageItem);
 		}
+
+
+		// Populate the output devices carousel with items
+//		ImageView imageItem;
+		for (int i = 0 ; i < devicesOutputResourcesTypedArray.length() ; ++i) {
+			imageItem = new ImageView(getActivity());
+			imageItem.setBackgroundResource(R.drawable.shadow);
+			imageItem.setImageResource(devicesOutputResourcesTypedArray.getResourceId(i, -1));
+			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageWidth));
+			mOutputCarouselContainer.addView(imageItem);
+		}
+
+
+		// Populate the device profile carousel with items
+		for (int i = 0 ; i < devicesProfileResourcesTypedArray.length() ; ++i) {
+			imageItem = new ImageView(getActivity());
+			imageItem.setBackgroundResource(R.drawable.shadow);
+			imageItem.setImageResource(devicesProfileResourcesTypedArray.getResourceId(i, -1));
+			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageWidth));
+			mProfileCarouselContainer.addView(imageItem);
+		}
+
 
 		return v;
 
