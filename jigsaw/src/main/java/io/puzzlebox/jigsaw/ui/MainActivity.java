@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements
 		  WelcomeFragment.OnFragmentInteractionListener,
 		  SessionFragment.OnFragmentInteractionListener,
 		  EEGFragment.OnFragmentInteractionListener,
-//		  JoystickFragment.OnFragmentInteractionListener,
+		  DevicesFragment.OnFragmentInteractionListener,
 		  SupportFragment.OnFragmentInteractionListener
 {
 
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_welcome), io.puzzlebox.jigsaw.R.mipmap.ic_puzzlebox));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session_color));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
-//		dataList.add(new DrawerItem(getString(R.string.title_fragment_joystick), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
+		dataList.add(new DrawerItem(getString(R.string.title_fragment_devices), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_support), io.puzzlebox.jigsaw.R.mipmap.ic_support));
 
 		return dataList;
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements
 		String backStackName = "";
 		switch (position) {
 			case 0:
-				backStackName = "welcome";
+				backStackName = getResources().getString(R.string.title_fragment_welcome);
 				try{
 //					fragment = getFragmentManager().findFragmentByTag(backStackName);
 					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements
 					fragment = new WelcomeFragment();
 				break;
 			case 1:
-				backStackName = "session";
+				backStackName = getResources().getString(R.string.title_fragment_session);
 				try{
 //					fragment = getFragmentManager().findFragmentByTag(backStackName);
 					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements
 					fragment = new SessionFragment();
 				break;
 			case 2:
-				backStackName = "eeg";
+				backStackName = getResources().getString(R.string.title_fragment_eeg);
 				try{
 //					fragment = getFragmentManager().findFragmentByTag(backStackName);
 					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
@@ -199,18 +199,18 @@ public class MainActivity extends AppCompatActivity implements
 					fragment = new EEGFragment();
 				break;
 			case 3:
-//				backStackName = "joystick";
-//				try{
-////					fragment = getFragmentManager().findFragmentByTag(backStackName);
-//					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//				if (fragment == null)
-//					fragment = new JoystickFragment();
-//				break;
-//			case 4:
-				backStackName = "support";
+				backStackName = getResources().getString(R.string.title_fragment_devices);
+				try{
+//					fragment = getFragmentManager().findFragmentByTag(backStackName);
+					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (fragment == null)
+					fragment = new DevicesFragment();
+				break;
+			case 4:
+				backStackName = getResources().getString(R.string.title_fragment_support);
 				try{
 //					fragment = getFragmentManager().findFragmentByTag(backStackName);
                     fragment = getSupportFragmentManager().findFragmentByTag(backStackName);

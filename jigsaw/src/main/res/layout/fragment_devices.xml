@@ -1,0 +1,35 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="io.puzzlebox.jigsaw.ui.DevicesFragment">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical" >
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:padding="5dp"
+                  android:textColor="#505050"
+                  android:textStyle="bold"
+                  android:textSize="12sp"
+                  android:text="@string/label_device_input_select" />
+
+        <!-- Input Devices Carousel -->
+        <HorizontalScrollView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:scrollbars="none">
+
+            <!-- Input Devices Carousel items container - lays out items horizontally -->
+            <LinearLayout android:id="@+id/carousel_devices_input"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"/>
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+</FrameLayout>

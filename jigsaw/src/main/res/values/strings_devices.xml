@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_fragment_devices">Devices</string>
+
+    <string name="label_device_input">Input</string>
+    <string name="label_device_input_select">Select Input</string>
+
+</resources>
