@@ -4,9 +4,9 @@
     <string name="title_fragment_devices">Devices</string>
 
     <string name="label_device_input">Input</string>
-    <string name="label_device_input_select">Select Input</string>
+    <string name="label_device_input_select">Select Input(s)</string>
     <string name="label_device_output">Output</string>
-    <string name="label_device_output_select">Select Output</string>
+    <string name="label_device_output_select">Select Output(s)</string>
     <string name="label_device_profile">Profile</string>
     <string name="label_device_profile_select">Select Profile</string>
 
