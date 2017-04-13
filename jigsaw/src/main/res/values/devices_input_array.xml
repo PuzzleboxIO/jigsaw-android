@@ -3,13 +3,10 @@
 
     <!-- Array of input devices resource IDs -->
     <string-array name="devices_input_array">
-        <!--<item>@mipmap/ic_carousel_neurosky_mindwave_mobile</item>-->
         <item>@drawable/carousel_neurosky_mindwave_mobile</item>
-        <!--<item>@mipmap/ic_carousel_joystick</item>-->
         <item>@drawable/carousel_joystick</item>
-        <!--<item>@mipmap/ic_carousel_watch_android</item>-->
         <item>@drawable/carousel_watch_android</item>
-        <!--<item>@mipmap/ic_carousel_openbci</item>-->
+        <!--<item>@drawable/carousel_openbci_cyton_8_channel</item>-->
     </string-array>
 
     <!-- Array of input devices Company/Manufacturer names -->
@@ -24,8 +21,8 @@
     <string-array name="devices_input_product_array">
         <item>Mindwave Mobile</item>
         <item>Steering</item>
-        <item>Watch</item>
-        <!--<item>8 Channel</item>-->
+        <item>Wear</item>
+        <!--<item>Cyton 8 Channel</item>-->
     </string-array>
 
 </resources>
