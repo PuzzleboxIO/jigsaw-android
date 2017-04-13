@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,9 @@ public class DevicesFragment extends Fragment {
 
 		// Populate the input devices carousel with items
 		for (int i = 0 ; i < devicesInputResourcesTypedArray.length() ; ++i) {
+
+			final int index = i;
+
 			// Create new ImageView
 			imageItem = new ImageView(getActivity());
 
@@ -86,13 +90,19 @@ public class DevicesFragment extends Fragment {
 			// Set the size of the image view to the previously computed value
 			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageWidth));
 
+			imageItem.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					showDialog("input", index);
+				}
+			});
+
 			/// Add image view to the carousel container
 			mInputCarouselContainer.addView(imageItem);
 		}
 
 
 		// Populate the output devices carousel with items
-//		ImageView imageItem;
 		for (int i = 0 ; i < devicesOutputResourcesTypedArray.length() ; ++i) {
 			imageItem = new ImageView(getActivity());
 			imageItem.setBackgroundResource(R.drawable.shadow);
@@ -114,6 +124,24 @@ public class DevicesFragment extends Fragment {
 
 		return v;
 
+	}
+
+	public void showDialog(String type, int index) {
+
+		switch (type) {
+
+			case "input":
+
+				switch (index) {
+					case 0:
+						// NeuroSky MindWave Mobile
+						FragmentManager fm = getFragmentManager();
+						DialogNeuroSkyMindWaveFragment dialogFragment = new DialogNeuroSkyMindWaveFragment();
+						dialogFragment.show(fm, "NeuroSky MindWave Mobile");
+						break;
+				}
+				break;
+		}
 	}
 
 	@Override
