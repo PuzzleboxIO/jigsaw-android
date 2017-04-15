@@ -176,7 +176,7 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 			}
 		});
 
-		
+
 		Button buttonDeviceEnable = (Button) v.findViewById(R.id.buttonDeviceEnable);
 		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
 			@Override
