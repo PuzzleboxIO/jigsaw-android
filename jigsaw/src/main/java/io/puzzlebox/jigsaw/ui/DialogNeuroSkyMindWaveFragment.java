@@ -41,8 +41,6 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 
 	private final static String TAG = DialogNeuroSkyMindWaveFragment.class.getSimpleName();
 
-	private OnFragmentInteractionListener mListener;
-
 	// UI
 	ProgressBar progressBarAttention;
 	ProgressBar progressBarMeditation;
@@ -55,6 +53,8 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 	View v;
 
 	private static Intent intentThinkGear;
+
+	private OnFragmentInteractionListener mListener;
 
 	public DialogNeuroSkyMindWaveFragment() {
 		// Required empty public constructor
@@ -357,7 +357,7 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 			progressBarMeditation.setProgress(eegMeditation);
 			progressBarSignal.setProgress(eegSignal);
 
-			if (eegSignal == 100) {
+			if ((! buttonDeviceEnable.isEnabled()) && (eegSignal == ThinkGearService.signalSignalMax)) {
 				// This setting requires the quality of the EEG sensor's
 				// contact with skin hit to 100% at least once since the
 				// headset was last connected.

@@ -46,6 +46,8 @@ public class ThinkGearService extends Service {
 //	private static int eegPower = 0;
 //	private static int eegSignal = 0;
 
+	public static int signalSignalMax = 100;
+
 //	public static int blinkRangeMax = 255;
 	public static int blinkRangeMax = 128;
 
