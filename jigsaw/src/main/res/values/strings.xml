@@ -14,4 +14,8 @@
 
     <string name="welcome_message">Welcome to Jigsaw</string>
 
+    <string name="buttonDeviceEnable">Ready</string>
+    <string name="buttonDeviceDisable">Disable</string>
+    <string name="buttonDeviceCancel">Back</string>
+
 </resources>

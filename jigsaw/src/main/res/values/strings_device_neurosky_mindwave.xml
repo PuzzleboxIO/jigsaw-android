@@ -20,8 +20,4 @@
 
     <string name="label_neurosky_mindwave_raw_eeg">Raw EEG</string>
 
-    <string name="buttonDeviceEnable">Ready</string>
-    <string name="buttonDeviceDisable">Disable</string>
-    <string name="buttonDeviceCancel">Back</string>
-
 </resources>

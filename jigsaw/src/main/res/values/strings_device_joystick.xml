@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_dialog_fragment_joystick">Joystick</string>
+
+    <string name="label_joystick_instruction">Test joystick calibration</string>
+
+    <string name="label_joystick_x">X</string>
+    <string name="label_joystick_y">Y</string>
+
+</resources>

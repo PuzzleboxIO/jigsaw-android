@@ -132,12 +132,19 @@ public class DevicesFragment extends Fragment {
 
 			case "input":
 
+				FragmentManager fm = getFragmentManager();
+
 				switch (index) {
 					case 0:
 						// NeuroSky MindWave Mobile
-						FragmentManager fm = getFragmentManager();
-						DialogNeuroSkyMindWaveFragment dialogFragment = new DialogNeuroSkyMindWaveFragment();
-						dialogFragment.show(fm, "NeuroSky MindWave Mobile");
+						DialogNeuroSkyMindWaveFragment dialogNeuroSkyMindWaveFragment = new DialogNeuroSkyMindWaveFragment();
+//						dialogFragment.show(fm, "NeuroSky MindWave Mobile");
+						dialogNeuroSkyMindWaveFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_neurosky_mindwave));
+						break;
+					case 1:
+						// Joystick
+						DialogJoystickFragment dialogJoystickFragment = new DialogJoystickFragment();
+						dialogJoystickFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_joystick));
 						break;
 				}
 				break;

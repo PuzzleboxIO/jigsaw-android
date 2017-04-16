@@ -34,7 +34,8 @@ public class MainActivity extends AppCompatActivity implements
 		  EEGFragment.OnFragmentInteractionListener,
 		  DevicesFragment.OnFragmentInteractionListener,
 		  SupportFragment.OnFragmentInteractionListener,
-		  DialogNeuroSkyMindWaveFragment.OnFragmentInteractionListener
+		  DialogNeuroSkyMindWaveFragment.OnFragmentInteractionListener,
+		  DialogJoystickFragment.OnFragmentInteractionListener
 {
 
 	private final static String TAG = MainActivity.class.getSimpleName();
