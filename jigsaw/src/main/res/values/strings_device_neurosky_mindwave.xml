@@ -4,8 +4,12 @@
     <string name="title_dialog_fragment_neurosky_mindwave">NeuroSky MindWave Mobile</string>
 
     <string name="label_neurosky_mindwave_connect">Connect to Device</string>
-    <string name="buttonConnectNeuroSkyMindWave">Connect</string>
-    <string name="buttonDisconnectNeuroSkyMindWave">Disconnect</string>
+    <string name="buttonStatusNeuroSkyMindWaveConnect">Connect</string>
+    <string name="buttonStatusNeuroSkyMindWaveDisconnect">Disconnect</string>
+    <string name="buttonStatusNeuroSkyMindWaveConnecting">Connecting</string>
+    <string name="buttonStatusNeuroSkyMindWaveNotFound">EEG Not Found</string>
+    <string name="buttonStatusNeuroSkyMindWaveNotPaired">EEG Not Paired</string>
+    <string name="buttonStatusNeuroSkyMindWaveBatteryLow">EEG Battery Low</string>
 
     <!--<string name="label_neurosky_mindwave_attention">Attention / Concentration</string>-->
     <string name="label_neurosky_mindwave_attention">Attention</string>
@@ -16,9 +20,8 @@
 
     <string name="label_neurosky_mindwave_raw_eeg">Raw EEG</string>
 
-    <string name="buttonDeviceEnable">Enable Device</string>
-    <string name="buttonDeviceDisable">Disable Device</string>
+    <string name="buttonDeviceEnable">Ready</string>
+    <string name="buttonDeviceDisable">Disable</string>
     <string name="buttonDeviceCancel">Back</string>
-
 
 </resources>

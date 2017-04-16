@@ -203,9 +203,11 @@
             style="@style/button_text"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:paddingLeft="@dimen/padding_medium"
             android:background="@drawable/shape_rounded_corners_grey"
-            android:text="@string/buttonDeviceEnable"/>
+            android:enabled="false"
+            android:paddingLeft="@dimen/padding_medium"
+            android:text="@string/buttonDeviceEnable"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 

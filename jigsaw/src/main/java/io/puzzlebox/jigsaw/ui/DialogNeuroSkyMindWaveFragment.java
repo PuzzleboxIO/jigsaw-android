@@ -50,6 +50,7 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 	ProgressBar progressBarBlink;
 	XYPlot eegRawHistoryPlot;
 	SimpleXYSeries eegRawHistorySeries;
+	Button buttonDeviceEnable;
 
 	View v;
 
@@ -177,13 +178,14 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 		});
 
 
-		Button buttonDeviceEnable = (Button) v.findViewById(R.id.buttonDeviceEnable);
+		buttonDeviceEnable = (Button) v.findViewById(R.id.buttonDeviceEnable);
 		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				dismiss();
 			}
 		});
+
 
 
 		if (ThinkGearService.eegConnected ) {
@@ -296,11 +298,11 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 
 		Log.v(TAG, "connectHeadset(): + spinnerEEG.getSelectedItem()");
 
-				if (! ThinkGearService.eegConnected) {
-					getActivity().startService(intentThinkGear);
-				} else {
-					disconnectHeadset();
-				}
+		if (! ThinkGearService.eegConnected) {
+			getActivity().startService(intentThinkGear);
+		} else {
+			disconnectHeadset();
+		}
 
 	} // connectHeadset
 
@@ -316,8 +318,8 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 		Log.v(TAG, "disconnectHeadset()");
 
 
-				ThinkGearService.disconnectHeadset();
-				getActivity().stopService(intentThinkGear);
+		ThinkGearService.disconnectHeadset();
+		getActivity().stopService(intentThinkGear);
 
 
 
@@ -354,6 +356,14 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 			progressBarAttention.setProgress(eegAttention);
 			progressBarMeditation.setProgress(eegMeditation);
 			progressBarSignal.setProgress(eegSignal);
+
+			if (eegSignal == 100) {
+				// This setting requires the quality of the EEG sensor's
+				// contact with skin hit to 100% at least once since the
+				// headset was last connected.
+				buttonDeviceEnable.setEnabled(true);
+				buttonDeviceEnable.setVisibility(View.VISIBLE);
+			}
 
 			progressBarBlink.setProgress(0);
 
@@ -392,36 +402,35 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 					switch(value) {
 						case "STATE_CONNECTING":
 							updateStatusImage();
-//							setButtonText(R.id.buttonConnectEEG, "Connecting");
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveConnecting));
-//							spinnerEEG.setEnabled(false);
 							break;
 						case "STATE_CONNECTED":
 //							Toast.makeText(context, "EEG Connected", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
-//							setButtonText(R.id.buttonConnectEEG, "Disconnect EEG");
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveDisconnect));
-//							spinnerEEG.setEnabled(false);
+//							buttonDeviceEnable.setEnabled(true);
+//							buttonDeviceEnable.setVisibility(View.VISIBLE);
 							break;
 						case "STATE_NOT_FOUND":
 							Toast.makeText(context, "EEG Not Found", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
-//							setButtonText(R.id.buttonConnectEEG, "Connect EEG");
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveConnect));
-//							spinnerEEG.setEnabled(true);
+							buttonDeviceEnable.setEnabled(false);
+							buttonDeviceEnable.setVisibility(View.INVISIBLE);
 							break;
 						case "STATE_NOT_PAIRED":
 							Toast.makeText(context, "EEG Not Paired", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
-//							setButtonText(R.id.buttonConnectEEG, "Connect EEG");
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveConnect));
+							buttonDeviceEnable.setEnabled(false);
+							buttonDeviceEnable.setVisibility(View.INVISIBLE);
 							break;
 						case "STATE_DISCONNECTED":
 //							Toast.makeText(context, "EEG Disconnected", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
-//							setButtonText(R.id.buttonConnectEEG, "Connect EEG");
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveConnect));
-//							spinnerEEG.setEnabled(true);
+							buttonDeviceEnable.setEnabled(false);
+							buttonDeviceEnable.setVisibility(View.INVISIBLE);
 							break;
 						case "MSG_LOW_BATTERY":
 //							Toast.makeText(context, "EEG Battery Low", Toast.LENGTH_SHORT).show();
