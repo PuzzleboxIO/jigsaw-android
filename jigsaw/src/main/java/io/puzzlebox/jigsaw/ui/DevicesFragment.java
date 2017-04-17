@@ -97,8 +97,12 @@ public class DevicesFragment extends Fragment {
 				}
 			});
 
+			TileViewAnimator tileViewAnimator = new TileViewAnimator(getContext());
+			tileViewAnimator.addView(imageItem);
+
 			/// Add image view to the carousel container
-			mInputCarouselContainer.addView(imageItem);
+//			mInputCarouselContainer.addView(imageItem);
+			mInputCarouselContainer.addView(tileViewAnimator);
 		}
 
 
@@ -117,7 +121,11 @@ public class DevicesFragment extends Fragment {
 				}
 			});
 
-			mOutputCarouselContainer.addView(imageItem);
+			TileViewAnimator tileViewAnimator = new TileViewAnimator(getContext());
+			tileViewAnimator.addView(imageItem);
+
+//			mOutputCarouselContainer.addView(imageItem);
+			mOutputCarouselContainer.addView(tileViewAnimator);
 		}
 
 
@@ -127,7 +135,10 @@ public class DevicesFragment extends Fragment {
 			imageItem.setBackgroundResource(R.drawable.shadow);
 			imageItem.setImageResource(devicesProfileResourcesTypedArray.getResourceId(i, -1));
 			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageWidth));
-			mProfileCarouselContainer.addView(imageItem);
+			TileViewAnimator tileViewAnimator = new TileViewAnimator(getContext());
+			tileViewAnimator.addView(imageItem);
+//			mProfileCarouselContainer.addView(imageItem);
+			mProfileCarouselContainer.addView(tileViewAnimator);
 		}
 
 
@@ -147,7 +158,6 @@ public class DevicesFragment extends Fragment {
 					case 0:
 						// NeuroSky MindWave Mobile
 						DialogNeuroSkyMindWaveFragment dialogNeuroSkyMindWaveFragment = new DialogNeuroSkyMindWaveFragment();
-//						dialogFragment.show(fm, "NeuroSky MindWave Mobile");
 						dialogNeuroSkyMindWaveFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_neurosky_mindwave));
 						break;
 					case 1:
