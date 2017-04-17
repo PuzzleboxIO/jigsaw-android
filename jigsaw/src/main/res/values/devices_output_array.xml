@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Array of output devices resource IDs -->
-    <string-array name="devices_output_array">
-        <item>@drawable/carousel_puzzlebox_orbit_ir</item>
-    </string-array>
-
     <!-- Array of output devices Company/Manufacturer names -->
     <string-array name="devices_output_company_array">
         <item>Puzzlebox</item>
+        <item>Session</item>
     </string-array>
 
     <!-- Array of output devices Product names -->
     <string-array name="devices_output_product_array">
         <item>Audio Infrared</item>
+        <item>Record</item>
     </string-array>
+
+    <!-- Array of output devices resource IDs -->
+    <string-array name="devices_output_array">
+        <item>@drawable/carousel_puzzlebox_orbit_ir</item>
+        <item>@mipmap/ic_session_color</item>
+    </string-array>
+
 
 </resources>

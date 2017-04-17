@@ -176,6 +176,11 @@ public class DevicesFragment extends Fragment {
 						DialogAudioIRFragment dialogAudioIRFragment = new DialogAudioIRFragment();
 						dialogAudioIRFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_audio_ir));
 						break;
+					case 1:
+						// Session Data
+						DialogSessionFragment dialogSessionFragment = new DialogSessionFragment();
+						dialogSessionFragment.show(fm, getResources().getString(R.string.title_fragment_session));
+						break;
 				}
 				break;
 		}

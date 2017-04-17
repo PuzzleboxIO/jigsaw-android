@@ -74,8 +74,9 @@ public class TileViewAnimator extends LinearLayout {
 		super.onAttachedToWindow();
 
 		Animation anim_list = AnimationUtils.loadAnimation(context, R.anim.tiles);
-//		LayoutAnimationController controller = new LayoutAnimationController(anim_list, 0.1f);
-		LayoutAnimationController controller = new LayoutAnimationController(anim_list, 0.2f);
+		LayoutAnimationController controller = new LayoutAnimationController(anim_list, 0.1f);
+//		LayoutAnimationController controller = new LayoutAnimationController(anim_list, 0.2f);
+//		LayoutAnimationController controller = new LayoutAnimationController(anim_list, 0.5f);
 
 		setLayoutAnimation(controller);
 	}
