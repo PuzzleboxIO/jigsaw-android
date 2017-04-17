@@ -137,8 +137,8 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:background="@drawable/shape_rounded_corners_grey"
-            android:enabled="true"
-            android:visibility="visible"
+            android:enabled="false"
+            android:visibility="invisible"
             android:paddingLeft="@dimen/padding_medium"
             android:text="@string/buttonDeviceEnable"
             />
