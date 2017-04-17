@@ -6,21 +6,32 @@
               android:padding="10dp"
               android:orientation="vertical"
               tools:context="io.puzzlebox.jigsaw.ui.DialogSessionFragment">
+    <!--android:padding="10dp"-->
+
+    <!--<com.androidplot.xy.XYPlot-->
+        <!--android:id="@+id/sessionPlot1"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="0dip"-->
+        <!--android:layout_marginLeft="0dp"-->
+        <!--android:layout_marginRight="0dp"-->
+        <!--android:layout_marginTop="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--title="Session Plot" />-->
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical"-->
+            <!--android:padding="20dp">-->
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical|center_horizontal|top"
                 android:layout_gravity="center">
 
@@ -29,15 +40,15 @@
                     <!--android:layout_height="32dp"-->
                     <!--/>-->
 
-                <com.androidplot.xy.XYPlot
-                    android:id="@+id/sessionPlot1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_weight="1"
-                    title="Session Plot" />
+                <!--<com.androidplot.xy.XYPlot-->
+                    <!--android:id="@+id/sessionPlot1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="0dip"-->
+                    <!--android:layout_marginLeft="0dp"-->
+                    <!--android:layout_marginRight="0dp"-->
+                    <!--android:layout_marginTop="0dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--title="Session Plot" />-->
 
 
                 <!--<TextView-->
@@ -97,9 +108,13 @@
                     android:layout_gravity="center"
                     android:gravity="center"/>
 
+                <!--<Space-->
+                    <!--android:layout_width="20px"-->
+                    <!--android:layout_height="32dp"-->
+                    <!--/>-->
                 <Space
-                    android:layout_width="20px"
-                    android:layout_height="32dp"
+                    android:layout_width="0dp"
+                    android:layout_height="10dp"
                     />
 
                 <TextView
@@ -111,20 +126,20 @@
                     android:textStyle="bold"
                     android:textSize="18dp"/>
 
-                <!--<com.androidplot.xy.XYPlot-->
-                    <!--android:id="@+id/sessionPlot1"-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="0dip"-->
-                    <!--android:layout_marginLeft="0dp"-->
-                    <!--android:layout_marginRight="0dp"-->
-                    <!--android:layout_marginTop="0dp"-->
-                    <!--android:layout_weight="1"-->
-                    <!--title="Session Plot" />-->
+                <com.androidplot.xy.XYPlot
+                    android:id="@+id/sessionPlot1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="160dip"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    title="Session Plot" />
 
                 <com.androidplot.xy.XYPlot
                     android:id="@+id/sessionPlot2"
                     android:layout_width="fill_parent"
-                    android:layout_height="0dip"
+                    android:layout_height="160dip"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
                     android:layout_marginTop="0dp"
@@ -134,7 +149,7 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
     </ScrollView>
 
@@ -166,8 +181,8 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:background="@drawable/shape_rounded_corners_grey"
-            android:enabled="false"
-            android:visibility="invisible"
+            android:enabled="true"
+            android:visibility="visible"
             android:paddingLeft="@dimen/padding_medium"
             android:text="@string/buttonDeviceEnable"
             />
