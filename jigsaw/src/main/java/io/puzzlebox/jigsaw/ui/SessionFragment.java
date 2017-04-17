@@ -57,7 +57,6 @@ public class SessionFragment extends Fragment {
 	private static XYPlot sessionPlot2 = null;
 	private static SimpleXYSeries sessionPlotSeries2 = null;
 
-
 	private OnFragmentInteractionListener mListener;
 
 	public static SessionFragment newInstance() {

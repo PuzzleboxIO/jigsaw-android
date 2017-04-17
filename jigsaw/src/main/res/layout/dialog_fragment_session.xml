@@ -6,150 +6,106 @@
               android:padding="10dp"
               android:orientation="vertical"
               tools:context="io.puzzlebox.jigsaw.ui.DialogSessionFragment">
-    <!--android:padding="10dp"-->
-
-    <!--<com.androidplot.xy.XYPlot-->
-        <!--android:id="@+id/sessionPlot1"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="0dip"-->
-        <!--android:layout_marginLeft="0dp"-->
-        <!--android:layout_marginRight="0dp"-->
-        <!--android:layout_marginTop="0dp"-->
-        <!--android:layout_weight="1"-->
-        <!--title="Session Plot" />-->
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical"-->
-            <!--android:padding="20dp">-->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal|top"
+            android:layout_gravity="center">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical|center_horizontal|top"
-                android:layout_gravity="center">
+                android:text="@string/title_dialog_fragment_session"
+                android:id="@+id/textViewSessionProfile"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                style="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"
+                android:textSize="18dp"/>
 
-                <!--<Space-->
-                    <!--android:layout_width="20px"-->
-                    <!--android:layout_height="32dp"-->
-                    <!--/>-->
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextSessionProfile"
+                android:text="@string/session_profile"
+                android:minWidth="256dp"
+                android:gravity="center"/>
 
-                <!--<com.androidplot.xy.XYPlot-->
-                    <!--android:id="@+id/sessionPlot1"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0dip"-->
-                    <!--android:layout_marginLeft="0dp"-->
-                    <!--android:layout_marginRight="0dp"-->
-                    <!--android:layout_marginTop="0dp"-->
-                    <!--android:layout_weight="1"-->
-                    <!--title="Session Plot" />-->
+            <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
+                />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_session_time"
+                android:id="@+id/textViewLabelSessionTime"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="18dp"/>
 
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/label_session_profile"-->
-                    <!--android:id="@+id/textViewSessionProfile"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:textSize="18dp"/>-->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_session_profile"
-                    android:id="@+id/textViewSessionProfile"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    style="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"
-                    android:textSize="18dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/session_time"
+                android:id="@+id/textViewSessionTime"/>
 
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editTextSessionProfile"
-                    android:text="@string/session_profile"
-                    android:minWidth="256dp"
-                    android:gravity="center"/>
+            <Button
+                android:id="@+id/buttonResetSession"
+                style="@style/button_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/shape_rounded_corners_grey"
+                android:text="@string/buttonResetSession"
+                android:layout_gravity="center"
+                android:gravity="center"/>
 
-                <Space
-                    android:layout_width="20px"
-                    android:layout_height="20px"
-                    />
+            <!--<Space-->
+            <!--android:layout_width="20px"-->
+            <!--android:layout_height="32dp"-->
+            <!--/>-->
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_session_time"
-                    android:id="@+id/textViewLabelSessionTime"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="18dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_session_history"
+                android:id="@+id/textViewSessionHistory"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="18dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/session_time"
-                    android:id="@+id/textViewSessionTime"/>
+            <com.androidplot.xy.XYPlot
+                android:id="@+id/sessionPlot1"
+                android:layout_width="fill_parent"
+                android:layout_height="120dip"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="1"
+                title="Session Plot" />
 
-                <Button
-                    android:id="@+id/buttonResetSession"
-                    style="@style/button_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/shape_rounded_corners_grey"
-                    android:text="@string/buttonResetSession"
-                    android:layout_gravity="center"
-                    android:gravity="center"/>
+            <com.androidplot.xy.XYPlot
+                android:id="@+id/sessionPlot2"
+                android:layout_width="fill_parent"
+                android:layout_height="120dip"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="1"
+                title="Session Plot" />
 
-                <!--<Space-->
-                    <!--android:layout_width="20px"-->
-                    <!--android:layout_height="32dp"-->
-                    <!--/>-->
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="10dp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_session_history"
-                    android:id="@+id/textViewSessionHistory"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="18dp"/>
-
-                <com.androidplot.xy.XYPlot
-                    android:id="@+id/sessionPlot1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="160dip"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_weight="1"
-                    title="Session Plot" />
-
-                <com.androidplot.xy.XYPlot
-                    android:id="@+id/sessionPlot2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="160dip"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_weight="1"
-                    title="Session Plot" />
-
-
-            </LinearLayout>
-
-        <!--</LinearLayout>-->
+        </LinearLayout>
 
     </ScrollView>
 

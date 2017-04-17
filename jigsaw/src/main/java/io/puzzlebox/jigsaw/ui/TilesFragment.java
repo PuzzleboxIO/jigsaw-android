@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 
 import io.puzzlebox.jigsaw.R;
 
-public class DevicesFragment extends Fragment {
+public class TilesFragment extends Fragment {
 
 	/**
 	 * Number of items visible in carousels.
@@ -31,15 +31,15 @@ public class DevicesFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public static DevicesFragment newInstance(String param1, String param2) {
-		DevicesFragment fragment = new DevicesFragment();
+	public static TilesFragment newInstance(String param1, String param2) {
+		TilesFragment fragment = new TilesFragment();
 		Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
 		fragment.setArguments(args);
 		return fragment;
 	}
-	public DevicesFragment() {
+	public TilesFragment() {
 		// Required empty public constructor
 	}
 
@@ -52,7 +52,7 @@ public class DevicesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 									 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View v = inflater.inflate(R.layout.fragment_devices, container, false);
+		View v = inflater.inflate(R.layout.fragment_tiles, container, false);
 
 		// Get reference to carousel container
 		mInputCarouselContainer = (LinearLayout) v.findViewById(R.id.carousel_devices_input);
@@ -135,6 +135,15 @@ public class DevicesFragment extends Fragment {
 			imageItem.setBackgroundResource(R.drawable.shadow);
 			imageItem.setImageResource(devicesProfileResourcesTypedArray.getResourceId(i, -1));
 			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageWidth));
+
+			final int index = i;
+			imageItem.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					showDialog("profile", index);
+				}
+			});
+
 			TileViewAnimator tileViewAnimator = new TileViewAnimator(getContext());
 			tileViewAnimator.addView(imageItem);
 //			mProfileCarouselContainer.addView(imageItem);

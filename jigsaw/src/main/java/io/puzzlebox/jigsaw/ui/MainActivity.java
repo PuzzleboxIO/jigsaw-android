@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements
 		  WelcomeFragment.OnFragmentInteractionListener,
 		  SessionFragment.OnFragmentInteractionListener,
 		  EEGFragment.OnFragmentInteractionListener,
-		  DevicesFragment.OnFragmentInteractionListener,
+		  TilesFragment.OnFragmentInteractionListener,
 		  SupportFragment.OnFragmentInteractionListener,
 		  DialogNeuroSkyMindWaveFragment.OnFragmentInteractionListener,
 		  DialogJoystickFragment.OnFragmentInteractionListener,
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_welcome), io.puzzlebox.jigsaw.R.mipmap.ic_puzzlebox));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session_color));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
-		dataList.add(new DrawerItem(getString(R.string.title_fragment_devices), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
+		dataList.add(new DrawerItem(getString(R.string.title_fragment_tiles), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_support), io.puzzlebox.jigsaw.R.mipmap.ic_support));
 
 		return dataList;
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements
 					fragment = new EEGFragment();
 				break;
 			case 3:
-				backStackName = getResources().getString(R.string.title_fragment_devices);
+				backStackName = getResources().getString(R.string.title_fragment_tiles);
 				try{
 //					fragment = getFragmentManager().findFragmentByTag(backStackName);
 					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements
 					e.printStackTrace();
 				}
 				if (fragment == null)
-					fragment = new DevicesFragment();
+					fragment = new TilesFragment();
 				break;
 			case 4:
 				backStackName = getResources().getString(R.string.title_fragment_support);
