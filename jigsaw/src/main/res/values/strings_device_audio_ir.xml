@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_dialog_fragment_audio_ir">Audio IR</string>
+
+    <string name="label_audio_ir_instruction">Check Audio Infrared Transmitter</string>
+
+    <string name="label_audio_ir_detect_transmitter_present">Plug Transmitter into Headphone Jack</string>
+    <string name="label_audio_ir_detect_volume_max">Media (Headphone) Volume Max</string>
+
+    <string name="toast_audio_ir_detect_transmitter_warning">TIP: Cases can prevent IR Transmitter from plugging into Headphone Jack</string>
+    <string name="toast_audio_ir_detect_volume_max_warning">TIP: Wait to raise volume to max until after plugging in IR Transmitter</string>
+
+</resources>

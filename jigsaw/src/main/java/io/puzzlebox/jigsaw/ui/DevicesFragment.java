@@ -108,6 +108,15 @@ public class DevicesFragment extends Fragment {
 			imageItem.setBackgroundResource(R.drawable.shadow);
 			imageItem.setImageResource(devicesOutputResourcesTypedArray.getResourceId(i, -1));
 			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageWidth));
+
+			final int index = i;
+			imageItem.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					showDialog("output", index);
+				}
+			});
+
 			mOutputCarouselContainer.addView(imageItem);
 		}
 
@@ -128,11 +137,11 @@ public class DevicesFragment extends Fragment {
 
 	public void showDialog(String type, int index) {
 
+		FragmentManager fm = getFragmentManager();
+
 		switch (type) {
 
 			case "input":
-
-				FragmentManager fm = getFragmentManager();
 
 				switch (index) {
 					case 0:
@@ -145,6 +154,17 @@ public class DevicesFragment extends Fragment {
 						// Joystick
 						DialogJoystickFragment dialogJoystickFragment = new DialogJoystickFragment();
 						dialogJoystickFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_joystick));
+						break;
+				}
+				break;
+
+			case "output":
+
+				switch (index) {
+					case 0:
+						// Audio IR Transmitter
+						DialogAudioIRFragment dialogAudioIRFragment = new DialogAudioIRFragment();
+						dialogAudioIRFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_audio_ir));
 						break;
 				}
 				break;

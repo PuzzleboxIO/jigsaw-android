@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements
 		  DevicesFragment.OnFragmentInteractionListener,
 		  SupportFragment.OnFragmentInteractionListener,
 		  DialogNeuroSkyMindWaveFragment.OnFragmentInteractionListener,
-		  DialogJoystickFragment.OnFragmentInteractionListener
+		  DialogJoystickFragment.OnFragmentInteractionListener,
+		  DialogAudioIRFragment.OnFragmentInteractionListener
 {
 
 	private final static String TAG = MainActivity.class.getSimpleName();
