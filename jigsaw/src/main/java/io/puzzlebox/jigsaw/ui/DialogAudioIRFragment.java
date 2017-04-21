@@ -200,4 +200,33 @@ public class DialogAudioIRFragment extends DialogFragment {
 		}
 	}
 
+
+	// ################################################################
+
+	// TODO
+	public void maximizeAudioVolume() {
+
+		AudioManager audio = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+		int currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+		if (currentVolume < audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC)) {
+
+			Log.v(TAG, "Previous volume:" + currentVolume);
+
+			Toast.makeText(getActivity().getApplicationContext(), "Automatically setting volume to maximum", Toast.LENGTH_SHORT).show();
+
+			AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+					  audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
+					  AudioManager.FLAG_SHOW_UI);
+
+		}
+
+
+	} // maximizeAudioVolume
+
+
+	// ################################################################
+
+
 }

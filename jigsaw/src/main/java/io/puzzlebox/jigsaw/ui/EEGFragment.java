@@ -506,7 +506,8 @@ public class EEGFragment extends Fragment implements
 		public boolean onMenuItemClick(MenuItem item) {
 
 //			exportSession(item);
-			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext(), item);
+//			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext(), item);
+			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
 
 			if (i != null) {
 				startActivity(i);

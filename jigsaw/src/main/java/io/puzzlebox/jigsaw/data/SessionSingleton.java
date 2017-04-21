@@ -380,9 +380,11 @@ public class SessionSingleton {
 
 	// ################################################################
 
-	public Intent getExportSessionIntent(Context context, MenuItem item) {
+//	public Intent getExportSessionIntent(Context context, MenuItem item) {
+	public Intent getExportSessionIntent(Context context) {
 
-		Log.d(TAG, "exportSession(MenuItem item): " + item.toString());
+//		Log.d(TAG, "exportSession(MenuItem item): " + item.toString());
+		Log.d(TAG, "exportSession()");
 
 		// Fetch and store ShareActionProvider
 //		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);

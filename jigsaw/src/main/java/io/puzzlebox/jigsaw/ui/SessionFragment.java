@@ -350,18 +350,37 @@ public class SessionFragment extends Fragment {
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
 
-			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext(), item);
+//			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext(), item);
+			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
 
-			if (i != null) {
-				startActivity(i);
-			} else {
-				Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
-			}
+//			if (i != null) {
+//				startActivity(i);
+//			} else {
+//				Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
+//			}
+
+			exportSession();
+
 
 			return false;
 		}
 	};
 
+
+	// ################################################################
+
+	public void exportSession() {
+
+//		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext(), item);
+		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
+
+		if (i != null) {
+			startActivity(i);
+		} else {
+			Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
+		}
+
+	}
 
 	// ################################################################
 

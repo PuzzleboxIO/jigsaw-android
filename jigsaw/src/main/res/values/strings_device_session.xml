@@ -22,4 +22,6 @@
 
     <string name="label_session_reset">Reset</string>
 
+    <string name="button_session_export">Export</string>
+
 </resources>

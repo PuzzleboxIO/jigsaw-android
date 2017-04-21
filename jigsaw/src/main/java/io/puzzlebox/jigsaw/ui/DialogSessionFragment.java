@@ -75,10 +75,12 @@ public class DialogSessionFragment extends DialogFragment {
 		});
 
 		buttonDeviceEnable = (Button) v.findViewById(R.id.buttonDeviceEnable);
+		buttonDeviceEnable.setText(getResources().getString(R.string.button_session_export));
 		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				dismiss();
+//				dismiss();
+				exportSession();
 			}
 		});
 
@@ -313,22 +315,52 @@ public class DialogSessionFragment extends DialogFragment {
 
 	// ################################################################
 
+//	MenuItem.OnMenuItemClickListener mShareButtonClickListener = new MenuItem.OnMenuItemClickListener() {
+//
+//		@Override
+//		public boolean onMenuItemClick(MenuItem item) {
+//
+//			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext(), item);
+//
+//			if (i != null) {
+//				startActivity(i);
+//			} else {
+//				Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
+//			}
+//
+//			return false;
+//		}
+//	};
+
+
+	// ################################################################
+
 	MenuItem.OnMenuItemClickListener mShareButtonClickListener = new MenuItem.OnMenuItemClickListener() {
 
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
 
-			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext(), item);
-
-			if (i != null) {
-				startActivity(i);
-			} else {
-				Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
-			}
+			exportSession();
 
 			return false;
 		}
 	};
+
+
+	// ################################################################
+
+	public void exportSession() {
+
+//		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext(), item);
+		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
+
+		if (i != null) {
+			startActivity(i);
+		} else {
+			Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
+		}
+
+	}
 
 
 	// ################################################################
