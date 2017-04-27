@@ -357,10 +357,16 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 			progressBarMeditation.setProgress(eegMeditation);
 			progressBarSignal.setProgress(eegSignal);
 
-			if ((! buttonDeviceEnable.isEnabled()) && (eegSignal == ThinkGearService.signalSignalMax)) {
-				// This setting requires the quality of the EEG sensor's
-				// contact with skin hit to 100% at least once since the
-				// headset was last connected.
+			// TODO re-enable when extra safety desired
+//			if ((! buttonDeviceEnable.isEnabled()) && (eegSignal == ThinkGearService.signalSignalMax)) {
+//				// This setting requires the quality of the EEG sensor's
+//				// contact with skin hit to 100% at least once since the
+//				// headset was last connected.
+//				buttonDeviceEnable.setEnabled(true);
+//				buttonDeviceEnable.setVisibility(View.VISIBLE);
+//			}
+
+			if (! buttonDeviceEnable.isEnabled()) {
 				buttonDeviceEnable.setEnabled(true);
 				buttonDeviceEnable.setVisibility(View.VISIBLE);
 			}
@@ -408,8 +414,8 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 //							Toast.makeText(context, "EEG Connected", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveDisconnect));
-//							buttonDeviceEnable.setEnabled(true);
-//							buttonDeviceEnable.setVisibility(View.VISIBLE);
+							buttonDeviceEnable.setEnabled(true);
+							buttonDeviceEnable.setVisibility(View.VISIBLE);
 							break;
 						case "STATE_NOT_FOUND":
 							Toast.makeText(context, "EEG Not Found", Toast.LENGTH_SHORT).show();

@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 
 import io.puzzlebox.jigsaw.R;
 
+import io.puzzlebox.jigsaw.data.ProfileSingleton;
+
 public class TilesFragment extends Fragment {
 
 	/**
@@ -46,6 +48,7 @@ public class TilesFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ProfileSingleton.getInstance().parseXML(getContext());
 	}
 
 	@Override
@@ -66,8 +69,8 @@ public class TilesFragment extends Fragment {
 		final int imageWidth = (int) (displayMetrics.widthPixels / INITIAL_ITEMS_COUNT);
 
 		// Get the array of input devices resources
-		final TypedArray devicesInputResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_input_array);
-		final TypedArray devicesOutputResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_output_array);
+		final TypedArray devicesInputResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_input_icon_array);
+		final TypedArray devicesOutputResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_output_icon_array);
 		final TypedArray devicesProfileResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_profile_array);
 
 		ImageView imageItem;

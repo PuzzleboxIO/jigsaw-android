@@ -3,6 +3,14 @@
 
     <!-- Array of input devices resource IDs -->
     <string-array name="devices_input_array">
+        <item>neurosky_mindwave_mobile</item>
+        <item>joystick</item>
+        <item>watch_android</item>
+        <!--<item>openbci_cyton_8_channel</item>-->
+    </string-array>
+
+    <!-- Array of input devices icons -->
+    <string-array name="devices_input_icon_array">
         <item>@drawable/carousel_neurosky_mindwave_mobile</item>
         <item>@drawable/carousel_joystick</item>
         <item>@drawable/carousel_watch_android</item>

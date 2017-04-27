@@ -9,6 +9,7 @@
 
     <!-- Input Devices -->
     <TextView
+        android:id="@+id/carousel_devices_input_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
@@ -34,13 +35,16 @@
 
     <!-- Output Devices -->
     <TextView
+        android:id="@+id/carousel_devices_output_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="@string/label_device_output_select"
         android:textColor="#505050"
         android:textSize="12sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:enabled="false"
+        android:visibility="invisible"/>
 
     <!-- Carousel -->
     <HorizontalScrollView
@@ -53,19 +57,24 @@
             android:id="@+id/carousel_devices_output"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+            android:enabled="false"
+            android:visibility="invisible"/>
 
     </HorizontalScrollView>
 
     <!-- Device Profile -->
     <TextView
+        android:id="@+id/carousel_device_profile_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="@string/label_device_profile_select"
         android:textColor="#505050"
         android:textSize="12sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:enabled="false"
+        android:visibility="invisible"/>
 
     <!-- Carousel -->
     <HorizontalScrollView
@@ -78,7 +87,9 @@
             android:id="@+id/carousel_device_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+            android:enabled="false"
+            android:visibility="invisible"/>
 
     </HorizontalScrollView>
 

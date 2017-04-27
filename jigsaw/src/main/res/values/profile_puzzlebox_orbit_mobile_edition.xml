@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="profile_puzzlebox_orbit_mobile_edition_title">Puzzlebox Orbit Mobile Edition</string>
+
+    <!--<string name="profile_puzzlebox_orbit_mobile_edition_icon">@drawable/carousel_puzzlebox_orbit</string>-->
+    <string name="profile_puzzlebox_orbit_mobile_edition_icon">carousel_puzzlebox_orbit</string>
+
+    <string name="profile_puzzlebox_orbit_mobile_edition_company">Puzzlebox</string>
+    <string name="profile_puzzlebox_orbit_mobile_edition_product">Orbit</string>
+
+    <string-array name="profile_puzzlebox_orbit_mobile_edition_input">
+        <item>neurosky_mindwave_mobile</item>
+    </string-array>
+
+    <string-array name="profile_puzzlebox_orbit_mobile_edition_output">
+        <item>puzzlebox_orbit_ir</item>
+    </string-array>
+
+</resources>
