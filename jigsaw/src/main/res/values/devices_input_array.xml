@@ -11,10 +11,10 @@
 
     <!-- Array of input devices icons -->
     <string-array name="devices_input_icon_array">
-        <item>@drawable/carousel_neurosky_mindwave_mobile</item>
-        <item>@drawable/carousel_joystick</item>
-        <item>@drawable/carousel_watch_android</item>
-        <!--<item>@drawable/carousel_openbci_cyton_8_channel</item>-->
+        <item>carousel_neurosky_mindwave_mobile</item>
+        <item>carousel_joystick</item>
+        <item>carousel_watch_android</item>
+        <!--<item>carousel_openbci_cyton_8_channel</item>-->
     </string-array>
 
     <!-- Array of input devices Company/Manufacturer names -->

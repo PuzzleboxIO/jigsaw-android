@@ -9,8 +9,8 @@
 
     <!-- Array of output devices icons -->
     <string-array name="devices_output_icon_array">
-        <item>@drawable/carousel_puzzlebox_orbit_ir</item>
-        <item>@mipmap/ic_session_color</item>
+        <item>carousel_puzzlebox_orbit_ir</item>
+        <item>carousel_session</item>
     </string-array>
 
     <!-- Array of output devices Company/Manufacturer names -->
@@ -24,7 +24,5 @@
         <item>Audio Infrared</item>
         <item>Record</item>
     </string-array>
-
-
 
 </resources>

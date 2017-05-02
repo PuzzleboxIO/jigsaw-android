@@ -60,7 +60,7 @@ public class TilesFragment extends Fragment {
 		// Get reference to carousel container
 		mInputCarouselContainer = (LinearLayout) v.findViewById(R.id.carousel_devices_input);
 		mOutputCarouselContainer = (LinearLayout) v.findViewById(R.id.carousel_devices_output);
-		mProfileCarouselContainer = (LinearLayout) v.findViewById(R.id.carousel_device_profile);
+		mProfileCarouselContainer = (LinearLayout) v.findViewById(R.id.carousel_devices_profile);
 
 
 		// Compute the width of a carousel item based on the screen width and number of initial items.

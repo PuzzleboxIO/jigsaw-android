@@ -84,7 +84,7 @@
 
         <!-- Input Devices Carousel items container - lays out items horizontally -->
         <LinearLayout
-            android:id="@+id/carousel_device_profile"
+            android:id="@+id/carousel_devices_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

@@ -21,7 +21,8 @@ public class ProfileSingleton {
 
 	public static ArrayList<HashMap<String, String>> inputs = new ArrayList<>();
 	public static ArrayList<HashMap<String, String>> outputs = new ArrayList<>();
-	public static ArrayList<HashMap<String, String>> profiles = new ArrayList<>();
+	//	public static ArrayList<HashMap<String, String>> profiles = new ArrayList<>();
+	public ArrayList<HashMap<String, String>> profiles = new ArrayList<>();
 	public static ArrayList<String[]> profiles_inputs = new ArrayList<>();
 	public static ArrayList<String[]> profiles_outputs = new ArrayList<>();
 
@@ -38,7 +39,6 @@ public class ProfileSingleton {
 	public void parseXML(Context context) {
 
 		HashMap<String, String> data;
-		HashMap<String, String> temp;
 
 		String[] devicesInput = context.getResources().getStringArray(R.array.devices_input_array);
 		String[] devicesInputIcon = context.getResources().getStringArray(R.array.devices_input_icon_array);
@@ -51,6 +51,7 @@ public class ProfileSingleton {
 			data.put("icon", devicesInputIcon[i]);
 			data.put("company", devicesInputCompany[i]);
 			data.put("product", devicesInputProduct[i]);
+			data.put("active", "false");
 			inputs.add(data);
 		}
 
@@ -68,6 +69,7 @@ public class ProfileSingleton {
 			data.put("icon", devicesOutputIcon[i]);
 			data.put("company", devicesOutputCompany[i]);
 			data.put("product", devicesOutputProduct[i]);
+			data.put("active", "false");
 			outputs.add(data);
 		}
 
@@ -99,16 +101,19 @@ public class ProfileSingleton {
 			data.put("product", context.getResources().getString(
 					  getId(data.get("id") + "_product", R.string.class)));
 
-//			temp = new HashMap<String, String>();
-//			temp.put();
+			data.put("active", "false");
 
 			devicesProfileInputs = context.getResources().getStringArray(
 					  getId(data.get("id") + "_input", R.array.class));
 			devicesProfileOutputs = context.getResources().getStringArray(
 					  getId(data.get("id") + "_output", R.array.class));
 
-			Log.e(TAG, "devicesProfileInputs: " + devicesProfileInputs);
-			Log.e(TAG, "devicesProfileOutputs: " + devicesProfileOutputs);
+			Log.d(TAG, "devicesProfileInputs: " + devicesProfileInputs);
+			Log.d(TAG, "devicesProfileOutputs: " + devicesProfileOutputs);
+
+//			for (String s : devicesProfileInputs) {
+//				Log.e(TAG, "s: " + s);
+//			}
 
 			profiles_inputs.add(devicesProfileInputs);
 			profiles_outputs.add(devicesProfileOutputs);
@@ -123,7 +128,8 @@ public class ProfileSingleton {
 
 
 	// Reference: http://stackoverflow.com/a/17622392
-	public static int getId(String resourceName, Class<?> c) {
+//	public static int getId(String resourceName, Class<?> c) {
+	public int getId(String resourceName, Class<?> c) {
 		try {
 			Field idField = c.getDeclaredField(resourceName);
 			return idField.getInt(idField);
@@ -142,9 +148,50 @@ public class ProfileSingleton {
 			return Resources.getSystem().getDrawable(resourceId);
 		}
 
-
 //		if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){ return mContext.getDrawable(resourceId); } else { return mContext.getResources().getDrawable(resourceId); }
 
+	}
+
+
+	public static Drawable getDeviceDrawable(String name) {
+
+		for (HashMap<String, String> map : inputs) {
+			Log.e(TAG, "id: " + map.get("id"));
+			if (map.get("id").equals(name)) {
+//				return Resources.getSystem().getDrawable(map.get("icon"));
+				Log.e(TAG, "icon: " + map.get("icon"));
+
+				return Resources.getSystem().getDrawable(
+						  Resources.getSystem().getIdentifier(map.get("icon"), "drawable", "io.puzzlebox.orbit")
+				);
+
+			}
+		}
+
+		return null;
+	}
+
+
+//	public static String getDeviceIconPath(String name) {
+	public String getDeviceIconPath(String name) {
+
+		for (HashMap<String, String> map : inputs) {
+//			Log.e(TAG, "id: " + map.get("id"));
+			if (map.get("id").equals(name)) {
+				Log.e(TAG, "icon: " + map.get("icon"));
+				return(map.get("icon"));
+			}
+		}
+
+		for (HashMap<String, String> map : outputs) {
+//			Log.e(TAG, "id: " + map.get("id"));
+			if (map.get("id").equals(name)) {
+				Log.e(TAG, "icon: " + map.get("icon"));
+				return(map.get("icon"));
+			}
+		}
+
+		return null;
 
 	}
 

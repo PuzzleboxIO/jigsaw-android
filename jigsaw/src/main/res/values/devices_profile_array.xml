@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-icon
+
     <!-- Array of device profiles resource IDs -->
     <string-array name="devices_profile_array">
         <item>profile_puzzlebox_orbit_mobile_edition</item>
     </string-array>
-
-    <!--&lt;!&ndash; Array of device profiles icons &ndash;&gt;-->
-    <!--<string-array name="devices_profile_icon_array">-->
-        <!--<item>@drawable/carousel_puzzlebox_orbit</item>-->
-    <!--</string-array>-->
-
-    <!--&lt;!&ndash; Array of device profiles Company/Manufacturer names &ndash;&gt;-->
-    <!--<string-array name="devices_profile_company_array">-->
-        <!--<item>Puzzlebox</item>-->
-    <!--</string-array>-->
-
-    <!--&lt;!&ndash; Array of output devices Product names &ndash;&gt;-->
-    <!--<string-array name="devices_profile_product_array">-->
-        <!--<item>Orbit</item>-->
-    <!--</string-array>-->
 
 </resources>
