@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="profile_puzzlebox_orbit_joystick_title">Puzzlebox Orbit Joystick</string>
+
+    <string name="profile_puzzlebox_orbit_joystick_icon">carousel_puzzlebox_orbit</string>
+
+    <string name="profile_puzzlebox_orbit_joystick_company">Puzzlebox</string>
+    <string name="profile_puzzlebox_orbit_joystick_product">Orbit</string>
+
+    <string-array name="profile_puzzlebox_orbit_joystick_input">
+        <item>joystick</item>
+    </string-array>
+
+    <string-array name="profile_puzzlebox_orbit_joystick_output">
+        <item>puzzlebox_orbit_ir</item>
+    </string-array>
+
+</resources>

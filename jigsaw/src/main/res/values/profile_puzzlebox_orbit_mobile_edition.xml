@@ -3,7 +3,6 @@
 
     <string name="profile_puzzlebox_orbit_mobile_edition_title">Puzzlebox Orbit Mobile Edition</string>
 
-    <!--<string name="profile_puzzlebox_orbit_mobile_edition_icon">@drawable/carousel_puzzlebox_orbit</string>-->
     <string name="profile_puzzlebox_orbit_mobile_edition_icon">carousel_puzzlebox_orbit</string>
 
     <string name="profile_puzzlebox_orbit_mobile_edition_company">Puzzlebox</string>

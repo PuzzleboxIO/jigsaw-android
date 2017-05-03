@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="profile_puzzlebox_orbit_joystick_mindwave_title">Puzzlebox Orbit Mobile Edition</string>
+
+    <string name="profile_puzzlebox_orbit_joystick_mindwave_icon">carousel_puzzlebox_orbit</string>
+
+    <string name="profile_puzzlebox_orbit_joystick_mindwave_company">Puzzlebox</string>
+    <string name="profile_puzzlebox_orbit_joystick_mindwave_product">Orbit</string>
+
+    <string-array name="profile_puzzlebox_orbit_joystick_mindwave_input">
+        <item>neurosky_mindwave_mobile</item>
+        <item>joystick</item>
+    </string-array>
+
+    <string-array name="profile_puzzlebox_orbit_joystick_mindwave_output">
+        <item>puzzlebox_orbit_ir</item>
+    </string-array>
+
+</resources>
