@@ -55,7 +55,7 @@ public class ProfileSingleton {
 			inputs.add(data);
 		}
 
-		Log.d(TAG, "inputs: " + inputs);
+//		Log.d(TAG, "inputs: " + inputs);
 
 
 		String[] devicesOutput = context.getResources().getStringArray(R.array.devices_output_array);
@@ -73,7 +73,7 @@ public class ProfileSingleton {
 			outputs.add(data);
 		}
 
-		Log.d(TAG, "outputs: " + outputs);
+//		Log.d(TAG, "outputs: " + outputs);
 
 
 		String[] devicesProfile = context.getResources().getStringArray(R.array.devices_profile_array);
@@ -108,8 +108,8 @@ public class ProfileSingleton {
 			devicesProfileOutputs = context.getResources().getStringArray(
 					  getId(data.get("id") + "_output", R.array.class));
 
-			Log.d(TAG, "devicesProfileInputs: " + devicesProfileInputs);
-			Log.d(TAG, "devicesProfileOutputs: " + devicesProfileOutputs);
+//			Log.d(TAG, "devicesProfileInputs: " + devicesProfileInputs);
+//			Log.d(TAG, "devicesProfileOutputs: " + devicesProfileOutputs);
 
 //			for (String s : devicesProfileInputs) {
 //				Log.e(TAG, "s: " + s);
@@ -122,7 +122,7 @@ public class ProfileSingleton {
 			profiles.add(data);
 		}
 
-		Log.d(TAG, "profiles: " + profiles);
+//		Log.d(TAG, "profiles: " + profiles);
 
 	}
 
@@ -172,13 +172,13 @@ public class ProfileSingleton {
 	}
 
 
-//	public static String getDeviceIconPath(String name) {
+	//	public static String getDeviceIconPath(String name) {
 	public String getDeviceIconPath(String name) {
 
 		for (HashMap<String, String> map : inputs) {
 //			Log.e(TAG, "id: " + map.get("id"));
 			if (map.get("id").equals(name)) {
-				Log.e(TAG, "icon: " + map.get("icon"));
+//				Log.e(TAG, "icon: " + map.get("icon"));
 				return(map.get("icon"));
 			}
 		}
@@ -186,7 +186,7 @@ public class ProfileSingleton {
 		for (HashMap<String, String> map : outputs) {
 //			Log.e(TAG, "id: " + map.get("id"));
 			if (map.get("id").equals(name)) {
-				Log.e(TAG, "icon: " + map.get("icon"));
+//				Log.e(TAG, "icon: " + map.get("icon"));
 				return(map.get("icon"));
 			}
 		}

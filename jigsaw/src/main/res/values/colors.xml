@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="WhiteTint">#88FFFFFF</color>
+    <color name="tileHighlight">#40FFFFFF</color>
+    <!--<color name="WhiteTint">#92FFFFFF</color>-->
     <color name="GreyTint">#88888888</color>
-    <!--<color name="tileActivated">#8000FF00</color>-->
-    <!--<color name="tileActivated">#FF00FF00</color>-->
-    <!--<color name="tileActivated">#AA00FF00</color>-->
+    <color name="tileAvailable">#8000FF00</color>
     <color name="tileActivated">#80FFFF00</color>
-    <!--<color name="tileRequired">#80FFFF00</color>-->
     <color name="tileRequired">#80FF0000</color>
     <color name="tileDisabled">#80808080</color>
+    <color name="webViewBackground">#FFEEEEEE</color>
 </resources>
