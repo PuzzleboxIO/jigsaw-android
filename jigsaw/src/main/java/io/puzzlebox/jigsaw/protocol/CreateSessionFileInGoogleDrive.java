@@ -1,4 +1,4 @@
-package io.puzzlebox.jigsaw.data;
+package io.puzzlebox.jigsaw.protocol;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,6 +20,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi.DriveContentsResult;
 import com.google.android.gms.drive.MetadataChangeSet;
+
+import io.puzzlebox.jigsaw.data.SessionSingleton;
 
 
 public class CreateSessionFileInGoogleDrive extends Activity implements ConnectionCallbacks,

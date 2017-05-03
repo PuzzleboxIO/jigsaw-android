@@ -7,6 +7,7 @@
 package io.puzzlebox.jigsaw.ui;
 
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +16,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.puzzlebox.jigsaw.R;
+import io.puzzlebox.jigsaw.data.ConfigurationSingleton;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
 public class MainActivity extends AppCompatActivity implements
@@ -69,6 +73,29 @@ public class MainActivity extends AppCompatActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+
+		try {
+			Display display = getWindowManager().getDefaultDisplay();
+			Point size = new Point();
+			display.getSize(size); // TODO API 13
+			ConfigurationSingleton.getInstance().displayHeight = size.y;
+			ConfigurationSingleton.getInstance().displayWidth = size.x;
+
+			Log.d(TAG, "ConfigurationSingleton.getInstance().displayHeight: " + ConfigurationSingleton.getInstance().displayHeight);
+			Log.d(TAG, "ConfigurationSingleton.getInstance().displayWidth: " + ConfigurationSingleton.getInstance().displayWidth);
+
+			// Calculate ActionBar height
+			TypedValue tv = new TypedValue();
+			if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+				ConfigurationSingleton.getInstance().actionBarHeight =
+						  TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+			}
+
+		} catch (Exception e) {
+			Log.e(TAG, "Exception calculationg screen dimensions for navigation WebView: " + e);
+		}
+
 
 //		dataList = new ArrayList<>();
 		mTitle = mDrawerTitle = getTitle();

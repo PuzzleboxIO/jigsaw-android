@@ -25,8 +25,8 @@
                 android:id="@+id/textViewSessionProfile"
                 android:layout_gravity="center"
                 android:textStyle="bold"
-                style="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"
                 android:textSize="18dp"/>
+            <!--style="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"-->
 
             <EditText
                 android:layout_width="wrap_content"
