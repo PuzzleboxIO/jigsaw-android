@@ -7,7 +7,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.LinearLayout;
 
-import io.puzzlebox.jigsaw.R;
+import io.puzzlebox.jigsaw.data.ProfileSingleton;
 
 
 /**
@@ -73,7 +73,8 @@ public class TileViewAnimator extends LinearLayout {
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 
-		Animation anim_list = AnimationUtils.loadAnimation(context, R.anim.tiles);
+//		Animation anim_list = AnimationUtils.loadAnimation(context, R.anim.tiles_slow);
+		Animation anim_list = AnimationUtils.loadAnimation(context, ProfileSingleton.getInstance().tilesAnimationId);
 		LayoutAnimationController controller = new LayoutAnimationController(anim_list, 0.1f);
 //		LayoutAnimationController controller = new LayoutAnimationController(anim_list, 0.2f);
 //		LayoutAnimationController controller = new LayoutAnimationController(anim_list, 0.5f);

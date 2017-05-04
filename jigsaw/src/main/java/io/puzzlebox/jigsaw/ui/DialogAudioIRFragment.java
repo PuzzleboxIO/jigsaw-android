@@ -1,10 +1,12 @@
 package io.puzzlebox.jigsaw.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +19,9 @@ import io.puzzlebox.jigsaw.R;
 
 public class DialogAudioIRFragment extends DialogFragment {
 
-	private final static String TAG = DialogJoystickFragment.class.getSimpleName();
+	private final static String TAG = DialogAudioIRFragment.class.getSimpleName();
+
+	public final static String profileID = "puzzlebox_orbit_ir";
 
 	// UI
 	public Switch switchDetectTransmitter;
@@ -63,6 +67,7 @@ public class DialogAudioIRFragment extends DialogFragment {
 		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				broadcastTileStatus("false");
 				dismiss();
 			}
 		});
@@ -71,6 +76,7 @@ public class DialogAudioIRFragment extends DialogFragment {
 		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				updateTileStatus();
 				dismiss();
 			}
 		});
@@ -100,6 +106,38 @@ public class DialogAudioIRFragment extends DialogFragment {
 
 	public interface OnFragmentInteractionListener {
 		void onFragmentInteraction(Uri uri);
+	}
+
+	// ################################################################
+
+	public void updateTileStatus() {
+
+//		Log.e(TAG, "updateTileStatus()");
+
+		String value;
+		if (buttonDeviceEnable.isEnabled())
+			value = "true";
+		else
+			value = "false";
+
+		broadcastTileStatus(value);
+
+	}
+
+	// ################################################################
+
+	public void broadcastTileStatus(String value) {
+
+		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.tile.event");
+
+		intent.putExtra("id", profileID);
+		intent.putExtra("name", "active");
+		intent.putExtra("value", value);
+		intent.putExtra("category", "outputs");
+
+//		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+
 	}
 
 	// ################################################################

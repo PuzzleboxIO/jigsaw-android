@@ -41,6 +41,8 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 
 	private final static String TAG = DialogNeuroSkyMindWaveFragment.class.getSimpleName();
 
+	public final static String profileID = "neurosky_mindwave_mobile";
+
 	// UI
 	ProgressBar progressBarAttention;
 	ProgressBar progressBarMeditation;
@@ -173,6 +175,7 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				broadcastTileStatus("false");
 				dismiss();
 			}
 		});
@@ -182,6 +185,7 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				broadcastTileStatus("true");
 				dismiss();
 			}
 		});
@@ -547,6 +551,22 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 		}
 
 	} // updateEEGRawHistory
+
+
+	// ################################################################
+
+	public void broadcastTileStatus(String value) {
+
+		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.tile.event");
+
+		intent.putExtra("id", profileID);
+		intent.putExtra("name", "active");
+		intent.putExtra("value", value);
+		intent.putExtra("category", "inputs");
+
+		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+
+	}
 
 
 }

@@ -2,6 +2,7 @@ package io.puzzlebox.jigsaw.data;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -21,10 +22,11 @@ public class ProfileSingleton {
 
 	public static ArrayList<HashMap<String, String>> inputs = new ArrayList<>();
 	public static ArrayList<HashMap<String, String>> outputs = new ArrayList<>();
-	//	public static ArrayList<HashMap<String, String>> profiles = new ArrayList<>();
 	public ArrayList<HashMap<String, String>> profiles = new ArrayList<>();
 	public static ArrayList<String[]> profiles_inputs = new ArrayList<>();
 	public static ArrayList<String[]> profiles_outputs = new ArrayList<>();
+
+	public int tilesAnimationId = R.anim.tiles_slow;
 
 	private static final ProfileSingleton ourInstance = new ProfileSingleton();
 
@@ -192,6 +194,131 @@ public class ProfileSingleton {
 		}
 
 		return null;
+
+	}
+
+
+	public void updateStatus(String id, String name, String value) {
+
+//		Log.e(TAG, "mTileReceiver.onReceive() id: " + id);
+//		Log.e(TAG, "mTileReceiver.onReceive() name: " + name);
+//		Log.e(TAG, "mTileReceiver.onReceive() value: " + value);
+
+//		index = 0;
+		for (HashMap<String, String> map : inputs) {
+			if (map.get("id").equals(id)) {
+//				inputs.get(index).put(name, value);
+				map.put(name, value);
+			}
+//			++index;
+		}
+
+//		int index = 0;
+		for (HashMap<String, String> map : outputs) {
+			if (map.get("id").equals(id)) {
+//				outputs.get(index).put(name, value);
+//				Log.e(TAG, "outputs.get(index).get(name): " + outputs.get(index).get(name));
+//				outputs.get(index).put(name, value);
+//				Log.e(TAG, "outputs.get(index).get(name): " + outputs.get(index).get(name));
+				map.put(name, value);
+			}
+//			++index;
+		}
+
+		for (HashMap<String, String> map : profiles) {
+			if (map.get("id").equals(id)) {
+//				profiles.get(index).put(name, value);
+				map.put(name, value);
+			}
+		}
+
+	}
+
+
+	public boolean isActive(String category, int index) {
+
+		boolean result = false;
+
+		switch(category) {
+			case "inputs":
+				Log.e(TAG, "inputs.get(" + index + ").get(\"active\"): " + inputs.get(index).get("active"));
+				if (inputs.get(index).get("active").equals("true")) {
+					result = true;
+				}
+				break;
+			case "outputs":
+//				Log.e(TAG, "outputs.get(" + index + ").get(\"active\"): " + outputs.get(index).get("active"));
+				if (outputs.get(index).get("active").equals("true")) {
+					result = true;
+				}
+				break;
+			case "profiles":
+				if (profiles.get(index).get("active").equals("true")) {
+					result = true;
+				}
+				break;
+		}
+
+		return result;
+
+	}
+
+
+	public Drawable getProfileTileColor(Context context, int index) {
+
+		if (ProfileSingleton.getInstance().isActive("profiles", index)) {
+			return new ColorDrawable(  context.getResources().getColor(R.color.tileActivated));
+
+		} else {
+
+			Boolean[] inputsActive = new Boolean[profiles_inputs.get(index).length];
+			Boolean[] outputsActive = new Boolean[profiles_outputs.get(index).length];
+
+			int j = 0;
+			int k;
+			for (String name : profiles_inputs.get(index)) {
+				k = 0;
+				for (HashMap<String, String> map : inputs) {
+					if (map.get("id").equals(name)) {
+						Log.e(TAG, "(map.get(\"id\").equals(" + name + "))");
+//						if (isActive("inputs", index))
+//							inputsActive[j] = true;
+//						inputsActive[j] = (isActive("inputs", index));
+						inputsActive[j] = (isActive("inputs", k));
+						Log.e(TAG, "inputsActive[" + j + "]: " + inputsActive[j]);
+					}
+					++k;
+				}
+				++j;
+			}
+
+			j = 0;
+			for (String name : profiles_outputs.get(index)) {
+				k = 0;
+				for (HashMap<String, String> map : outputs) {
+					if (map.get("id").equals(name)) {
+//						Log.e(TAG, "(map.get(\"id\").equals(" + name + "))");
+						outputsActive[j] = (isActive("outputs", k));
+//						Log.e(TAG, "outputsActive[" + j + "]: " + outputsActive[j]);
+					}
+					++k;
+				}
+				++j;
+			}
+
+			Boolean allAvailable = true;
+			for (Boolean check : inputsActive)
+				if (!check)
+					allAvailable = false;
+			for (Boolean check : outputsActive)
+				if (!check)
+					allAvailable = false;
+
+			if (allAvailable)
+				return new ColorDrawable( context.getResources().getColor(R.color.white));
+			else
+				return new ColorDrawable( context.getResources().getColor(R.color.tileDisabled));
+		}
 
 	}
 

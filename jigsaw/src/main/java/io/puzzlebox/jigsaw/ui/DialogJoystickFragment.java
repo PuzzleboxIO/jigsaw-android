@@ -2,9 +2,11 @@ package io.puzzlebox.jigsaw.ui;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,8 @@ public class DialogJoystickFragment extends DialogFragment
 		  implements SeekBar.OnSeekBarChangeListener {
 
 	private final static String TAG = DialogJoystickFragment.class.getSimpleName();
+
+	public final static String profileID = "joystick";
 
 	// UI
 	public SeekBar seekBarX;
@@ -58,6 +62,7 @@ public class DialogJoystickFragment extends DialogFragment
 		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				broadcastTileStatus("false");
 				dismiss();
 			}
 		});
@@ -66,6 +71,7 @@ public class DialogJoystickFragment extends DialogFragment
 		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				broadcastTileStatus("true");
 				dismiss();
 			}
 		});
@@ -153,8 +159,23 @@ public class DialogJoystickFragment extends DialogFragment
 				seekBarY.setProgress(newY);
 			}
 
-
 		}
 	};
+
+
+	// ################################################################
+
+	public void broadcastTileStatus(String value) {
+
+		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.tile.event");
+
+		intent.putExtra("id", profileID);
+		intent.putExtra("name", "active");
+		intent.putExtra("value", value);
+		intent.putExtra("category", "inputs");
+
+		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+
+	}
 
 }
