@@ -241,7 +241,7 @@ public class ProfileSingleton {
 
 		switch(category) {
 			case "inputs":
-				Log.e(TAG, "inputs.get(" + index + ").get(\"active\"): " + inputs.get(index).get("active"));
+//				Log.e(TAG, "inputs.get(" + index + ").get(\"active\"): " + inputs.get(index).get("active"));
 				if (inputs.get(index).get("active").equals("true")) {
 					result = true;
 				}
@@ -280,12 +280,9 @@ public class ProfileSingleton {
 				k = 0;
 				for (HashMap<String, String> map : inputs) {
 					if (map.get("id").equals(name)) {
-						Log.e(TAG, "(map.get(\"id\").equals(" + name + "))");
-//						if (isActive("inputs", index))
-//							inputsActive[j] = true;
-//						inputsActive[j] = (isActive("inputs", index));
+//						Log.e(TAG, "(map.get(\"id\").equals(" + name + "))");
 						inputsActive[j] = (isActive("inputs", k));
-						Log.e(TAG, "inputsActive[" + j + "]: " + inputsActive[j]);
+//						Log.e(TAG, "inputsActive[" + j + "]: " + inputsActive[j]);
 					}
 					++k;
 				}
