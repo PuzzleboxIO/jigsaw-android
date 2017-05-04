@@ -104,6 +104,7 @@ public class ProfileSingleton {
 					  getId(data.get("id") + "_product", R.string.class)));
 
 			data.put("active", "false");
+			data.put("status", "disabled");
 
 			devicesProfileInputs = context.getResources().getStringArray(
 					  getId(data.get("id") + "_input", R.array.class));
@@ -267,6 +268,7 @@ public class ProfileSingleton {
 	public Drawable getProfileTileColor(Context context, int index) {
 
 		if (ProfileSingleton.getInstance().isActive("profiles", index)) {
+			profiles.get(index).put("status", "activated");
 			return new ColorDrawable(  context.getResources().getColor(R.color.tileActivated));
 
 		} else {
@@ -311,13 +313,37 @@ public class ProfileSingleton {
 				if (!check)
 					allAvailable = false;
 
-			if (allAvailable)
-				return new ColorDrawable( context.getResources().getColor(R.color.white));
-			else
-				return new ColorDrawable( context.getResources().getColor(R.color.tileDisabled));
+			if (allAvailable) {
+				profiles.get(index).put("status", "available");
+				return new ColorDrawable(context.getResources().getColor(R.color.white));
+			} else {
+				profiles.get(index).put("status", "disabled");
+				return new ColorDrawable(context.getResources().getColor(R.color.tileDisabled));
+			}
 		}
 
 	}
 
+
+	public String getStatus(String id) {
+		for (HashMap<String, String> map : inputs) {
+			if (map.get("id").equals(id)) {
+				return map.get("status");
+			}
+		}
+
+		for (HashMap<String, String> map : outputs) {
+			if (map.get("id").equals(id)) {
+				return map.get("status");
+			}
+		}
+
+		for (HashMap<String, String> map : profiles) {
+			if (map.get("id").equals(id)) {
+				return map.get("status");
+			}
+		}
+		return null;
+	}
 
 }

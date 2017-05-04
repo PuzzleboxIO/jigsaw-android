@@ -22,4 +22,6 @@
     <string name="buttonDeviceCancel">Disable</string>
     <string name="buttonDeviceBack">Back</string>
 
+    <string name="toast_warning_profile_unavailable">Tip: To launch this profile first enable its Input(s) and Output(s)</string>
+
 </resources>

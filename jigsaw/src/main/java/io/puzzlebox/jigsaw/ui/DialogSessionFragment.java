@@ -40,6 +40,8 @@ public class DialogSessionFragment extends DialogFragment {
 
 	private final static String TAG = DialogSessionFragment.class.getSimpleName();
 
+	public final static String profileID = "session";
+
 	// UI
 	Button buttonDeviceEnable;
 
