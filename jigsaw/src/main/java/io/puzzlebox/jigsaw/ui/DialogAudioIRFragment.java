@@ -41,7 +41,7 @@ public class DialogAudioIRFragment extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 									 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View v = inflater.inflate(R.layout.dialog_fragment_audio_ir, container, false);
+		View v = inflater.inflate(R.layout.dialog_output_audio_ir, container, false);
 
 		switchDetectTransmitter = (Switch) v.findViewById(R.id.switchDetectTransmitter);
 		switchDetectTransmitter.setOnClickListener(new View.OnClickListener() {

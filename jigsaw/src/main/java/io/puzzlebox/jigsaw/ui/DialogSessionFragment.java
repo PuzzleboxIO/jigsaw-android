@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +62,7 @@ public class DialogSessionFragment extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 									 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View v = inflater.inflate(R.layout.dialog_fragment_session, container, false);
+		View v = inflater.inflate(R.layout.dialog_output_session, container, false);
 
 		Button buttonDeviceCancel = (Button) v.findViewById(R.id.buttonDeviceCancel);
 		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {

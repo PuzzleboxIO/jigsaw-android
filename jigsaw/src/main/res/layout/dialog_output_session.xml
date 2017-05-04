@@ -24,6 +24,7 @@
                 android:text="@string/title_dialog_fragment_session"
                 android:id="@+id/textViewSessionProfile"
                 android:layout_gravity="center"
+                style="@style/DialogStyle"
                 android:textStyle="bold"
                 android:textSize="18dp"/>
             <!--style="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"-->

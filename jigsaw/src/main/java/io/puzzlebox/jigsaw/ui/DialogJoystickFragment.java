@@ -41,7 +41,7 @@ public class DialogJoystickFragment extends DialogFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 									 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View v = inflater.inflate(R.layout.dialog_fragment_joystick, container, false);
+		View v = inflater.inflate(R.layout.dialog_input_joystick, container, false);
 
 		seekBarX = (SeekBar) v.findViewById(R.id.seekBarX);
 		seekBarX.setProgress(seekBarX.getMax() / 2);
