@@ -7,14 +7,14 @@
               android:orientation="vertical"
               tools:context="io.puzzlebox.jigsaw.ui.DialogNeuroSkyMindWaveFragment">
 
-    <TextView
-        android:id="@+id/textViewLabelDeviceNeuroSkyMindWave"
-        style="@style/DialogStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:paddingLeft="@dimen/padding_medium"
-        android:text="@string/title_dialog_fragment_neurosky_mindwave"/>
+    <!--<TextView-->
+        <!--android:id="@+id/textViewLabelDeviceNeuroSkyMindWave"-->
+        <!--style="@style/DialogStyle"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:paddingLeft="@dimen/padding_medium"-->
+        <!--android:text="@string/title_dialog_fragment_neurosky_mindwave"/>-->
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -44,14 +44,14 @@
 
                 <View
                     android:layout_height="0dp"
-                    android:layout_width="60dp"
+                    android:layout_width="40dp"
                 />
 
+                <!--style="@style/button_text"-->
                 <Button
                     android:id="@+id/buttonConnectEEG"
-                    style="@style/button_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/shape_rounded_corners_grey"
                     android:text="@string/buttonConnectEEG"/>
                 <!--android:paddingLeft="@dimen/padding_medium"-->
@@ -176,11 +176,11 @@
         android:gravity="center"
         android:paddingTop="10dp">
 
+        <!--style="@style/button_text"-->
         <Button
             android:id="@+id/buttonDeviceCancel"
-            style="@style/button_text"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:paddingLeft="@dimen/padding_medium"
             android:background="@drawable/shape_rounded_corners_grey"
             android:text="@string/buttonDeviceCancel"/>
@@ -190,11 +190,11 @@
             android:layout_width="30dp"
             />
 
+        <!--style="@style/button_text"-->
         <Button
             android:id="@+id/buttonDeviceEnable"
-            style="@style/button_text"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:background="@drawable/shape_rounded_corners_grey"
             android:enabled="false"
             android:paddingLeft="@dimen/padding_medium"

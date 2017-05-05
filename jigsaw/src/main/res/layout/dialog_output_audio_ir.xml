@@ -63,11 +63,11 @@
         android:gravity="center"
         android:paddingTop="10dp">
 
+        <!--style="@style/button_text"-->
         <Button
             android:id="@+id/buttonDeviceCancel"
-            style="@style/button_text"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:paddingLeft="@dimen/padding_medium"
             android:background="@drawable/shape_rounded_corners_grey"
             android:text="@string/buttonDeviceCancel"/>
@@ -77,11 +77,11 @@
             android:layout_width="30dp"
             />
 
+        <!--style="@style/button_text"-->
         <Button
             android:id="@+id/buttonDeviceEnable"
-            style="@style/button_text"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:background="@drawable/shape_rounded_corners_grey"
             android:enabled="false"
             android:visibility="invisible"

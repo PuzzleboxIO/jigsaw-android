@@ -9,33 +9,33 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:gravity="center_vertical|center_horizontal|top"
-            android:layout_gravity="center">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_dialog_fragment_session"
-                android:id="@+id/textViewSessionProfile"
-                android:layout_gravity="center"
-                style="@style/DialogStyle"
-                android:textStyle="bold"
-                android:textSize="18dp"/>
-            <!--style="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"-->
+            <!--<TextView-->
+                <!--android:id="@+id/textViewSessionProfile"-->
+                <!--style="@style/DialogStyle"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:text="@string/title_dialog_fragment_session"-->
+                <!--android:textSize="18dp"-->
+                <!--android:textStyle="bold"/>-->
+            <!--&lt;!&ndash;style="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"&ndash;&gt;-->
 
             <EditText
+                android:id="@+id/editTextSessionProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextSessionProfile"
-                android:text="@string/session_profile"
+                android:gravity="center"
                 android:minWidth="256dp"
-                android:gravity="center"/>
+                android:text="@string/session_profile"/>
 
             <Space
                 android:layout_width="20px"
@@ -43,30 +43,61 @@
                 />
 
             <TextView
+                android:id="@+id/textViewLabelSessionTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_session_time"
-                android:id="@+id/textViewLabelSessionTime"
                 android:layout_gravity="center"
-                android:textStyle="bold"
-                android:textSize="18dp"/>
+                android:text="@string/label_session_time"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
 
             <TextView
+                android:id="@+id/textViewSessionTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/session_time"
-                android:id="@+id/textViewSessionTime"/>
+                android:text="@string/session_time"/>
 
-            <Button
-                android:id="@+id/buttonResetSession"
-                style="@style/button_text"
+            <!--style="@style/button_text"-->
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutSessionButtons"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/shape_rounded_corners_grey"
-                android:text="@string/buttonResetSession"
-                android:layout_gravity="center"
-                android:gravity="center"/>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                >
+
+                <Button
+                    android:id="@+id/buttonResetSession"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_rounded_corners_grey"
+                    android:gravity="center"
+                    android:text="@string/buttonResetSession"/>
+
+                <Space
+                    android:layout_width="25dp"
+                    android:layout_height="0dp"
+                    />
+
+                <Button
+                    android:id="@+id/buttonExportSession"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_rounded_corners_grey"
+                    android:gravity="center"
+                    android:text="@string/button_session_export"/>
+
+            </LinearLayout>
 
             <!--<Space-->
             <!--android:layout_width="20px"-->
@@ -78,33 +109,259 @@
                 />
 
             <TextView
+                android:visibility="gone"
+                android:id="@+id/textViewSessionHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_session_history"
-                android:id="@+id/textViewSessionHistory"
                 android:layout_gravity="center"
-                android:textStyle="bold"
-                android:textSize="18dp"/>
+                android:text="@string/label_session_history"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
 
-            <com.androidplot.xy.XYPlot
-                android:id="@+id/sessionPlot1"
-                android:layout_width="fill_parent"
-                android:layout_height="120dip"
+
+            <!--<TableLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+
+            <!--<TableRow-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/textViewSessionPlot1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:gravity="left"-->
+                <!--android:layout_marginBottom="0dp"-->
+                <!--android:layout_marginLeft="0dp"-->
+                <!--android:layout_marginRight="0dp"-->
+                <!--android:layout_marginTop="0dp"-->
+                <!--android:ellipsize="none"-->
+                <!--android:paddingBottom="0dp"-->
+                <!--android:paddingLeft="0dp"-->
+                <!--android:paddingRight="0dp"-->
+                <!--android:paddingTop="0dp"-->
+                <!--android:text="@string/label_session_plot_1"-->
+                <!--android:textSize="14sp"-->
+                <!--android:textStyle="bold"/>-->
+
+
+            <!--<TextView-->
+                <!--android:id="@+id/textViewSessionPlot1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_marginBottom="0dp"-->
+                <!--android:layout_marginLeft="0dp"-->
+                <!--android:layout_marginRight="0dp"-->
+                <!--android:layout_marginTop="0dp"-->
+                <!--android:paddingBottom="0dp"-->
+                <!--android:paddingLeft="0dp"-->
+                <!--android:paddingRight="0dp"-->
+                <!--android:paddingTop="0dp"-->
+                <!--android:text="@string/label_session_plot_1"-->
+                <!--android:textSize="14sp"-->
+                <!--android:textStyle="bold"/>-->
+
+            <LinearLayout
+                android:id="@+id/linearLayoutSessionPlot1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
                 android:layout_marginTop="0dp"
-                android:layout_weight="1"
-                title="Session Plot" />
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="0dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:paddingTop="0dp"
+                >
 
-            <com.androidplot.xy.XYPlot
-                android:id="@+id/sessionPlot2"
-                android:layout_width="fill_parent"
-                android:layout_height="120dip"
+
+                <TextView
+                    android:id="@+id/textViewSessionPlot1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingTop="0dp"
+                    android:text="@string/label_session_plot_1"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+                <!--<TextView-->
+                <!--android:layout_width="32dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/label_session_plot_1"-->
+                <!--android:id="@+id/textViewSessionPlot1"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:maxLength="1"-->
+                <!--android:textStyle="bold"-->
+                <!--android:rotation="-90"-->
+                <!--android:textSize="14dp"/>-->
+
+                <com.androidplot.xy.XYPlot
+                    android:id="@+id/sessionPlot1"
+                    title="Session Plot"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dip"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    android:paddingBottom="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingTop="0dp"/>
+
+                <!--<TextView-->
+                    <!--android:id="@+id/textViewSessionPlot1"-->
+                    <!--android:layout_width="22dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:gravity="center"-->
+                    <!--android:layout_marginBottom="0dp"-->
+                    <!--android:layout_marginLeft="0dp"-->
+                    <!--android:layout_marginRight="0dp"-->
+                    <!--android:layout_marginTop="0dp"-->
+                    <!--android:ellipsize="none"-->
+                    <!--android:paddingBottom="0dp"-->
+                    <!--android:paddingLeft="0dp"-->
+                    <!--android:paddingRight="0dp"-->
+                    <!--android:paddingTop="0dp"-->
+                    <!--android:text="@string/label_session_plot_1"-->
+                    <!--android:textSize="14sp"-->
+                    <!--android:textStyle="bold"/>-->
+                <!--android:maxLength="1"-->
+                <!--android:rotation="-90"-->
+                <!--android:gravity="bottom|fill_horizontal"-->
+
+            </LinearLayout>
+            <!--</TableRow>-->
+            <!--</TableLayout>-->
+
+
+
+            <!--<TextView-->
+                <!--android:id="@+id/textViewSessionPlot2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_marginBottom="0dp"-->
+                <!--android:layout_marginLeft="0dp"-->
+                <!--android:layout_marginRight="0dp"-->
+                <!--android:layout_marginTop="0dp"-->
+                <!--android:paddingBottom="0dp"-->
+                <!--android:paddingLeft="0dp"-->
+                <!--android:paddingRight="0dp"-->
+                <!--android:paddingTop="0dp"-->
+                <!--android:text="@string/label_session_plot_2"-->
+                <!--android:textSize="14sp"-->
+                <!--android:textStyle="bold"/>-->
+            <!--android:rotation="-90"-->
+            <!--android:singleLine="false"-->
+
+
+            <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+            <LinearLayout
+                android:id="@+id/linearLayoutSessionPlot2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
                 android:layout_marginTop="0dp"
-                android:layout_weight="1"
-                title="Session Plot" />
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="0dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:paddingTop="0dp"
+                >
+
+                <TextView
+                    android:id="@+id/textViewSessionPlot2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingTop="0dp"
+                    android:text="@string/label_session_plot_2"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+                <!--<TextView-->
+                <!--android:layout_width="32dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/label_session_plot_2"-->
+                <!--android:id="@+id/textViewSessionPlot2"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_weight="0"-->
+                <!--android:textStyle="bold"-->
+                <!--android:rotation="-90"-->
+                <!--android:textSize="14sp"/>-->
+                <!--&lt;!&ndash;android:maxLength="1"&ndash;&gt;-->
+
+                <com.androidplot.xy.XYPlot
+                    android:id="@+id/sessionPlot2"
+                    title="Session Plot"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dip"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    android:paddingBottom="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingTop="0dp"/>
+
+
+                <!--<TextView-->
+                    <!--android:id="@+id/textViewSessionPlot2"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="15dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_marginBottom="0dp"-->
+                    <!--android:layout_marginLeft="0dp"-->
+                    <!--android:layout_marginRight="0dp"-->
+                    <!--android:layout_marginTop="0dp"-->
+                    <!--android:paddingBottom="0dp"-->
+                    <!--android:paddingLeft="0dp"-->
+                    <!--android:paddingRight="0dp"-->
+                    <!--android:paddingTop="0dp"-->
+                    <!--android:rotation="-90"-->
+                    <!--android:singleLine="false"-->
+                    <!--android:text="@string/label_session_plot_2"-->
+                    <!--android:textSize="14sp"-->
+                    <!--android:textStyle="bold"/>-->
+                <!--android:maxLength="1"-->
+
+
+                <!--</TableRow>-->
+
+                <!--</TableLayout>-->
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -118,29 +375,29 @@
         android:gravity="center"
         android:paddingTop="10dp">
 
+        <!--style="@style/button_text"-->
         <Button
             android:id="@+id/buttonDeviceCancel"
-            style="@style/button_text"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:paddingLeft="@dimen/padding_medium"
             android:background="@drawable/shape_rounded_corners_grey"
             android:text="@string/buttonDeviceBack"/>
-            <!--android:text="@string/buttonDeviceCancel"/>-->
+        <!--android:text="@string/buttonDeviceCancel"/>-->
 
         <View
             android:layout_height="0dp"
             android:layout_width="30dp"
             />
 
+        <!--style="@style/button_text"-->
         <Button
             android:id="@+id/buttonDeviceEnable"
-            style="@style/button_text"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:background="@drawable/shape_rounded_corners_grey"
-            android:enabled="true"
-            android:visibility="visible"
+            android:enabled="false"
+            android:visibility="invisible"
             android:paddingLeft="@dimen/padding_medium"
             android:text="@string/buttonDeviceEnable"
             />

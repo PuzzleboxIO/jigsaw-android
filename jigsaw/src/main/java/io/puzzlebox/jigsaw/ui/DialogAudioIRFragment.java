@@ -47,6 +47,9 @@ public class DialogAudioIRFragment extends DialogFragment {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_output_audio_ir, container, false);
 
+		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_audio_ir));
+//		getDialog().getWindow().setTitle( getString(R.string.label_audio_ir_instruction));
+
 		switchDetectTransmitter = (Switch) v.findViewById(R.id.switchDetectTransmitter);
 		switchDetectTransmitter.setOnClickListener(new View.OnClickListener() {
 			@Override

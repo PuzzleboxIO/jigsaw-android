@@ -18,11 +18,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidplot.ui.AnchorPosition;
+import com.androidplot.ui.XLayoutStyle;
+import com.androidplot.ui.YLayoutStyle;
 import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
@@ -65,6 +70,11 @@ public class DialogSessionFragment extends DialogFragment {
 									 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_output_session, container, false);
+
+
+//		getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_session));
+
 
 		Button buttonDeviceCancel = (Button) v.findViewById(R.id.buttonDeviceCancel);
 		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +139,16 @@ public class DialogSessionFragment extends DialogFragment {
 		});
 
 
+		Button buttonExportSession = (Button) v.findViewById(R.id.buttonExportSession);
+		buttonExportSession.setText(getResources().getString(R.string.button_session_export));
+		buttonExportSession.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				exportSession();
+			}
+		});
+
+
 		// setup the Session History plot
 		sessionPlot1 = (XYPlot) v.findViewById(R.id.sessionPlot1);
 		sessionPlotSeries1 = new SimpleXYSeries("Session Plot");
@@ -161,6 +181,8 @@ public class DialogSessionFragment extends DialogFragment {
 
 			// Hide domain and range labels
 			sessionPlot1.getGraphWidget().setDomainLabelWidth(0);
+			// TODO Add labels to charts
+//			sessionPlot1.getDomainLabelWidget().position(0, XLayoutStyle.ABSOLUTE_FROM_CENTER, 0, YLayoutStyle.RELATIVE_TO_BOTTOM,  AnchorPosition.BOTTOM_MIDDLE);
 			sessionPlot1.getGraphWidget().setRangeLabelWidth(0);
 
 			// Hide legend
@@ -226,6 +248,17 @@ public class DialogSessionFragment extends DialogFragment {
 			//		sessionPlot2.addListener(histStats);
 
 		}
+
+		LinearLayout linearLayoutSessionPlot1 = (LinearLayout) v.findViewById(R.id.linearLayoutSessionPlot1);
+		LinearLayout linearLayoutSessionPlot2 = (LinearLayout) v.findViewById(R.id.linearLayoutSessionPlot2);
+		TextView textViewSessionPlot1 = (TextView) v.findViewById(R.id.textViewSessionPlot1);
+		TextView textViewSessionPlot2 = (TextView) v.findViewById(R.id.textViewSessionPlot2);
+
+
+//		textViewSessionPlot1.setRotation(-90);
+////		textViewSessionPlot1.setWidth(20);
+//		textViewSessionPlot1.setHeight(20);
+
 
 		return v;
 	}

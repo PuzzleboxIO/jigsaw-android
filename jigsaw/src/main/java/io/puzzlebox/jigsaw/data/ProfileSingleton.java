@@ -346,4 +346,26 @@ public class ProfileSingleton {
 		return null;
 	}
 
+
+	public String getValue(String id, String name) {
+		for (HashMap<String, String> map : inputs) {
+			if (map.get("id").equals(id)) {
+				return map.get(name);
+			}
+		}
+
+		for (HashMap<String, String> map : outputs) {
+			if (map.get("id").equals(id)) {
+				return map.get(name);
+			}
+		}
+
+		for (HashMap<String, String> map : profiles) {
+			if (map.get("id").equals(id)) {
+				return map.get(name);
+			}
+		}
+		return null;
+	}
+
 }

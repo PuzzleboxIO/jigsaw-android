@@ -24,4 +24,7 @@
 
     <string name="button_session_export">Export</string>
 
+    <string name="label_session_plot_1">Attention</string>
+    <string name="label_session_plot_2">Meditation</string>
+
 </resources>

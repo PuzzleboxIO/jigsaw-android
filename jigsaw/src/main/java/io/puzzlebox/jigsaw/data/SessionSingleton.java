@@ -226,6 +226,19 @@ public class SessionSingleton {
 		timeInSeconds = timeInSeconds - (minutes * 60);
 		seconds = timeInSeconds;
 
+//		Log.d(TAG, "hours:minutes:seconds " + hours + ":" + minutes + ":" + seconds);
+
+		// TODO There's clearly a bug with the math above, with the (apparently) correct values returning as negative
+		// NOTE Actual session data doesn't seem affected when exported
+		if (hours < 0)
+			hours = hours * -1;
+		if (minutes < 0)
+			minutes = minutes * -1;
+		if (seconds < 0)
+			seconds = seconds * -1;
+
+//		Log.d(TAG, "hours:minutes:seconds " + hours + ":" + minutes + ":" + seconds);
+
 //		return (hours<10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds) + " h";
 
 		return (hours<10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);

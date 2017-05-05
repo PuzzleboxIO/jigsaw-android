@@ -82,6 +82,7 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 //		View v = inflater.inflate(R.layout.dialog_input_neurosky_mindwave, container, false);
 		v = inflater.inflate(R.layout.dialog_input_neurosky_mindwave, container, false);
 
+		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_neurosky_mindwave));
 
 		progressBarAttention = (ProgressBar) v.findViewById(R.id.progressBarAttention);
 		final float[] roundedCorners = new float[] { 5, 5, 5, 5, 5, 5, 5, 5 };
