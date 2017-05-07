@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Switch;
 
 import io.puzzlebox.jigsaw.R;
 
@@ -127,38 +128,40 @@ public class DialogJoystickFragment extends DialogFragment
 		public void onMove(int angle, int strength) {
 			Log.v(TAG, "onMoveJoystick(int angle, int strength): " + angle + ", " + strength);
 
-			if ((angle >= 60) && (angle <= 120)) {
+			// TODO - Consider overlapping ranges (adjust else blocks)
+
+			if ((angle == 0) && (strength == 0)) {
+				// Reset values when let go
+				seekBarX.setProgress(seekBarX.getMax() / 2);
+				seekBarY.setProgress(seekBarY.getMax() / 2);
+			}
+			else if ((angle >= 60) && (angle <= 120)) {
 				// Up
-//				int newThrottle = seekBarX.getMax() - OrbitSingleton.getInstance().defaultControlThrottle;
-				int newX = seekBarX.getMax() / 2;
-				newX = (int) (newX * (strength / 100.0));
-//				newThrottle = OrbitSingleton.getInstance().defaultControlThrottle + newThrottle;
-//				newX = newX.getInstance().defaultControlThrottle + newX;
-				newX = seekBarX.getMax() / 2 + newX;
-				seekBarX.setProgress(newX);
+				int newY = seekBarY.getMax() / 2;
+				newY = (int) (newY * (strength / 100.0));
+				newY = seekBarY.getMax() / 2 + newY;
+				seekBarY.setProgress(newY);
 			}
 			else if ((angle >= 240) && (angle <= 300)) {
 				// Down
-//				int newX = OrbitSingleton.getInstance().defaultControlThrottle;
-				int newX = seekBarX.getMax() / 2;
-				newX = (int) (newX * (strength / 100.0));
-//				newX = OrbitSingleton.getInstance().defaultControlThrottle - newThrottle;
-				newX = seekBarX.getMax() / 2 - newX;
-				seekBarX.setProgress(newX);
-			}
-			if ((angle >= 150) && (angle <= 210)) {
-				// Left
 				int newY = seekBarY.getMax() / 2;
 				newY = (int) (newY * (strength / 100.0));
 				newY = seekBarY.getMax() / 2 - newY;
 				seekBarY.setProgress(newY);
 			}
+			else if ((angle >= 150) && (angle <= 210)) {
+				// Left
+				int newX = seekBarX.getMax() / 2;
+				newX = (int) (newX * (strength / 100.0));
+				newX = seekBarX.getMax() / 2 - newX;
+				seekBarX.setProgress(newX);
+			}
 			else if ((angle >= 330) || (angle <= 30)) {
 				// Right
-				int newY = seekBarY.getMax() / 2;
-				newY = (int) (newY * (strength / 100.0));
-				newY = seekBarY.getMax() / 2 + newY;
-				seekBarY.setProgress(newY);
+				int newX = seekBarX.getMax() / 2;
+				newX = (int) (newX * (strength / 100.0));
+				newX = seekBarX.getMax() / 2 + newX;
+				seekBarX.setProgress(newX);
 			}
 
 		}

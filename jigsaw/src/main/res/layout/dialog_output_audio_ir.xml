@@ -1,18 +1,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:gravity="center"
               android:padding="10dp"
               android:orientation="vertical"
               tools:context="io.puzzlebox.jigsaw.ui.DialogAudioIRFragment">
 
     <ScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp">
@@ -21,21 +21,32 @@
                 android:id="@+id/textViewInstruction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:paddingStart="@dimen/padding_medium"
                 android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_medium"
                 style="@style/DialogStyle"
                 android:text="@string/label_audio_ir_instruction" />
 
+            <!--<Space-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingTop="20dp"-->
+                <!--/>-->
+
             <LinearLayout
                 android:id="@+id/layoutAudioIR"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="20dp" >
+                >
+                <!--android:paddingTop="20dp"-->
 
                 <Switch
                     android:id="@+id/switchDetectTransmitter"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:text="@string/label_audio_ir_detect_transmitter_present"/>
                 <!--android:maxLines="1"-->
 
@@ -43,11 +54,24 @@
                     android:id="@+id/switchDetectVolume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:text="@string/label_audio_ir_detect_volume_max"
                     android:paddingTop="10dp"/>
                 <!--android:maxLines="1"-->
                 <!--android:enabled="false"-->
                 <!--android:visibility="invisible"-->
+
+                <Button
+                    android:id="@+id/buttonTestAudioIR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/shape_rounded_corners_grey"
+                    android:text="@string/buttonTestAudioIR"
+                    android:layout_marginTop="20dp"
+                    android:enabled="false"
+                    android:visibility="gone"
+                    />
 
             </LinearLayout>
 
@@ -68,7 +92,9 @@
             android:id="@+id/buttonDeviceCancel"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:paddingStart="@dimen/padding_medium"
             android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
             android:background="@drawable/shape_rounded_corners_grey"
             android:text="@string/buttonDeviceCancel"/>
 
@@ -85,7 +111,9 @@
             android:background="@drawable/shape_rounded_corners_grey"
             android:enabled="false"
             android:visibility="invisible"
+            android:paddingStart="@dimen/padding_medium"
             android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
             android:text="@string/buttonDeviceEnable"
             />
         <!--android:enabled="false"-->
