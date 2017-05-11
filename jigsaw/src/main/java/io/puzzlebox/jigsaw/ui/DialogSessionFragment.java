@@ -1,14 +1,20 @@
 package io.puzzlebox.jigsaw.ui;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -384,15 +390,22 @@ public class DialogSessionFragment extends DialogFragment {
 
 	public void exportSession() {
 
-//		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext(), item);
-		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
+		// Permission must be requested to read/write storage in Android 4.1 and later
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
-		if (i != null) {
-			startActivity(i);
+			SessionSingleton.getInstance().verifyStoragePermissions(getActivity());
+
 		} else {
-			Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
-		}
 
+			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
+
+			if (i != null) {
+				startActivity(i);
+			} else {
+				Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
+			}
+
+		}
 	}
 
 

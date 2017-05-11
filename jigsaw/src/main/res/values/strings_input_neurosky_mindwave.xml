@@ -2,6 +2,7 @@
 <resources>
 
     <string name="title_dialog_fragment_neurosky_mindwave">NeuroSky MindWave Mobile</string>
+    <!--<string name="label_neurosky_mindwave_instruction">NeuroSky MindWave Mobile</string>-->
 
     <string name="label_neurosky_mindwave_connect">Connect to Device</string>
     <string name="buttonStatusNeuroSkyMindWaveConnect">Connect</string>

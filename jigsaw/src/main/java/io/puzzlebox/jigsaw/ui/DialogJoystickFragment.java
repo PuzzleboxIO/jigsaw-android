@@ -3,14 +3,19 @@ package io.puzzlebox.jigsaw.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -48,7 +53,7 @@ public class DialogJoystickFragment extends DialogFragment
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_input_joystick, container, false);
 
-		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_joystick));
+		getDialog().getWindow().setTitle(getString(R.string.title_dialog_fragment_joystick));
 
 		seekBarX = (SeekBar) v.findViewById(R.id.seekBarX);
 		seekBarX.setProgress(seekBarX.getMax() / 2);
@@ -102,6 +107,36 @@ public class DialogJoystickFragment extends DialogFragment
 
 	public interface OnFragmentInteractionListener {
 		void onFragmentInteraction(Uri uri);
+	}
+
+	// ################################################################
+
+	public void onResume() {
+		// Store access variables for window and blank point
+
+		Window window = getDialog().getWindow();
+
+		Point size = new Point();
+
+		// Store dimensions of the screen in `size`
+		Display display = window.getWindowManager().getDefaultDisplay();
+
+		display.getSize(size);
+
+		// Set the width of the dialog proportional to a percentage of the screen width
+//		window.setLayout((int) (size.x * 0.9), WindowManager.LayoutParams.WRAP_CONTENT);
+//		window.setLayout((int) (size.x * 0.975), WindowManager.LayoutParams.WRAP_CONTENT);
+//		window.setLayout((int)(size.x *0.98),WindowManager.LayoutParams.WRAP_CONTENT);
+		window.setLayout((int)(size.x *0.75),WindowManager.LayoutParams.WRAP_CONTENT);
+
+		// Set the dimensions  of the dialog proportional to a percentage of the screen dimensions
+//		window.setLayout((int) (size.x * 0.95), (int) (size.y * 0.935));
+
+		window.setGravity(Gravity.CENTER);
+
+		// Call super onResume after sizing
+		super.onResume();
+
 	}
 
 	// ################################################################

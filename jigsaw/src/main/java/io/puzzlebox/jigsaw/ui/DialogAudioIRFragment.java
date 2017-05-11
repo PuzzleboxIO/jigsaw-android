@@ -87,6 +87,9 @@ public class DialogAudioIRFragment extends DialogFragment {
 		audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
 		volumeMax = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
+		/** Set the hardware buttons to control the audio output */
+		getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
 		return v;
 	}
 

@@ -83,6 +83,7 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 		v = inflater.inflate(R.layout.dialog_input_neurosky_mindwave, container, false);
 
 		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_neurosky_mindwave));
+//		getDialog().getWindow().setTitle( getString(R.string.label_neurosky_mindwave_instruction));
 
 		progressBarAttention = (ProgressBar) v.findViewById(R.id.progressBarAttention);
 		final float[] roundedCorners = new float[] { 5, 5, 5, 5, 5, 5, 5, 5 };
@@ -421,6 +422,9 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveDisconnect));
 							buttonDeviceEnable.setEnabled(true);
 							buttonDeviceEnable.setVisibility(View.VISIBLE);
+							progressBarAttention.setProgress(0);
+							progressBarMeditation.setProgress(0);
+							progressBarSignal.setProgress(0);
 							break;
 						case "STATE_NOT_FOUND":
 							Toast.makeText(context, "EEG Not Found", Toast.LENGTH_SHORT).show();
@@ -428,6 +432,9 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveConnect));
 							buttonDeviceEnable.setEnabled(false);
 							buttonDeviceEnable.setVisibility(View.INVISIBLE);
+							progressBarAttention.setProgress(0);
+							progressBarMeditation.setProgress(0);
+							progressBarSignal.setProgress(0);
 							break;
 						case "STATE_NOT_PAIRED":
 							Toast.makeText(context, "EEG Not Paired", Toast.LENGTH_SHORT).show();
@@ -435,6 +442,9 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveConnect));
 							buttonDeviceEnable.setEnabled(false);
 							buttonDeviceEnable.setVisibility(View.INVISIBLE);
+							progressBarAttention.setProgress(0);
+							progressBarMeditation.setProgress(0);
+							progressBarSignal.setProgress(0);
 							break;
 						case "STATE_DISCONNECTED":
 //							Toast.makeText(context, "EEG Disconnected", Toast.LENGTH_SHORT).show();
@@ -442,6 +452,9 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveConnect));
 							buttonDeviceEnable.setEnabled(false);
 							buttonDeviceEnable.setVisibility(View.INVISIBLE);
+							progressBarAttention.setProgress(0);
+							progressBarMeditation.setProgress(0);
+							progressBarSignal.setProgress(0);
 							break;
 						case "MSG_LOW_BATTERY":
 //							Toast.makeText(context, "EEG Battery Low", Toast.LENGTH_SHORT).show();

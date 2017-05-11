@@ -1,11 +1,20 @@
 package io.puzzlebox.jigsaw.data;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.opencsv.CSVWriter;
 
@@ -39,6 +48,13 @@ public class SessionSingleton {
 
 	private static int frequencyRawEEG = 512; // default 512 Hz
 
+	// Storage Permissions
+	private static final int REQUEST_EXTERNAL_STORAGE = 1;
+	private static String[] PERMISSIONS_STORAGE = {
+			  Manifest.permission.READ_EXTERNAL_STORAGE,
+			  Manifest.permission.WRITE_EXTERNAL_STORAGE
+	};
+
 	private static SessionSingleton ourInstance = new SessionSingleton();
 
 	public static SessionSingleton getInstance() {
@@ -56,7 +72,7 @@ public class SessionSingleton {
 		data.add(packet);
 	}
 
-//	public void appendRawEEG(Number[] rawEEG) {
+	//	public void appendRawEEG(Number[] rawEEG) {
 ////		data.add(packet);
 //	}
 	public void appendRawEEG(int raw) {
@@ -111,6 +127,12 @@ public class SessionSingleton {
 //		return sessionFilename;
 //	}
 
+
+	// ################################################################
+
+	public int getRequestExternalStorage() {
+		return REQUEST_EXTERNAL_STORAGE;
+	}
 
 	// ################################################################
 
@@ -269,7 +291,8 @@ public class SessionSingleton {
 //				  "Power",
 		});
 
-		for (int i = data.size() - 1; i >= 0; i--) {
+//		for (int i = data.size() - 1; i >= 0; i--) {
+		for (int i = 0; i < data.size(); i++) {
 			dataCSV.add(new String[] {
 					  data.get(i).get("Date"),
 					  data.get(i).get("Time"),
@@ -293,7 +316,7 @@ public class SessionSingleton {
 		for (int i = 0; i < count; i++) {
 			try {
 				result[i] = Integer.valueOf(
-						data.get( data.size() - (count - i ) ).get(key));
+						  data.get( data.size() - (count - i ) ).get(key));
 			} catch (ArrayIndexOutOfBoundsException e) {
 				result[i] = 0;
 			} catch (Exception e) {
@@ -386,14 +409,14 @@ public class SessionSingleton {
 			return mFile.exists() && mFile.delete();
 
 		} else
-		return false;
+			return false;
 
 	}
 
 
 	// ################################################################
 
-//	public Intent getExportSessionIntent(Context context, MenuItem item) {
+	//	public Intent getExportSessionIntent(Context context, MenuItem item) {
 	public Intent getExportSessionIntent(Context context) {
 
 //		Log.d(TAG, "exportSession(MenuItem item): " + item.toString());
@@ -472,6 +495,53 @@ public class SessionSingleton {
 			}
 			return writer;
 		}
+	}
+
+
+	// ################################################################
+
+	/**
+	 * Checks if the app has permission to write to device storage
+	 *
+	 * If the app does not has permission then the user will be prompted to grant permissions
+	 * Android Jelly Bean (4.1) [API 16]
+	 *
+	 * @param activity
+	 */
+	public static void verifyStoragePermissions(final Activity activity) {
+		// Check if we have write permission
+		int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+		if (permission != PackageManager.PERMISSION_GRANTED) {
+
+			final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+			builder.setTitle(activity.getResources().getString(R.string.dialog_title_request_permission));
+			builder.setMessage(activity.getResources().getString(R.string.dialog_message_request_permission));
+			builder.setPositiveButton(android.R.string.ok, null);
+			builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+				@Override
+				@TargetApi(Build.VERSION_CODES.M)
+				public void onDismiss(DialogInterface dialog) {
+					ActivityCompat.requestPermissions(
+							  activity,
+							  PERMISSIONS_STORAGE,
+							  REQUEST_EXTERNAL_STORAGE
+					);
+				}
+			});
+			builder.show();
+
+
+		} else {
+			Intent i = SessionSingleton.getInstance().getExportSessionIntent(activity.getApplicationContext());
+
+			if (i != null) {
+				activity.startActivity(i);
+			} else {
+				Toast.makeText(activity.getApplicationContext(), "Error exporting session data for sharing", Toast.LENGTH_SHORT).show();
+			}
+		}
+
 	}
 
 

@@ -6,10 +6,11 @@ android {
 
     defaultConfig {
 //        minSdkVersion 9 // API 2.3 TODO getActivity()
-        minSdkVersion 15 // API 4.0.3
+//        minSdkVersion 15 // API 4.0.3
+        minSdkVersion 16 // API 4.1 [Manifest.permission.READ_EXTERNAL_STORAGE]
         targetSdkVersion 25
         versionCode 3
-        versionName "1.2.0"
+        versionName "2.0.0"
     }
 
     buildTypes {

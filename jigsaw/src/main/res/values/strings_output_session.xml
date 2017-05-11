@@ -27,4 +27,7 @@
     <string name="label_session_plot_1">Attention</string>
     <string name="label_session_plot_2">Meditation</string>
 
+    <string name="dialog_title_request_permission">This app needs your permission</string>
+    <string name="dialog_message_request_permission">Please grant storage access so this export session data.</string>
+
 </resources>

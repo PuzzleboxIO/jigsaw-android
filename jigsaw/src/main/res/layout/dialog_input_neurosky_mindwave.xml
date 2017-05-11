@@ -40,6 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:paddingLeft="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_neurosky_mindwave_connect"/>
 
                 <View
@@ -73,6 +75,8 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
                     android:paddingLeft="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_neurosky_mindwave_attention" />
 
                 <ProgressBar
@@ -92,6 +96,8 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
                     android:paddingLeft="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_neurosky_mindwave_meditation" />
 
                 <ProgressBar
@@ -111,6 +117,8 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
                     android:paddingLeft="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_neurosky_mindwave_signal" />
 
                 <ProgressBar
@@ -119,6 +127,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="20dip"
                     android:paddingLeft="@dimen/padding_small"
+                    android:paddingStart="@dimen/padding_small"
+                    android:paddingEnd="@dimen/padding_small"
                     android:paddingRight="@dimen/padding_small"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
@@ -130,6 +140,8 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
                     android:paddingLeft="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_neurosky_mindwave_blink" />
 
                 <ProgressBar
@@ -149,6 +161,8 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
                     android:paddingLeft="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_neurosky_mindwave_raw_eeg" />
 
                 <com.androidplot.xy.XYPlot
@@ -182,6 +196,8 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:paddingLeft="@dimen/padding_medium"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
             android:background="@drawable/shape_rounded_corners_grey"
             android:text="@string/buttonDeviceCancel"/>
 
@@ -198,6 +214,8 @@
             android:background="@drawable/shape_rounded_corners_grey"
             android:enabled="false"
             android:paddingLeft="@dimen/padding_medium"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
             android:text="@string/buttonDeviceEnable"
             android:visibility="invisible"/>
 
