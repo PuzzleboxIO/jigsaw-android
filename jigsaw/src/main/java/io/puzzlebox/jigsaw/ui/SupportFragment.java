@@ -240,7 +240,7 @@ public class SupportFragment extends Fragment {
 
 	// ################################################################	// ################################################################
 
-	class EmailMessage extends AsyncTask<String, Void, Object> {
+	private class EmailMessage extends AsyncTask<String, Void, Object> {
 
 		String contactURL = "";
 		String name = "";

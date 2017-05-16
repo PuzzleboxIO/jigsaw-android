@@ -90,6 +90,8 @@ public class DialogAudioIRFragment extends DialogFragment {
 		/** Set the hardware buttons to control the audio output */
 		getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+		maximizeAudioVolume();
+
 		return v;
 	}
 
