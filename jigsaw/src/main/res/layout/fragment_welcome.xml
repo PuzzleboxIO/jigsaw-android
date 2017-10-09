@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
-            android:src="@drawable/puzzlebox_logo"
+            android:src="@drawable/logo_puzzlebox"
             android:layout_gravity="center"/>
 
         <TextView
