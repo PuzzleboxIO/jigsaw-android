@@ -5,7 +5,7 @@
               android:gravity="center"
               android:padding="10dp"
               android:orientation="vertical"
-              tools:context="io.puzzlebox.jigsaw.ui.DialogSessionFragment">
+              tools:context="io.puzzlebox.jigsaw.ui.DialogOutputSessionFragment">
 
     <ScrollView
         android:layout_width="fill_parent"

@@ -3,25 +3,28 @@
 
     <!-- Array of input devices resource IDs -->
     <string-array name="devices_input_array">
-        <item>neurosky_mindwave_mobile</item>
         <item>joystick</item>
-        <item>watch_android</item>
+        <item>neurosky_mindwave_mobile</item>
+        <item>emotiv_insight</item>
+        <!--<item>watch_android</item>-->
         <!--<item>openbci_cyton_8_channel</item>-->
     </string-array>
 
     <!-- Array of input devices icons -->
     <string-array name="devices_input_icon_array">
-        <item>carousel_neurosky_mindwave_mobile</item>
         <item>carousel_joystick</item>
-        <item>carousel_watch_android</item>
+        <item>carousel_neurosky_mindwave_mobile</item>
+        <item>carousel_emotiv_insight</item>
+        <!--<item>carousel_watch_android</item>-->
         <!--<item>carousel_openbci_cyton_8_channel</item>-->
     </string-array>
 
     <!-- Array of input devices Company/Manufacturer names -->
     <string-array name="devices_input_company_array">
-        <item>NeuroSky</item>
         <item>Joystick</item>
-        <item>Android</item>
+        <item>NeuroSky</item>
+        <item>Emotiv</item>
+        <!--<item>Android</item>-->
         <!--<item>OpenBCI</item>-->
     </string-array>
 
@@ -29,7 +32,8 @@
     <string-array name="devices_input_product_array">
         <item>Mindwave Mobile</item>
         <item>Steering</item>
-        <item>Wear</item>
+        <item>Insight</item>
+        <!--<item>Wear</item>-->
         <!--<item>Cyton 8 Channel</item>-->
     </string-array>
 

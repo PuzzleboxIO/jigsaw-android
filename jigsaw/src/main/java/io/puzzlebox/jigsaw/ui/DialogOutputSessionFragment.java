@@ -1,20 +1,15 @@
 package io.puzzlebox.jigsaw.ui;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,16 +19,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidplot.ui.AnchorPosition;
-import com.androidplot.ui.XLayoutStyle;
-import com.androidplot.ui.YLayoutStyle;
 import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
@@ -47,9 +38,9 @@ import io.puzzlebox.jigsaw.data.SessionSingleton;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 
-public class DialogSessionFragment extends DialogFragment {
+public class DialogOutputSessionFragment extends DialogFragment {
 
-	private final static String TAG = DialogSessionFragment.class.getSimpleName();
+	private final static String TAG = DialogOutputSessionFragment.class.getSimpleName();
 
 	public final static String profileID = "session";
 
@@ -66,7 +57,7 @@ public class DialogSessionFragment extends DialogFragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public DialogSessionFragment() {
+	public DialogOutputSessionFragment() {
 		// Required empty public constructor
 	}
 

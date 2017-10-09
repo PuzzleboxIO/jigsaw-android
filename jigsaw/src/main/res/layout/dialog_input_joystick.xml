@@ -5,7 +5,7 @@
               android:gravity="center"
               android:padding="10dp"
               android:orientation="vertical"
-              tools:context="io.puzzlebox.jigsaw.ui.DialogJoystickFragment">
+              tools:context="io.puzzlebox.jigsaw.ui.DialogInputJoystickFragment">
 
     <TextView
         android:id="@+id/textViewInstruction"

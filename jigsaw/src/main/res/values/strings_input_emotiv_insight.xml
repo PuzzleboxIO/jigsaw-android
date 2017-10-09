@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_dialog_fragment_emotiv_insight">Emotiv Insight</string>
+    <string name="label_emotiv_insight_instruction">Emotiv Insight</string>
+
+    <string name="label_emotiv_insight_connect">Connect to Device</string>
+    <string name="buttonStatusEmotivInsightConnect">Connect</string>
+    <string name="buttonStatusEmotivInsightDisconnect">Disconnect</string>
+    <string name="buttonStatusEmotivInsightConnecting">Connecting</string>
+    <string name="buttonStatusEmotivInsightNotFound">EEG Not Found</string>
+
+    <string name="label_emotiv_insight_contact_quality">Contact Quality</string>
+
+    <string name="select_eeg_title">Emotiv Insights Detected</string>
+    <string name="select_eeg_refresh">Refresh</string>
+    <string name="select_eeg_button">Choose</string>
+
+    <string name="label_puzzlebox_orbit_emotiv_insight_sensor_af3">AF3</string>
+    <string name="label_puzzlebox_orbit_emotiv_insight_sensor_af4">AF4</string>
+    <string name="label_puzzlebox_orbit_emotiv_insight_sensor_pz">Pz</string>
+    <string name="label_puzzlebox_orbit_emotiv_insight_sensor_t7">T7</string>
+    <string name="label_puzzlebox_orbit_emotiv_insight_sensor_t8">T8</string>
+    <string name="label_puzzlebox_orbit_emotiv_insight_sensor_cms">CMS</string>
+
+</resources>

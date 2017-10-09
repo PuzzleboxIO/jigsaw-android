@@ -37,9 +37,9 @@ import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 import io.puzzlebox.jigsaw.protocol.ThinkGearService;
 
-public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
+public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
-	private final static String TAG = DialogNeuroSkyMindWaveFragment.class.getSimpleName();
+	private final static String TAG = DialogInputNeuroSkyMindWaveFragment.class.getSimpleName();
 
 	public final static String profileID = "neurosky_mindwave_mobile";
 
@@ -58,12 +58,12 @@ public class DialogNeuroSkyMindWaveFragment extends DialogFragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public DialogNeuroSkyMindWaveFragment() {
+	public DialogInputNeuroSkyMindWaveFragment() {
 		// Required empty public constructor
 	}
 
-	public static DialogNeuroSkyMindWaveFragment newInstance(String param1, String param2) {
-		DialogNeuroSkyMindWaveFragment fragment = new DialogNeuroSkyMindWaveFragment();
+	public static DialogInputNeuroSkyMindWaveFragment newInstance(String param1, String param2) {
+		DialogInputNeuroSkyMindWaveFragment fragment = new DialogInputNeuroSkyMindWaveFragment();
 		Bundle args = new Bundle();
 		fragment.setArguments(args);
 		return fragment;

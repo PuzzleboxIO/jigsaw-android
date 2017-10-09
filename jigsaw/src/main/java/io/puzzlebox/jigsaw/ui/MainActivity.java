@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements
 		  EEGFragment.OnFragmentInteractionListener,
 		  TilesFragment.OnFragmentInteractionListener,
 		  SupportFragment.OnFragmentInteractionListener,
-		  DialogNeuroSkyMindWaveFragment.OnFragmentInteractionListener,
-		  DialogJoystickFragment.OnFragmentInteractionListener,
-		  DialogAudioIRFragment.OnFragmentInteractionListener,
-		  DialogSessionFragment.OnFragmentInteractionListener
+		  DialogInputNeuroSkyMindWaveFragment.OnFragmentInteractionListener,
+		  DialogInputJoystickFragment.OnFragmentInteractionListener,
+		  DialogOutputAudioIRFragment.OnFragmentInteractionListener,
+		  DialogOutputSessionFragment.OnFragmentInteractionListener
 {
 
 	private final static String TAG = MainActivity.class.getSimpleName();

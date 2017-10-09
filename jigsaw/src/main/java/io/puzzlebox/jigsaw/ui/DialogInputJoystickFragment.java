@@ -18,14 +18,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.Switch;
 
 import io.puzzlebox.jigsaw.R;
 
-public class DialogJoystickFragment extends DialogFragment
+public class DialogInputJoystickFragment extends DialogFragment
 		  implements SeekBar.OnSeekBarChangeListener {
 
-	private final static String TAG = DialogJoystickFragment.class.getSimpleName();
+	private final static String TAG = DialogInputJoystickFragment.class.getSimpleName();
 
 	public final static String profileID = "joystick";
 
@@ -36,12 +35,12 @@ public class DialogJoystickFragment extends DialogFragment
 
 	private OnFragmentInteractionListener mListener;
 
-	public DialogJoystickFragment() {
+	public DialogInputJoystickFragment() {
 		// Required empty public constructor
 	}
 
-	public static DialogJoystickFragment newInstance(String param1, String param2) {
-		DialogJoystickFragment fragment = new DialogJoystickFragment();
+	public static DialogInputJoystickFragment newInstance(String param1, String param2) {
+		DialogInputJoystickFragment fragment = new DialogInputJoystickFragment();
 		Bundle args = new Bundle();
 		fragment.setArguments(args);
 		return fragment;

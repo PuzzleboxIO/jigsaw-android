@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_dialog_fragment_puzzlebox_orbit_emotiv_insight">Puzzlebox Orbit</string>
+    <string name="label_puzzlebox_orbit_emotiv_insight_instruction">EEG Control with Emotiv Insight</string>
+
+    <string name="label_puzzlebox_orbit_emotiv_insight_training_neutral">Train: Neutral</string>
+    <string name="button_puzzlebox_orbit_emotiv_insight_training_neutral_untrained">Train</string>
+    <string name="button_puzzlebox_orbit_emotiv_insight_training_neutral_training">Training</string>
+    <string name="button_puzzlebox_orbit_emotiv_insight_training_neutral_trained">Trained</string>
+
+    <string name="label_puzzlebox_orbit_emotiv_insight_training_mental_command">Train: Mental Command</string>
+    <string name="button_puzzlebox_orbit_emotiv_insight_training_mental_command_untrained">Train</string>
+    <string name="button_puzzlebox_orbit_emotiv_insight_training_mental_command_training">Training</string>
+    <string name="button_puzzlebox_orbit_emotiv_insight_training_mental_command_trained">Trained</string>
+
+    <string name="label_puzzlebox_orbit_emotiv_insight_activity_mental_command">Activity: Mental Command</string>
+
+    <string name="label_puzzlebox_orbit_emotiv_insight_contact_quality">Contact Quality</string>
+
+</resources>

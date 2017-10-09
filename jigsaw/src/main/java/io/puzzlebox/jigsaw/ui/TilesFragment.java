@@ -33,11 +33,9 @@ public class TilesFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public static TilesFragment newInstance(String param1, String param2) {
+	public static TilesFragment newInstance() {
 		TilesFragment fragment = new TilesFragment();
 		Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -58,9 +56,9 @@ public class TilesFragment extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_tiles, container, false);
 
 		// Get reference to carousel container
-		mInputCarouselContainer = (LinearLayout) v.findViewById(R.id.carousel_devices_input);
-		mOutputCarouselContainer = (LinearLayout) v.findViewById(R.id.carousel_devices_output);
-		mProfileCarouselContainer = (LinearLayout) v.findViewById(R.id.carousel_devices_profile);
+		mInputCarouselContainer = v.findViewById(R.id.carousel_devices_input);
+		mOutputCarouselContainer = v.findViewById(R.id.carousel_devices_output);
+		mProfileCarouselContainer = v.findViewById(R.id.carousel_devices_profile);
 
 
 		// Compute the width of a carousel item based on the screen width and number of initial items.
@@ -169,13 +167,18 @@ public class TilesFragment extends Fragment {
 				switch (index) {
 					case 0:
 						// NeuroSky MindWave Mobile
-						DialogNeuroSkyMindWaveFragment dialogNeuroSkyMindWaveFragment = new DialogNeuroSkyMindWaveFragment();
-						dialogNeuroSkyMindWaveFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_neurosky_mindwave));
+						DialogInputNeuroSkyMindWaveFragment dialogInputNeuroSkyMindWaveFragment = new DialogInputNeuroSkyMindWaveFragment();
+						dialogInputNeuroSkyMindWaveFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_neurosky_mindwave));
 						break;
 					case 1:
+						// Emotiv Insight
+						DialogInputEmotivInsightFragment dialogInputEmotivInsightFragment = new DialogInputEmotivInsightFragment();
+						dialogInputEmotivInsightFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_emotiv_insight));
+						break;
+					case 2:
 						// Joystick
-						DialogJoystickFragment dialogJoystickFragment = new DialogJoystickFragment();
-						dialogJoystickFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_joystick));
+						DialogInputJoystickFragment dialogInputJoystickFragment = new DialogInputJoystickFragment();
+						dialogInputJoystickFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_joystick));
 						break;
 				}
 				break;
@@ -185,13 +188,13 @@ public class TilesFragment extends Fragment {
 				switch (index) {
 					case 0:
 						// Audio IR Transmitter
-						DialogAudioIRFragment dialogAudioIRFragment = new DialogAudioIRFragment();
-						dialogAudioIRFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_audio_ir));
+						DialogOutputAudioIRFragment dialogOutputAudioIRFragment = new DialogOutputAudioIRFragment();
+						dialogOutputAudioIRFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_audio_ir));
 						break;
 					case 1:
 						// Session Data
-						DialogSessionFragment dialogSessionFragment = new DialogSessionFragment();
-						dialogSessionFragment.show(fm, getResources().getString(R.string.title_fragment_session));
+						DialogOutputSessionFragment dialogOutputSessionFragment = new DialogOutputSessionFragment();
+						dialogOutputSessionFragment.show(fm, getResources().getString(R.string.title_fragment_session));
 						break;
 				}
 				break;

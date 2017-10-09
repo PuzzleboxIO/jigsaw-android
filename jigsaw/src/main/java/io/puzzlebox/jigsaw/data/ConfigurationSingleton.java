@@ -1,9 +1,5 @@
 package io.puzzlebox.jigsaw.data;
 
-/**
- * Created by sc on 5/2/17.
- */
-
 public class ConfigurationSingleton {
 
 	public int displayHeight = 256;

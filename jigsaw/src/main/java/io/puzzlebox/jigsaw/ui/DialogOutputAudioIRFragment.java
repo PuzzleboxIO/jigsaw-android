@@ -17,9 +17,9 @@ import android.widget.Toast;
 
 import io.puzzlebox.jigsaw.R;
 
-public class DialogAudioIRFragment extends DialogFragment {
+public class DialogOutputAudioIRFragment extends DialogFragment {
 
-	private final static String TAG = DialogAudioIRFragment.class.getSimpleName();
+	private final static String TAG = DialogOutputAudioIRFragment.class.getSimpleName();
 
 	public final static String profileID = "puzzlebox_orbit_ir";
 
@@ -36,7 +36,7 @@ public class DialogAudioIRFragment extends DialogFragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public DialogAudioIRFragment() {
+	public DialogOutputAudioIRFragment() {
 		// Required empty public constructor
 	}
 

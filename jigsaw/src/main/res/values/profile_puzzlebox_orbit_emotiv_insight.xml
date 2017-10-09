@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="profile_puzzlebox_orbit_emotiv_insight_title">Puzzlebox Orbit Emotiv Insight</string>
+
+    <string name="profile_puzzlebox_orbit_emotiv_insight_icon">carousel_puzzlebox_orbit</string>
+
+    <string name="profile_puzzlebox_orbit_emotiv_insight_company">Puzzlebox</string>
+    <string name="profile_puzzlebox_orbit_emotiv_insight_product">Orbit</string>
+
+    <string-array name="profile_puzzlebox_orbit_emotiv_insight_input">
+        <item>emotiv_insight</item>
+    </string-array>
+
+    <string-array name="profile_puzzlebox_orbit_emotiv_insight_output">
+        <item>puzzlebox_orbit_ir</item>
+    </string-array>
+    
+</resources>

@@ -5,7 +5,7 @@
               android:gravity="center"
               android:padding="10dp"
               android:orientation="vertical"
-              tools:context="io.puzzlebox.jigsaw.ui.DialogNeuroSkyMindWaveFragment">
+              tools:context="io.puzzlebox.jigsaw.ui.DialogInputNeuroSkyMindWaveFragment">
 
     <!--<TextView-->
         <!--android:id="@+id/textViewLabelDeviceNeuroSkyMindWave"-->

@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+tools:context="io.puzzlebox.jigsaw.ui.DialogInputEmotivInsightSelectItemFragment">
+    <!--android:background="@color/light_grey"-->
+
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:minHeight="100dp"
+    android:id="@+id/layoutSelectEEG"
+    android:gravity="center_vertical|center_horizontal"
+    >
+
+    <!--<LinearLayout-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="center_vertical|center_horizontal"-->
+    <!--android:layout_marginLeft="5dp">-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewSelectEEGNumber"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewSelectEEGName"/>
+    <!--</LinearLayout>-->
+
+</LinearLayout>
+
+<Button
+    android:id="@+id/buttonChoose"
+    android:background="@drawable/shape_rounded_corners_grey"
+    android:text="@string/select_eeg_button"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="10dp"
+    android:textSize="18sp"
+    android:textStyle="bold"
+    android:clickable="true"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="10dp"
+    android:visibility="gone"/>
+    <!--android:textColor="@color/colorLightSaberGreen"-->
+
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="2dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:id="@+id/layoutSelectEEGSeparator"/>
+    <!--android:background="@color/light_grey"-->
+
+</LinearLayout>
