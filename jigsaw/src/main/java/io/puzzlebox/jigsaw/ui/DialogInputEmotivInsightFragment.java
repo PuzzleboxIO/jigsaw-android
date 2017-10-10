@@ -120,36 +120,36 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 		imageViewEmotivInsight = v.findViewById(R.id.imageViewEmotivInsight);
 
-//		Resources r = getResources();
-//		Drawable[] layers = new Drawable[7];
-//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//			//noinspection deprecation
-//			layers[0] = r.getDrawable(R.drawable.device_eeg_sensor_head);
-//			//noinspection deprecation
-//			layers[1] = r.getDrawable(R.drawable.device_eeg_sensor_af3);
-//			//noinspection deprecation
-//			layers[2] = r.getDrawable(R.drawable.device_eeg_sensor_af4);
-//			//noinspection deprecation
-//			layers[3] = r.getDrawable(R.drawable.device_eeg_sensor_t7);
-//			//noinspection deprecation
-//			layers[4] = r.getDrawable(R.drawable.device_eeg_sensor_t8);
-//			//noinspection deprecation
-//			layers[5] = r.getDrawable(R.drawable.device_eeg_sensor_pz);
-//			//noinspection deprecation
-//			layers[6] = r.getDrawable(R.drawable.device_eeg_sensor_tp7_cms_white);
-//		} else {
-//			layers[0] = r.getDrawable(R.drawable.device_eeg_sensor_head, null);
-//			layers[1] = r.getDrawable(R.drawable.device_eeg_sensor_af3, null);
-//			layers[2] = r.getDrawable(R.drawable.device_eeg_sensor_af4, null);
-//			layers[3] = r.getDrawable(R.drawable.device_eeg_sensor_t7, null);
-//			layers[4] = r.getDrawable(R.drawable.device_eeg_sensor_t8, null);
-//			layers[5] = r.getDrawable(R.drawable.device_eeg_sensor_pz, null);
-//			layers[6] = r.getDrawable(R.drawable.device_eeg_sensor_tp7_cms_white, null);
-//		}
-//
-//		LayerDrawable layerDrawable = new LayerDrawable(layers);
-//		imageViewEmotivInsight.setImageDrawable(layerDrawable);
-//
+		Resources r = getResources();
+		Drawable[] layers = new Drawable[7];
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+			//noinspection deprecation
+			layers[0] = r.getDrawable(R.drawable.device_eeg_sensor_head);
+			//noinspection deprecation
+			layers[1] = r.getDrawable(R.drawable.device_eeg_sensor_af3_white);
+			//noinspection deprecation
+			layers[2] = r.getDrawable(R.drawable.device_eeg_sensor_af4_white);
+			//noinspection deprecation
+			layers[3] = r.getDrawable(R.drawable.device_eeg_sensor_t7_white);
+			//noinspection deprecation
+			layers[4] = r.getDrawable(R.drawable.device_eeg_sensor_t8_white);
+			//noinspection deprecation
+			layers[5] = r.getDrawable(R.drawable.device_eeg_sensor_pz_white);
+			//noinspection deprecation
+			layers[6] = r.getDrawable(R.drawable.device_eeg_sensor_tp7_cms_white);
+		} else {
+			layers[0] = r.getDrawable(R.drawable.device_eeg_sensor_head, null);
+			layers[1] = r.getDrawable(R.drawable.device_eeg_sensor_af3_white, null);
+			layers[2] = r.getDrawable(R.drawable.device_eeg_sensor_af4_white, null);
+			layers[3] = r.getDrawable(R.drawable.device_eeg_sensor_t7_white, null);
+			layers[4] = r.getDrawable(R.drawable.device_eeg_sensor_t8_white, null);
+			layers[5] = r.getDrawable(R.drawable.device_eeg_sensor_pz_white, null);
+			layers[6] = r.getDrawable(R.drawable.device_eeg_sensor_tp7_cms_white, null);
+		}
+
+		LayerDrawable layerDrawable = new LayerDrawable(layers);
+		imageViewEmotivInsight.setImageDrawable(layerDrawable);
+
 		imageViewAF3 = v.findViewById(R.id.imageViewEmotivInsightSensorAF3);
 		imageViewAF4 = v.findViewById(R.id.imageViewEmotivInsightSensorAF4);
 		imageViewT7 = v.findViewById(R.id.imageViewEmotivInsightSensorT7);
@@ -157,7 +157,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		imageViewPz = v.findViewById(R.id.imageViewEmotivInsightSensorPz);
 		imageViewCMS = v.findViewById(R.id.imageViewEmotivInsightSensorCMS);
 
-//		drawEEGStatus(0, 0, 0, 0, 0, 0);
+		drawEEGStatus(0, 0, 0, 0, 0, 0);
 
 		intentEmotivInsight = new Intent(getActivity(), EmotivInsightService.class);
 
