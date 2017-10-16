@@ -307,7 +307,7 @@ public class EEGFragment extends Fragment implements
 
 		// TODO 2017-02-15 Disable Muse
 //		if (MuseService.eegConnected) {
-//			connectEEG.setText("Disconnect EEG");
+//			buttonConnectEEG.setText("Disconnect EEG");
 ////			spinnerEEG.setSelection(spinnerEEG.getPosition(DEFAULT_CURRENCY_TYPE));
 ////			spinnerEEG.setSelection(spinnerEEG.getAdapter(). .getPosition(DEFAULT_CURRENCY_TYPE));
 //			spinnerEEG.setEnabled(false);

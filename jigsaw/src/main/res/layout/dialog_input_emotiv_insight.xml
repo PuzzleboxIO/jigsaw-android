@@ -41,24 +41,26 @@
                 android:id="@+id/layoutConnect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal"
                 android:paddingTop="10dp">
 
-                <TextView
-                    android:id="@+id/textViewLabelConnect"
-                    style="@android:style/TextAppearance.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:text="@string/label_emotiv_insight_connect"/>
-                <!--android:paddingLeft="@dimen/padding_medium"-->
+                <!--TODO-->
+                <!--<TextView-->
+                <!--android:id="@+id/textViewLabelConnect"-->
+                <!--style="@android:style/TextAppearance.Small"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:paddingStart="@dimen/padding_medium"-->
+                <!--android:paddingEnd="@dimen/padding_medium"-->
+                <!--android:text="@string/label_emotiv_insight_connect"/>-->
+                <!--&lt;!&ndash;android:paddingLeft="@dimen/padding_medium"&ndash;&gt;-->
 
-                <View
-                    android:layout_height="0dp"
-                    android:layout_width="40dp"
-                    />
+                <!--<View-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_width="40dp"-->
+                <!--/>-->
 
                 <!--style="@style/button_text"-->
                 <Button
@@ -79,20 +81,25 @@
                 android:gravity="center"
                 android:orientation="horizontal" >
 
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
                 <ImageView
                     android:id="@+id/imageViewEmotivInsight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxHeight="300dp"
-                    android:maxWidth="268dp"
                     android:adjustViewBounds="true"
                     android:layout_marginBottom="30dp"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
                     android:layout_marginTop="30dp"
-                    android:contentDescription="@string/label_emotiv_insight_contact_quality"
-                    android:src="@drawable/device_eeg_sensor_head"
-                    />
+                    android:contentDescription="@string/label_emotiv_insight_contact_quality"/>
+                <!--android:src="@drawable/device_eeg_sensor_head"-->
+                <!--android:maxHeight="151dp"-->
+                <!--android:maxWidth="135dp"-->
+                <!--android:layout_width="360dp"-->
+                <!--android:layout_height="320dp"-->
+                <!--android:maxHeight="300dp"-->
+                <!--android:maxWidth="268dp"-->
                 <!--android:layout_width="300dp"-->
                 <!--android:layout_height="268dp"-->
                 <!--android:maxHeight="480dp"-->
@@ -101,134 +108,134 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:id="@+id/layoutEmotivInsightSensors"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:paddingTop="24dp">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/layoutEmotivInsightSensors"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:paddingTop="24dp">-->
 
-                <TextView
-                    android:id="@+id/textViewLabelEmotivInsightSensorAF3"
-                    style="@android:style/TextAppearance.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/label_puzzlebox_orbit_emotiv_insight_sensor_af3"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/textViewLabelEmotivInsightSensorAF3"-->
+                    <!--style="@android:style/TextAppearance.Small"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:text="@string/label_puzzlebox_orbit_emotiv_insight_sensor_af3"/>-->
 
-                <ImageView
-                    android:id="@+id/imageViewEmotivInsightSensorAF3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/label_puzzlebox_orbit_emotiv_insight_sensor_af3"
-                    android:maxHeight="18dp"
-                    android:maxWidth="18dp"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/device_eeg_sensor_white"/>
+                <!--<ImageView-->
+                    <!--android:id="@+id/imageViewEmotivInsightSensorAF3"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:adjustViewBounds="true"-->
+                    <!--android:contentDescription="@string/label_puzzlebox_orbit_emotiv_insight_sensor_af3"-->
+                    <!--android:maxHeight="18dp"-->
+                    <!--android:maxWidth="18dp"-->
+                    <!--android:layout_marginStart="2dp"-->
+                    <!--android:src="@drawable/device_eeg_sensor_white"/>-->
 
-                <TextView
-                    android:id="@+id/textViewLabelEmotivInsightSensorAF4"
-                    style="@android:style/TextAppearance.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/label_puzzlebox_orbit_emotiv_insight_sensor_af4"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/textViewLabelEmotivInsightSensorAF4"-->
+                    <!--style="@android:style/TextAppearance.Small"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginStart="8dp"-->
+                    <!--android:text="@string/label_puzzlebox_orbit_emotiv_insight_sensor_af4"/>-->
 
-                <ImageView
-                    android:id="@+id/imageViewEmotivInsightSensorAF4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/label_puzzlebox_orbit_emotiv_insight_sensor_af4"
-                    android:maxHeight="18dp"
-                    android:maxWidth="18dp"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/device_eeg_sensor_white"/>
+                <!--<ImageView-->
+                    <!--android:id="@+id/imageViewEmotivInsightSensorAF4"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:adjustViewBounds="true"-->
+                    <!--android:contentDescription="@string/label_puzzlebox_orbit_emotiv_insight_sensor_af4"-->
+                    <!--android:maxHeight="18dp"-->
+                    <!--android:maxWidth="18dp"-->
+                    <!--android:layout_marginStart="2dp"-->
+                    <!--android:src="@drawable/device_eeg_sensor_white"/>-->
 
-                <TextView
-                    android:id="@+id/textViewLabelEmotivInsightSensorPz"
-                    style="@android:style/TextAppearance.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/label_puzzlebox_orbit_emotiv_insight_sensor_pz"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/textViewLabelEmotivInsightSensorPz"-->
+                    <!--style="@android:style/TextAppearance.Small"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginStart="8dp"-->
+                    <!--android:text="@string/label_puzzlebox_orbit_emotiv_insight_sensor_pz"/>-->
 
-                <ImageView
-                    android:id="@+id/imageViewEmotivInsightSensorPz"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/label_puzzlebox_orbit_emotiv_insight_sensor_pz"
-                    android:maxHeight="18dp"
-                    android:maxWidth="18dp"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/device_eeg_sensor_white"/>
+                <!--<ImageView-->
+                    <!--android:id="@+id/imageViewEmotivInsightSensorPz"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:adjustViewBounds="true"-->
+                    <!--android:contentDescription="@string/label_puzzlebox_orbit_emotiv_insight_sensor_pz"-->
+                    <!--android:maxHeight="18dp"-->
+                    <!--android:maxWidth="18dp"-->
+                    <!--android:layout_marginStart="2dp"-->
+                    <!--android:src="@drawable/device_eeg_sensor_white"/>-->
 
-                <TextView
-                    android:id="@+id/textViewLabelEmotivInsightSensort7"
-                    style="@android:style/TextAppearance.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/label_puzzlebox_orbit_emotiv_insight_sensor_t7"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/textViewLabelEmotivInsightSensort7"-->
+                    <!--style="@android:style/TextAppearance.Small"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginStart="8dp"-->
+                    <!--android:text="@string/label_puzzlebox_orbit_emotiv_insight_sensor_t7"/>-->
 
-                <ImageView
-                    android:id="@+id/imageViewEmotivInsightSensorT7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/label_puzzlebox_orbit_emotiv_insight_sensor_t7"
-                    android:maxHeight="18dp"
-                    android:maxWidth="18dp"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/device_eeg_sensor_white"/>
+                <!--<ImageView-->
+                    <!--android:id="@+id/imageViewEmotivInsightSensorT7"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:adjustViewBounds="true"-->
+                    <!--android:contentDescription="@string/label_puzzlebox_orbit_emotiv_insight_sensor_t7"-->
+                    <!--android:maxHeight="18dp"-->
+                    <!--android:maxWidth="18dp"-->
+                    <!--android:layout_marginStart="2dp"-->
+                    <!--android:src="@drawable/device_eeg_sensor_white"/>-->
 
-                <TextView
-                    android:id="@+id/textViewLabelEmotivInsightSensorT8"
-                    style="@android:style/TextAppearance.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/label_puzzlebox_orbit_emotiv_insight_sensor_t8"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/textViewLabelEmotivInsightSensorT8"-->
+                    <!--style="@android:style/TextAppearance.Small"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginStart="8dp"-->
+                    <!--android:text="@string/label_puzzlebox_orbit_emotiv_insight_sensor_t8"/>-->
 
-                <ImageView
-                    android:id="@+id/imageViewEmotivInsightSensorT8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/label_puzzlebox_orbit_emotiv_insight_sensor_t8"
-                    android:maxHeight="18dp"
-                    android:maxWidth="18dp"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/device_eeg_sensor_white"/>
+                <!--<ImageView-->
+                    <!--android:id="@+id/imageViewEmotivInsightSensorT8"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:adjustViewBounds="true"-->
+                    <!--android:contentDescription="@string/label_puzzlebox_orbit_emotiv_insight_sensor_t8"-->
+                    <!--android:maxHeight="18dp"-->
+                    <!--android:maxWidth="18dp"-->
+                    <!--android:layout_marginStart="2dp"-->
+                    <!--android:src="@drawable/device_eeg_sensor_white"/>-->
 
-                <TextView
-                    android:id="@+id/textViewLabelEmotivInsightSensorCMS"
-                    style="@android:style/TextAppearance.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/label_puzzlebox_orbit_emotiv_insight_sensor_cms"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/textViewLabelEmotivInsightSensorCMS"-->
+                    <!--style="@android:style/TextAppearance.Small"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginStart="8dp"-->
+                    <!--android:text="@string/label_puzzlebox_orbit_emotiv_insight_sensor_cms"/>-->
 
-                <ImageView
-                    android:id="@+id/imageViewEmotivInsightSensorCMS"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/label_puzzlebox_orbit_emotiv_insight_sensor_cms"
-                    android:maxHeight="18dp"
-                    android:maxWidth="18dp"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/device_eeg_sensor_cms_white"/>
+                <!--<ImageView-->
+                    <!--android:id="@+id/imageViewEmotivInsightSensorCMS"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:adjustViewBounds="true"-->
+                    <!--android:contentDescription="@string/label_puzzlebox_orbit_emotiv_insight_sensor_cms"-->
+                    <!--android:maxHeight="18dp"-->
+                    <!--android:maxWidth="18dp"-->
+                    <!--android:layout_marginStart="2dp"-->
+                    <!--android:src="@drawable/device_eeg_sensor_cms_white"/>-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
 
         </LinearLayout>

@@ -12,10 +12,6 @@ import java.util.HashMap;
 
 import io.puzzlebox.jigsaw.R;
 
-/**
- * Created by sc on 4/25/17.
- */
-
 public class ProfileSingleton {
 
 	private static final String TAG = ProfileSingleton.class.getSimpleName();
@@ -86,30 +82,35 @@ public class ProfileSingleton {
 		String[] devicesProfileOutputs; // = context.getResources().getStringArray(R.array.devices_profile_product_array);
 
 		for (int i = 0; i < devicesProfile.length ; i++) {
-			data = new HashMap<String, String>();
-			data.put("id", devicesProfile[i]);
+
+
+			try {
+
+
+				data = new HashMap<String, String>();
+				data.put("id", devicesProfile[i]);
 //			data.put("icon", devicesProfileIcon[i]);
 //			data.put("company", devicesProfileCompany[i]);
 //			data.put("product", devicesProfileProduct[i]);
 
 //			Log.e(TAG, "data.get(\"id\"): " + data.get("id"));
 
-			data.put("title", context.getResources().getString(
-					  getId(data.get("id") + "_title", R.string.class)));
-			data.put("icon", context.getResources().getString(
-					  getId(data.get("id") + "_icon", R.string.class)));
-			data.put("company", context.getResources().getString(
-					  getId(data.get("id") + "_company", R.string.class)));
-			data.put("product", context.getResources().getString(
-					  getId(data.get("id") + "_product", R.string.class)));
+				data.put("title", context.getResources().getString(
+						  getId(data.get("id") + "_title", R.string.class)));
+				data.put("icon", context.getResources().getString(
+						  getId(data.get("id") + "_icon", R.string.class)));
+				data.put("company", context.getResources().getString(
+						  getId(data.get("id") + "_company", R.string.class)));
+				data.put("product", context.getResources().getString(
+						  getId(data.get("id") + "_product", R.string.class)));
 
-			data.put("active", "false");
-			data.put("status", "disabled");
+				data.put("active", "false");
+				data.put("status", "disabled");
 
-			devicesProfileInputs = context.getResources().getStringArray(
-					  getId(data.get("id") + "_input", R.array.class));
-			devicesProfileOutputs = context.getResources().getStringArray(
-					  getId(data.get("id") + "_output", R.array.class));
+				devicesProfileInputs = context.getResources().getStringArray(
+						  getId(data.get("id") + "_input", R.array.class));
+				devicesProfileOutputs = context.getResources().getStringArray(
+						  getId(data.get("id") + "_output", R.array.class));
 
 //			Log.d(TAG, "devicesProfileInputs: " + devicesProfileInputs);
 //			Log.d(TAG, "devicesProfileOutputs: " + devicesProfileOutputs);
@@ -118,11 +119,18 @@ public class ProfileSingleton {
 //				Log.e(TAG, "s: " + s);
 //			}
 
-			profiles_inputs.add(devicesProfileInputs);
-			profiles_outputs.add(devicesProfileOutputs);
+				profiles_inputs.add(devicesProfileInputs);
+				profiles_outputs.add(devicesProfileOutputs);
 
 
-			profiles.add(data);
+				profiles.add(data);
+
+
+			} catch (Exception e) {
+				Log.e(TAG, "Error adding Profile tile: " + e);
+			}
+
+
 		}
 
 //		Log.d(TAG, "profiles: " + profiles);
@@ -240,24 +248,30 @@ public class ProfileSingleton {
 
 		boolean result = false;
 
-		switch(category) {
-			case "inputs":
+		try {
+
+			switch (category) {
+				case "inputs":
 //				Log.e(TAG, "inputs.get(" + index + ").get(\"active\"): " + inputs.get(index).get("active"));
-				if (inputs.get(index).get("active").equals("true")) {
-					result = true;
-				}
-				break;
-			case "outputs":
+					if (inputs.get(index).get("active").equals("true")) {
+						result = true;
+					}
+					break;
+				case "outputs":
 //				Log.e(TAG, "outputs.get(" + index + ").get(\"active\"): " + outputs.get(index).get("active"));
-				if (outputs.get(index).get("active").equals("true")) {
-					result = true;
-				}
-				break;
-			case "profiles":
-				if (profiles.get(index).get("active").equals("true")) {
-					result = true;
-				}
-				break;
+					if (outputs.get(index).get("active").equals("true")) {
+						result = true;
+					}
+					break;
+				case "profiles":
+					if (profiles.get(index).get("active").equals("true")) {
+						result = true;
+					}
+					break;
+			}
+
+		} catch (Exception e) {
+			Log.e(TAG, "Error checking if tile is active:" + e);
 		}
 
 		return result;
