@@ -3,7 +3,7 @@
 
     <!-- Array of device profiles resource IDs -->
     <string-array name="devices_profile_array">
-        <item>profile_puzzlebox_orbit_mobile_edition</item>
+        <!--<item>profile_puzzlebox_orbit_mobile_edition</item>-->
     </string-array>
 
 </resources>

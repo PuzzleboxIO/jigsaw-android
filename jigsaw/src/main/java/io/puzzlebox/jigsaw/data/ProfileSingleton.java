@@ -16,11 +16,11 @@ public class ProfileSingleton {
 
 	private static final String TAG = ProfileSingleton.class.getSimpleName();
 
-	public static ArrayList<HashMap<String, String>> inputs = new ArrayList<>();
-	public static ArrayList<HashMap<String, String>> outputs = new ArrayList<>();
+	private static ArrayList<HashMap<String, String>> inputs = new ArrayList<>();
+	private static ArrayList<HashMap<String, String>> outputs = new ArrayList<>();
 	public ArrayList<HashMap<String, String>> profiles = new ArrayList<>();
-	public static ArrayList<String[]> profiles_inputs = new ArrayList<>();
-	public static ArrayList<String[]> profiles_outputs = new ArrayList<>();
+	private static ArrayList<String[]> profiles_inputs = new ArrayList<>();
+	private static ArrayList<String[]> profiles_outputs = new ArrayList<>();
 
 	public int tilesAnimationId = R.anim.tiles_slow;
 
@@ -44,7 +44,7 @@ public class ProfileSingleton {
 		String[] devicesInputProduct = context.getResources().getStringArray(R.array.devices_input_product_array);
 
 		for (int i = 0; i < devicesInput.length ; i++) {
-			data = new HashMap<String, String>();
+			data = new HashMap<>();
 			data.put("id", devicesInput[i]);
 			data.put("icon", devicesInputIcon[i]);
 			data.put("company", devicesInputCompany[i]);
@@ -62,7 +62,7 @@ public class ProfileSingleton {
 		String[] devicesOutputProduct = context.getResources().getStringArray(R.array.devices_output_product_array);
 
 		for (int i = 0; i < devicesOutput.length ; i++) {
-			data = new HashMap<String, String>();
+			data = new HashMap<>();
 			data.put("id", devicesOutput[i]);
 			data.put("icon", devicesOutputIcon[i]);
 			data.put("company", devicesOutputCompany[i]);
@@ -81,14 +81,17 @@ public class ProfileSingleton {
 		String[] devicesProfileInputs; // = context.getResources().getStringArray(R.array.devices_profile_company_array);
 		String[] devicesProfileOutputs; // = context.getResources().getStringArray(R.array.devices_profile_product_array);
 
-		for (int i = 0; i < devicesProfile.length ; i++) {
+//		for (int i = 0; i < devicesProfile.length ; i++) {
+		for (String aDevicesProfile : devicesProfile) {
 
 
 			try {
 
 
-				data = new HashMap<String, String>();
-				data.put("id", devicesProfile[i]);
+				data = new HashMap<>();
+//				data.put("id", devicesProfile[i]);
+				data.put("id", aDevicesProfile);
+
 //			data.put("icon", devicesProfileIcon[i]);
 //			data.put("company", devicesProfileCompany[i]);
 //			data.put("product", devicesProfileProduct[i]);
