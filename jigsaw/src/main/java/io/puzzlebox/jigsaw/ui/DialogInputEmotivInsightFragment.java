@@ -61,9 +61,6 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 	private int currentPz = 0;
 	private int currentCMS = 0;
 
-//	private int sensors_scale_x = 0;
-//	private int sensors_scale_y = 0;
-
 	private static Intent intentEmotivInsight;
 
 	private OnFragmentInteractionListener mListener;
@@ -240,8 +237,6 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		display.getSize(size);
 
 //		// Set the width of the dialog proportional to a percentage of the screen width
-////		window.setLayout((int) (size.x * 0.9), WindowManager.LayoutParams.WRAP_CONTENT);
-////		window.setLayout((int) (size.x * 0.975), WindowManager.LayoutParams.WRAP_CONTENT);
 //		window.setLayout((int) (size.x * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
 
 		// Set the dimensions  of the dialog proportional to a percentage of the screen dimensions
@@ -268,8 +263,6 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-//			String action = intent.getAction();
-
 			String name = intent.getStringExtra("name");
 			String value = intent.getStringExtra("value");
 
@@ -280,7 +273,6 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 			switch(name) {
 
 				case "populateSelectEEG":
-//					Log.d(TAG, "populateSelectEEG: " + value + "\n");
 					populateSelectEEG();
 					break;
 
@@ -466,42 +458,9 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 		Resources r;
 
-//		int scale_x = ConfigurationSingleton.getInstance().displayWidth / 2;
-//		int scale_y = ConfigurationSingleton.getInstance().displayHeight / 2;
-
 		int scale_x = ConfigurationSingleton.getInstance().displayWidth / 2;
 		int scale_y = ConfigurationSingleton.getInstance().displayHeight / 3;
 
-//		int scale_x = ConfigurationSingleton.getInstance().displayWidth / 3;
-//		int scale_y = ConfigurationSingleton.getInstance().displayHeight / 3;
-//		int scale_x = ConfigurationSingleton.getInstance().displayWidth / 4;
-//		int scale_y = ConfigurationSingleton.getInstance().displayHeight / 4;
-
-//		int scale_x = ConfigurationSingleton.getInstance().displayWidth / 4;
-//		int scale_y = ConfigurationSingleton.getInstance().displayHeight / 6;
-
-//		int scale_x = ConfigurationSingleton.getInstance().displayWidth / 7;
-//		int scale_y = ConfigurationSingleton.getInstance().displayHeight / 7;
-
-
-//		int scale_x = 480;
-//		int scale_y = 429;
-////		int scale_y = 430;
-//
-//		int scale_x = 360;
-//		int scale_y = 320;
-//
-//		int scale_x = 300;
-//		int scale_y = 268;
-//
-////		int scale_x = 240;
-////		int scale_y = 215;
-
-//		int scale_x = 151;
-//		int scale_y = 135;
-
-//		int scale_x = sensors_scale_x;
-//		int scale_y = sensors_scale_y;
 
 //		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 ////			Log.e(TAG, "imageViewEmotivInsight.getDrawable().getDirtyBounds(): " + imageViewEmotivInsight.getDrawable().getDirtyBounds());
