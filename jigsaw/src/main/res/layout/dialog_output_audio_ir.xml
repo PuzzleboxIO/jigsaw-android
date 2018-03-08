@@ -65,6 +65,34 @@
                 <!--android:enabled="false"-->
                 <!--android:visibility="invisible"-->
 
+
+                <TextView
+                    android:id="@+id/labelAdvancedSettings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/label_audio_ir_advanced_settings"
+                    android:textSize="18dp"
+                    android:paddingTop="30dp"
+                    android:textStyle="bold"/>
+
+                <!--<Label-->
+                    <!--android:id="@+id/"-->
+                    <!--android:text="@string/"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingTop="30dp"-->
+                    <!--style="@style/DialogStyle"-->
+                    <!--/>-->
+
+                <Switch
+                    android:id="@+id/switchInvertControlSignal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="@string/label_audio_ir_invert_control_signal"
+                    android:paddingTop="10dp"/>
+
                 <Button
                     android:id="@+id/buttonTestAudioIR"
                     android:layout_width="wrap_content"
