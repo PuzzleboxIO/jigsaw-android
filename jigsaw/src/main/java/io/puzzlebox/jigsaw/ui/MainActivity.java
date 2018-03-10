@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements
 		  SupportFragment.OnFragmentInteractionListener,
 		  DialogInputNeuroSkyMindWaveFragment.OnFragmentInteractionListener,
 		  DialogInputJoystickFragment.OnFragmentInteractionListener,
+		  DialogOutputPuzzleboxGimmickFragment.OnFragmentInteractionListener,
 		  DialogOutputAudioIRFragment.OnFragmentInteractionListener,
 		  DialogOutputSessionFragment.OnFragmentInteractionListener
 {

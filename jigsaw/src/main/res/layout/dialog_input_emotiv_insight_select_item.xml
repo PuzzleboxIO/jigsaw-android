@@ -48,6 +48,7 @@ tools:context="io.puzzlebox.jigsaw.ui.DialogInputEmotivInsightSelectItemFragment
     android:textSize="18sp"
     android:textStyle="bold"
     android:clickable="true"
+    android:focusable="true"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
     android:layout_marginBottom="10dp"

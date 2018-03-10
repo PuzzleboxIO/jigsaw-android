@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_dialog_fragment_gimmick">Puzzlebox Gimmick</string>
+    <string name="label_puzzlebox_gimmick_instruction">Emotiv Insight</string>
+
+    <!-- Scan -->
+    <string name="scan_title">Scan for Gimmicks</string>
+    <string name="scan_button_refresh">Refresh</string>
+    <string name="scan_select">Select a Gimmick</string>
+    <string name="scan_default_list">No Gimmicks found</string>
+    <string name="scan_connecting">Connecting to Gimmick</string>
+    <string name="scan_connected">Connected to Gimmick</string>
+    <string name="scan_disconnected">Disconnected from Gimmick</string>/
+
+    <string name="label_puzzlebox_gimmick_connect">Connect to Device</string>
+    <string name="buttonStatusPuzzleboxGimmickConnect">Connect</string>
+    <string name="buttonStatusPuzzleboxGimmickDisconnect">Disconnect</string>
+    <string name="buttonStatusPuzzleboxGimmickConnecting">Connecting</string>
+    <string name="buttonStatusPuzzleboxGimmickNotFound">EEG Not Found</string>
+
+    <string name="label_puzzlebox_gimmick_contact_quality">Contact Quality</string>
+
+    <string name="select_gimmick_title">Gimmicks Detected</string>
+    <string name="select_gimmick_refresh">Refresh</string>
+    <string name="select_gimmick_button">Choose</string>
+
+</resources>

@@ -51,6 +51,11 @@
         <!-- android:name=".protocol.RBLService" -->
         <!-- android:enabled="true"/> -->
 
+        <service
+            android:name=".services.BluetoothService"
+            android:enabled="true"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
