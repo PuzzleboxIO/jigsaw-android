@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_dialog_fragment_puzzlebox_gimmick_x10_transceiver">Puzzlebox Gimmick X10 Transceiver</string>
+    <string name="label_profile_puzzlebox_gimmick_x10_transceiver_instruction">X10 Control with Puzzlebox Gimmick</string>
+
+    <string name="buttonStatusPuzzleboxGimmickX10Off">Off</string>
+    <string name="buttonStatusPuzzleboxGimmickX10On">On</string>
+    <string name="buttonStatusPuzzleboxGimmickX10Dim">Dim</string>
+    <string name="buttonStatusPuzzleboxGimmickX10Bright">Bright</string>
+
+</resources>

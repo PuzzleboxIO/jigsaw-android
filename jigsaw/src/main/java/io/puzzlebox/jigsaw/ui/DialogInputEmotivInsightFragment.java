@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.ConfigurationSingleton;
 import io.puzzlebox.jigsaw.data.DeviceEmotivInsightSingleton;
-import io.puzzlebox.jigsaw.protocol.EmotivInsightService;
+import io.puzzlebox.jigsaw.service.EmotivInsightService;
 
 public class DialogInputEmotivInsightFragment extends DialogFragment {
 

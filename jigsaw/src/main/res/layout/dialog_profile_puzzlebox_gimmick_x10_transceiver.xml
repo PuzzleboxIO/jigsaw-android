@@ -1,0 +1,177 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="10dp"
+    android:orientation="vertical"
+    tools:context="io.puzzlebox.jigsaw.ui.DialogProfilePuzzleboxGimmickX10TransceiverFragment">
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/textViewInstruction"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:maxLines="1"-->
+    <!--android:layout_gravity="start"-->
+    <!--android:paddingStart="@dimen/padding_medium"-->
+    <!--android:paddingLeft="@dimen/padding_medium"-->
+    <!--android:paddingRight="@dimen/padding_medium"-->
+    <!--android:paddingBottom="10dp"-->
+    <!--style="@style/DialogStyle"-->
+    <!--android:text="@string/label_emotiv_insight_instruction" />-->
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_width="fill_parent"-->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+            <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+
+            <EditText
+                android:id="@+id/editTextChannel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:gravity="center"
+                android:inputType="textCapCharacters"
+                android:text="C5" />
+
+            <LinearLayout
+                android:id="@+id/layoutX10Power"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
+
+                <!--TODO-->
+                <!--<TextView-->
+                <!--android:id="@+id/textViewLabelConnect"-->
+                <!--style="@android:style/TextAppearance.Small"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:paddingStart="@dimen/padding_medium"-->
+                <!--android:paddingEnd="@dimen/padding_medium"-->
+                <!--android:text="@string/label_emotiv_insight_connect"/>-->
+                <!--&lt;!&ndash;android:paddingLeft="@dimen/padding_medium"&ndash;&gt;-->
+
+                <!--<View-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_width="40dp"-->
+                <!--/>-->
+
+                <!--style="@style/button_text"-->
+                <Button
+                    android:id="@+id/buttonStatusPuzzleboxGimmickX10Off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@drawable/shape_rounded_corners_grey"
+                    android:maxLines="1"
+                    android:text="@string/buttonStatusPuzzleboxGimmickX10Off"/>
+                <!--android:paddingLeft="@dimen/padding_medium"-->
+
+                <android.support.v4.widget.Space
+                    android:layout_width="10dp"
+                    android:layout_height="0dp" />
+
+                <Button
+                    android:id="@+id/buttonStatusPuzzleboxGimmickX10On"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@drawable/shape_rounded_corners_grey"
+                    android:maxLines="1"
+                    android:text="@string/buttonStatusPuzzleboxGimmickX10On"
+                    />
+                <!--android:paddingLeft="@dimen/padding_medium"-->
+                <!--android:paddingStart="@dimen/padding_medium"-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutX10Dimmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
+
+                <Button
+                    android:id="@+id/buttonStatusPuzzleboxGimmickX10Dim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@drawable/shape_rounded_corners_grey"
+                    android:maxLines="1"
+                    android:text="@string/buttonStatusPuzzleboxGimmickX10Dim"/>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="10dp"
+                    android:layout_height="0dp" />
+
+                <Button
+                    android:id="@+id/buttonStatusPuzzleboxGimmickX10Bright"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@drawable/shape_rounded_corners_grey"
+                    android:maxLines="1"
+                    android:text="@string/buttonStatusPuzzleboxGimmickX10Bright"
+                    android:paddingStart="@dimen/padding_medium"/>
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+
+                <ImageView
+                    android:id="@+id/imageViewPuzzleboxGimmick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginTop="30dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/label_puzzlebox_gimmick_contact_quality"
+                    android:src="@drawable/carousel_x10_transceiver" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>
+
+    <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context="io.puzzlebox.jigsaw.ui.DialogProfilePuzzleboxGimmickX10TransceiverFragment">-->
+
+    <!--&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:text="@string/hello_blank_fragment" />-->
+
+    <!--</FrameLayout>-->

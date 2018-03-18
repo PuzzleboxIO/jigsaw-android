@@ -13,10 +13,10 @@
     <string name="scan_disconnected">Disconnected from Gimmick</string>/
 
     <string name="label_puzzlebox_gimmick_connect">Connect to Device</string>
-    <string name="buttonStatusPuzzleboxGimmickConnect">Connect</string>
+    <string name="buttonStatusPuzzleboxGimmickConnect">Search</string>
     <string name="buttonStatusPuzzleboxGimmickDisconnect">Disconnect</string>
     <string name="buttonStatusPuzzleboxGimmickConnecting">Connecting</string>
-    <string name="buttonStatusPuzzleboxGimmickNotFound">EEG Not Found</string>
+    <string name="buttonStatusPuzzleboxGimmickNotFound">Not Found</string>
 
     <string name="label_puzzlebox_gimmick_contact_quality">Contact Quality</string>
 

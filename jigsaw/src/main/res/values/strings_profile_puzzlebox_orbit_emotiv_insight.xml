@@ -18,4 +18,6 @@
 
     <string name="label_puzzlebox_orbit_emotiv_insight_contact_quality">Contact Quality</string>
 
+    <string name="label_puzzlebox_orbit_emotiv_insight_throttle">Throttle:</string>
+
 </resources>

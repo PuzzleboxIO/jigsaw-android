@@ -114,6 +114,9 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
             }
         });
 
+//        buttonDeviceEnable.setVisibility(View.VISIBLE);
+//        buttonDeviceEnable.setEnabled(true);
+
 
 
 //        imageViewPuzzleboxGimmick = v.findViewById(R.id.imageViewPuzzleboxGimmick);
@@ -198,7 +201,8 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
         intent.putExtra("id", profileID);
         intent.putExtra("name", "active");
         intent.putExtra("value", value);
-        intent.putExtra("category", "inputs");
+        intent.putExtra("category", "outputs");
+//        intent.putExtra("category", "inputs");
 
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
 
@@ -272,13 +276,13 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
             String name = intent.getStringExtra("name");
             String value = intent.getStringExtra("value");
 
-            if (! name.equals("populateSelectEEG")) {
+            if (! name.equals("populateSelectGimmick")) {
                 Log.d(TAG, "[" + name + "]: " + value);
             }
 
             switch(name) {
 
-                case "populateSelectEEG":
+                case "populateSelectGimmick":
 //                    populateSelectEEG(); // TODO
                     break;
 
@@ -347,7 +351,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
     // ################################################################
 
-//    public void onSelectGimmickItem(Integer deviceNumber) {
+    //    public void onSelectGimmickItem(Integer deviceNumber) {
     public void onSelectGimmickItem(String deviceNumber) {
 
         Log.i(TAG, "Selecting Gimmick: " + deviceNumber);
@@ -355,13 +359,10 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 //        if (deviceNumber != -1) { // TODO
 ////            DeviceEmotivInsightSingleton.getInstance().connectEmotivInsight(deviceNumber); // TODO
 ////                    textViewScanTitle.setText(getResources().getString(R.string.scan_connecting));
-                    buttonConnectGimmick.setText(getResources().getString(R.string.buttonStatusPuzzleboxGimmickConnecting));
+        buttonConnectGimmick.setText(getResources().getString(R.string.buttonStatusPuzzleboxGimmickConnecting));
 
-//        broadcastCommandBluetooth("connect", deviceSelection);
+//        broadcastCommandBluetooth("connect", deviceNumber);
         broadcastCommandBluetooth("connect", deviceNumber);
-//        broadcastCommandBluetooth("connect", deviceNumber.toString());
-//        broadcastCommandBluetooth("connect", "["  + deviceNumber + "]");
-//        }
 
         // Dismiss dialog
         DialogOutputPuzzleboxGimmickSelectFragment mSelectGimmick = (DialogOutputPuzzleboxGimmickSelectFragment) getActivity().getSupportFragmentManager().findFragmentByTag("mSelectGimmick");
@@ -370,6 +371,9 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
             mSelectGimmick.dismiss();
 
         DevicePuzzleboxGimmickSingleton.getInstance().selectGimmickDialogVisible = false;
+
+        buttonDeviceEnable.setVisibility(View.VISIBLE);
+        buttonDeviceEnable.setEnabled(true);
 
     }
 
@@ -522,7 +526,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 //	################################################################
 
 
-        public void disconnectGimmick() {
+    public void disconnectGimmick() {
 
 		/*
 		 * Called when "Disconnect" button is pressed

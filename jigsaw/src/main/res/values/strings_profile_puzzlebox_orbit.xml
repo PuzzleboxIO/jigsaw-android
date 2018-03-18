@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_dialog_fragment_puzzlebox_orbit">Puzzlebox Orbit</string>
+    <string name="label_puzzlebox_orbit_instruction">Brain-Controlled Helicopter</string>
+
+    <string name="button_connect">Activate Orbit</string>
+    <string name="button_disconnect">Deactivate Orbit</string>
+    <string name="button_test_fly">Test Flight</string>
+    <string name="button_stop_test">Land</string>
+    <string name="button_reset">Reset</string>
+
+    <string name="textview_label_scores">Scores</string>
+    <string name="textview_label_score">Current Score: </string>
+    <string name="textview_label_score_small">Current:</string>
+    <string name="textview_score">0</string>
+    <string name="textview_label_last_score">Last Score: </string>
+    <string name="textview_label_last_score_small">Last:</string>
+    <string name="textview_last_score">0</string>
+    <string name="textview_label_high_score">High Score: </string>
+    <string name="textview_label_high_score_small">High:</string>
+    <string name="textview_high_score">0</string>
+
+    <string name="image_description_status">Status</string>
+
+</resources>

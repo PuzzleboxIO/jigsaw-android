@@ -1,31 +1,21 @@
 package io.puzzlebox.jigsaw.ui;
 
 import android.bluetooth.le.ScanResult;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
 import io.puzzlebox.jigsaw.R;
-import io.puzzlebox.jigsaw.data.DeviceEmotivInsightSingleton;
 import io.puzzlebox.jigsaw.data.DevicePuzzleboxGimmickSingleton;
 
 public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
@@ -62,7 +52,7 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_dialog_output_puzzlebox_gimmick_select, null);
+        View v = inflater.inflate(R.layout.dialog_output_puzzlebox_gimmick_select, null);
 
         Button buttonRefresh = v.findViewById(R.id.buttonRefresh);
         buttonRefresh.setOnClickListener(new View.OnClickListener() {

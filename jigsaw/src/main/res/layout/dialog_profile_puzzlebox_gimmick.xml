@@ -1,0 +1,344 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="10dp"
+    android:orientation="vertical"
+    tools:context="io.puzzlebox.jigsaw.ui.DialogProfilePuzzleboxGimmickFragment">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/textViewInstruction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_medium"
+                style="@style/DialogStyle"
+                android:text="@string/label_puzzlebox_orbit_instruction" />
+
+
+            <ImageView
+                android:id="@+id/imageViewStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="78dp"
+                android:contentDescription="@string/image_description_status"
+                android:maxHeight="20dp"
+                android:src="@drawable/status_default"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/layoutScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="start"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textViewLabelScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/padding_medium"
+                            android:paddingLeft="@dimen/padding_medium"
+                            android:paddingRight="@dimen/padding_medium"
+                            android:text="@string/textview_label_score"/>
+
+                        <TextView
+                            android:id="@+id/textViewScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/padding_medium"
+                            android:paddingLeft="@dimen/padding_medium"
+                            android:paddingRight="@dimen/padding_medium"
+                            android:text="@string/textview_score"/>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="start"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textViewLabelLastScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/padding_medium"
+                            android:paddingLeft="@dimen/padding_medium"
+                            android:paddingRight="@dimen/padding_medium"
+                            android:text="@string/textview_label_last_score"/>
+
+                        <TextView
+                            android:id="@+id/textViewLastScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/padding_medium"
+                            android:paddingLeft="@dimen/padding_medium"
+                            android:paddingRight="@dimen/padding_medium"
+                            android:text="@string/textview_last_score"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="start"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textViewLabelHighScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/padding_medium"
+                            android:paddingLeft="@dimen/padding_medium"
+                            android:paddingRight="@dimen/padding_medium"
+                            android:text="@string/textview_label_high_score"/>
+
+                        <TextView
+                            android:id="@+id/textViewHighScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/padding_medium"
+                            android:paddingLeft="@dimen/padding_medium"
+                            android:paddingRight="@dimen/padding_medium"
+                            android:text="@string/textview_high_score"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="64dp"
+                    android:layout_height="0dp"
+                    />
+                <!--android:visibility="gone"-->
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    >
+                    <!--android:visibility="gone"-->
+
+                    <!--<Button-->
+                    <!--android:id="@+id/buttonConnectOrbit"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:background="@drawable/shape_rounded_corners_grey"-->
+                    <!--android:text="@string/button_stop_test"-->
+                    <!--/>-->
+                    <!--&lt;!&ndash;android:text="@string/button_connect"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:visibility="gone"&ndash;&gt;-->
+
+                    <Button
+                        android:id="@+id/buttonTestFlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/shape_rounded_corners_grey"
+                        android:text="@string/button_test_fly"
+                        android:visibility="gone"
+                        />
+
+                    <Space
+                        android:layout_width="16dp"
+                        android:layout_height="0dp"
+                        android:visibility="gone"
+                        />
+
+                    <Button
+                        android:id="@+id/buttonResetFlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/shape_rounded_corners_grey"
+                        android:text="@string/button_reset"
+                        android:visibility="visible"
+                        />
+                    <!--android:visibility="gone"-->
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewLabelAttention"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_medium"
+                android:text="@string/label_attention"
+                android:paddingTop="20dp"
+                />
+
+            <ProgressBar
+                android:id="@+id/progressBarAttention"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dip"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_medium"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <SeekBar
+                android:id="@+id/seekBarAttention"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="72"
+                android:layout_marginLeft="@dimen/padding_large"
+                android:layout_marginRight="@dimen/padding_large"/>
+
+            <TextView
+                android:id="@+id/textViewLabelMeditation"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_medium"
+                android:text="@string/label_meditation" />
+
+            <ProgressBar
+                android:id="@+id/progressBarMeditation"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dip"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_medium"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <SeekBar
+                android:id="@+id/seekBarMeditation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="0"
+                android:layout_marginLeft="@dimen/padding_large"
+                android:layout_marginRight="@dimen/padding_large"/>
+
+            <TextView
+                android:id="@+id/textViewLabelSignal"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_medium"
+                android:text="@string/label_signal" />
+
+            <ProgressBar
+                android:id="@+id/progressBarSignal"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dip"
+                android:paddingLeft="@dimen/padding_small"
+                android:paddingRight="@dimen/padding_small"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:id="@+id/textViewLabelPower"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_medium"
+                android:text="@string/label_power" />
+
+            <ProgressBar
+                android:id="@+id/progressBarPower"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dip"
+                android:paddingLeft="@dimen/padding_small"
+                android:paddingRight="@dimen/padding_small"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layoutDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="10dp">
+
+        <Button
+            android:id="@+id/buttonDeviceCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
+            android:background="@drawable/shape_rounded_corners_grey"
+            android:text="@string/buttonDeviceBack"/>
+
+        <Space
+            android:layout_height="0dp"
+            android:layout_width="30dp"
+            />
+
+        <Button
+            android:id="@+id/buttonDeviceEnable"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_rounded_corners_grey"
+            android:enabled="false"
+            android:visibility="invisible"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
+            android:text="@string/buttonDeviceBack"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

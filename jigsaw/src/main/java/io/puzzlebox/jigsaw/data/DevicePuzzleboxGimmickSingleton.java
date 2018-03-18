@@ -12,6 +12,9 @@ public class DevicePuzzleboxGimmickSingleton {
 
 	private static final String TAG = DevicePuzzleboxGimmickSingleton.class.getSimpleName();
 
+	public String x10ID = "C5";
+	public int x10Level = 0;
+
 //	public List<String> detectedDevices = new ArrayList<>();
 	public boolean lock = false;
 	public boolean selectGimmickDialogVisible = false;

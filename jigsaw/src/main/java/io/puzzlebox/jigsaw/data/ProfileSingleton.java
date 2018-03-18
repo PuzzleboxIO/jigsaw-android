@@ -301,7 +301,7 @@ public class ProfileSingleton {
 					if (map.get("id").equals(name)) {
 //						Log.e(TAG, "(map.get(\"id\").equals(" + name + "))");
 						inputsActive[j] = (isActive("inputs", k));
-//						Log.e(TAG, "inputsActive[" + j + "]: " + inputsActive[j]);
+						Log.e(TAG, "inputsActive[" + j + "]: " + inputsActive[j]);
 					}
 					++k;
 				}
@@ -315,20 +315,28 @@ public class ProfileSingleton {
 					if (map.get("id").equals(name)) {
 //						Log.e(TAG, "(map.get(\"id\").equals(" + name + "))");
 						outputsActive[j] = (isActive("outputs", k));
-//						Log.e(TAG, "outputsActive[" + j + "]: " + outputsActive[j]);
+						Log.e(TAG, "outputsActive[" + j + "]: " + outputsActive[j]);
 					}
 					++k;
 				}
 				++j;
 			}
 
+
 			Boolean allAvailable = true;
-			for (Boolean check : inputsActive)
-				if (!check)
-					allAvailable = false;
-			for (Boolean check : outputsActive)
-				if (!check)
-					allAvailable = false;
+
+			try {
+				for (Boolean check : inputsActive)
+					if (!check)
+						allAvailable = false;
+				for (Boolean check : outputsActive)
+					if (!check)
+						allAvailable = false;
+			} catch (Exception e) {
+				// TODO 2018-03-14
+				allAvailable = false;
+				Log.e(TAG, "Exception parsing inputsActive/outputsActive: " + e.toString());
+			}
 
 			if (allAvailable) {
 				profiles.get(index).put("status", "available");

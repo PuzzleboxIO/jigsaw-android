@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.1'
+    compileSdkVersion 26
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "io.puzzlebox.jigsaw.android"
@@ -11,9 +11,9 @@ android {
 //        minSdkVersion 16 // API 4.1 [Manifest.permission.READ_EXTERNAL_STORAGE]
 //        minSdkVersion 18 // API 4.3 [Emotiv Community SDK]
         minSdkVersion 21 // 5.x - required for ScanResult.getDevice()
-        targetSdkVersion 27
-        versionCode 5
-        versionName "2.0.2"
+        targetSdkVersion 26
+        versionCode 6
+        versionName "2.2.0"
     }
     buildTypes {
         release {

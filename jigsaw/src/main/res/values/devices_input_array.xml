@@ -30,8 +30,8 @@
 
     <!-- Array of input devices Product names -->
     <string-array name="devices_input_product_array">
-        <item>Mindwave Mobile</item>
         <item>Steering</item>
+        <item>Mindwave Mobile</item>
         <item>Insight</item>
         <!--<item>Wear</item>-->
         <!--<item>Cyton 8 Channel</item>-->

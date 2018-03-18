@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.1'
+    compileSdkVersion 26
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "io.puzzlebox.jigsaw.android"
 //        minSdkVersion 20
         minSdkVersion 21 // 5.x - required for ScanResult.getDevice()
-        targetSdkVersion 27
+        targetSdkVersion 26
         versionCode 3
         versionName "1.2.0"
     }
@@ -23,8 +23,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-//    compile 'com.google.android.support:wearable:1.4.0'
-//    compile 'com.google.android.gms:play-services-wearable:9.8.0'
-    compile 'com.google.android.support:wearable:2.1.0'
-    compile 'com.google.android.gms:play-services-wearable:11.6.0'
+    provided 'com.google.android.wearable:wearable:2.2.0'
+    compile 'com.google.android.support:wearable:2.2.0'
+    compile 'com.google.android.gms:play-services-wearable:11.8.0'
 }

@@ -33,26 +33,26 @@
         <!-- </activity> -->
 
         <service
-            android:name=".protocol.ThinkGearService"
+            android:name=".service.NeuroSkyThinkGearService"
             android:enabled="true"
             android:exported="false"/>
 
         <service
-            android:name=".protocol.EmotivInsightService"
+            android:name=".service.EmotivInsightService"
             android:enabled="true"
             android:exported="false"/>
 
         <!--<service-->
-            <!--android:name=".protocol.MuseService"-->
+            <!--android:name=".service.InteraXonMuseService"-->
             <!--android:enabled="true"-->
             <!--android:exported="false"/>-->
 
         <!-- <service -->
-        <!-- android:name=".protocol.RBLService" -->
+        <!-- android:name=".service.RedBearLabsService" -->
         <!-- android:enabled="true"/> -->
 
         <service
-            android:name=".services.BluetoothService"
+            android:name=".service.PuzzleboxGimmickBluetoothService"
             android:enabled="true"
             android:exported="false"/>
 

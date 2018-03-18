@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Array of device profiles resource IDs -->
     <string-array name="devices_profile_array">
-        <!--<item>profile_puzzlebox_orbit_mobile_edition</item>-->
+        <item>profile_puzzlebox_gimmick</item>
+        <item>profile_puzzlebox_gimmick_x10_transceiver</item>
+        <item>profile_puzzlebox_orbit_joystick</item>
+        <item>profile_puzzlebox_orbit_mobile_edition</item>
+        <item>profile_puzzlebox_orbit_joystick_mindwave</item>
+        <item>profile_puzzlebox_orbit_emotiv_insight</item>
     </string-array>
 
 </resources>

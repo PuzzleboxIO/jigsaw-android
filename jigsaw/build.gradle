@@ -11,14 +11,14 @@ android {
 //        minSdkVersion 18 // API 4.3 [Emotiv Community SDK]
         minSdkVersion 21 // 5.x - required for ScanResult.getDevice()
         targetSdkVersion 26
-        versionCode 5
-        versionName "2.0.2"
+        versionCode 6
+        versionName "2.2.0"
     }
 
     buildTypes {
-        debug {
-            debuggable true
-        }
+//        debug {
+//            debuggable true
+//        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

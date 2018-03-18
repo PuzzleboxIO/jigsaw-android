@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_dialog_fragment_puzzlebox_orbit_joystick">Puzzlebox Orbit</string>
+    <string name="label_puzzlebox_orbit_joystick_instruction">Joystick Steering</string>
+    <string name="toast_puzzlebox_orbit_joystick_audio_ir_warning">Warning: Audio IR transmitter not enabled</string>
+
+    <string name="textview_throttle">Throttle</string>
+    <string name="textview_yaw">Yaw</string>
+    <string name="textview_pitch">Pitch</string>
+</resources>

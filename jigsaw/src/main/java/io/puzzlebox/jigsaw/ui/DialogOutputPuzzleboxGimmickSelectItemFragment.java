@@ -72,7 +72,7 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_dialog_output_puzzlebox_gimmick_select_item, container, false);
+        View v = inflater.inflate(R.layout.dialog_output_puzzlebox_gimmick_select_item, container, false);
 
         mId = mParamInsightId; // we use a separate variable here because parameters may overwrite each other
 

@@ -1,0 +1,190 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:padding="10dp"
+              android:orientation="vertical"
+              tools:context="io.puzzlebox.jigsaw.ui.DialogProfilePuzzleboxOrbitJoystickFragment">
+
+    <TextView
+        android:id="@+id/textViewLabelPuzzleboxOrbitJoystickInstruction"
+        style="@style/DialogStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="10dp"
+        android:paddingStart="@dimen/padding_medium"
+        android:paddingLeft="@dimen/padding_medium"
+        android:paddingEnd="@dimen/padding_medium"
+        android:text="@string/label_puzzlebox_orbit_joystick_instruction"/>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--<TextView-->
+                <!--android:id="@+id/textViewInstruction"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:paddingStart="@dimen/padding_medium"-->
+                <!--android:paddingLeft="@dimen/padding_medium"-->
+                <!--android:paddingRight="@dimen/padding_medium"-->
+                <!--style="@style/DialogStyle"-->
+                <!--android:text="@string/label_puzzlebox_orbit_joystick_instruction" />-->
+            <!--&lt;!&ndash;style="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"&ndash;&gt;-->
+
+            <LinearLayout
+                android:id="@+id/layoutJoystick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textViewThrottle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:paddingLeft="@dimen/padding_medium"
+                    android:paddingRight="@dimen/padding_medium"
+                    android:text="@string/textview_throttle" />
+
+                <SeekBar
+                    android:id="@+id/seekBarThrottle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="127"
+                    android:progress="0" />
+
+                <TextView
+                    android:id="@+id/textViewYaw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:paddingLeft="@dimen/padding_medium"
+                    android:paddingRight="@dimen/padding_medium"
+                    android:text="@string/textview_yaw" />
+
+                <SeekBar
+                    android:id="@+id/seekBarYaw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="127"
+                    android:progress="49" />
+
+                <TextView
+                    android:id="@+id/textViewPitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:paddingLeft="@dimen/padding_medium"
+                    android:paddingRight="@dimen/padding_medium"
+                    android:text="@string/textview_pitch" />
+
+                <SeekBar
+                    android:id="@+id/seekBarPitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="63"
+                    android:progress="31" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linearLayoutJoysticks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                >
+                <!--android:layout_width="match_parent"-->
+
+                <io.puzzlebox.jigsaw.ui.JoystickView
+                    xmlns:custom="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/joystickViewThrottle"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
+                    android:layout_gravity="end"
+                    custom:JV_buttonColor="#ff0000"
+                    custom:JV_borderColor="#000478"
+                    custom:JV_backgroundColor="#0000ff"
+                    custom:JV_borderWidth="5dp"
+                    custom:JV_fixedCenter="true"/>
+                    <!--custom:JV_fixedCenter="false"/>-->
+                <!--android:layout_gravity="start"-->
+                <!--android:layout_gravity="end"-->
+
+                <io.puzzlebox.jigsaw.ui.JoystickView
+                    xmlns:custom="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/joystickViewYawPitch"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
+                    android:layout_gravity="start"
+                    custom:JV_buttonColor="#ff0000"
+                    custom:JV_borderColor="#000478"
+                    custom:JV_backgroundColor="#0000ff"
+                    custom:JV_borderWidth="5dp"
+                    custom:JV_fixedCenter="true"/>
+                    <!--custom:JV_fixedCenter="false"/>-->
+                <!--android:layout_gravity="start"-->
+                <!--android:layout_gravity="end"-->
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layoutDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="10dp">
+
+        <!--style="@style/button_text"-->
+        <Button
+            android:id="@+id/buttonDeviceCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
+            android:background="@drawable/shape_rounded_corners_grey"
+            android:text="@string/buttonDeviceBack"
+            />
+            <!--android:text="@string/buttonDeviceCancel"/>-->
+
+        <View
+            android:layout_height="0dp"
+            android:layout_width="30dp"
+            />
+
+        <!--style="@style/button_text"-->
+        <Button
+            android:id="@+id/buttonDeviceEnable"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_rounded_corners_grey"
+            android:enabled="false"
+            android:visibility="invisible"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
+            android:text="@string/buttonDeviceEnable"
+            />
+        <!--android:text="@string/buttonDeviceEnable"-->
+        <!--android:enabled="false"-->
+        <!--android:visibility="invisible"-->
+
+    </LinearLayout>
+
+</LinearLayout>

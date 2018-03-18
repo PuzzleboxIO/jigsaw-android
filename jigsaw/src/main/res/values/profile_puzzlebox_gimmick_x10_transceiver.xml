@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_puzzlebox_gimmick_x10_transceiver_title">X10 Transceiver</string>
+
+    <string name="profile_puzzlebox_gimmick_x10_transceiver_icon">carousel_x10_transceiver</string>
+
+    <string name="profile_puzzlebox_gimmick_x10_transceiver_company">X10</string>
+    <string name="profile_puzzlebox_gimmick_x10_transceiver_product">Transceiver</string>
+
+    <string-array name="profile_puzzlebox_gimmick_x10_transceiver_input">
+        <item>joystick</item>
+    </string-array>
+
+    <string-array name="profile_puzzlebox_gimmick_x10_transceiver_output">
+        <item>puzzlebox_gimmick</item>
+    </string-array>
+</resources>

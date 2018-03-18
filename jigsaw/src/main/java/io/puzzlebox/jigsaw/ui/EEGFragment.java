@@ -46,14 +46,15 @@ import com.androidplot.xy.XYPlot;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
-//import io.puzzlebox.jigsaw.protocol.CreateSessionFileInGoogleDrive;
+//import io.puzzlebox.jigsaw.protocol.SessionFileGoogleDrive;
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
 // TODO 2017-02-15 Disable Muse
-//import io.puzzlebox.jigsaw.protocol.MuseService;
+//import io.puzzlebox.jigsaw.service.InteraXonMuseService;
 
-import io.puzzlebox.jigsaw.protocol.ThinkGearService;
+//import io.puzzlebox.jigsaw.protocol.NeuroSkyThinkGearService;
+import io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 
@@ -62,6 +63,7 @@ public class EEGFragment extends Fragment implements
 
 	/**
 	 * TODO
+	 * 
 	 * - Progress Bars colors no longer edge-to-edge
 	 * - Power calculation not appearing in exported CSV files
 	 */
@@ -194,7 +196,7 @@ public class EEGFragment extends Fragment implements
 		progressBarBlink.setProgressDrawable(progressRange);
 		progressBarBlink.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarBlink.setMax(ThinkGearService.blinkRangeMax);
+		progressBarBlink.setMax(NeuroSkyThinkGearService.blinkRangeMax);
 
 
 		// setup the Raw EEG History plot
@@ -210,12 +212,12 @@ public class EEGFragment extends Fragment implements
 		if (eegRawHistoryPlot != null) {
 
 //			eegRawHistoryPlot.setDomainBoundaries(0, EEG_RAW_HISTORY_SIZE, BoundaryMode.FIXED);
-//			eegRawHistoryPlot.setDomainBoundaries(0, ThinkGearService.EEG_RAW_HISTORY_SIZE, BoundaryMode.FIXED);
+//			eegRawHistoryPlot.setDomainBoundaries(0, NeuroSkyNeuroSkyThinkGearService.EEG_RAW_HISTORY_SIZE, BoundaryMode.FIXED);
 			//		eegRawHistoryPlot.setDomainBoundaries(0, EEG_RAW_HISTORY_SIZE, BoundaryMode.AUTO);
 			//		eegRawHistoryPlot.setRangeBoundaries(-32767, 32767, BoundaryMode.FIXED);
 			//		eegRawHistoryPlot.setRangeBoundaries(-32767, 32767, BoundaryMode.AUTO);
 //			eegRawHistoryPlot.setRangeBoundaries(-256, 256, BoundaryMode.GROW);
-			eegRawHistoryPlot.setDomainBoundaries(0, ThinkGearService.EEG_RAW_FREQUENCY, BoundaryMode.FIXED);
+			eegRawHistoryPlot.setDomainBoundaries(0, NeuroSkyThinkGearService.EEG_RAW_FREQUENCY, BoundaryMode.FIXED);
 			eegRawHistoryPlot.setRangeBoundaries(0, 1, BoundaryMode.GROW);
 
 			eegRawHistoryPlot.addSeries(eegRawHistorySeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
@@ -263,11 +265,11 @@ public class EEGFragment extends Fragment implements
 
 		String[] items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InteraXon Muse"};
 
-//		if (ThinkGearService.eegConnected || ThinkGearService.eegConnecting)
+//		if (NeuroSkyNeuroSkyThinkGearService.eegConnected || NeuroSkyNeuroSkyThinkGearService.eegConnecting)
 //			items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InteraXon Muse"};
 
 		// TODO 2017-02-15 Disable Muse
-//		if (MuseService.eegConnected || MuseService.eegConnecting)
+//		if (InteraXonMuseService.eegConnected || InteraXonMuseService.eegConnecting)
 //			items = new String[] {"InteraXon Muse", "Emotiv Insight", "NeuroSky MindWave Mobile"};
 
 		spinnerEEG = (Spinner) v.findViewById(R.id.spinnerEEG);
@@ -300,13 +302,13 @@ public class EEGFragment extends Fragment implements
 			}
 		});
 
-		if (ThinkGearService.eegConnected ) {
+		if (NeuroSkyThinkGearService.eegConnected ) {
 			connectEEG.setText("Disconnect EEG");
 			spinnerEEG.setEnabled(false);
 		}
 
 		// TODO 2017-02-15 Disable Muse
-//		if (MuseService.eegConnected) {
+//		if (InteraXonMuseService.eegConnected) {
 //			buttonConnectEEG.setText("Disconnect EEG");
 ////			spinnerEEG.setSelection(spinnerEEG.getPosition(DEFAULT_CURRENCY_TYPE));
 ////			spinnerEEG.setSelection(spinnerEEG.getAdapter(). .getPosition(DEFAULT_CURRENCY_TYPE));
@@ -319,7 +321,7 @@ public class EEGFragment extends Fragment implements
 //			@Override
 //			public void onClick(View v) {
 //
-//				Intent intent = new Intent(getActivity(), CreateSessionFileInGoogleDrive.class);
+//				Intent intent = new Intent(getActivity(), SessionFileGoogleDrive.class);
 //				startActivity(intent);
 //
 ////				Toast.makeText((getActivity()),
@@ -354,10 +356,10 @@ public class EEGFragment extends Fragment implements
 		});
 
 
-		intentThinkGear = new Intent(getActivity(), ThinkGearService.class);
+		intentThinkGear = new Intent(getActivity(), NeuroSkyThinkGearService.class);
 
 		// TODO 2017-02-15 Disable Muse
-//		intentMuse = new Intent(getActivity(), MuseService.class);
+//		intentMuse = new Intent(getActivity(), InteraXonMuseService.class);
 
 
 		/**
@@ -646,7 +648,7 @@ public class EEGFragment extends Fragment implements
 		switch (String.valueOf(spinnerEEG.getSelectedItem())) {
 
 			case "NeuroSky MindWave Mobile":
-				if (! ThinkGearService.eegConnected) {
+				if (! NeuroSkyThinkGearService.eegConnected) {
 					getActivity().startService(intentThinkGear);
 				} else {
 					disconnectHeadset();
@@ -661,7 +663,7 @@ public class EEGFragment extends Fragment implements
 //			case "InteraXon Muse":
 //
 //				if (enableMuse) {
-//					if (!MuseService.eegConnected) {
+//					if (!InteraXonMuseService.eegConnected) {
 //						getActivity().startService(intentMuse);
 //					} else {
 //						disconnectHeadset();
@@ -692,7 +694,7 @@ public class EEGFragment extends Fragment implements
 		switch (String.valueOf(spinnerEEG.getSelectedItem())) {
 
 			case "NeuroSky MindWave Mobile":
-				ThinkGearService.disconnectHeadset();
+				NeuroSkyThinkGearService.disconnectHeadset();
 				getActivity().stopService(intentThinkGear);
 				break;
 
@@ -703,7 +705,7 @@ public class EEGFragment extends Fragment implements
 			// TODO 2017-02-15 Disable Muse
 //			case "InteraXon Muse":
 //				if (enableMuse) {
-//					MuseService.disconnectHeadset();
+//					InteraXonMuseService.disconnectHeadset();
 //					getActivity().stopService(intentMuse);
 //				} else {
 //					Toast.makeText(getActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
@@ -854,36 +856,36 @@ public class EEGFragment extends Fragment implements
 //			progressBarMeditation.setProgress(eegMeditation);
 //		}
 
-		if (ThinkGearService.eegConnected) {
+		if (NeuroSkyThinkGearService.eegConnected) {
 
-			if (ThinkGearService.eegSignal < 100) {
-				ThinkGearService.eegAttention = 0;
-				ThinkGearService.eegMeditation = 0;
-				progressBarAttention.setProgress(ThinkGearService.eegAttention);
-				progressBarMeditation.setProgress(ThinkGearService.eegMeditation);
+			if (NeuroSkyThinkGearService.eegSignal < 100) {
+				NeuroSkyThinkGearService.eegAttention = 0;
+				NeuroSkyThinkGearService.eegMeditation = 0;
+				progressBarAttention.setProgress(NeuroSkyThinkGearService.eegAttention);
+				progressBarMeditation.setProgress(NeuroSkyThinkGearService.eegMeditation);
 			}
 
-			ThinkGearService.eegPower = calculateSpeed();
+			NeuroSkyThinkGearService.eegPower = calculateSpeed();
 
-			progressBarPower.setProgress(ThinkGearService.eegPower);
+			progressBarPower.setProgress(NeuroSkyThinkGearService.eegPower);
 
 
 		}
 
 		// TODO 2017-02-15 Disable Muse
-//		if (MuseService.eegConnected) {
+//		if (InteraXonMuseService.eegConnected) {
 //
-////			Log.d(TAG, "MuseService.eegConnected: eegSignal: " + MuseService.eegSignal);
-////			if (MuseService.eegSignal < 100) {
-////				MuseService.eegConcentration = 0;
-////				MuseService.eegMellow = 0;
-////				progressBarAttention.setProgress(MuseService.eegConcentration);
-////				progressBarMeditation.setProgress(MuseService.eegMellow);
+////			Log.d(TAG, "InteraXonMuseService.eegConnected: eegSignal: " + InteraXonMuseService.eegSignal);
+////			if (InteraXonMuseService.eegSignal < 100) {
+////				InteraXonMuseService.eegConcentration = 0;
+////				InteraXonMuseService.eegMellow = 0;
+////				progressBarAttention.setProgress(InteraXonMuseService.eegConcentration);
+////				progressBarMeditation.setProgress(InteraXonMuseService.eegMellow);
 ////			}
 //
-//			MuseService.eegPower = calculateSpeed();
+//			InteraXonMuseService.eegPower = calculateSpeed();
 //
-//			progressBarPower.setProgress(MuseService.eegPower);
+//			progressBarPower.setProgress(InteraXonMuseService.eegPower);
 //
 //
 //		}
@@ -976,7 +978,7 @@ public class EEGFragment extends Fragment implements
 			progressBarSignal.setProgress(eegSignal);
 
 			updatePower();
-//			progressBarPower.setProgress(ThinkGearService.eegPower);
+//			progressBarPower.setProgress(NeuroSkyNeuroSkyThinkGearService.eegPower);
 
 			progressBarBlink.setProgress(0);
 

@@ -82,7 +82,7 @@ public class SessionSingleton {
 
 	public Integer[] getCurrentRawEEG() {
 
-//		int historySize = ThinkGearService.EEG_RAW_HISTORY_SIZE;
+//		int historySize = NeuroSkyThinkGearService.EEG_RAW_HISTORY_SIZE;
 		int historySize = frequencyRawEEG;
 
 		Integer[] currentEEG = new Integer[historySize];

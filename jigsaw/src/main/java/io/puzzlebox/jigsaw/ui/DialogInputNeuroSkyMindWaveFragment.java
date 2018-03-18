@@ -35,7 +35,7 @@ import java.util.Arrays;
 
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
-import io.puzzlebox.jigsaw.protocol.ThinkGearService;
+import io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService;
 
 public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
@@ -120,7 +120,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		progressBarBlink.setProgressDrawable(progressRange);
 		progressBarBlink.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarBlink.setMax(ThinkGearService.blinkRangeMax);
+		progressBarBlink.setMax(NeuroSkyThinkGearService.blinkRangeMax);
 
 
 		// setup the Raw EEG History plot
@@ -134,7 +134,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 		if (eegRawHistoryPlot != null) {
 
-			eegRawHistoryPlot.setDomainBoundaries(0, ThinkGearService.EEG_RAW_FREQUENCY, BoundaryMode.FIXED);
+			eegRawHistoryPlot.setDomainBoundaries(0, NeuroSkyThinkGearService.EEG_RAW_FREQUENCY, BoundaryMode.FIXED);
 			eegRawHistoryPlot.setRangeBoundaries(0, 1, BoundaryMode.GROW);
 
 			eegRawHistoryPlot.addSeries(eegRawHistorySeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
@@ -194,11 +194,11 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 
 
-		if (ThinkGearService.eegConnected ) {
+		if (NeuroSkyThinkGearService.eegConnected ) {
 			connectEEG.setText(R.string.buttonStatusNeuroSkyMindWaveDisconnect);
 		}
 
-		intentThinkGear = new Intent(getActivity(), ThinkGearService.class);
+		intentThinkGear = new Intent(getActivity(), NeuroSkyThinkGearService.class);
 
 
 		return v;
@@ -304,7 +304,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 		Log.v(TAG, "connectHeadset(): + spinnerEEG.getSelectedItem()");
 
-		if (! ThinkGearService.eegConnected) {
+		if (! NeuroSkyThinkGearService.eegConnected) {
 			getActivity().startService(intentThinkGear);
 		} else {
 			disconnectHeadset();
@@ -324,7 +324,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		Log.v(TAG, "disconnectHeadset()");
 
 
-		ThinkGearService.disconnectHeadset();
+		NeuroSkyThinkGearService.disconnectHeadset();
 		getActivity().stopService(intentThinkGear);
 
 
@@ -364,7 +364,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 			progressBarSignal.setProgress(eegSignal);
 
 			// TODO re-enable when extra safety desired
-//			if ((! buttonDeviceEnable.isEnabled()) && (eegSignal == ThinkGearService.signalSignalMax)) {
+//			if ((! buttonDeviceEnable.isEnabled()) && (eegSignal == NeuroSkyNeuroSkyThinkGearService.signalSignalMax)) {
 //				// This setting requires the quality of the EEG sensor's
 //				// contact with skin hit to 100% at least once since the
 //				// headset was last connected.
@@ -467,8 +467,8 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 				case "eegBlink":
 					Log.d(TAG, "Blink: " + value + "\n");
-					if (Integer.parseInt(value) > ThinkGearService.blinkRangeMax) {
-						value = "" + ThinkGearService.blinkRangeMax;
+					if (Integer.parseInt(value) > NeuroSkyThinkGearService.blinkRangeMax) {
+						value = "" + NeuroSkyThinkGearService.blinkRangeMax;
 					}
 					try {
 						progressBarBlink.setProgress(Integer.parseInt(value));

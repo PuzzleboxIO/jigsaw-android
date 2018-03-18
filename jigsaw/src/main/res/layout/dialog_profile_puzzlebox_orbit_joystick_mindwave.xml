@@ -1,0 +1,501 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:padding="10dp"
+              android:orientation="vertical"
+              tools:context="io.puzzlebox.jigsaw.ui.DialogProfilePuzzleboxOrbitJoystickMindwaveFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewInstruction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_medium"
+                style="@style/DialogStyle"
+                android:text="@string/label_puzzlebox_orbit_joystick_mindwave_instruction" />
+
+            <ImageView
+                android:id="@+id/imageViewStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="78dp"
+                android:contentDescription="@string/image_description_status"
+                android:maxHeight="20dp"
+                android:src="@drawable/status_default" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewLabelAttention"
+                        style="@android:style/TextAppearance.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding_medium"
+                        android:paddingLeft="@dimen/padding_medium"
+                        android:paddingRight="@dimen/padding_medium"
+                        android:text="@string/label_attention"/>
+
+                    <ProgressBar
+                        android:id="@+id/progressBarAttention"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dip"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:paddingStart="@dimen/padding_small"
+                        android:paddingLeft="@dimen/padding_small"
+                        android:paddingRight="@dimen/padding_small"
+                        />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Space/>
+
+                    <SeekBar
+                        android:id="@+id/seekBarAttention"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/padding_large"
+                        android:layout_marginRight="@dimen/padding_large"
+                        android:max="100"
+                        android:progress="72"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewLabelMeditation"
+                        style="@android:style/TextAppearance.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding_medium"
+                        android:paddingLeft="@dimen/padding_medium"
+                        android:paddingRight="@dimen/padding_medium"
+                        android:text="@string/label_meditation"/>
+
+                    <ProgressBar
+                        android:id="@+id/progressBarMeditation"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dip"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:paddingStart="@dimen/padding_small"
+                        android:paddingLeft="@dimen/padding_small"
+                        android:paddingRight="@dimen/padding_small"
+                        />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Space/>
+
+                    <SeekBar
+                        android:id="@+id/seekBarMeditation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/padding_large"
+                        android:layout_marginRight="@dimen/padding_large"
+                        android:max="100"
+                        android:progress="0"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewLabelSignal"
+                        style="@android:style/TextAppearance.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding_medium"
+                        android:paddingLeft="@dimen/padding_medium"
+                        android:paddingRight="@dimen/padding_medium"
+                        android:paddingTop="5dp"
+                        android:text="@string/label_signal"/>
+
+                    <ProgressBar
+                        android:id="@+id/progressBarSignal"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dip"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:paddingStart="@dimen/padding_small"
+                        android:paddingLeft="@dimen/padding_small"
+                        android:paddingRight="@dimen/padding_small"
+                        />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewLabelPower"
+                        style="@android:style/TextAppearance.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/padding_medium"
+                        android:paddingLeft="@dimen/padding_medium"
+                        android:paddingRight="@dimen/padding_medium"
+                        android:text="@string/label_power"/>
+
+                    <ProgressBar
+                        android:id="@+id/progressBarPower"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dip"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:paddingStart="@dimen/padding_small"
+                        android:paddingLeft="@dimen/padding_small"
+                        android:paddingRight="@dimen/padding_small"
+                        />
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:baselineAligned="false"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minHeight="150dp"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:visibility="visible">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="center_vertical|end"
+                    android:orientation="horizontal"
+                    >
+
+                    <io.puzzlebox.jigsaw.ui.JoystickView
+                        xmlns:custom="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/joystickView"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_gravity="end"
+                        custom:JV_backgroundColor="#0000ff"
+                        custom:JV_borderColor="#000478"
+                        custom:JV_borderWidth="5dp"
+                        custom:JV_buttonColor="#ff0000"
+                        custom:JV_fixedCenter="true"/>
+                    <!--android:layout_weight="1"-->
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutControls"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <Switch
+                        android:id="@+id/switchThrottlePitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:text="@string/label_puzzlebox_orbit_joystick_mindwave_switch_text"
+                        />
+                    <!--android:textOff="@string/label_puzzlebox_orbit_joystick_mindwave_switch_textOff"-->
+                    <!--android:textOn="@string/label_puzzlebox_orbit_joystick_mindwave_switch_textOn"/>-->
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/textViewThrottle"
+                                style="@android:style/TextAppearance.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/label_puzzlebox_orbit_joystick_mindwave_throttle"/>
+
+                            <SeekBar
+                                android:id="@+id/seekBarThrottle"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:max="127"
+                                android:progress="0"/>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/textViewYaw"
+                                style="@android:style/TextAppearance.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/label_puzzlebox_orbit_joystick_mindwave_yaw"/>
+
+                            <SeekBar
+                                android:id="@+id/seekBarYaw"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:max="127"
+                                android:progress="49"/>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/textViewPitch"
+                                style="@android:style/TextAppearance.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/label_puzzlebox_orbit_joystick_mindwave_pitch"/>
+
+                            <SeekBar
+                                android:id="@+id/seekBarPitch"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:max="63"
+                                android:progress="31"/>
+
+                        </TableRow>
+
+                    </TableLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/label_puzzlebox_orbit_joystick_mindwave_scores"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/DialogStyle"
+                            android:layout_gravity="start"
+                            android:gravity="start"
+                            android:text="@string/label_puzzlebox_orbit_joystick_mindwave_scores"/>
+
+                        <LinearLayout
+                            android:id="@+id/layoutScore"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:gravity="start"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/label_puzzlebox_orbit_joystick_mindwave_score_current"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:text="@string/label_puzzlebox_orbit_joystick_mindwave_score_current"/>
+                                <!--android:text="@string/textview_label_score"/>-->
+                            <!--android:id="@+id/textViewLabelScore"-->
+                            <!--android:paddingLeft="@dimen/padding_small"-->
+                            <!--android:paddingRight="@dimen/padding_small"-->
+                            <!--android:paddingStart="@dimen/padding_small"-->
+
+                            <TextView
+                                android:id="@+id/textViewScore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingLeft="@dimen/padding_medium"
+                                android:paddingRight="@dimen/padding_medium"
+                                android:paddingStart="@dimen/padding_medium"
+                                android:text="@string/textview_score"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="start"
+                            android:gravity="start"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/label_puzzlebox_orbit_joystick_mindwave_score_last"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:text="@string/label_puzzlebox_orbit_joystick_mindwave_score_last"/>
+                                <!--android:text="@string/textview_label_last_score"/>-->
+                            <!--android:id="@+id/textViewLabelLastScore"-->
+                            <!--android:paddingLeft="@dimen/padding_small"-->
+                            <!--android:paddingRight="@dimen/padding_small"-->
+                            <!--android:paddingStart="@dimen/padding_small"-->
+
+                            <TextView
+                                android:id="@+id/textViewLastScore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingLeft="@dimen/padding_medium"
+                                android:paddingRight="@dimen/padding_medium"
+                                android:paddingStart="@dimen/padding_medium"
+                                android:text="@string/textview_last_score"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="start"
+                            android:gravity="start"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/label_puzzlebox_orbit_joystick_mindwave_score_high"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:text="@string/label_puzzlebox_orbit_joystick_mindwave_score_high"/>
+                                <!--android:text="@string/textview_label_high_score"/>-->
+                            <!--android:id="@+id/textViewLabelHighScore"-->
+                            <!--android:paddingLeft="@dimen/padding_small"-->
+                            <!--android:paddingRight="@dimen/padding_small"-->
+                            <!--android:paddingStart="@dimen/padding_small"-->
+
+                            <TextView
+                                android:id="@+id/textViewHighScore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingLeft="@dimen/padding_medium"
+                                android:paddingRight="@dimen/padding_medium"
+                                android:paddingStart="@dimen/padding_medium"
+                                android:text="@string/textview_high_score"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="end"-->
+                    <!--android:gravity="center_vertical|end"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--&gt;-->
+
+                    <!--<io.puzzlebox.jigsaw.ui.JoystickView-->
+                        <!--xmlns:custom="http://schemas.android.com/apk/res-auto"-->
+                        <!--android:id="@+id/joystickView"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="200dp"-->
+                        <!--android:layout_gravity="end"-->
+                        <!--android:layout_weight="1"-->
+                        <!--custom:JV_backgroundColor="#0000ff"-->
+                        <!--custom:JV_borderColor="#000478"-->
+                        <!--custom:JV_borderWidth="5dp"-->
+                        <!--custom:JV_buttonColor="#ff0000"-->
+                        <!--custom:JV_fixedCenter="true"/>-->
+
+                <!--</LinearLayout>-->
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layoutDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="10dp">
+
+        <Button
+            android:id="@+id/buttonDeviceCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
+            android:background="@drawable/shape_rounded_corners_grey"
+            android:text="@string/buttonDeviceBack"
+            />
+
+        <View
+            android:layout_height="0dp"
+            android:layout_width="30dp"
+            />
+
+        <Button
+            android:id="@+id/buttonDeviceEnable"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_rounded_corners_grey"
+            android:enabled="false"
+            android:visibility="invisible"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
+            android:text="@string/buttonDeviceEnable"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
