@@ -114,36 +114,17 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
             }
         });
 
-//        buttonDeviceEnable.setVisibility(View.VISIBLE);
-//        buttonDeviceEnable.setEnabled(true);
 
-
-
-//        imageViewPuzzleboxGimmick = v.findViewById(R.id.imageViewPuzzleboxGimmick);
-
-//        intentEmotivInsight = new Intent(getActivity(), EmotivInsightService.class);
-
-
-
-
-//        textViewScanTitle = (TextView) v.findViewById(R.id.textViewScanTitle);
-
-//        Button buttonRefresh = (Button) v.findViewById(R.id.buttonRefresh);
-//        buttonRefresh.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d(TAG, "buttonRefresh");
-//                broadcastCommandBluetooth("scan", "true");
-//            }
-//        });
-
-//        ListView listView = v.findViewById(R.id.listView);
-//        listView.setAdapter(...);
-
+        if (! DevicePuzzleboxGimmickSingleton.getInstance().connected) {
+            buttonConnectGimmick.setText(R.string.buttonStatusPuzzleboxGimmickConnect);
+        } else {
+            buttonConnectGimmick.setText(R.string.buttonStatusPuzzleboxGimmickDisconnect);
+            buttonDeviceEnable.setVisibility(View.VISIBLE);
+            buttonDeviceEnable.setEnabled(true);
+        }
 
 
         displayDevicesFound();
-
 
 
         return v;
@@ -167,31 +148,6 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
     }
 
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-////        textViewScanTitle.setText(getResources().getString(R.string.scan_title));
-//
-//        LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
-//                mEventReceiver, new IntentFilter("io.puzlebox.jigsaw.protocol.bluetooth.event"));
-//
-//        broadcastCommandBluetooth("scan", "true");
-//
-//    }
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//
-//        broadcastCommandBluetooth("scan", "false");
-//
-//        LocalBroadcastManager.getInstance(
-//                getActivity().getApplicationContext()).unregisterReceiver(
-//                mEventReceiver);
-//
-//    }
-
-
     // ################################################################
 
     public void broadcastTileStatus(String value) {
@@ -211,18 +167,9 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
     // ################################################################
 
-
-
-
-    // ################################################################
-
     public void onPause() {
 
         super.onPause();
-
-//        LocalBroadcastManager.getInstance(
-//                getActivity().getApplicationContext()).unregisterReceiver(
-//                mSignalQualityReceiver);
 
         LocalBroadcastManager.getInstance(
                 getActivity()).unregisterReceiver(
@@ -308,6 +255,10 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
                                 break;
 
+                            case "connecting":
+                                buttonConnectGimmick.setText(getString(R.string.buttonStatusPuzzleboxGimmickConnecting));
+                                break;
+
                         }
 
                     }
@@ -356,12 +307,8 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
         Log.i(TAG, "Selecting Gimmick: " + deviceNumber);
 
-//        if (deviceNumber != -1) { // TODO
-////            DeviceEmotivInsightSingleton.getInstance().connectEmotivInsight(deviceNumber); // TODO
-////                    textViewScanTitle.setText(getResources().getString(R.string.scan_connecting));
         buttonConnectGimmick.setText(getResources().getString(R.string.buttonStatusPuzzleboxGimmickConnecting));
 
-//        broadcastCommandBluetooth("connect", deviceNumber);
         broadcastCommandBluetooth("connect", deviceNumber);
 
         // Dismiss dialog
@@ -372,13 +319,10 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
         DevicePuzzleboxGimmickSingleton.getInstance().selectGimmickDialogVisible = false;
 
-        buttonDeviceEnable.setVisibility(View.VISIBLE);
-        buttonDeviceEnable.setEnabled(true);
+//        buttonDeviceEnable.setVisibility(View.VISIBLE);
+//        buttonDeviceEnable.setEnabled(true);
 
     }
-
-    // ################################################################
-
 
 
     // ################################################################

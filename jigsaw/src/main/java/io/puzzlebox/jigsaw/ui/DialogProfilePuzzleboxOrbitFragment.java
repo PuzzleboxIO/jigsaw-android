@@ -29,11 +29,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import io.puzzlebox.jigsaw.data.DevicePuzzleboxGimmickSingleton;
 import io.puzzlebox.jigsaw.data.DevicePuzzleboxOrbitSingleton;
 import io.puzzlebox.jigsaw.data.ProfileSingleton;
 import io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService;
-import io.puzzlebox.jigsaw.service.PuzzleboxGimmickBluetoothService;
 import io.puzzlebox.jigsaw.R;
 
 import static io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService.eegConnected;
@@ -386,12 +384,6 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 
 			updatePower();
-
-
-//			Log.e(TAG, "Transmitting eegAttention");
-//			PuzzleboxGimmickBluetoothService.getInstance().commandGimmick(Integer.toString(eegAttention));
-			Log.e(TAG, "Transmitting eegSignal");
-			PuzzleboxGimmickBluetoothService.getInstance().commandGimmick(Integer.toString(eegSignal));
 
 
 		}
@@ -757,33 +749,32 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			NeuroSkyThinkGearService.eegPower = calculateSpeed();
 			eegPower = NeuroSkyThinkGearService.eegPower;
 
-			// TODO 2018-03-14
-//            progressBarPower.setProgress(NeuroSkyThinkGearService.eegPower);
+            progressBarPower.setProgress(NeuroSkyThinkGearService.eegPower);
 
-			if (eegPower > 0) {
-
-
-				if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level < 10) {
-					broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Bright");
-					DevicePuzzleboxGimmickSingleton.getInstance().x10Level++;
-				}
-
-
-			} else {
-
-				if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level > 0) {
-					broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Dim");
-					DevicePuzzleboxGimmickSingleton.getInstance().x10Level--;
-				}
-
-			}
-
-
-			progressBarPower.setProgress(DevicePuzzleboxGimmickSingleton.getInstance().x10Level * 10);
-
-
-//			broadcastCommandBluetooth("eSense", "Attention: " + NeuroSkyThinkGearService.eegAttention);
-			broadcastCommandBluetooth("attention", "" + NeuroSkyThinkGearService.eegAttention);
+//			if (eegPower > 0) {
+//
+//
+//				if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level < 10) {
+//					broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Bright");
+//					DevicePuzzleboxGimmickSingleton.getInstance().x10Level++;
+//				}
+//
+//
+//			} else {
+//
+//				if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level > 0) {
+//					broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Dim");
+//					DevicePuzzleboxGimmickSingleton.getInstance().x10Level--;
+//				}
+//
+//			}
+//
+//
+//			progressBarPower.setProgress(DevicePuzzleboxGimmickSingleton.getInstance().x10Level * 10);
+//
+//
+////			broadcastCommandBluetooth("eSense", "Attention: " + NeuroSkyThinkGearService.eegAttention);
+//			broadcastCommandBluetooth("attention", "" + NeuroSkyThinkGearService.eegAttention);
 
 
 		}

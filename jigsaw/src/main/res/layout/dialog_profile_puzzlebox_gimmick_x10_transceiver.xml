@@ -159,19 +159,43 @@
 
     </ScrollView>
 
+    <LinearLayout
+        android:id="@+id/layoutDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="10dp">
+
+        <Button
+            android:id="@+id/buttonDeviceCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
+            android:background="@drawable/shape_rounded_corners_grey"
+            android:text="@string/buttonDeviceBack"/>
+
+        <Space
+            android:layout_height="0dp"
+            android:layout_width="30dp"
+            />
+
+        <Button
+            android:id="@+id/buttonDeviceEnable"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_rounded_corners_grey"
+            android:enabled="false"
+            android:visibility="invisible"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
+            android:text="@string/buttonDeviceBack"
+            />
+
+    </LinearLayout>
 
 </LinearLayout>
 
-    <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--tools:context="io.puzzlebox.jigsaw.ui.DialogProfilePuzzleboxGimmickX10TransceiverFragment">-->
-
-    <!--&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="@string/hello_blank_fragment" />-->
-
-    <!--</FrameLayout>-->

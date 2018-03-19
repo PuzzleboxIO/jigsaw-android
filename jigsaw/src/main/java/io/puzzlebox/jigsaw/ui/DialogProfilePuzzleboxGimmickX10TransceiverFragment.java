@@ -50,14 +50,13 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
         View v = inflater.inflate(R.layout.dialog_profile_puzzlebox_gimmick_x10_transceiver, container, false);
 
         EditText editTextChannel = v.findViewById(R.id.editTextChannel);
-//        editTextChannel.setOn
+        editTextChannel.setText(DevicePuzzleboxGimmickSingleton.getInstance().x10ID);
 
         Button buttonStatusPuzzleboxGimmickX10Off = v.findViewById(R.id.buttonStatusPuzzleboxGimmickX10Off);
         buttonStatusPuzzleboxGimmickX10Off.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e(TAG, "buttonStatusPuzzleboxGimmickX10Off()");
-//                x10Toggle();
                 broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Off");
                 DevicePuzzleboxGimmickSingleton.getInstance().x10Level = 0;
             }
@@ -67,7 +66,6 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
             @Override
             public void onClick(View v) {
                 Log.e(TAG, "buttonStatusPuzzleboxGimmickX10On()");
-//                x10Toggle();
                 broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " On");
                 DevicePuzzleboxGimmickSingleton.getInstance().x10Level = 10;
             }
@@ -77,10 +75,8 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
             @Override
             public void onClick(View v) {
                 Log.e(TAG, "buttonStatusPuzzleboxGimmickX10Dim()");
-//                x10Toggle();
                 if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level > 0) {
                     broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Dim");
-//                    DevicePuzzleboxGimmickSingleton.getInstance().x10Level = DevicePuzzleboxGimmickSingleton.getInstance().x10Level - 1;
                     DevicePuzzleboxGimmickSingleton.getInstance().x10Level--;
                 }
             }
@@ -90,11 +86,26 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
             @Override
             public void onClick(View v) {
                 Log.e(TAG, "buttonStatusPuzzleboxGimmickX10Bright()");
-//                x10Toggle();
                 if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level < 10) {
                     broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Bright");
                     DevicePuzzleboxGimmickSingleton.getInstance().x10Level++;
                 }
+            }
+        });
+
+        Button buttonDeviceCancel = v.findViewById(io.puzzlebox.jigsaw.R.id.buttonDeviceCancel);
+        buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        Button buttonDeviceEnable = v.findViewById(io.puzzlebox.jigsaw.R.id.buttonDeviceEnable);
+        buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
             }
         });
 
@@ -118,11 +129,6 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
         mListener = null;
     }
 
-    public void x10Toggle() {
-//        broadcastCommandBluetooth("toggle", deviceNumber);
-//        broadcastCommandBluetooth("joystick", "button5: 1");
-        broadcastCommandBluetooth("x10", "C5 Bright");
-    }
 
     // ################################################################
 

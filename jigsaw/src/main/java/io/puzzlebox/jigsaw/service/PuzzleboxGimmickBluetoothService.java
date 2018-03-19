@@ -492,7 +492,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 	private void broadcastEventBluetooth(String name, String value) {
 
-		Intent intent = new Intent("io.puzlebox.jigsaw.protocol.bluetooth.event");
+		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.bluetooth.event");
 
 		intent.putExtra("name", name);
 		intent.putExtra("value", value);
@@ -566,11 +566,16 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 			switch(newState) {
 				case STATE_DISCONNECTED:
+					DevicePuzzleboxGimmickSingleton.getInstance().connected = false;
+					broadcastStatusBluetooth("status", "disconnected");
 					break;
 				case STATE_CONNECTING:
+					broadcastStatusBluetooth("status", "connecting");
 					break;
 				case STATE_CONNECTED:
 					gatt.discoverServices();
+					DevicePuzzleboxGimmickSingleton.getInstance().connected = true;
+					broadcastStatusBluetooth("status", "connected");
 					break;
 			}
 
@@ -608,16 +613,11 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 						Log.i(TAG, "descriptor.getValue() \"UTF-8\": " + text);
 						DevicePuzzleboxGimmickSingleton.getInstance().deviceHash = text;
 
-						// TODO 2017-02-16
 						// Update Fragments
+//						DevicePuzzleboxGimmickSingleton.getInstance().connected = true;
+//
+//						broadcastStatusBluetooth("status", "connected");
 
-						// TODO 2018-03-10
-//						Log.e(TAG, "broadcastEventBluetooth(\"loadFragment\", getResources().getString(R.string.menu_joystick)): " + getResources().getString(R.string.menu_joystick));
-////						broadcastEventBluetooth("loadFragment", getResources().getString(R.string.menu_login));
-//						broadcastEventBluetooth("loadFragment", getResources().getString(R.string.menu_joystick));
-
-						// TODO 2018-03-14
-//						broadcastCommandBluetooth("joystick", "button5: 1");
 						broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Off");
 						DevicePuzzleboxGimmickSingleton.getInstance().x10Level = 0;
 
@@ -694,7 +694,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 	// ################################################################
 
-	private  void broadcastCommandBluetooth(String name, String value) {
+	private void broadcastCommandBluetooth(String name, String value) {
 
 		Log.d(TAG, "broadcastCommandBluetooth: " + name + ": " + value);
 
@@ -703,10 +703,20 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		intent.putExtra("name", name);
 		intent.putExtra("value", value);
 
-//		LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
 	}
 
 
+	// ################################################################
+
+	private void broadcastStatusBluetooth(String name, String value) {
+		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status");
+
+		intent.putExtra("name", name);
+		intent.putExtra("value", value);
+
+		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+	}
 }

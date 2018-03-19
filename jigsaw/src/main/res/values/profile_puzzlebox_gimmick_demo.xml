@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_puzzlebox_gimmick_demo_title">Puzzlebox Gimmick Demo</string>
+
+    <string name="profile_puzzlebox_gimmick_demo_icon">carousel_puzzlebox_orbit</string>
+
+    <string name="profile_puzzlebox_gimmick_demo_company">Puzzlebox</string>
+    <string name="profile_puzzlebox_gimmick_demo_product">Gimmick</string>
+
+    <string-array name="profile_puzzlebox_gimmick_demo_input">
+        <item>neurosky_mindwave_mobile</item>
+    </string-array>
+
+    <string-array name="profile_puzzlebox_gimmick_demo_output">
+        <item>puzzlebox_gimmick</item>
+        <item>puzzlebox_orbit_ir</item>
+    </string-array>
+</resources>
