@@ -26,6 +26,6 @@ android {
 }
 
 dependencies {
-    compile project(':jigsaw')
+    implementation project(':jigsaw')
     wearApp project(':wear')
 }
