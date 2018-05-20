@@ -40,42 +40,45 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+//    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //    wearApp project(':wear')
 
     // Android Support Libraries
-    compile 'com.android.support:support-v4:26.1.0'
-    compile 'com.android.support:appcompat-v7:26.1.0'
+//    compile 'com.android.support:support-v4:26.1.0'
+    implementation 'com.android.support:support-v4:26.1.0'
+//    compile 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
 
     // Google Play Services
-    compile 'com.google.android.gms:play-services-ads:11.8.0'
-    compile 'com.google.android.gms:play-services-auth:11.8.0'
-    compile 'com.google.android.gms:play-services-drive:11.8.0'
-    compile 'com.google.android.gms:play-services-gcm:11.8.0'
-    compile 'com.google.android.gms:play-services-vision:11.8.0'
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation 'com.google.android.gms:play-services-drive:15.0.1'
+    implementation 'com.google.android.gms:play-services-gcm:15.0.1'
+    implementation 'com.google.android.gms:play-services-vision:15.0.2'
 
     // Androidplot
-    provided 'com.androidplot:androidplot-core:0.6.1'
+    //    implementation 'com.androidplot:androidplot-core:0.6.1'
 
     // OpenCSV
-    provided 'com.opencsv:opencsv:3.3'
+    //    implementation 'com.opencsv:opencsv:3.3'
 
     // USB Serial for Puzzlebox Pyramid
-    //    provided files('libs/usb-serial-for-android-v010.jar')
+    //    implementation files('libs/usb-serial-for-android-v010.jar')
 
     // NeuroSky MindWave Mobile
-    //    provided files('libs/ThinkGear.jar')
+    //    implementation files('libs/ThinkGear.jar')
 
     // NeuroSky MindWave Mobile Plus
-    provided files('libs/libStreamSDK_v1.2.0.jar')
+    //    implementation files('libs/libStreamSDK_v1.2.0.jar')
 
     // Emotiv Insight
-    compile 'com.emotiv.sdk:community:3.3.4@aar'
+    implementation 'com.emotiv.sdk:community:3.3.4@aar'
 
     // InteraXon Muse
-    //    provided files('libs/libmuseandroid.jar')
+    //    implementation files('libs/libmuseandroid.jar')
 
     // Melon
-    //    provided files('libs/Melon_Alpha_Android_SDK.jar')
+    //    implementation files('libs/Melon_Alpha_Android_SDK.jar')
 
 }
