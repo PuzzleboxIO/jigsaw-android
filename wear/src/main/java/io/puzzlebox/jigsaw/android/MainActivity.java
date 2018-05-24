@@ -39,7 +39,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class MainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,
 		GoogleApiClient.OnConnectionFailedListener, DataApi.DataListener, MessageApi.MessageListener,
-        SensorEventListener {
+		SensorEventListener {
 //		NodeApi.NodeListener, SensorEventListener {
 
 	//    private static final String TAG = MyActivity.class.getName();
@@ -312,12 +312,12 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
 
 	}
 
-//	@Override // TOOD
+	//	@Override // TOOD
 	public void onPeerConnected(Node node) {
 		generateEvent("Node Connected", node.getId());
 	}
 
-//	@Override // TODO
+	//	@Override // TODO
 	public void onPeerDisconnected(Node node) {
 		generateEvent("Node Disconnected", node.getId());
 	}

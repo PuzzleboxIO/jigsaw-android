@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "io.puzzlebox.jigsaw.android"
         minSdkVersion 21 // 5.x - required for ScanResult.getDevice()
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 3
         versionName "1.2.0"
     }
@@ -32,7 +32,7 @@ configurations.all {
         def requested = details.requested
         if (requested.group == 'com.android.support') {
             if (!requested.name.startsWith("multidex")) {
-                details.useVersion '26.1.0'
+                details.useVersion '27.1.1'
             }
         }
     }
