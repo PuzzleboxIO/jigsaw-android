@@ -7,7 +7,6 @@ android {
 
     defaultConfig {
         applicationId "io.puzzlebox.jigsaw.android"
-//        minSdkVersion 20
         minSdkVersion 21 // 5.x - required for ScanResult.getDevice()
         targetSdkVersion 26
         versionCode 3
@@ -23,7 +22,18 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.google.android.wearable:wearable:2.2.0'
-    implementation 'com.google.android.support:wearable:2.2.0'
-    implementation 'com.google.android.gms:play-services-wearable:11.8.0'
+    compileOnly 'com.google.android.wearable:wearable:2.3.0'
+    implementation 'com.google.android.support:wearable:2.3.0'
+    implementation 'com.google.android.gms:play-services-wearable:15.0.1'
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '26.1.0'
+            }
+        }
+    }
 }
