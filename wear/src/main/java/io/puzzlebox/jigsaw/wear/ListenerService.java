@@ -1,4 +1,4 @@
-package io.puzzlebox.jigsaw.android;
+package io.puzzlebox.jigsaw.wear;
 
 //public class ListenerService {
 //}

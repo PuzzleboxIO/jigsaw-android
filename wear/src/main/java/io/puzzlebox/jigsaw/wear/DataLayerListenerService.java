@@ -1,4 +1,4 @@
-package io.puzzlebox.jigsaw.android;
+package io.puzzlebox.jigsaw.wear;
 
 //public class DataLayerListenerService {
 //}
@@ -19,6 +19,8 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import io.puzzlebox.jigsaw.wear.MainActivity;
 
 /**
  * Listens to DataItems and Messages from the local node.

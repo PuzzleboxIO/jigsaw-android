@@ -1,6 +1,6 @@
-/**
+/*
  * Puzzlebox Jigsaw
- * Copyright 2015 Puzzlebox Productions, LLC
+ * Copyright (2015-2018) Puzzlebox Productions, LLC
  * License: GNU Affero General Public License Version 3
  */
 

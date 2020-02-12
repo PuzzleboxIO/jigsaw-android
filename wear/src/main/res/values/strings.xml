@@ -2,4 +2,9 @@
     <string name="app_name">Jigsaw</string>
     <string name="hello_round">Puzzlebox Jigsaw\nfor Android Wear\ncoming soon</string>
     <string name="hello_square">Puzzlebox Jigsaw\nfor Android Wear\ncoming soon</string>
+
+    <string name="init_title">Sensor type</string>
+    <!--<string name="init_values">Getting data...</string>-->
+    <string name="init_values">Getting data&#8230;</string>
+
 </resources>

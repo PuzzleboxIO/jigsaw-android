@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="10dp"
+    android:orientation="vertical"
+    tools:context="io.puzzlebox.jigsaw.ui.DialogInputDeviceSensors">
+
+    <TextView
+        android:id="@+id/textViewInstruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/padding_medium"
+        android:paddingStart="@dimen/padding_medium"
+        android:paddingEnd="@dimen/padding_medium"
+        android:layout_gravity="start"
+        style="@style/DialogStyle"
+        android:text="@string/label_device_sensors_instruction" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/layoutDeviceSensors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textViewX"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:paddingEnd="@dimen/padding_medium"
+                    android:text="@string/label_device_sensors_x" />
+
+                <SeekBar
+                    android:id="@+id/seekBarX"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="127"
+                    android:progress="63" />
+
+                <TextView
+                    android:id="@+id/textViewY"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium"
+                    android:paddingEnd="@dimen/padding_medium"
+                    android:text="@string/label_device_sensors_y" />
+
+                <SeekBar
+                    android:id="@+id/seekBarY"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="127"
+                    android:progress="63" />
+
+            </LinearLayout>
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:orientation="horizontal"-->
+            <!--&gt;-->
+
+            <!--<io.puzzlebox.jigsaw.ui.JoystickView-->
+            <!--xmlns:custom="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/joystickView"-->
+            <!--android:layout_width="256dp"-->
+            <!--android:layout_height="256dp"-->
+            <!--custom:JV_buttonColor="#ff0000"-->
+            <!--custom:JV_borderColor="#000478"-->
+            <!--custom:JV_backgroundColor="#0000ff"-->
+            <!--custom:JV_borderWidth="5dp"-->
+            <!--custom:JV_fixedCenter="false"/>-->
+
+            <!--</LinearLayout>-->
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layoutDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="10dp">
+
+        <!--style="@style/button_text"-->
+        <Button
+            android:id="@+id/buttonDeviceCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            android:background="@drawable/shape_rounded_corners_grey"
+            android:text="@string/buttonDeviceCancel"/>
+        <!--android:text="@string/buttonDeviceBack"/>-->
+
+        <View
+            android:layout_height="0dp"
+            android:layout_width="30dp"
+            />
+
+        <!--style="@style/button_text"-->
+        <Button
+            android:id="@+id/buttonDeviceEnable"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_rounded_corners_grey"
+            android:enabled="true"
+            android:visibility="visible"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            android:text="@string/buttonDeviceEnable"
+            />
+        <!--android:enabled="false"-->
+        <!--android:visibility="invisible"-->
+
+    </LinearLayout>
+
+</LinearLayout>

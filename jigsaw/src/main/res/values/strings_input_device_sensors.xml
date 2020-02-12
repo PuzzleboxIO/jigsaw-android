@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_dialog_fragment_device_sensors">Device Sensors</string>
+
+    <string name="label_device_sensors_instruction">Test calibration</string>
+
+    <string name="label_device_sensors_x">X</string>
+    <string name="label_device_sensors_y">Y</string>
+
+</resources>

@@ -6,7 +6,7 @@
         <item>joystick</item>
         <item>neurosky_mindwave_mobile</item>
         <item>emotiv_insight</item>
-        <!--<item>watch_android</item>-->
+        <item>watch_android</item>
         <!--<item>openbci_cyton_8_channel</item>-->
     </string-array>
 
@@ -15,7 +15,7 @@
         <item>carousel_joystick</item>
         <item>carousel_neurosky_mindwave_mobile</item>
         <item>carousel_emotiv_insight</item>
-        <!--<item>carousel_watch_android</item>-->
+        <item>carousel_watch_android</item>
         <!--<item>carousel_openbci_cyton_8_channel</item>-->
     </string-array>
 
@@ -24,7 +24,7 @@
         <item>Joystick</item>
         <item>NeuroSky</item>
         <item>Emotiv</item>
-        <!--<item>Android</item>-->
+        <item>Android</item>
         <!--<item>OpenBCI</item>-->
     </string-array>
 
@@ -33,7 +33,7 @@
         <item>Steering</item>
         <item>Mindwave Mobile</item>
         <item>Insight</item>
-        <!--<item>Wear</item>-->
+        <item>Wear</item>
         <!--<item>Cyton 8 Channel</item>-->
     </string-array>
 

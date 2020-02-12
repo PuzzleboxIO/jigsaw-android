@@ -6,7 +6,7 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        applicationId "io.puzzlebox.jigsaw.android"
+        applicationId "io.puzzlebox.jigsaw.wear"
         minSdkVersion 21 // 5.x - required for ScanResult.getDevice()
         targetSdkVersion 27
         versionCode 3

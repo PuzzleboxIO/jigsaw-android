@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    //    implementation fileTree(include: ['*.aar'], dir: 'libs')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Android Support Libraries
@@ -75,6 +76,7 @@ dependencies {
 
     // Melon
     //    implementation files('libs/Melon_Alpha_Android_SDK.jar')
+    //    implementation 'com.android.support:support-v4:27.1.1'
 }
 
 configurations.all {

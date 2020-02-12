@@ -5,7 +5,7 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        applicationId "io.puzzlebox.jigsaw.android"
+        applicationId "io.puzzlebox.jigsaw"
 //        minSdkVersion 9 // API 2.3  [getActivity()]
 //        minSdkVersion 15 // API 4.0.3
 //        minSdkVersion 16 // API 4.1 [Manifest.permission.READ_EXTERNAL_STORAGE]
@@ -26,7 +26,7 @@ android {
 dependencies {
     implementation project(':jigsaw')
     wearApp project(':wear')
-    implementation 'com.google.android.gms:play-services-wearable:15.0.1'
+//    implementation 'com.google.android.gms:play-services-wearable:15.0.1'
 }
 
 configurations.all {
