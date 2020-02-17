@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "io.puzzlebox.jigsaw.wear"
         minSdkVersion 21 // 5.x - required for ScanResult.getDevice()
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 3
         versionName "1.2.0"
     }
