@@ -40,7 +40,6 @@ android {
 }
 
 dependencies {
-    //    implementation fileTree(include: ['*.aar'], dir: 'libs')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Android Support Libraries
