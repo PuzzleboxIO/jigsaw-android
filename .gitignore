@@ -1,5 +1,6 @@
 # Custom
 jigsaw/libs/
+.idea
 .idea/libraries/
 .DS_Store
 projectFilesBackup/
