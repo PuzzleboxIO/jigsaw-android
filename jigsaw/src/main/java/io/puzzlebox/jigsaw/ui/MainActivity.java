@@ -1,6 +1,6 @@
 /*
  * Puzzlebox Jigsaw
- * Copyright (2015-2018) Puzzlebox Productions, LLC
+ * Copyright (2015-2020) Puzzlebox Productions, LLC
  * License: GNU Affero General Public License Version 3
  */
 
@@ -22,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-//import android.support.design.widget.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,6 @@ import io.puzzlebox.jigsaw.data.ConfigurationSingleton;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
 public class MainActivity extends AppCompatActivity implements
-//		  NavigationView.OnNavigationItemSelectedListener,
 		  WelcomeFragment.OnFragmentInteractionListener,
 		  SessionFragment.OnFragmentInteractionListener,
 		  EEGFragment.OnFragmentInteractionListener,
@@ -42,8 +40,7 @@ public class MainActivity extends AppCompatActivity implements
 		  DialogInputJoystickFragment.OnFragmentInteractionListener,
 		  DialogOutputPuzzleboxGimmickFragment.OnFragmentInteractionListener,
 		  DialogOutputAudioIRFragment.OnFragmentInteractionListener,
-		  DialogOutputSessionFragment.OnFragmentInteractionListener
-{
+		  DialogOutputSessionFragment.OnFragmentInteractionListener {
 
 	private final static String TAG = MainActivity.class.getSimpleName();
 
@@ -61,20 +58,13 @@ public class MainActivity extends AppCompatActivity implements
 	List<DrawerItem> dataList;
 
 
-	// ################################################################
-
 	public void onFragmentInteraction(Uri uri) {
-//		Log.d(TAG, "onFragmentInteraction()");
 	}
-
-
-	// ################################################################
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 
 		try {
 			Display display = getWindowManager().getDefaultDisplay();
@@ -92,16 +82,13 @@ public class MainActivity extends AppCompatActivity implements
 				ConfigurationSingleton.getInstance().actionBarHeight =
 						  TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
 			}
-
 		} catch (Exception e) {
-			Log.e(TAG, "Exception calculationg screen dimensions for navigation WebView: " + e);
+			Log.e(TAG, "Exception calculating screen dimensions for navigation WebView: " + e);
 		}
 
-
-//		dataList = new ArrayList<>();
 		mTitle = mDrawerTitle = getTitle();
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.navigation_drawer);
+		mDrawerLayout = findViewById(R.id.drawer_layout);
+		mDrawerList = findViewById(R.id.navigation_drawer);
 
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 				  GravityCompat.START);
@@ -113,9 +100,7 @@ public class MainActivity extends AppCompatActivity implements
 
 		mDrawerList.setAdapter(adapter);
 
-
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
 
 		if (getSupportActionBar() != null) {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -149,31 +134,18 @@ public class MainActivity extends AppCompatActivity implements
 
 		SessionSingleton.getInstance().resetSession();
 
-
 		onCreateCustom();
-
 	}
-
-
-	// ################################################################
 
 	protected void onCreateCustom() {
 		// For use with custom applications
 	}
 
-	// ################################################################
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
 		super.onOptionsItemSelected(item);
-
 		return mDrawerToggle.onOptionsItemSelected(item);
-
 	}
-
-
-	// ################################################################
 
 	protected List<DrawerItem> getDrawerDataList() {
 		List<DrawerItem> dataList = new ArrayList<>();
@@ -181,18 +153,13 @@ public class MainActivity extends AppCompatActivity implements
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_welcome), io.puzzlebox.jigsaw.R.mipmap.ic_puzzlebox));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_session), io.puzzlebox.jigsaw.R.mipmap.ic_session_color));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_eeg), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
-		dataList.add(new DrawerItem(getString(R.string.title_fragment_tiles), io.puzzlebox.jigsaw.R.mipmap.ic_eeg_color));
 		dataList.add(new DrawerItem(getString(io.puzzlebox.jigsaw.R.string.title_fragment_support), io.puzzlebox.jigsaw.R.mipmap.ic_support));
 
 		return dataList;
 	}
 
-
-	// ################################################################
-
 	public void SelectItem(int position) {
 
-//		android.app.Fragment fragment = null;
 		android.support.v4.app.Fragment fragment = null;
 		Bundle args = new Bundle();
 		String backStackName = "";
@@ -200,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements
 			case 0:
 				backStackName = getResources().getString(R.string.title_fragment_welcome);
 				try{
-//					fragment = getFragmentManager().findFragmentByTag(backStackName);
 					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -211,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements
 			case 1:
 				backStackName = getResources().getString(R.string.title_fragment_session);
 				try{
-//					fragment = getFragmentManager().findFragmentByTag(backStackName);
 					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -222,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements
 			case 2:
 				backStackName = getResources().getString(R.string.title_fragment_eeg);
 				try{
-//					fragment = getFragmentManager().findFragmentByTag(backStackName);
 					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -231,20 +195,8 @@ public class MainActivity extends AppCompatActivity implements
 					fragment = new EEGFragment();
 				break;
 			case 3:
-				backStackName = getResources().getString(R.string.title_fragment_tiles);
-				try{
-//					fragment = getFragmentManager().findFragmentByTag(backStackName);
-					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				if (fragment == null)
-					fragment = new TilesFragment();
-				break;
-			case 4:
 				backStackName = getResources().getString(R.string.title_fragment_support);
 				try{
-//					fragment = getFragmentManager().findFragmentByTag(backStackName);
                     fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -259,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements
 
 		if (fragment != null)
 			fragment.setArguments(args);
-//		android.app.FragmentManager frgManager = getFragmentManager();
 		android.support.v4.app.FragmentManager frgManager = getSupportFragmentManager();
 		frgManager.beginTransaction().replace(R.id.container, fragment)
 				  .addToBackStack(backStackName)
@@ -268,11 +219,7 @@ public class MainActivity extends AppCompatActivity implements
 		mDrawerList.setItemChecked(position, true);
 		setTitle(dataList.get(position).getItemName());
 		mDrawerLayout.closeDrawer(mDrawerList);
-
 	}
-
-
-	// ################################################################
 
 	@Override
 	public void setTitle(CharSequence title) {
@@ -280,9 +227,6 @@ public class MainActivity extends AppCompatActivity implements
 		if (getSupportActionBar() != null)
 			getSupportActionBar().setTitle(mTitle);
 	}
-
-
-	// ################################################################
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
@@ -292,9 +236,6 @@ public class MainActivity extends AppCompatActivity implements
 
 	}
 
-
-	// ################################################################
-
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
@@ -302,45 +243,25 @@ public class MainActivity extends AppCompatActivity implements
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
-
-	// ################################################################
-
 	private class DrawerItemClickListener implements
 			  ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 		                        long id) {
 			SelectItem(position);
-
 		}
 	}
 
-
-	// ################################################################
-
 	@Override
 	public void onPause() {
-
 		Log.v(TAG, "onPause()");
-
 		super.onPause();
-
-
-	} // onPause
-
-
-	// ################################################################
+	}
 
 	@Override
 	public void onDestroy() {
-
 		Log.v(TAG, "onDestroy()");
-
 		super.onDestroy();
-
 		SessionSingleton.getInstance().removeTemporarySessionFile();
-
-
-	} // onDestroy
-
+	}
 }

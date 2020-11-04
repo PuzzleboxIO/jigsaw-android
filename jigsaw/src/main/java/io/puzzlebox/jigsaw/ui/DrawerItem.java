@@ -1,9 +1,5 @@
 package io.puzzlebox.jigsaw.ui;
 
-/**
- * Created by sc on 11/6/14.
- */
-
 public class DrawerItem {
 
 	String ItemName;
@@ -27,5 +23,4 @@ public class DrawerItem {
 	public void setImgResID(int imgResID) {
 		this.imgResID = imgResID;
 	}
-
 }

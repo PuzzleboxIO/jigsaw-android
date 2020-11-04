@@ -18,7 +18,6 @@ import android.widget.Toast;
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.DevicePuzzleboxOrbitSingleton;
 
-//public class DialogOutputAudioIRFragment extends io.puzzlebox.jigsaw.ui.DialogOutputAudioIRFragment {
 public class DialogOutputAudioIRFragment extends DialogFragment {
 
 	private final static String TAG = DialogOutputAudioIRFragment.class.getSimpleName();
@@ -46,14 +45,13 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-									 Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(io.puzzlebox.jigsaw.R.layout.dialog_output_audio_ir, container, false);
 
 		getDialog().getWindow().setTitle( getString(io.puzzlebox.jigsaw.R.string.title_dialog_fragment_audio_ir));
-//		getDialog().getWindow().setTitle( getString(R.string.label_audio_ir_instruction));
 
-		switchDetectTransmitter = (Switch) v.findViewById(io.puzzlebox.jigsaw.R.id.switchDetectTransmitter);
+		switchDetectTransmitter = v.findViewById(R.id.switchDetectTransmitter);
 		switchDetectTransmitter.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -61,7 +59,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 			}
 		});
 
-		switchDetectVolume = (Switch) v.findViewById(io.puzzlebox.jigsaw.R.id.switchDetectVolume);
+		switchDetectVolume = v.findViewById(R.id.switchDetectVolume);
 		switchDetectVolume.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -69,7 +67,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 			}
 		});
 
-		switchInvertControlSignal = (Switch) v.findViewById(io.puzzlebox.jigsaw.R.id.switchInvertControlSignal);
+		switchInvertControlSignal = v.findViewById(R.id.switchInvertControlSignal);
 		switchInvertControlSignal.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -77,7 +75,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 			}
 		});
 
-		buttonTestAudioIR = (Button) v.findViewById(io.puzzlebox.jigsaw.R.id.buttonTestAudioIR);
+		buttonTestAudioIR = v.findViewById(R.id.buttonTestAudioIR);
 		buttonTestAudioIR.setVisibility(View.VISIBLE);
 		buttonTestAudioIR.setEnabled(true);
 		buttonTestAudioIR.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +85,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 			}
 		});
 
-		Button buttonDeviceCancel = (Button) v.findViewById(io.puzzlebox.jigsaw.R.id.buttonDeviceCancel);
+		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
 		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -96,7 +94,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 			}
 		});
 
-		buttonDeviceEnable = (Button) v.findViewById(io.puzzlebox.jigsaw.R.id.buttonDeviceEnable);
+		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
 		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -111,28 +109,10 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 
 		maximizeAudioVolume();
 
-		/**
-		 * PuzzleboxOrbitAudioIRHandler
-		 */
-//		if (!DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.isAlive()) {
-//
-//			try {
-//				DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.start();
-//			} catch (Exception e) {
-//				Log.w(TAG, "Exception starting PuzzleboxOrbitAudioIRHandler: " + e.getStackTrace());
-//
-//				DevicePuzzleboxOrbitSingleton.getInstance().resetAudioHandler();
-//
-//			}
-//		}
 		DevicePuzzleboxOrbitSingleton.getInstance().startAudioHandler();
-
 
 		return v;
 	}
-
-
-	// ################################################################
 
 	public void demoMode(View v) {
 
@@ -141,8 +121,6 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		 * This method can be easily adjusted for testing new features
 		 * during development.
 		 */
-
-		Log.v(TAG, "Test Signal clicked");
 
 		if (! DevicePuzzleboxOrbitSingleton.getInstance().flightActive) {
 
@@ -161,14 +139,8 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 			stopControl();
 
 			buttonTestAudioIR.setText(getResources().getString(R.string.buttonTestAudioIR));
-
 		}
-
-
-	} // testFlight
-
-
-	// ################################################################
+	}
 
 	public void dismissAudioIR() {
 
@@ -178,38 +150,11 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		stopControl();
 
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.shutdown();
-
 	}
-
-
-	// ################################################################
-
-//	public void demoStop(View view) {
-//
-//		stopControl();
-//
-//	} // demoStop
-
-
-	// ################################################################
 
 	public void playControl() {
 
-		Log.d(TAG, "playControl()");
-
-//		Integer[] command =  {
-//				  DevicePuzzleboxOrbitSingleton.getInstance().defaultControlThrottle,
-//				  DevicePuzzleboxOrbitSingleton.getInstance().defaultControlYaw,
-//				  DevicePuzzleboxOrbitSingleton.getInstance().defaultControlPitch,
-//				  DevicePuzzleboxOrbitSingleton.getInstance().defaultChannel};
-//
-//		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.command = command;
-//
-//		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.updateControlSignal();
-
-
 		DevicePuzzleboxOrbitSingleton.getInstance().resetControlSignal();
-
 
 		DevicePuzzleboxOrbitSingleton.getInstance().flightActive = true;
 
@@ -222,36 +167,19 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		updateAudioHandlerChannel(channel);
 
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.mutexNotify();
-
-	} // playControl
-
-
-	// ################################################################
+	}
 
 	public void stopControl() {
-
-//		Log.d(TAG, "stopControl()");
-
 		stopAudio();
-
 		DevicePuzzleboxOrbitSingleton.getInstance().flightActive = false;
-
-	} // stopControl
-
-
-	// ################################################################
+	}
 
 	public void stopAudio() {
 
-		/**
-		 * stop AudioTrack as well as destroy service.
-		 */
-
+		// Stop AudioTrack as well as destroy service.
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.keepPlaying = false;
 
-		/**
-		 * Stop playing audio control file
-		 */
+		// Stop playing audio control file
 
 		if (DevicePuzzleboxOrbitSingleton.getInstance().soundPool != null) {
 			try {
@@ -260,38 +188,22 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 				e.printStackTrace();
 			}
 		}
-
-
-	} // stopControl
-
-	// ################################################################
+	}
 
 	/**
 	 * @param number the puzzleboxOrbitAudioIRHandler to update loop number while mind control
 	 */
 	public void updateAudioHandlerLoopNumberWhileMindControl(int number) {
-
-//		this.puzzleboxOrbitAudioIRHandler.loopNumberWhileMindControl = number;
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.loopNumberWhileMindControl = number;
-
-
-	} // updateServiceBinderLoopNumberWhileMindControl
-
-
-	// ################################################################
+	}
 
 	/**
 	 * the puzzleboxOrbitAudioIRHandler to update channel
 	 */
 	public void updateAudioHandlerChannel(int channel) {
-
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.channel = channel;
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.updateControlSignal();
-
-
-	} // updateServiceBinderChannel
-
-	// ################################################################
+	}
 
 	@Override
 	public void onDetach() {
@@ -303,12 +215,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		void onFragmentInteraction(Uri uri);
 	}
 
-	// ################################################################
-
 	public void updateTileStatus() {
-
-//		Log.e(TAG, "updateTileStatus()");
-
 		String value;
 		if (buttonDeviceEnable.isEnabled())
 			value = "true";
@@ -316,10 +223,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 			value = "false";
 
 		broadcastTileStatus(value);
-
 	}
-
-	// ################################################################
 
 	public void broadcastTileStatus(String value) {
 
@@ -330,46 +234,20 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		intent.putExtra("value", value);
 		intent.putExtra("category", "outputs");
 
-//		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-
 	}
 
-	// ################################################################
-
 	public void onPause() {
-
 		super.onPause();
-
 		stopControl();
-
-	} // onPause
-
-
-	// ################################################################
+	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
-
-
-//		audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
-//		volumeMax = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-//
-//		maximizeAudioVolume();
-//
-//		/**
-//		 * PuzzleboxOrbitAudioIRHandler
-//		 */
-//		if (!DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.isAlive()) {
-//			DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.start();
-//		}
-
-
-
 		if ((audioManager != null) &&
-				  ((audioManager.isWiredHeadsetOn()))) {
+				((audioManager.isWiredHeadsetOn()))) {
 			switchDetectTransmitter.setChecked(true);
 
 			if (!checkVolumeMax()) {
@@ -380,19 +258,14 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 			if (checkVolumeMax()) {
 				switchDetectVolume.setChecked(true);
 			}
-
 		}
 
 		DevicePuzzleboxOrbitSingleton.getInstance().resetControlSignal();
 
 		updateReadyButton();
-
 	}
 
-	// ################################################################
-
 	public void switchDetectTransmitterClicked(View v) {
-		Log.v(TAG, "switchDetectTransmitterClicked: " + switchDetectTransmitter.isChecked());
 
 		if (switchDetectVolume.isChecked()) {
 			// Volume must be turned up to max each time transmitter is connected
@@ -405,61 +278,42 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 
 		// Check to see if headphone jack detects transmitter and if not Toast a warning message
 		if (! audioManager.isWiredHeadsetOn() &&
-				  (! warningDetectTransmitterDisplayed)) {
+				(! warningDetectTransmitterDisplayed)) {
 			Toast.makeText(getActivity().getApplicationContext(), getString(io.puzzlebox.jigsaw.R.string.toast_audio_ir_detect_transmitter_warning), Toast.LENGTH_LONG).show();
 			warningDetectTransmitterDisplayed = true;
 		}
-
-//		Log.i("WiredHeadsetOn = ", audioManager.isWiredHeadsetOn()+"");
-//		Log.i("MusicActive = ", audioManager.isMusicActive()+"");
-//		Log.i("SpeakerphoneOn = ", audioManager.isSpeakerphoneOn()+"");
-
 	}
 
-	// ################################################################
-
 	public void switchDetectVolumeClicked(View v) {
-		Log.v(TAG, "switchDetectVolumeClicked: " + switchDetectVolume.isChecked());
-
 		// Check to see if volume is max and if not Toast a warning message
 		if ((! checkVolumeMax()) &&
-				  (switchDetectVolume.isChecked()) &&
-				  (! warningDetectVolumeDisplayed)) {
+				(switchDetectVolume.isChecked()) &&
+				(! warningDetectVolumeDisplayed)) {
 			Toast.makeText(getActivity().getApplicationContext(), getString(io.puzzlebox.jigsaw.R.string.toast_audio_ir_detect_volume_max_warning), Toast.LENGTH_LONG).show();
 			warningDetectVolumeDisplayed = true;
 		}
-
 		updateReadyButton();
-
 	}
 
 	public void switchInvertControlSignalClicked(View v) {
-		Log.v(TAG, "switchInvertControlSignalClicked: " + switchInvertControlSignal.isChecked());
-
 		// Invert the audio wave comprising the control signal before it is sent to the IR transmitter.
 		// This is necessary for some audio hardware.
 		// For details and an example see: https://puzzlebox.io/orbit/development/wiki/AddingSupportIR
-
 		DevicePuzzleboxOrbitSingleton.getInstance().invertControlSignal = switchInvertControlSignal.isChecked();
-
 	}
-
 
 	public boolean checkVolumeMax() {
 		boolean value = false;
 		if ((audioManager != null) &&
-				  (audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) ==
-							 volumeMax)) {
-//							 audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC))) {
+				(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) == volumeMax)) {
 			value = true;
 		}
 		else {
 			Log.i(TAG, "getStreamVolume(AudioManager.STREAM_MUSIC):" +
-					  audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+					audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
 			Log.i(TAG, "getStreamMaxVolume(AudioManager.STREAM_MUSIC):" +
-					  audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+					audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
 		}
-
 		return value;
 	}
 
@@ -475,10 +329,6 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		}
 	}
 
-
-	// ################################################################
-
-	// TODO
 	public void maximizeAudioVolume() {
 
 		AudioManager audio = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
@@ -492,17 +342,8 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 
 			AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
 			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-					  audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-					  AudioManager.FLAG_SHOW_UI);
-
+					audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
+					AudioManager.FLAG_SHOW_UI);
 		}
-
-
-	} // maximizeAudioVolume
-
-
-	// ################################################################
-
-
-
+	}
 }

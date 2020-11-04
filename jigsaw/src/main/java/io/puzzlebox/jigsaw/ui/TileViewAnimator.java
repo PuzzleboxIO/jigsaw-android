@@ -9,11 +9,6 @@ import android.widget.LinearLayout;
 
 import io.puzzlebox.jigsaw.data.ProfileSingleton;
 
-
-/**
- * Created by sc on 4/17/17.
- */
-
 public class TileViewAnimator extends LinearLayout {
 
 	private final static String TAG = TileViewAnimator.class.getSimpleName();
@@ -41,10 +36,6 @@ public class TileViewAnimator extends LinearLayout {
 
 	@Override
 	public void setVisibility(int visibility) {
-
-	Log.i(TAG, "setVisibility(int visibility): " + visibility);
-
-
 		if (getVisibility() != visibility)
 		{
 			if (visibility == VISIBLE)
@@ -56,30 +47,19 @@ public class TileViewAnimator extends LinearLayout {
 				if (outAnimation != null) startAnimation(outAnimation);
 			}
 		}
-
 		super.setVisibility(visibility);
 	}
 
 	public void show(final LinearLayout viewGroup){
-
-		Log.d(TAG, "show");
-
 		final LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 		viewGroup.addView(this,p);
-
 	}
 
 	@Override
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
-
-//		Animation anim_list = AnimationUtils.loadAnimation(context, R.anim.tiles_slow);
 		Animation anim_list = AnimationUtils.loadAnimation(context, ProfileSingleton.getInstance().tilesAnimationId);
 		LayoutAnimationController controller = new LayoutAnimationController(anim_list, 0.1f);
-//		LayoutAnimationController controller = new LayoutAnimationController(anim_list, 0.2f);
-//		LayoutAnimationController controller = new LayoutAnimationController(anim_list, 0.5f);
-
 		setLayoutAnimation(controller);
 	}
-
 }

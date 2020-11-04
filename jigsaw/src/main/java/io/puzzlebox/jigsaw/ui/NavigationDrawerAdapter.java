@@ -13,10 +13,6 @@ import java.util.List;
 
 import io.puzzlebox.jigsaw.R;
 
-/**
- * Created by sc on 11/6/14.
- */
-
 public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
 	Context context;
@@ -43,9 +39,9 @@ public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 			drawerHolder = new DrawerItemHolder();
 
 			view = inflater.inflate(layoutResID, parent, false);
-			drawerHolder.ItemName = (TextView) view
+			drawerHolder.ItemName = view
 					  .findViewById(R.id.drawer_itemName);
-			drawerHolder.icon = (ImageView) view.findViewById(R.id.drawer_icon);
+			drawerHolder.icon = view.findViewById(R.id.drawer_icon);
 
 			view.setTag(drawerHolder);
 
@@ -54,7 +50,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
 		}
 
-		DrawerItem dItem = (DrawerItem) this.drawerItemList.get(position);
+		DrawerItem dItem = this.drawerItemList.get(position);
 
 		drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(
 				  dItem.getImgResID()));

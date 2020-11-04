@@ -38,8 +38,6 @@ public class EmotivInsightService extends Service {
 	public EmotivInsightService() {
 	}
 
-	// ################################################################
-
 	// Handler that receives messages from the thread
 	private final class ServiceHandler extends Handler {
 		public ServiceHandler(Looper looper) {
@@ -47,12 +45,7 @@ public class EmotivInsightService extends Service {
 		}
 		@Override
 		public void handleMessage(Message msg) {
-
-
-			Log.d(TAG, "handleMessage: " + msg);
-
-			// Normally we would do some work here, like download a file.
-			// For our sample, we just sleep for 5 seconds.
+			// Sleep for 5 seconds
 			long endTime = System.currentTimeMillis() + 5*1000;
 			while (System.currentTimeMillis() < endTime) {
 				synchronized (this) {
@@ -69,9 +62,6 @@ public class EmotivInsightService extends Service {
 		}
 	}
 
-
-	// ################################################################
-
 	@Override
 	public void onCreate() {
 		// Start up the thread running the service.  Note that we create a
@@ -79,7 +69,7 @@ public class EmotivInsightService extends Service {
 		// main thread, which we don't want to block.  We also make it
 		// background priority so CPU-intensive work will not disrupt our UI.
 		HandlerThread thread = new HandlerThread("ServiceStartArguments",
-				  Process.THREAD_PRIORITY_BACKGROUND);
+				Process.THREAD_PRIORITY_BACKGROUND);
 		thread.start();
 
 		// Get the HandlerThread's Looper and use it for our Handler
@@ -94,7 +84,6 @@ public class EmotivInsightService extends Service {
 //		initEmotivEngine();
 
 		super.onCreate();
-
 	}
 
 	@Override
@@ -105,9 +94,6 @@ public class EmotivInsightService extends Service {
 		super.onDestroy();
 	}
 
-
-	// ################################################################
-
 	private void initEmotivEngine() {
 		Log.e("", "connect " + IEdk.IEE_EngineConnect(this, ""));
 
@@ -117,9 +103,7 @@ public class EmotivInsightService extends Service {
 		{
 			@Override
 			public void run() {
-
 				super.run();
-//				while(true)
 				while(threadAlive)
 				{
 					try
@@ -138,14 +122,9 @@ public class EmotivInsightService extends Service {
 		processingThread.start();
 	}
 
-	// ################################################################
-
 	Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-
-//			Log.d(TAG, "message: " + msg);
-
 			switch (msg.what) {
 				case 0:
 					int state = IEdk.IEE_EngineGetNextEvent();
@@ -156,8 +135,7 @@ public class EmotivInsightService extends Service {
 							return;
 						}
 						if(eventType == IEdk.IEE_Event_t.IEE_UserAdded.ToInt()){
-							Log.e("Emotiv", "User added: " + DeviceEmotivInsightSingleton.getInstance().userID);
-//                            textStatus.setText("Status: Connected");
+							Log.v("Emotiv", "User added: " + DeviceEmotivInsightSingleton.getInstance().userID);
 							Log.d(TAG, "Status: Connected");
 
 							Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
@@ -167,10 +145,8 @@ public class EmotivInsightService extends Service {
 
 						}
 						if(eventType == IEdk.IEE_Event_t.IEE_UserRemoved.ToInt()) {
-							Log.e("Emotiv", "User removed: " + DeviceEmotivInsightSingleton.getInstance().userID);
-//                            textStatus.setText("Status: Disconnected");
+							Log.v("Emotiv", "User removed: " + DeviceEmotivInsightSingleton.getInstance().userID);
 							Log.d(TAG, "Status: Disconnected");
-							Log.e(TAG, "lock: false");
 							DeviceEmotivInsightSingleton.getInstance().lock = false;
 
 							Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
@@ -188,8 +164,6 @@ public class EmotivInsightService extends Service {
 
 							broadcastSignalQuality();
 
-//							Log.d(TAG, "Action [" + IEmoStateDLL.IS_MentalCommandGetCurrentAction() + "]: " + IEmoStateDLL.IS_MentalCommandGetCurrentActionPower());
-
 							Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.action");
 							intent.putExtra("name", Integer.toString(IEmoStateDLL.IS_MentalCommandGetCurrentAction()));
 							intent.putExtra("value", Double.toString(IEmoStateDLL.IS_MentalCommandGetCurrentActionPower()));
@@ -200,7 +174,6 @@ public class EmotivInsightService extends Service {
 							int mcType = MentalCommandDetection.IEE_MentalCommandEventGetType();
 							if(mcType == MentalCommandDetection.IEE_MentalCommandEvent_t.IEE_MentalCommandTrainingStarted.getType()) {
 								Log.d("Emotiv", "Training started");
-//								alert.show();
 								broadcastTrainingStatus("Training Started");
 							}
 							else if(mcType == MentalCommandDetection.IEE_MentalCommandEvent_t.IEE_MentalCommandTrainingSucceeded.getType()) {
@@ -209,8 +182,6 @@ public class EmotivInsightService extends Service {
 							}
 							else if(mcType == MentalCommandDetection.IEE_MentalCommandEvent_t.IEE_MentalCommandTrainingCompleted.getType()) {
 								Log.d("Emotiv", "Training completed");
-//								alert.dismiss();
-//								success.show();
 								broadcastTrainingStatus("Training Completed");
 							}
 							else if(mcType == MentalCommandDetection.IEE_MentalCommandEvent_t.IEE_MentalCommandTrainingRejected.getType()) {
@@ -223,8 +194,6 @@ public class EmotivInsightService extends Service {
 							}
 							else if(mcType == MentalCommandDetection.IEE_MentalCommandEvent_t.IEE_MentalCommandTrainingFailed.getType()) {
 								Log.d("Emotiv", "Training failed");
-//								alert.dismiss();
-//								failed.show();
 								broadcastTrainingStatus("Training Failed");
 							}
 						}
@@ -235,15 +204,11 @@ public class EmotivInsightService extends Service {
 
 					if(number > 0) {
 						if(!DeviceEmotivInsightSingleton.getInstance().lock) {
-
 							Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
-
 							intent.putExtra("name", "populateSelectEEG");
 							intent.putExtra("value", "");
 
 							LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-
-
 						}
 					}
 //					else {
@@ -256,11 +221,7 @@ public class EmotivInsightService extends Service {
 		}
 	};
 
-
-	// ################################################################
-
 	private void broadcastSignalQuality() {
-
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality");
 
 //		contactQualityAllChannels = IEmoStateDLL.IS_GetContactQualityFromAllChannels();
@@ -278,7 +239,6 @@ public class EmotivInsightService extends Service {
 		String T8 = String.valueOf(IEmoStateDLL.IS_GetContactQuality(IEmoStateDLL.IEE_InputChannels_t.IEE_CHAN_T8.ToInt()));
 		String Pz = String.valueOf(IEmoStateDLL.IS_GetContactQuality(IEmoStateDLL.IEE_InputChannels_t.IEE_CHAN_Pz.ToInt()));
 		String CMS = String.valueOf(IEmoStateDLL.IS_GetContactQuality(IEmoStateDLL.IEE_InputChannels_t.IEE_CHAN_CMS.ToInt()));
-
 
 ////		if (contactQualityAllChannels != contactQualityAllChannelsPrevious) {
 //
@@ -316,14 +276,9 @@ public class EmotivInsightService extends Service {
 		intent.putExtra("CMS", CMS);
 
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-
 	}
 
-
-	// ################################################################
-
 	private void broadcastSignalQualityReset() {
-
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality");
 
 		intent.putExtra("AF3", "0");
@@ -334,34 +289,20 @@ public class EmotivInsightService extends Service {
 		intent.putExtra("CMS", "0");
 
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-
 	}
-
-	// ################################################################
 
 	private void broadcastTrainingStatus(String status) {
-
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.training");
-
 		intent.putExtra("status", status);
-
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-
 	}
-
-
-	// ################################################################
 
 	class IncomingHandler extends Handler {
 		@Override
 		public void handleMessage(Message msg) {
-
 			int deviceNumber = msg.what;
-
-			Log.d(TAG, "[IncomingHandler] deviceNumber:" + deviceNumber);
-
+			Log.d(TAG,"[IncomingHandler] deviceNumber:" + deviceNumber);
 			if (deviceNumber >=0 ) {
-
 				// Connect to EEG
 				IEdk.IEE_ConnectInsightDevice(deviceNumber);
 
@@ -369,9 +310,7 @@ public class EmotivInsightService extends Service {
 					Log.e(TAG, "lock: true");
 					DeviceEmotivInsightSingleton.getInstance().lock = true;
 				}
-
 			} else {
-
 				// Negative number sent, we want to disconnect
 				IEdk.IEE_EngineDisconnect();
 
@@ -379,11 +318,8 @@ public class EmotivInsightService extends Service {
 					Log.e(TAG, "lock: false");
 					DeviceEmotivInsightSingleton.getInstance().lock = false;
 				}
-
 				broadcastSignalQualityReset();
-
 			}
-
 		}
 	}
 
@@ -398,7 +334,6 @@ public class EmotivInsightService extends Service {
 	 */
 	@Override
 	public IBinder onBind(Intent intent) {
-//		Toast.makeText(getApplicationContext(), "binding", Toast.LENGTH_SHORT).show();
 		return mMessenger.getBinder();
 	}
 
@@ -408,5 +343,4 @@ public class EmotivInsightService extends Service {
 //		return Service.START_NOT_STICKY;
 		return super.onStartCommand(intent, flags, startId);
 	}
-
 }

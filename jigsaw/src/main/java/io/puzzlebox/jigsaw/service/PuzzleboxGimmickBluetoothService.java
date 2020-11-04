@@ -25,10 +25,9 @@ import android.os.Process;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-//import io.puzzlebox.gimmick.R;
 import io.puzzlebox.jigsaw.data.DevicePuzzleboxGimmickSingleton;
 
 public class PuzzleboxGimmickBluetoothService extends Service {
@@ -44,20 +43,16 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 	private static final int STATE_CONNECTING = 1;
 	private static final int STATE_CONNECTED = 2;
 
-	private static String TEST_MESSAGE = "1234567890abcdefghij1234567890abcdefghij";
-
 	private ServiceHandler mServiceHandler;
 
 	public PuzzleboxGimmickBluetoothService() {
 	}
 
-	private static PuzzleboxGimmickBluetoothService ourInstance = new PuzzleboxGimmickBluetoothService();
+	private static final PuzzleboxGimmickBluetoothService ourInstance = new PuzzleboxGimmickBluetoothService();
 
 	public static PuzzleboxGimmickBluetoothService getInstance() {
 		return ourInstance;
 	}
-
-	// ################################################################
 
 	// Handler that receives messages from the thread
 	private final class ServiceHandler extends Handler {
@@ -84,45 +79,32 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		}
 	}
 
-
 	public void onPause() {
-//		super.onPause();
-
 		if (scanning) {
 			scanLeDevice(false);
 		}
-
 		if (gatt != null) {
 			gatt.close();
 			gatt = null;
 		}
 	}
 
-
-	// ################################################################
-
 	@Override
 	public void onCreate() {
-
-		Log.d(TAG, "onCreate()");
-
 		// Start up the thread running the service.  Note that we create a
 		// separate thread because the service normally runs in the process's
 		// main thread, which we don't want to block.  We also make it
 		// background priority so CPU-intensive work will not disrupt our UI.
 		HandlerThread thread = new HandlerThread("ServiceStartArguments",
-				  Process.THREAD_PRIORITY_BACKGROUND);
+				Process.THREAD_PRIORITY_BACKGROUND);
 		thread.start();
 
 		// Get the HandlerThread's Looper and use it for our Handler
 		Looper mServiceLooper = thread.getLooper();
 		mServiceHandler = new ServiceHandler(mServiceLooper);
 
-
 		LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
-				  mCommandReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.bluetooth.command"));
-
-
+				mCommandReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.bluetooth.command"));
 
 		final BluetoothManager manager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
 
@@ -134,27 +116,19 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			// TODO Can't call this from outside of Activity
 			Log.e(TAG, "Bluetooth service not enabled. User needs to turn on Bluetooth.");
-//			startActivity(enableBtIntent);
 		}
 
 		createService();
-
 	}
-
-
-	// ################################################################
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-
-		Log.d(TAG, "onStartCommand()");
 
 		// For each start request, send a message to start a job and deliver the
 		// start ID so we know which request we're stopping when we finish the job
 		Message msg = mServiceHandler.obtainMessage();
 		msg.arg1 = startId;
 		mServiceHandler.sendMessage(msg);
-
 
 		// If we get killed, after returning from here, restart
 
@@ -177,48 +151,20 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 // a job that should be immediately resumed, such as downloading a file.
 
 		return START_STICKY;
-
 	}
-
-
-	// ################################################################
 
 	@Override
 	public IBinder onBind(Intent intent) {
 		// We don't provide binding, so return null
-		Log.d(TAG, "onBind()");
 		return null;
 	}
-
-
-	// ################################################################
-
-//	@Override
-//	public boolean onUnbind(Intent intent) {
-//		// All clients have unbound with unbindService()
-//		return mAllowRebind;
-//	}
-
-
-	// ################################################################
-
-//	@Override
-//	public void onRebind(Intent intent) {
-//		// A client is binding to the service with bindService(),
-//		// after onUnbind() has already been called
-//	}
-
-
-	// ################################################################
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		Log.e(TAG, "onDestroy()");
 
 		// TODO This cleanup should occur on service termination but is happening early for unknown reason
 		// TODO See: https://stackoverflow.com/questions/7570885/service-ondestroy-is-called-directly-after-creation-anyway-the-service-does-i
-
 //		LocalBroadcastManager.getInstance(
 //				  getApplicationContext()).unregisterReceiver(
 //				  mCommandReceiver);
@@ -231,41 +177,17 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 //			gatt.close();
 //			gatt = null;
 //		}
-
 	}
 
-
-	// ################################################################
-
-//	private Handler handlerDecoder = new Handler(new Handler.Callback() {
-//		@Override
-//		public boolean handleMessage(Message msg) {
-//
-//			Log.e(TAG, "handleMessage: " + msg);
-////			parseMessage(msg);
-//			return true;
-//		}
-//	});
-
-
-	// ################################################################
-
 	public void createService() {
-
-//		Log.d(TAG, "createService()");
-
 		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
 		if (bluetoothAdapter != null) {
-
 			scanLeDevice(true);
-
 		}
 	}
 
-	// ################################################################
-
-	private BroadcastReceiver mCommandReceiver = new BroadcastReceiver() {
+	private final BroadcastReceiver mCommandReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -276,18 +198,15 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 			Log.d(TAG, "commandName: " + commandName);
 
 			switch (commandName) {
-
 				case "scan":
-
 					switch (commandValue) {
 						case "true":
 							scanLeDevice(true);
 							break;
 						case "false":
-							scanLeDevice(true);
+							scanLeDevice(false);
 							break;
 					}
-
 					break;
 				case "connect":
 					connectDecoder(context, commandValue);
@@ -301,27 +220,20 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 				case "command":
 					commandDecoder(commandValue);
 					break;
-
-
 				case "x10":
 					commandGimmick(commandValue);
 					break;
-
 				case "joystick":
 					commandGimmick(commandValue);
 					break;
-
-
 			}
 		}
 
 	};
 
-	// ################################################################
-
 	public void connectDecoder(Context context, String deviceSelection) {
 
-		Log.v(TAG, "connectDecoder(): " + deviceSelection);
+		Log.d(TAG, "connectDecoder(): " + deviceSelection);
 
 		deviceSelection = deviceSelection.substring(deviceSelection.indexOf("[") + 1);
 		deviceSelection = deviceSelection.substring(0, deviceSelection.indexOf("]"));
@@ -330,20 +242,13 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 			if (sr.getDevice().getAddress().equals(deviceSelection)) {
 				BluetoothDevice device = sr.getDevice();
 
-				Log.e(TAG, "device.connectGatt");
+				Log.d(TAG, "device.connectGatt");
 
 				gatt = device.connectGatt(context, false, gattCallback);
-
-//				DevicePuzzleboxGimmickSingleton.getInstance().
-
 				break;
 			}
 		}
-
-	} // connectDecoder
-
-
-	// ################################################################
+	}
 
 	public void disconnectDecoder() {
 
@@ -354,39 +259,27 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-	} // disconnectDecoder
-
-
-	// ################################################################
+	}
 
 	public void rebootDecoder() {
-
-		Log.v(TAG, "rebootDecoder()");
-
 		if (gatt != null) {
 			for (BluetoothGattService bluetoothGattService : gatt.getServices()) {
 				String uuid = bluetoothGattService.getUuid().toString();
-				Log.i("SERVICE", "found service - " + uuid);
+				Log.d("SERVICE", "found service - " + uuid);
 				if (uuid.equals(DevicePuzzleboxGimmickSingleton.getInstance().getPeripheralServiceUuid())) {
-					Log.i(TAG, "found Peripheral service - " + uuid);
+					Log.d(TAG, "found Peripheral service - " + uuid);
 
 					for (BluetoothGattCharacteristic characteristic : bluetoothGattService.getCharacteristics()) {
 						for (BluetoothGattDescriptor descriptor : characteristic.getDescriptors()) {
 
 							if (descriptor.getUuid().toString().equals(DevicePuzzleboxGimmickSingleton.getInstance().getCommandCharacteristicUuid())) {
-								Log.i(TAG, "Command descriptor found");
+								Log.d(TAG, "Command descriptor found");
 								try {
-									Log.i(TAG, "Command descriptor.getUuid(): " + descriptor.getUuid());
-									Log.i(TAG, "Command descriptor.getPermissions(): " + descriptor.getPermissions());
-
-//									gatt.setCharacteristicNotification(characteristic, true);
-//									characteristic.setValue("Command: # reboot");
+									Log.d(TAG, "Command descriptor.getUuid(): " + descriptor.getUuid());
+									Log.d(TAG, "Command descriptor.getPermissions(): " + descriptor.getPermissions());
 									characteristic.setValue("Command[#]: reboot");
-									Log.i(TAG, "writing characteristic");
+									Log.d(TAG, "writing characteristic");
 									gatt.writeCharacteristic(characteristic);
-
-
 								} catch (Exception e) {
 									Log.e(TAG, "Command descriptor: " + e);
 								}
@@ -397,98 +290,67 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 				}
 			}
 		}
-
-	} // rebootDecoder
-
-	// ################################################################
+	}
 
 	public void commandDecoder(String command) {
-
-		Log.v(TAG, "commandDecoder()");
-
 		if (gatt != null) {
 			for (BluetoothGattService bluetoothGattService : gatt.getServices()) {
 				String uuid = bluetoothGattService.getUuid().toString();
-				Log.i("SERVICE", "found service - " + uuid);
+				Log.d("SERVICE", "found service - " + uuid);
 				if (uuid.equals(DevicePuzzleboxGimmickSingleton.getInstance().getPeripheralServiceUuid())) {
-					Log.i(TAG, "found Peripheral service - " + uuid);
+					Log.d(TAG, "found Peripheral service - " + uuid);
 
 					for (BluetoothGattCharacteristic characteristic : bluetoothGattService.getCharacteristics()) {
 						for (BluetoothGattDescriptor descriptor : characteristic.getDescriptors()) {
 
 							if (descriptor.getUuid().toString().equals(DevicePuzzleboxGimmickSingleton.getInstance().getCommandCharacteristicUuid())) {
-								Log.i(TAG, "Command descriptor found");
+								Log.d(TAG, "Command descriptor found");
 								try {
-									Log.i(TAG, "Command descriptor.getUuid(): " + descriptor.getUuid());
-									Log.i(TAG, "Command descriptor.getPermissions(): " + descriptor.getPermissions());
-
-//									gatt.setCharacteristicNotification(characteristic, true);
-//									characteristic.setValue("Command: # reboot");
+									Log.d(TAG, "Command descriptor.getUuid(): " + descriptor.getUuid());
+									Log.d(TAG, "Command descriptor.getPermissions(): " + descriptor.getPermissions());
 									characteristic.setValue("Command[$]: " + command);
-									Log.i(TAG, "writing characteristic");
+									Log.d(TAG, "writing characteristic");
 									gatt.writeCharacteristic(characteristic);
-
-
 								} catch (Exception e) {
 									Log.e(TAG, "Command descriptor: " + e);
 								}
-
 							}
 						}
 					}
 				}
 			}
 		}
-
-	} // commandDecoder
-
-	// ################################################################
+	}
 
 	public void commandGimmick(String command) {
-
-		Log.v(TAG, "commandGimmick()");
-
 		if (gatt != null) {
 			for (BluetoothGattService bluetoothGattService : gatt.getServices()) {
 				String uuid = bluetoothGattService.getUuid().toString();
-				Log.i("SERVICE", "found service - " + uuid);
+				Log.d("SERVICE", "found service - " + uuid);
 				if (uuid.equals(DevicePuzzleboxGimmickSingleton.getInstance().getPeripheralServiceUuid())) {
-					Log.i(TAG, "found Peripheral service - " + uuid);
+					Log.d(TAG, "found Peripheral service - " + uuid);
 
 					for (BluetoothGattCharacteristic characteristic : bluetoothGattService.getCharacteristics()) {
 						for (BluetoothGattDescriptor descriptor : characteristic.getDescriptors()) {
 
 							if (descriptor.getUuid().toString().equals(DevicePuzzleboxGimmickSingleton.getInstance().getCommandCharacteristicUuid())) {
-								Log.i(TAG, "Command descriptor found");
+								Log.d(TAG, "Command descriptor found");
 								try {
-									Log.i(TAG, "Command descriptor.getUuid(): " + descriptor.getUuid());
-									Log.i(TAG, "Command descriptor.getPermissions(): " + descriptor.getPermissions());
-
-//									gatt.setCharacteristicNotification(characteristic, true);
-//									characteristic.setValue("Command: # reboot");
-//									characteristic.setValue("Command[$]: " + command);
-//									characteristic.setValue("pg[" + command + "]");
-//									characteristic.setValue("eSense[" + command + "]");
+									Log.d(TAG, "Command descriptor.getUuid(): " + descriptor.getUuid());
+									Log.d(TAG, "Command descriptor.getPermissions(): " + descriptor.getPermissions());
 									characteristic.setValue("x10[" + command + "]");
-									Log.i(TAG, "writing characteristic");
+									Log.d(TAG, "writing characteristic");
 									gatt.writeCharacteristic(characteristic);
-
-
 								} catch (Exception e) {
 									Log.e(TAG, "Command descriptor: " + e);
 								}
-
 							}
 						}
 					}
 				}
 			}
 		}
-
-	} // commandDecoder
-
-
-	// ################################################################
+	}
 
 	private void broadcastEventBluetooth(String name, String value) {
 
@@ -498,12 +360,9 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		intent.putExtra("value", value);
 
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-
 	}
 
 	private void scanLeDevice(final boolean enable) {
-
-//		Log.d(TAG, "scanLeDevice: " + enable);
 
 		final BluetoothLeScanner scanner = bluetoothAdapter.getBluetoothLeScanner();
 
@@ -524,10 +383,10 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		}
 	}
 
-	private ScanCallback mScanCallback = new ScanCallback() {
+	private final ScanCallback mScanCallback = new ScanCallback() {
 		@Override
 		public void onScanResult(int callbackType, ScanResult result) {
-			Log.i(TAG, "Device found: " + result.getDevice().getName() + ": " + result.toString());
+			Log.d(TAG, "Device found: " + result.getDevice().getName() + ": " + result.toString());
 
 			boolean found = false;
 
@@ -542,19 +401,18 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 			// Update Fragments
 			broadcastEventBluetooth("command", "displayDevicesFound");
-
 		}
 
 		@Override
 		public void onBatchScanResults(List<ScanResult> results) {
 			for (ScanResult sr : results) {
-				Log.i("ScanResult - Results", sr.toString());
+				Log.d("ScanResult - Results", sr.toString());
 			}
 		}
 
 		@Override
 		public void onScanFailed(int errorCode) {
-			Log.i("Scan Failed", "Error Code: " + errorCode);
+			Log.d("Scan Failed", "Error Code: " + errorCode);
 		}
 	};
 
@@ -562,7 +420,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 		public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
 
-			Log.i(TAG, "onConnectionStateChange");
+			Log.d(TAG, "onConnectionStateChange");
 
 			switch(newState) {
 				case STATE_DISCONNECTED:
@@ -578,21 +436,15 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 					broadcastStatusBluetooth("status", "connected");
 					break;
 			}
-
 		}
 
-		//		@Override
 		public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
 
-			Log.i(TAG, "onCharacteristicRead()");
-
 			if (status == BluetoothGatt.GATT_SUCCESS) {
-
 				try {
-					Log.i(TAG, "characteristic.getUuid(): " + characteristic.getUuid());
-//					Log.i(TAG, "characteristic.getValue(): " + characteristic.getValue());
-					Log.i(TAG, "characteristic.getStringValue(0): " + characteristic.getStringValue(0));
-					Log.i(TAG, "characteristic.getDescriptors(): " + characteristic.getDescriptors());
+					Log.d(TAG, "characteristic.getUuid(): " + characteristic.getUuid());
+					Log.d(TAG, "characteristic.getStringValue(0): " + characteristic.getStringValue(0));
+					Log.d(TAG, "characteristic.getDescriptors(): " + characteristic.getDescriptors());
 				} catch (Exception e) {
 					Log.e(TAG, "characteristic: " + e);
 				}
@@ -600,66 +452,58 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		}
 
 		public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-			Log.i(TAG, "onDescriptorRead()");
+			Log.d(TAG, "onDescriptorRead()");
 			if (status == BluetoothGatt.GATT_SUCCESS) {
 				try {
-					Log.i(TAG, "descriptor.getUuid(): " + descriptor.getUuid());
+					Log.d(TAG, "descriptor.getUuid(): " + descriptor.getUuid());
 
 					// Handle Hash descriptor
 					if ((descriptor.getUuid() != null) &&
-							  (descriptor.getValue() != null) &&
-							  (descriptor.getUuid().toString().equals(DevicePuzzleboxGimmickSingleton.getInstance().getHashCharacteristicUuid()))) {
-						String text = new String(descriptor.getValue(), "UTF-8");
-						Log.i(TAG, "descriptor.getValue() \"UTF-8\": " + text);
+							(descriptor.getValue() != null) &&
+							(descriptor.getUuid().toString().equals(DevicePuzzleboxGimmickSingleton.getInstance().getHashCharacteristicUuid()))) {
+						String text = new String(descriptor.getValue(), StandardCharsets.UTF_8);
+						Log.d(TAG, "descriptor.getValue() \"UTF-8\": " + text);
 						DevicePuzzleboxGimmickSingleton.getInstance().deviceHash = text;
 
 						// Update Fragments
 //						DevicePuzzleboxGimmickSingleton.getInstance().connected = true;
-//
 //						broadcastStatusBluetooth("status", "connected");
 
 						broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Off");
 						DevicePuzzleboxGimmickSingleton.getInstance().x10Level = 0;
-
 					}
-
-					Log.i(TAG, "descriptor.getPermissions(): " + descriptor.getPermissions());
+					Log.d(TAG, "descriptor.getPermissions(): " + descriptor.getPermissions());
 				} catch (Exception e) {
 					Log.e(TAG, "descriptor: " + e);
 				}
-
 			}
 		}
 
 		public void onServicesDiscovered(BluetoothGatt gatt, int status) {
 
-			Log.i(TAG, "onServicesDiscovered()");
-
 			List<BluetoothGattService> services = gatt.getServices();
 			if (services == null) {
-				Log.i(TAG, "onServicesDiscovered(): null");
+				Log.d(TAG, "onServicesDiscovered(): null");
 				return;
 			}
 			for (BluetoothGattService bluetoothGattService : services) {
 				String uuid = bluetoothGattService.getUuid().toString();
-				Log.i("SERVICE", "found service - " + uuid);
+				Log.d("SERVICE", "found service - " + uuid);
 				if (uuid.equals(DevicePuzzleboxGimmickSingleton.getInstance().getPeripheralServiceUuid())) {
-					Log.i(TAG, "found Peripheral service - " + uuid);
+					Log.d(TAG, "found Peripheral service - " + uuid);
 
-					Log.i(TAG, "bluetoothGattService.getCharacteristics(): " + bluetoothGattService.getCharacteristics());
+					Log.d(TAG, "bluetoothGattService.getCharacteristics(): " + bluetoothGattService.getCharacteristics());
 
 					for (BluetoothGattCharacteristic characteristic : bluetoothGattService.getCharacteristics()) {
 						for (BluetoothGattDescriptor descriptor: characteristic.getDescriptors()) {
 
 							if (descriptor.getUuid().toString().equals(DevicePuzzleboxGimmickSingleton.getInstance().getHashCharacteristicUuid())) {
-								Log.i(TAG, "Hash characteristic found");
+								Log.d(TAG, "Hash characteristic found");
 								try {
-									Log.i(TAG, "Hash descriptor.getUuid(): " + descriptor.getUuid());
-									Log.i(TAG, "Hash descriptor.getValue(): " + descriptor.getValue());
-									Log.i(TAG, "Hash descriptor.getPermissions(): " + descriptor.getPermissions());
-
+									Log.d(TAG, "Hash descriptor.getUuid(): " + descriptor.getUuid());
+									Log.d(TAG, "Hash descriptor.getValue(): " + descriptor.getValue());
+									Log.d(TAG, "Hash descriptor.getPermissions(): " + descriptor.getPermissions());
 									gatt.readDescriptor(descriptor);
-
 								} catch (Exception e) {
 									Log.e(TAG, "Hash descriptor: " + e);
 								}
@@ -670,32 +514,21 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 			}
 		}
 
-
 		public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
 
-			Log.i(TAG, "onCharacteristicChanged");
-
 			byte data[] = characteristic.getValue();
-			try {
-				final String val = new String(data,"UTF-8");
-				Log.i("VALUE", "notify new value - " + val);
+			final String val = new String(data, StandardCharsets.UTF_8);
+			Log.d("VALUE", "notify new value - " + val);
 //				runOnUiThread(new Runnable() {
 //					@Override
 //					public void run() {
 //						((TextView)findViewById(R.id.textViewOutput)).setText("onCharacteristicChanged: " + val);
 //					}
 //				});
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
 		}
 	};
 
-
-	// ################################################################
-
 	private void broadcastCommandBluetooth(String name, String value) {
-
 		Log.d(TAG, "broadcastCommandBluetooth: " + name + ": " + value);
 
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.bluetooth.command");
@@ -704,11 +537,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		intent.putExtra("value", value);
 
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-
 	}
-
-
-	// ################################################################
 
 	private void broadcastStatusBluetooth(String name, String value) {
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status");
@@ -717,6 +546,5 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		intent.putExtra("value", value);
 
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-
 	}
 }

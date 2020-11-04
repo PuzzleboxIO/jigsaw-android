@@ -29,16 +29,13 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-//		setStyle(DialogFragment.STYLE_NO_FRAME, android.R.style.Theme); // creates a full-screen dialog window
-//		setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme);
-//		setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme);
 		setStyle(DialogFragment.STYLE_NO_TITLE, 0);
 		super.onCreate(savedInstanceState);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_input_emotiv_insight_select_eeg, null);
 
@@ -56,7 +53,6 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 //		textViewSelectEEG.setTypeface(tf);
 //		textViewSelectEEG.setTextSize(pixels);
 
-
 		Button buttonRefresh = v.findViewById(R.id.buttonRefresh);
 		buttonRefresh.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -69,7 +65,6 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 
 		});
 
-
 		dynamicLayout = v.findViewById(R.id.dynamicLayoutSelectEEG);
 
 		for (int i = 0; i < DeviceEmotivInsightSingleton.getInstance().detectedDevices.size(); i++) {
@@ -81,10 +76,9 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 			if (savedInstanceState == null) {
 
 				DialogInputEmotivInsightSelectItemFragment item = io.puzzlebox.jigsaw.ui.DialogInputEmotivInsightSelectItemFragment.newInstance(
-						  R.id.dynamicLayoutSelectEEG,
-						  i,
-						  deviceName);
-
+						R.id.dynamicLayoutSelectEEG,
+						i,
+						deviceName);
 				try {
 					FragmentTransaction ft = getChildFragmentManager().beginTransaction();
 					ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
@@ -93,21 +87,10 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 				} catch (Exception e) {
 					Log.e(TAG, "ft Exception:" + e.toString());
 				}
-
 			}
-
 		}
-
 		return v;
 	}
-
-//    @Override
-//    public void show(FragmentManager manager, String tag) {
-//        if (manager.findFragmentByTag(tag) == null) {
-//            super.show(manager, tag);
-//        }
-//    }
-
 
 	@Override
 	public void onAttach(Context context) {
@@ -115,8 +98,6 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-//			throw new RuntimeException(context.toString()
-//					  + " must implement OnFragmentInteractionListener");
 			Log.e(TAG, context.toString()  + " must implement OnFragmentInteractionListener");
 		}
 	}
@@ -131,7 +112,4 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 		void onSelectEEGRefresh();
 		void onSelectEEGItem(Integer deviceNumber);
 	}
-
-
-
 }

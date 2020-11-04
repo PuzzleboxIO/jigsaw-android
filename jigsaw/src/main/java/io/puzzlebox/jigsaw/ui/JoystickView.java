@@ -15,32 +15,22 @@ import android.view.ViewConfiguration;
 import io.puzzlebox.jigsaw.R;
 
 /**
- * Created by sc on 2/15/17.
- *
  * Imported from https://github.com/controlwear/virtual-joystick-android
  * Upstream License: Apache 2.0 [https://github.com/controlwear/virtual-joystick-android/blob/master/LICENSE]
- *
  */
 
-//public class JoystickView {
-//}
-
 public class JoystickView extends View
-		  implements
-		  Runnable {
-
-
+		implements
+		Runnable {
     /*
     INTERFACES
     */
-
 
 	/**
 	 * Interface definition for a callback to be invoked when a
 	 * JoystickView's button is moved
 	 */
 	public interface OnMoveListener {
-
 		/**
 		 * Called when a JoystickView's button has been moved
 		 * @param angle current angle
@@ -48,7 +38,6 @@ public class JoystickView extends View
 		 */
 		void onMove(int angle, int strength);
 	}
-
 
 	/**
 	 * Interface definition for a callback to be invoked when a JoystickView
@@ -60,7 +49,6 @@ public class JoystickView extends View
 		 */
 		void onMultipleLongPress();
 	}
-
 
     /*
     CONSTANTS
@@ -111,11 +99,10 @@ public class JoystickView extends View
 	 */
 	private static final boolean DEFAULT_FIXED_CENTER = true;
 
-
 	// DRAWING
-	private Paint mPaintCircleButton;
-	private Paint mPaintCircleBorder;
-	private Paint mPaintBackground;
+	private final Paint mPaintCircleButton;
+	private final Paint mPaintCircleBorder;
+	private final Paint mPaintBackground;
 
 	// COORDINATE
 	private int mPosX = 0;
@@ -131,11 +118,9 @@ public class JoystickView extends View
 	 */
 	private boolean mFixedCenter;
 
-
 	// SIZE
 	private int mButtonRadius;
 	private int mBorderRadius;
-
 
 	/**
 	 * Listener used to dispatch OnMove event
@@ -145,21 +130,18 @@ public class JoystickView extends View
 	private long mLoopInterval = DEFAULT_LOOP_INTERVAL;
 	private Thread mThread = new Thread(this);
 
-
 	/**
 	 * Listener used to dispatch MultipleLongPress event
 	 */
 	private OnMultipleLongPressListener mOnMultipleLongPressListener;
 
 	private final Handler mHandlerMultipleLongPress = new Handler();
-	private Runnable mRunnableMultipleLongPress;
+	private final Runnable mRunnableMultipleLongPress;
 	private int mMoveTolerance;
-
 
     /*
     CONSTRUCTORS
      */
-
 
 	/**
 	 * Simple constructor to use when creating a JoystickView from code.
@@ -169,11 +151,9 @@ public class JoystickView extends View
 		this(context, null);
 	}
 
-
 	public JoystickView(Context context, AttributeSet attrs, int defStyleAttr) {
 		this(context, attrs);
 	}
-
 
 	/**
 	 * Constructor that is called when inflating a JoystickView from XML. This is called
@@ -187,9 +167,9 @@ public class JoystickView extends View
 		super(context, attrs);
 
 		TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
-				  attrs,
-				  R.styleable.JoystickView,
-				  0, 0
+				attrs,
+				R.styleable.JoystickView,
+				0, 0
 		);
 
 		int buttonColor;
@@ -207,7 +187,6 @@ public class JoystickView extends View
 		}
 
 		// Initialize the drawing according to attributes
-
 		mPaintCircleButton = new Paint();
 		mPaintCircleButton.setAntiAlias(true);
 		mPaintCircleButton.setColor(buttonColor);
@@ -224,9 +203,7 @@ public class JoystickView extends View
 		mPaintBackground.setColor(backgroundColor);
 		mPaintBackground.setStyle(Paint.Style.FILL);
 
-
 		// Init Runnable for MultiLongPress
-
 		mRunnableMultipleLongPress = new Runnable() {
 			@Override
 			public void run() {
@@ -236,13 +213,11 @@ public class JoystickView extends View
 		};
 	}
 
-
 	private void initPosition() {
 		// get the center of view to position circle
 		mUICenterX = mCenterX = mPosX = getWidth() / 2;
 		mUICenterY = mCenterY = mPosY = getWidth() / 2;
 	}
-
 
 	/**
 	 * Draw the background, the border and the button
@@ -259,7 +234,6 @@ public class JoystickView extends View
 		// Draw the circle button
 		canvas.drawCircle(mPosX - mCenterX + mUICenterX, mPosY - mCenterY + mUICenterY, mButtonRadius, mPaintCircleButton);
 	}
-
 
 	/**
 	 * This is called during layout when the size of this view has changed.
@@ -282,14 +256,12 @@ public class JoystickView extends View
 		mBorderRadius = (int) (d / 2 * RATIO_SIZE_BORDER);
 	}
 
-
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		// setting the measured values to resize the view to a certain width and height
 		int d = Math.min(measure(widthMeasureSpec), measure(heightMeasureSpec));
 		setMeasuredDimension(d, d);
 	}
-
 
 	private int measure(int measureSpec) {
 		if (MeasureSpec.getMode(measureSpec) == MeasureSpec.UNSPECIFIED) {
@@ -302,11 +274,9 @@ public class JoystickView extends View
 		}
 	}
 
-
     /*
     USER EVENT
      */
-
 
 	/**
 	 * Handle touch screen motion event. Move the button according to the
@@ -378,7 +348,7 @@ public class JoystickView extends View
 		}
 
 		double abs = Math.sqrt((mPosX - mCenterX) * (mPosX - mCenterX)
-				  + (mPosY - mCenterY) * (mPosY - mCenterY));
+				+ (mPosY - mCenterY) * (mPosY - mCenterY));
 
 		if (abs > mBorderRadius) {
 			mPosX = (int) ((mPosX - mCenterX) * mBorderRadius / abs + mCenterX);
@@ -391,7 +361,6 @@ public class JoystickView extends View
 		return true;
 	}
 
-
 	/**
 	 * Process the angle following the 360° counter-clock protractor rules.
 	 * @return the angle of the button
@@ -401,17 +370,15 @@ public class JoystickView extends View
 		return angle < 0 ? angle + 360 : angle; // make it as a regular counter-clock protractor
 	}
 
-
 	/**
 	 * Process the strength as a percentage of the distance between the center and the border.
 	 * @return the strength of the button
 	 */
 	private int getStrength() {
 		return (int) (100 * Math.sqrt((mPosX - mCenterX)
-				  * (mPosX - mCenterX) + (mPosY - mCenterY)
-				  * (mPosY - mCenterY)) / mBorderRadius);
+				* (mPosX - mCenterX) + (mPosY - mCenterY)
+				* (mPosY - mCenterY)) / mBorderRadius);
 	}
-
 
 	/**
 	 * Reset the button position to the center.
@@ -421,11 +388,9 @@ public class JoystickView extends View
 		mPosY = mCenterY;
 	}
 
-
     /*
     SETTERS
      */
-
 
 	/**
 	 * Set the button color for this JoystickView.
@@ -436,7 +401,6 @@ public class JoystickView extends View
 		invalidate();
 	}
 
-
 	/**
 	 * Set the border color for this JoystickView.
 	 * @param color the color of the border
@@ -445,7 +409,6 @@ public class JoystickView extends View
 		mPaintCircleBorder.setColor(color);
 		invalidate();
 	}
-
 
 	/**
 	 * Set the background color for this JoystickView.
@@ -457,7 +420,6 @@ public class JoystickView extends View
 		invalidate();
 	}
 
-
 	/**
 	 * Set the border width for this JoystickView.
 	 * @param width the width of the border
@@ -467,7 +429,6 @@ public class JoystickView extends View
 		invalidate();
 	}
 
-
 	/**
 	 * Register a callback to be invoked when this JoystickView's button is moved
 	 * @param l The callback that will run
@@ -475,7 +436,6 @@ public class JoystickView extends View
 	public void setOnMoveListener(OnMoveListener l) {
 		setOnMoveListener(l, DEFAULT_LOOP_INTERVAL);
 	}
-
 
 	/**
 	 * Register a callback to be invoked when this JoystickView's button is moved
@@ -487,7 +447,6 @@ public class JoystickView extends View
 		mLoopInterval = loopInterval;
 	}
 
-
 	/**
 	 * Register a callback to be invoked when this JoystickView is touch and held by multiple pointers
 	 * @param l The callback that will run
@@ -495,7 +454,6 @@ public class JoystickView extends View
 	public void setOnMultiLongPressListener(OnMultipleLongPressListener l) {
 		mOnMultipleLongPressListener = l;
 	}
-
 
 	/**
 	 * Set the joystick center's behavior (fixed or auto-defined)
@@ -510,11 +468,9 @@ public class JoystickView extends View
 		invalidate();
 	}
 
-
     /*
     IMPLEMENTS
      */
-
 
 	@Override // Runnable
 	public void run() {

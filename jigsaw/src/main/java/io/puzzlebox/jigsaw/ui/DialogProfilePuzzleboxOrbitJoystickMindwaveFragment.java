@@ -39,7 +39,7 @@ import static io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService.eegConnecting
 import static io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService.eegSignal;
 
 public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogFragment
-		  implements SeekBar.OnSeekBarChangeListener {
+		implements SeekBar.OnSeekBarChangeListener {
 
 	private final static String TAG = DialogProfilePuzzleboxOrbitJoystickMindwaveFragment.class.getSimpleName();
 
@@ -82,16 +82,15 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		// Required empty public constructor
 	}
 
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-									 Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_profile_puzzlebox_orbit_joystick_mindwave, container, false);
 
 		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_puzzlebox_orbit_joystick_mindwave));
 
-		progressBarAttention = (ProgressBar) v.findViewById(R.id.progressBarAttention);
+		progressBarAttention = v.findViewById(R.id.progressBarAttention);
 		final float[] roundedCorners = new float[] { 5, 5, 5, 5, 5, 5, 5, 5 };
 		ShapeDrawable progressBarAttentionDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarAttentionColor = "#FF0000";
@@ -100,7 +99,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		progressBarAttention.setProgressDrawable(progressAttention);
 		progressBarAttention.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarMeditation = (ProgressBar) v.findViewById(R.id.progressBarMeditation);
+		progressBarMeditation = v.findViewById(R.id.progressBarMeditation);
 		ShapeDrawable progressBarMeditationDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarMeditationColor = "#0000FF";
 		progressBarMeditationDrawable.getPaint().setColor(Color.parseColor(progressBarMeditationColor));
@@ -108,7 +107,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		progressBarMeditation.setProgressDrawable(progressMeditation);
 		progressBarMeditation.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarSignal = (ProgressBar) v.findViewById(R.id.progressBarSignal);
+		progressBarSignal = v.findViewById(R.id.progressBarSignal);
 		ShapeDrawable progressBarSignalDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarSignalColor = "#00FF00";
 		progressBarSignalDrawable.getPaint().setColor(Color.parseColor(progressBarSignalColor));
@@ -116,7 +115,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		progressBarSignal.setProgressDrawable(progressSignal);
 		progressBarSignal.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarPower = (ProgressBar) v.findViewById(R.id.progressBarPower);
+		progressBarPower = v.findViewById(R.id.progressBarPower);
 		ShapeDrawable progressBarPowerDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarPowerColor = "#FFFF00";
 		progressBarPowerDrawable.getPaint().setColor(Color.parseColor(progressBarPowerColor));
@@ -124,18 +123,18 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		progressBarPower.setProgressDrawable(progressPower);
 		progressBarPower.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		seekBarAttention = (SeekBar) v.findViewById(R.id.seekBarAttention);
+		seekBarAttention = v.findViewById(R.id.seekBarAttention);
 		seekBarAttention.setOnSeekBarChangeListener(this);
-		seekBarMeditation = (SeekBar) v.findViewById(R.id.seekBarMeditation);
+		seekBarMeditation = v.findViewById(R.id.seekBarMeditation);
 		seekBarMeditation.setOnSeekBarChangeListener(this);
 
-		imageViewStatus = (ImageView) v.findViewById(R.id.imageViewStatus);
+		imageViewStatus = v.findViewById(R.id.imageViewStatus);
 
-		textViewScore = (TextView) v.findViewById(R.id.textViewScore);
-		textViewLastScore = (TextView) v.findViewById(R.id.textViewLastScore);
-		textViewHighScore = (TextView) v.findViewById(R.id.textViewHighScore);
+		textViewScore = v.findViewById(R.id.textViewScore);
+		textViewLastScore = v.findViewById(R.id.textViewLastScore);
+		textViewHighScore = v.findViewById(R.id.textViewHighScore);
 
-		switchThrottlePitch = (Switch) v.findViewById(R.id.switchThrottlePitch);
+		switchThrottlePitch = v.findViewById(R.id.switchThrottlePitch);
 		switchThrottlePitch.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -144,22 +143,22 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 			}
 		});
 
-		seekBarThrottle = (SeekBar) v.findViewById(R.id.seekBarThrottle);
+		seekBarThrottle = v.findViewById(R.id.seekBarThrottle);
 		seekBarThrottle.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultControlThrottle);
 		seekBarThrottle.setOnSeekBarChangeListener(this);
 
-		seekBarYaw = (SeekBar) v.findViewById(R.id.seekBarYaw);
+		seekBarYaw = v.findViewById(R.id.seekBarYaw);
 		seekBarYaw.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultControlYaw);
 		seekBarYaw.setOnSeekBarChangeListener(this);
 
-		seekBarPitch = (SeekBar) v.findViewById(R.id.seekBarPitch);
+		seekBarPitch = v.findViewById(R.id.seekBarPitch);
 		seekBarPitch.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultControlPitch);
 
-		JoystickView joystickView = (JoystickView) v.findViewById(R.id.joystickView);
+		JoystickView joystickView = v.findViewById(R.id.joystickView);
 		joystickView.setOnMoveListener(onMoveJoystick);
 
 
-		Button buttonDeviceCancel = (Button) v.findViewById(R.id.buttonDeviceCancel);
+		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
 		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -167,7 +166,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 			}
 		});
 
-		buttonDeviceEnable = (Button) v.findViewById(R.id.buttonDeviceEnable);
+		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
 		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -178,9 +177,6 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		/**
 		 * PuzzleboxOrbitAudioIRHandler
 		 */
-//		if (!DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.isAlive()) {
-//			DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.start();
-//		}
 		DevicePuzzleboxOrbitSingleton.getInstance().startAudioHandler();
 
 		updatePowerThresholds();
@@ -188,7 +184,6 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		updateControlSignal();
 
 		return v;
-
 	}
 
 	@Override
@@ -198,7 +193,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
-					  + " must implement OnFragmentInteractionListener");
+					+ " must implement OnFragmentInteractionListener");
 		}
 	}
 
@@ -212,27 +207,18 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		void onFragmentInteraction(Uri uri);
 	}
 
-
-	// ################################################################
-
 	public void onPause() {
-
 		super.onPause();
+		LocalBroadcastManager.getInstance(
+				getActivity().getApplicationContext()).unregisterReceiver(
+				mPacketReceiver);
 
 		LocalBroadcastManager.getInstance(
-				  getActivity().getApplicationContext()).unregisterReceiver(
-				  mPacketReceiver);
-
-		LocalBroadcastManager.getInstance(
-				  getActivity().getApplicationContext()).unregisterReceiver(
-				  mEventReceiver);
+				getActivity().getApplicationContext()).unregisterReceiver(
+				mEventReceiver);
 
 		stopControl();
-
-	} // onPause
-
-
-	// ################################################################
+	}
 
 	public void onResume() {
 
@@ -263,82 +249,51 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		updatePower();
 
 		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
-				  mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
+				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
 
 		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
-				  mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
-
-
+				mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
 	}
 
-
-	// ################################################################
-
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
-
 		updatePowerThresholds();
-
 		updateControlSignal();
-
-	} // onProgressChanged
+	}
 
 	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
-
 	}
 
 	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
-
 	}
 
-	// ################################################################
-
 	public void onSwitchClicked(Boolean activated) {
-
 		if (! activated) {
 			switchThrottlePitch.setText(R.string.label_puzzlebox_orbit_joystick_mindwave_switch_text);
 		} else {
 			switchThrottlePitch.setText(R.string.label_puzzlebox_orbit_joystick_mindwave_switch_text_alt);
 		}
-
 	}
 
-
-	// ################################################################
-
-	private JoystickView.OnMoveListener onMoveJoystick = new JoystickView.OnMoveListener(){
+	private final JoystickView.OnMoveListener onMoveJoystick = new JoystickView.OnMoveListener(){
 		public void onMove(int angle, int strength) {
 			Log.v(TAG, "onMoveJoystick(int angle, int strength): " + angle + ", " + strength);
 
 			if ((angle == 0) && (strength == 0)) {
 				// Home position or no touch on joystick
 
-//				seekBarX.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickYaw);
-//
-//				if (! switchThrottlePitch.isChecked())
-//					seekBarY.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickThrottle);
-//				else
-//					seekBarY.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickPitch);
-
-
 				if (! switchThrottlePitch.isChecked()) {
 					seekBarThrottle.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickThrottle);
-//					seekBarYaw.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickYaw);
-//					seekBarThrottle.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultControlThrottle);
 					seekBarYaw.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultControlYaw);
 				} else {
-//					seekBarPitch.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickPitch);
-//					seekBarYaw.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickYaw);
 					seekBarPitch.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultControlPitch);
 					seekBarYaw.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultControlYaw);
 				}
 
 			}
-//			else if ((angle >= 0) && (angle <= 180)) {
 			else if ((angle >= 30) && (angle <= 150)) {
 				// Up
-
 				if (! switchThrottlePitch.isChecked()) {
 					// Y Axis of joystick controls Throttle
 
@@ -355,33 +310,25 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 
 				} else {
 					// Y Axis of joystick controls throttle
-
 					int newY = seekBarPitch.getMax() / 2;
 					newY = (int) (newY * (strength / 100.0));
 					newY = seekBarPitch.getMax() / 2 + newY;
 					seekBarPitch.setProgress(newY);
-
 				}
 
 			}
-//			else if ((angle >= 180) && (angle <= 359)) {
 			else if ((angle >= 210) && (angle <= 330)) {
 				// Down
-
 				if (! switchThrottlePitch.isChecked()) {
 					// Y Axis of joystick controls Throttle
-
 					seekBarThrottle.setProgress(0);
-
 				} else {
 					// Y Axis of joystick controls throttle
-
 					int newY = seekBarPitch.getMax() / 2;
 					newY = (int) (newY * (strength / 100.0));
 					newY = seekBarPitch.getMax() / 2 - newY;
 					seekBarPitch.setProgress(newY);
 				}
-
 			}
 			if ((angle >= 150) && (angle <= 210)) {
 				// Left
@@ -397,14 +344,9 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 				newX = seekBarYaw.getMax() / 2 + newX;
 				seekBarYaw.setProgress(newX);
 			}
-
 			updateControlSignal();
-
 		}
 	};
-
-
-	// ################################################################
 
 	public void updateControlSignal() {
 
@@ -412,129 +354,51 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		// because smaller values instruct the helicopter to spin to the right
 		// (clockwise if looking down from above) whereas intuitively moving
 		// the slider to the left should cause it to spin left
-
-//		Integer[] command = {
-//				  seekBarThrottle.getProgress(),
-//				  seekBarYaw.getMax() - seekBarYaw.getProgress(),
-//				  seekBarPitch.getProgress(),
-//				  1};
-
-//		Integer[] command = {
-//				  DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickThrottle,
-//				  DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickYaw,
-//				  DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickPitch
-//		};
-
-//		if (! switchThrottlePitch.isChecked()) {
-//
-//			Integer[] command = {
-//					  DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickThrottle,
-//					  seekBarX.getMax() - seekBarX.getProgress(),
-//					  seekBarY.getProgress(),
-//					  1};
-//
-//			DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.command = command;
-//
-//		} else {
-//			Integer[] command = {
-//					  seekBarY.getProgress(),
-//					  seekBarX.getMax() - seekBarX.getProgress(),
-//					  DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickPitch,
-//					  1};
-//
-//			DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.command = command;
-//
-//		}
-
-
-
 		Integer[] command =  {
-				  seekBarThrottle.getProgress(),
-				  seekBarYaw.getMax() - seekBarYaw.getProgress(),
-				  seekBarPitch.getProgress(),
-				  DevicePuzzleboxOrbitSingleton.getInstance().defaultChannel};
-
+				seekBarThrottle.getProgress(),
+				seekBarYaw.getMax() - seekBarYaw.getProgress(),
+				seekBarPitch.getProgress(),
+				DevicePuzzleboxOrbitSingleton.getInstance().defaultChannel};
 
 		// Transmit zero Throttle power if not about EEG power threashold
 		if (eegPower <= 0) {
 			Log.e(TAG, "(eegPower <= 0)");
 			command[0] = 0;
 		}
-
-
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.command = command;
-
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.updateControlSignal();
-
-	} // updateControlSignal
-
-
-	// ################################################################
+	}
 
 	/**
 	 * @param number the puzzleboxOrbitAudioIRHandler to update loop number while mind control
 	 */
 	public void updateAudioHandlerLoopNumberWhileMindControl(int number) {
-
-//		this.puzzleboxOrbitAudioIRHandler.loopNumberWhileMindControl = number;
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.loopNumberWhileMindControl = number;
-
-
-	} // updateServiceBinderLoopNumberWhileMindControl
-
-
-	// ################################################################
+	}
 
 	/**
 	 * the puzzleboxOrbitAudioIRHandler to update channel
 	 */
 	public void updateAudioHandlerChannel(int channel) {
-
-//		this.puzzleboxOrbitAudioIRHandler.channel = channel;
-//		this.puzzleboxOrbitAudioIRHandler.updateControlSignal();
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.channel = channel;
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.updateControlSignal();
-
-
-	} // updateServiceBinderChannel
-
-
-	// ################################################################
+	}
 
 	public void playControl() {
-
-//		Log.d(TAG, "playControl()");
-
 		DevicePuzzleboxOrbitSingleton.getInstance().flightActive = true;
-
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.ifFlip = DevicePuzzleboxOrbitSingleton.getInstance().invertControlSignal; // if checked then flip
-
-//		int channel = DevicePuzzleboxOrbitSingleton.getInstance().defaultChannel;
 
 		updateAudioHandlerLoopNumberWhileMindControl(-1); // Loop infinite for easier user testing
 
-//		updateAudioHandlerChannel(channel);
 		updateAudioHandlerChannel(DevicePuzzleboxOrbitSingleton.getInstance().defaultChannel);
 
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.mutexNotify();
-
-	} // playControl
-
-
-	// ################################################################
+	}
 
 	public void stopControl() {
-
-//		Log.d(TAG, "stopControl()");
-
 		stopAudio();
-
 		DevicePuzzleboxOrbitSingleton.getInstance().flightActive = false;
-
-	} // stopControl
-
-
-	// ################################################################
+	}
 
 	public void stopAudio() {
 
@@ -555,14 +419,9 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 				e.printStackTrace();
 			}
 		}
+	}
 
-
-	} // stopControl
-
-
-	// ################################################################
-
-	private BroadcastReceiver mPacketReceiver = new BroadcastReceiver() {
+	private final BroadcastReceiver mPacketReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -578,14 +437,11 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 			updateStatusImage();
 
 			updatePower();
-
 		}
 
 	};
 
-	// ################################################################
-
-	private BroadcastReceiver mEventReceiver = new BroadcastReceiver() {
+	private final BroadcastReceiver mEventReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -641,27 +497,13 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 //						e.printStackTrace();
 //					}
 					break;
-
 			}
-
 		}
 
 	};
 
-
-	// ################################################################
-
 	public void updateStatusImage() {
 
-//		if(DEBUG) {
-//			Log.v(TAG, (new StringBuilder("Attention: ")).append(eegAttention).toString());
-//			Log.v(TAG, (new StringBuilder("Meditation: ")).append(eegMeditation).toString());
-//			Log.v(TAG, (new StringBuilder("Power: ")).append(eegPower).toString());
-//			Log.v(TAG, (new StringBuilder("Signal: ")).append(eegSignal).toString());
-//			Log.v(TAG, (new StringBuilder("Connecting: ")).append(eegConnecting).toString());
-//			Log.v(TAG, (new StringBuilder("Connected: ")).append(eegConnected).toString());
-//		}
-//
 		if(eegPower > 0) {
 			imageViewStatus.setImageResource(R.drawable.status_4_active);
 			return;
@@ -679,16 +521,10 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 
 		if(eegConnecting) {
 			imageViewStatus.setImageResource(R.drawable.status_1_connecting);
-			return;
 		} else {
 			imageViewStatus.setImageResource(R.drawable.status_default);
-			return;
 		}
-
-	} // updateStatusImage
-
-
-	// ################################################################
+	}
 
 	public void updatePowerThresholds() {
 
@@ -743,7 +579,6 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 				percentOfMaxPower = ( ((100 - attentionSeekValue) - (100 - i)) / (float)(100 - attentionSeekValue) );
 				power = thresholdValuesAttention[i] + (int)( minimumPower + ((maximumPower - minimumPower) * percentOfMaxPower) );
 				thresholdValuesAttention[i] = power;
-
 			}
 		}
 
@@ -755,11 +590,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 				thresholdValuesMeditation[i] = power;
 			}
 		}
-
-	} // updatePowerThresholds
-
-
-	// ################################################################
+	}
 
 	public void updatePower() {
 
@@ -777,16 +608,12 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 				progressBarAttention.setProgress(NeuroSkyThinkGearService.eegAttention);
 				progressBarMeditation.setProgress(NeuroSkyThinkGearService.eegMeditation);
 			}
-
 			NeuroSkyThinkGearService.eegPower = calculateSpeed();
 			eegPower = NeuroSkyThinkGearService.eegPower;
-
 			progressBarPower.setProgress(NeuroSkyThinkGearService.eegPower);
-
 		}
 
 		DevicePuzzleboxOrbitSingleton.getInstance().eegPower = eegPower;
-
 
 		if (eegPower > 0) {
 
@@ -806,20 +633,13 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 ////				stopControl();
 //				updateControlSignal();
 //			}
-
 			resetCurrentScore();
-
 		}
 
 		updateControlSignal();
 
 		Log.d(TAG, "flightActive: " + DevicePuzzleboxOrbitSingleton.getInstance().flightActive);
-
-
-	} // updatePower
-
-
-	// ################################################################
+	}
 
 	public int calculateSpeed() {
 
@@ -846,14 +666,9 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		if (speed < minimumPower)
 			speed = 0;
 
-
 		return(speed);
 
-
-	} // calculateSpeed
-
-
-	// ################################################################
+	}
 
 	public void updateScore() {
 
@@ -886,11 +701,11 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		int eegMeditationTarget = seekBarMeditation.getProgress();
 
 		if ((eegAttention >= eegAttentionTarget) &&
-				  (eegAttentionTarget > DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget))
+				(eegAttentionTarget > DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget))
 			eegAttentionScore = eegAttentionTarget - DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget;
 
 		if ((eegMeditation >= eegMeditationTarget) &&
-				  (eegMeditationTarget > DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget))
+				(eegMeditationTarget > DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget))
 			eegMeditationScore = eegMeditationTarget - DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget;
 
 		if (eegAttentionScore > eegMeditationScore)
@@ -905,7 +720,6 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 			textViewHighScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreHigh));
 		}
 
-
 		// Catch anyone gaming the system with one slider
 		// below the minimum threshold and the other over.
 		// For example, setting Meditation to 1% will keep helicopter
@@ -916,21 +730,12 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 			resetCurrentScore();
 		if ((eegAttention < DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget) && (eegMeditation < DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget))
 			resetCurrentScore();
-
-
-	} // updateScore
-
-
-	// ################################################################
+	}
 
 	public void resetCurrentScore() {
-
 		if (DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent > 0)
 			textViewLastScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
 		DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent = 0;
 		textViewScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
-
-	} // resetCurrentScore
-
-
+	}
 }

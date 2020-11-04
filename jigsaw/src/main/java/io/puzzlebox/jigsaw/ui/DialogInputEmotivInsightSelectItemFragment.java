@@ -33,8 +33,8 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 	private OnFragmentInteractionListener mListener;
 
 	public static DialogInputEmotivInsightSelectItemFragment newInstance(Integer paramParentId,
-																								Integer paramInsightId,
-																								String paramName) {
+																		 Integer paramInsightId,
+																		 String paramName) {
 		DialogInputEmotivInsightSelectItemFragment fragment = new DialogInputEmotivInsightSelectItemFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_PARENT_ID, paramParentId);
@@ -60,7 +60,7 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_input_emotiv_insight_select_item, container, false);
 
@@ -90,30 +90,17 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 		layoutSelectEEG.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.d(TAG, "layoutSelectEEG onClick(): " + mId);
-//				if (mListener != null) {
-//					mListener.onSelectEEGItem(mId);
-//
-//				}
-
 				Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
 				intent.putExtra("name", "select");
 				intent.putExtra("value", Integer.toString(mId));
 				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-
 			}
 		});
-
 
 		Button buttonChoose = v.findViewById(R.id.buttonChoose);
 		buttonChoose.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.d(TAG, "buttonChoose onClick(): " + mId);
-//				if (mListener != null) {
-//					mListener.onSelectEEGItem(mId);
-//				}
-
 				Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
 				intent.putExtra("name", "select");
 				intent.putExtra("value", Integer.toString(mId));
@@ -122,12 +109,8 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 			}
 
 		});
-
-
 		return v;
-
 	}
-
 
 	@Override
 	public void onAttach(Context context) {
@@ -135,8 +118,6 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-//			throw new RuntimeException(context.toString()
-//					  + " must implement OnFragmentInteractionListener");
 			Log.e(TAG, context.toString()  + " must implement OnFragmentInteractionListener");
 		}
 	}
@@ -150,7 +131,4 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 	public interface OnFragmentInteractionListener {
 		void onSelectEEGItem(Integer deviceNumber);
 	}
-
-
-
 }

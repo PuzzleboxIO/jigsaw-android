@@ -7,7 +7,6 @@
 package io.puzzlebox.jigsaw.ui;
 
 import android.app.Activity;
-//import android.app.Fragment;
 import android.content.pm.ActivityInfo;
 import android.support.v4.app.Fragment;
 import android.net.Uri;
@@ -18,24 +17,13 @@ import android.view.ViewGroup;
 
 import io.puzzlebox.jigsaw.R;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link WelcomeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link WelcomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class WelcomeFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public static WelcomeFragment newInstance(String param1, String param2) {
+	public static WelcomeFragment newInstance() {
 		WelcomeFragment fragment = new WelcomeFragment();
 		Bundle args = new Bundle();
-//		args.putString(ARG_PARAM1, param1);
-//		args.putString(ARG_PARAM2, param2);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -47,27 +35,16 @@ public class WelcomeFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getArguments() != null) {
-//			mParam1 = getArguments().getString(ARG_PARAM1);
-//			mParam2 = getArguments().getString(ARG_PARAM2);
-		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-
 		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		return inflater.inflate(R.layout.fragment_welcome, container, false);
 	}
-
-//	public void onButtonPressed(Uri uri) {
-//		if (mListener != null) {
-//			mListener.onFragmentInteraction(uri);
-//		}
-//	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -97,22 +74,6 @@ public class WelcomeFragment extends Fragment {
 	 * >Communicating with Other Fragments</a> for more information.
 	 */
 	public interface OnFragmentInteractionListener {
-		public void onFragmentInteraction(Uri uri);
+		void onFragmentInteraction(Uri uri);
 	}
-
-
-
-
-	// ################################################################
-
-
-//	@Override
-//	public void setUserVisibleHint(boolean isVisibleToUser) {
-//		super.setUserVisibleHint(isVisibleToUser);
-//		if(isVisibleToUser) {
-//			Activity a = getActivity();
-//			if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//		}
-//	}
-
 }

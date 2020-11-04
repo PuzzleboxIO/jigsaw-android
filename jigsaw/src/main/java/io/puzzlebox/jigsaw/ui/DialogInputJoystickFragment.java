@@ -22,7 +22,7 @@ import android.widget.SeekBar;
 import io.puzzlebox.jigsaw.R;
 
 public class DialogInputJoystickFragment extends DialogFragment
-		  implements SeekBar.OnSeekBarChangeListener {
+		implements SeekBar.OnSeekBarChangeListener {
 
 	private final static String TAG = DialogInputJoystickFragment.class.getSimpleName();
 
@@ -39,7 +39,7 @@ public class DialogInputJoystickFragment extends DialogFragment
 		// Required empty public constructor
 	}
 
-	public static DialogInputJoystickFragment newInstance(String param1, String param2) {
+	public static DialogInputJoystickFragment newInstance() {
 		DialogInputJoystickFragment fragment = new DialogInputJoystickFragment();
 		Bundle args = new Bundle();
 		fragment.setArguments(args);
@@ -48,24 +48,24 @@ public class DialogInputJoystickFragment extends DialogFragment
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-									 Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_input_joystick, container, false);
 
 		getDialog().getWindow().setTitle(getString(R.string.title_dialog_fragment_joystick));
 
-		seekBarX = (SeekBar) v.findViewById(R.id.seekBarX);
+		seekBarX = v.findViewById(R.id.seekBarX);
 		seekBarX.setProgress(seekBarX.getMax() / 2);
 		seekBarX.setOnSeekBarChangeListener(this);
 
-		seekBarY = (SeekBar) v.findViewById(R.id.seekBarY);
+		seekBarY = v.findViewById(R.id.seekBarY);
 		seekBarY.setProgress(seekBarY.getMax() / 2);
 		seekBarY.setOnSeekBarChangeListener(this);
 
-		JoystickView joystickView = (JoystickView) v.findViewById(R.id.joystickView);
+		JoystickView joystickView = v.findViewById(R.id.joystickView);
 		joystickView.setOnMoveListener(onMoveJoystick);
 
-		Button buttonDeviceCancel = (Button) v.findViewById(R.id.buttonDeviceCancel);
+		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
 		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -74,7 +74,7 @@ public class DialogInputJoystickFragment extends DialogFragment
 			}
 		});
 
-		buttonDeviceEnable = (Button) v.findViewById(R.id.buttonDeviceEnable);
+		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
 		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -84,7 +84,6 @@ public class DialogInputJoystickFragment extends DialogFragment
 		});
 
 		return v;
-
 	}
 
 	@Override
@@ -94,7 +93,7 @@ public class DialogInputJoystickFragment extends DialogFragment
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
-					  + " must implement OnFragmentInteractionListener");
+					+ " must implement OnFragmentInteractionListener");
 		}
 	}
 
@@ -108,13 +107,9 @@ public class DialogInputJoystickFragment extends DialogFragment
 		void onFragmentInteraction(Uri uri);
 	}
 
-	// ################################################################
-
 	public void onResume() {
 		// Store access variables for window and blank point
-
 		Window window = getDialog().getWindow();
-
 		Point size = new Point();
 
 		// Store dimensions of the screen in `size`
@@ -123,46 +118,29 @@ public class DialogInputJoystickFragment extends DialogFragment
 		display.getSize(size);
 
 		// Set the width of the dialog proportional to a percentage of the screen width
-//		window.setLayout((int) (size.x * 0.9), WindowManager.LayoutParams.WRAP_CONTENT);
-//		window.setLayout((int) (size.x * 0.975), WindowManager.LayoutParams.WRAP_CONTENT);
-//		window.setLayout((int)(size.x *0.98),WindowManager.LayoutParams.WRAP_CONTENT);
 		window.setLayout((int)(size.x *0.75),WindowManager.LayoutParams.WRAP_CONTENT);
-
-		// Set the dimensions  of the dialog proportional to a percentage of the screen dimensions
-//		window.setLayout((int) (size.x * 0.95), (int) (size.y * 0.935));
 
 		window.setGravity(Gravity.CENTER);
 
 		// Call super onResume after sizing
 		super.onResume();
-
 	}
 
-	// ################################################################
-
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
-
 //		updateControlSignal();
-
-	} // onProgressChanged
+	}
 
 	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
-
 	}
 
 	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
-
 	}
 
-	// ################################################################
-
-	private JoystickView.OnMoveListener onMoveJoystick = new JoystickView.OnMoveListener(){
+	private final JoystickView.OnMoveListener onMoveJoystick = new JoystickView.OnMoveListener(){
 		public void onMove(int angle, int strength) {
 			Log.v(TAG, "onMoveJoystick(int angle, int strength): " + angle + ", " + strength);
-
-			// TODO - Consider overlapping ranges (adjust else blocks)
 
 			if ((angle == 0) && (strength == 0)) {
 				// Reset values when let go
@@ -197,12 +175,8 @@ public class DialogInputJoystickFragment extends DialogFragment
 				newX = seekBarX.getMax() / 2 + newX;
 				seekBarX.setProgress(newX);
 			}
-
 		}
 	};
-
-
-	// ################################################################
 
 	public void broadcastTileStatus(String value) {
 
@@ -214,7 +188,5 @@ public class DialogInputJoystickFragment extends DialogFragment
 		intent.putExtra("category", "inputs");
 
 		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-
 	}
-
 }

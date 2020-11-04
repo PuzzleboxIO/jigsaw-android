@@ -6,14 +6,11 @@ import android.util.Log;
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.protocol.PuzzleboxOrbitAudioIRHandler;
 
-/**
- * Created by sc on 5/3/15.
- */
 public class DevicePuzzleboxOrbitSingleton {
 
 	private final static String TAG = DevicePuzzleboxOrbitSingleton.class.getSimpleName();
 
-	private static DevicePuzzleboxOrbitSingleton ourInstance = new DevicePuzzleboxOrbitSingleton();
+	private static final DevicePuzzleboxOrbitSingleton ourInstance = new DevicePuzzleboxOrbitSingleton();
 
 	public static DevicePuzzleboxOrbitSingleton getInstance() {
 		return ourInstance;
@@ -25,14 +22,11 @@ public class DevicePuzzleboxOrbitSingleton {
 	/**
 	 * EEG Configuration
 	 */
-
 	public int eegPower = 0;
-
 
 	/**
 	 * Flight Configuration
 	 */
-
 	public int defaultTargetAttention = 72;
 	public int defaultTargetMeditation = 0;
 
@@ -49,7 +43,6 @@ public class DevicePuzzleboxOrbitSingleton {
 	public boolean flightActive = false;
 	public boolean orbitActive = false;
 
-
 	/**
 	 * Joystick Configuration
 	 */
@@ -59,40 +52,33 @@ public class DevicePuzzleboxOrbitSingleton {
 	public int defaultJoystickYaw = 49;
 	public int defaultJoystickPitch = 31;
 
-
 	/**
 	 * Advanced Configuration
 	 */
 	public int defaultControlThrottle = 80;
-	//	int defaultControlYaw = 78;
 	public int defaultControlYaw = 49;
 	public int defaultControlPitch = 31;
 
 	public int hoverControlThrottle = 80;
-	//	int hoverControlYaw = 78;
 	public int hoverControlYaw = 49;
 	public int hoverControlPitch = 31;
 
 	public int forwardControlThrottle = 80;
-	//	int forwardControlYaw = 78;
 	public int forwardControlYaw = 49;
 	public int forwardControlPitch = 50;
 
 	public int leftControlThrottle = 80;
-	//	int leftControlYaw = 42;
 	public int leftControlYaw = 13;
 	public int leftControlPitch = 31;
 
 	public int rightControlThrottle = 80;
 	public int rightControlYaw = 114;
-	//		int rightControlYaw = 13;
 	public int rightControlPitch = 31;
 
 	public float tiltX = 0;
 	public float tiltY = 0;
 	public float referenceTiltX = 0;
 	public float referenceTiltY = 0;
-
 
 	/**
 	 * Audio
@@ -116,23 +102,16 @@ public class DevicePuzzleboxOrbitSingleton {
 
 	public PuzzleboxOrbitAudioIRHandler puzzleboxOrbitAudioIRHandler = new PuzzleboxOrbitAudioIRHandler();
 
-
-	// ################################################################
-
 	public void resetControlSignal() {
 
 		puzzleboxOrbitAudioIRHandler.command = new Integer[]{
-				  defaultControlThrottle,
-				  defaultControlYaw,
-				  defaultControlPitch,
-				  defaultChannel};
+				defaultControlThrottle,
+				defaultControlYaw,
+				defaultControlPitch,
+				defaultChannel};
 
 		puzzleboxOrbitAudioIRHandler.updateControlSignal();
-
 	}
-
-
-	// ################################################################
 
 	public void startAudioHandler() {
 
@@ -141,24 +120,18 @@ public class DevicePuzzleboxOrbitSingleton {
 			try {
 				puzzleboxOrbitAudioIRHandler.start();
 			} catch (Exception e) {
-//				Log.w(TAG, "Exception starting PuzzleboxOrbitAudioIRHandler: " + e.getStackTrace());
-				Log.w(TAG, "Exception starting PuzzleboxOrbitAudioIRHandler: " + e.getStackTrace());
+				Log.e(TAG, "Exception starting PuzzleboxOrbitAudioIRHandler: " + e.getStackTrace());
 				e.printStackTrace();
 
 				DevicePuzzleboxOrbitSingleton.getInstance().resetAudioHandler();
 
 			}
 		}
-
 	}
-
-	// ################################################################
 
 	public void resetAudioHandler() {
 		puzzleboxOrbitAudioIRHandler.shutdown();
 		puzzleboxOrbitAudioIRHandler = new PuzzleboxOrbitAudioIRHandler();
 		puzzleboxOrbitAudioIRHandler.start();
 	}
-
-
 }

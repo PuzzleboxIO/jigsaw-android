@@ -7,13 +7,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-//import android.app.Fragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,10 +31,6 @@ import java.util.List;
 
 import io.puzzlebox.jigsaw.R;
 
-/**
- * Created by sc on 5/8/15.
- */
-
 public class SupportFragment extends Fragment {
 
 	private final static String TAG = SupportFragment.class.getSimpleName();
@@ -44,7 +38,6 @@ public class SupportFragment extends Fragment {
 	/**
 	 * Configuration
 	 */
-//	static String supportURL = "file:///android_asset/support.html";
 	static String contactURL = "http://puzzlebox.io/cgi-bin/puzzlebox/support_contact/puzzlebox_orbit_support_gateway.py";
 	String versionName = "";
 
@@ -59,94 +52,54 @@ public class SupportFragment extends Fragment {
 	private OnFragmentInteractionListener mListener;
 
 	public interface OnFragmentInteractionListener {
-		public void onFragmentInteraction(Uri uri);
+		void onFragmentInteraction(Uri uri);
 	}
-
-	// ################################################################
 
 	public SupportFragment() {
 		// Required empty public constructor
 	}
 
-
-	// ################################################################
-
-	public static SupportFragment newInstance(String param1, String param2) {
+	public static SupportFragment newInstance() {
 		SupportFragment fragment = new SupportFragment();
 		Bundle args = new Bundle();
-//		args.putString(ARG_PARAM1, param1);
-//		args.putString(ARG_PARAM2, param2);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
-
-	// ################################################################
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getArguments() != null) {
-//			mParam1 = getArguments().getString(ARG_PARAM1);
-//			mParam2 = getArguments().getString(ARG_PARAM2);
-		}
 	}
-
-
-	// ################################################################
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 									 Bundle savedInstanceState) {
 
-
 		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
 		// Inflate the layout for this fragment
-//		View v = inflater.inflate(io.puzzlebox.jigsaw.R.layout.fragment_welcome, container, false);
-//		View v = inflater.inflate(R.layout.fragment_welcome, container, false);
 		View v = inflater.inflate(R.layout.fragment_support, container, false);
 
-
 		try {
-			versionName = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
+			versionName = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(),0).versionName;
 		}
 		catch (PackageManager.NameNotFoundException e) {
 			Log.v(TAG, e.getMessage());
 		}
 
-		editTextName = (EditText) v.findViewById(R.id.editTextName);
-		editTextEmail = (EditText) v.findViewById(R.id.editTextEmail);
-		editTextMessage = (EditText) v.findViewById(R.id.editTextMessage);
+		editTextName = v.findViewById(R.id.editTextName);
+		editTextEmail = v.findViewById(R.id.editTextEmail);
+		editTextMessage = v.findViewById(R.id.editTextMessage);
 
-
-		buttonSendMessage = (Button) v.findViewById(R.id.buttonSendMessage);
+		buttonSendMessage = v.findViewById(R.id.buttonSendMessage);
 		buttonSendMessage.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				sendMessage(v);
 				sendMessage();
 			}
 		});
-
-//		WebView webview = (WebView) v.findViewById(R.id.webViewSupport);
-//
-//		webview.getSettings().setJavaScriptEnabled(true);
-//
-//		webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(false);
-//
-//		// Allow launching of Forums and Development Tracker in external browsers
-////		webview.setWebViewClient(new compatibilityWebViewClient());
-//
-//		webview.loadUrl(supportURL);
-
 		return v;
-
 	}
-
-
-	// ################################################################
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -159,44 +112,20 @@ public class SupportFragment extends Fragment {
 		}
 	}
 
-
-	// ################################################################
-
 	@Override
 	public void onDetach() {
 		super.onDetach();
 		mListener = null;
 	}
 
-
-	// ################################################################
-
-
-//	@Override
-//	public void setUserVisibleHint(boolean isVisibleToUser) {
-//		super.setUserVisibleHint(isVisibleToUser);
-//		if(isVisibleToUser) {
-//			Activity a = getActivity();
-//			if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//		}
-//	}
-
-
-	// ################################################################
-
-	//	public void sendMessage(View view) {
 	public void sendMessage() {
-
-		Log.v(TAG, "sendMessage()");
 		Toast.makeText(getActivity().getApplicationContext(), "Thank you for your feedback!", Toast.LENGTH_LONG).show();
 
 		String name = editTextName.getText().toString();
 		String email = editTextEmail.getText().toString();
 		String message = editTextMessage.getText().toString();
 
-
 		message = message + "\n\n" + getDeviceDetails();
-
 
 		EmailMessage emailMessage = new EmailMessage();
 
@@ -204,21 +133,14 @@ public class SupportFragment extends Fragment {
 
 		emailMessage.execute();
 
-
 		editTextName.setText("");
 		editTextEmail.setText("");
 		editTextMessage.setText("");
-
-	} // sendMessage
-
-
-	// ################################################################
+	}
 
 	public String getDeviceDetails() {
 
-		String output = "";
-
-
+		String output;
 		output = "Manufacturer: " + Build.MANUFACTURER + "\n";
 		output = output + "Model: " + Build.MODEL + "\n";
 		output = output + "Product: " + Build.PRODUCT + "\n";
@@ -230,15 +152,8 @@ public class SupportFragment extends Fragment {
 				" Version: " + versionName + "\n";
 		output = output + "Android Version: " + Build.VERSION.SDK_INT + "\n";
 
-
 		return (output);
-
-
-	} // getDeviceDetails
-
-
-
-	// ################################################################	// ################################################################
+	}
 
 	private class EmailMessage extends AsyncTask<String, Void, Object> {
 
@@ -273,7 +188,6 @@ public class SupportFragment extends Fragment {
 					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 					// Execute HTTP Post Request
-					@SuppressWarnings("unused")
 					HttpResponse response = httpclient.execute(httppost);
 
 				} catch (ClientProtocolException e) {
@@ -285,27 +199,7 @@ public class SupportFragment extends Fragment {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			return null;
-
 		}
-
-	} // emailMessage
-
-
-//	private class compatibilityWebViewClient extends WebViewClient {
-//
-//		/***
-//		 * This class prevents Android from launching URLs in external browsers
-//		 *
-//		 * credit: http://stackoverflow.com/questions/2378800/clicking-urls-opens-default-browser
-//		 */
-//
-//		@Override
-//		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//			view.loadUrl(url);
-//			return true;
-//		}
-//	}
-
+	}
 }

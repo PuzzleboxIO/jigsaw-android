@@ -68,7 +68,7 @@ public class RedBearLabsService extends Service {
 	private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
 		@Override
 		public void onConnectionStateChange(BluetoothGatt gatt, int status,
-				int newState) {
+											int newState) {
 			String intentAction;
 
 			if (newState == BluetoothProfile.STATE_CONNECTED) {
@@ -104,7 +104,7 @@ public class RedBearLabsService extends Service {
 
 		@Override
 		public void onCharacteristicRead(BluetoothGatt gatt,
-				BluetoothGattCharacteristic characteristic, int status) {
+										 BluetoothGattCharacteristic characteristic, int status) {
 			if (status == BluetoothGatt.GATT_SUCCESS) {
 				broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
 			}
@@ -112,7 +112,7 @@ public class RedBearLabsService extends Service {
 
 		@Override
 		public void onCharacteristicChanged(BluetoothGatt gatt,
-				BluetoothGattCharacteristic characteristic) {
+											BluetoothGattCharacteristic characteristic) {
 			broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
 		}
 	};
@@ -129,7 +129,7 @@ public class RedBearLabsService extends Service {
 	}
 
 	private void broadcastUpdate(final String action,
-			final BluetoothGattCharacteristic characteristic) {
+								 final BluetoothGattCharacteristic characteristic) {
 		final Intent intent = new Intent(action);
 
 		// This is special handling for the Heart Rate Measurement profile. Data
@@ -140,12 +140,10 @@ public class RedBearLabsService extends Service {
 			final byte[] rx = characteristic.getValue();
 			intent.putExtra(EXTRA_DATA, rx);
 		}
-
 		sendBroadcast(intent);
 	}
 
 	public class LocalBinder extends Binder {
-//		RedBearLabsService getService() {
 		public RedBearLabsService getService() {
 			return RedBearLabsService.this;
 		}
@@ -171,7 +169,7 @@ public class RedBearLabsService extends Service {
 
 	/**
 	 * Initializes a reference to the local Bluetooth adapter.
-	 * 
+	 *
 	 * @return Return true if the initialization is successful.
 	 */
 	public boolean initialize() {
@@ -197,10 +195,10 @@ public class RedBearLabsService extends Service {
 
 	/**
 	 * Connects to the GATT server hosted on the Bluetooth LE device.
-	 * 
+	 *
 	 * @param address
 	 *            The device address of the destination device.
-	 * 
+	 *
 	 * @return Return true if the connection is initiated successfully. The
 	 *         connection result is reported asynchronously through the
 	 *         {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
@@ -273,7 +271,7 @@ public class RedBearLabsService extends Service {
 	 * result is reported asynchronously through the
 	 * {@code BluetoothGattCallback#onCharacteristicRead(android.bluetooth.BluetoothGatt, android.bluetooth.BluetoothGattCharacteristic, int)}
 	 * callback.
-	 * 
+	 *
 	 * @param characteristic
 	 *            The characteristic to read from.
 	 */
@@ -306,7 +304,7 @@ public class RedBearLabsService extends Service {
 
 	/**
 	 * Enables or disables notification on a give characteristic.
-	 * 
+	 *
 	 * @param characteristic
 	 *            Characteristic to act on.
 	 * @param enabled

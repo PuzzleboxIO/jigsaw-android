@@ -51,7 +51,7 @@ public class TilesFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-									 Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.fragment_tiles, container, false);
 
@@ -72,7 +72,6 @@ public class TilesFragment extends Fragment {
 		final TypedArray devicesProfileResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_profile_array);
 
 		ImageView imageItem;
-
 
 		// Populate the input devices carousel with items
 		for (int i = 0 ; i < devicesInputResourcesTypedArray.length() ; ++i) {
@@ -102,10 +101,8 @@ public class TilesFragment extends Fragment {
 			tileViewAnimator.addView(imageItem);
 
 			/// Add image view to the carousel container
-//			mInputCarouselContainer.addView(imageItem);
 			mInputCarouselContainer.addView(tileViewAnimator);
 		}
-
 
 		// Populate the output devices carousel with items
 		for (int i = 0 ; i < devicesOutputResourcesTypedArray.length() ; ++i) {
@@ -125,10 +122,8 @@ public class TilesFragment extends Fragment {
 			TileViewAnimator tileViewAnimator = new TileViewAnimator(getContext());
 			tileViewAnimator.addView(imageItem);
 
-//			mOutputCarouselContainer.addView(imageItem);
 			mOutputCarouselContainer.addView(tileViewAnimator);
 		}
-
 
 		// Populate the device profile carousel with items
 		for (int i = 0 ; i < devicesProfileResourcesTypedArray.length() ; ++i) {
@@ -147,13 +142,9 @@ public class TilesFragment extends Fragment {
 
 			TileViewAnimator tileViewAnimator = new TileViewAnimator(getContext());
 			tileViewAnimator.addView(imageItem);
-//			mProfileCarouselContainer.addView(imageItem);
 			mProfileCarouselContainer.addView(tileViewAnimator);
 		}
-
-
 		return v;
-
 	}
 
 	public void showDialog(String type, int index) {
@@ -208,7 +199,7 @@ public class TilesFragment extends Fragment {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
-					  + " must implement OnFragmentInteractionListener");
+					+ " must implement OnFragmentInteractionListener");
 		}
 	}
 

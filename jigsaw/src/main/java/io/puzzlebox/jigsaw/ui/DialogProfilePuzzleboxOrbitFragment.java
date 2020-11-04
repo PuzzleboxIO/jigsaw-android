@@ -39,7 +39,7 @@ import static io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService.eegConnecting
 import static io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService.eegSignal;
 
 public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
-		  implements SeekBar.OnSeekBarChangeListener {
+		implements SeekBar.OnSeekBarChangeListener {
 
 	private final static String TAG = DialogProfilePuzzleboxOrbitFragment.class.getSimpleName();
 
@@ -59,7 +59,6 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 	SeekBar seekBarMeditation;
 	ProgressBar progressBarSignal;
 	ProgressBar progressBarPower;
-//	ProgressBar progressBarBlink;
 
 	Button buttonTestFlight;
 	Button buttonResetFlight;
@@ -75,24 +74,21 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 	int minimumPower = 0; // minimum power for the bloom
 	int maximumPower = 100; // maximum power for the bloom
 
-//	private static Intent intentThinkGear;
-
 	private OnFragmentInteractionListener mListener;
 
 	public DialogProfilePuzzleboxOrbitFragment() {
 		// Required empty public constructor
 	}
 
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-									 Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_profile_puzzlebox_orbit, container, false);
 
 		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_puzzlebox_orbit));
 
-		buttonTestFlight = (Button) v.findViewById(R.id.buttonTestFlight);
+		buttonTestFlight = v.findViewById(R.id.buttonTestFlight);
 		buttonTestFlight.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -100,7 +96,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			}
 		});
 
-		buttonResetFlight = (Button) v.findViewById(R.id.buttonResetFlight);
+		buttonResetFlight = v.findViewById(R.id.buttonResetFlight);
 		buttonResetFlight.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -108,7 +104,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			}
 		});
 
-		progressBarAttention = (ProgressBar) v.findViewById(R.id.progressBarAttention);
+		progressBarAttention = v.findViewById(R.id.progressBarAttention);
 		final float[] roundedCorners = new float[] { 5, 5, 5, 5, 5, 5, 5, 5 };
 		ShapeDrawable progressBarAttentionDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarAttentionColor = "#FF0000";
@@ -117,7 +113,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		progressBarAttention.setProgressDrawable(progressAttention);
 		progressBarAttention.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarMeditation = (ProgressBar) v.findViewById(R.id.progressBarMeditation);
+		progressBarMeditation = v.findViewById(R.id.progressBarMeditation);
 		ShapeDrawable progressBarMeditationDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarMeditationColor = "#0000FF";
 		progressBarMeditationDrawable.getPaint().setColor(Color.parseColor(progressBarMeditationColor));
@@ -125,7 +121,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		progressBarMeditation.setProgressDrawable(progressMeditation);
 		progressBarMeditation.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarSignal = (ProgressBar) v.findViewById(R.id.progressBarSignal);
+		progressBarSignal = v.findViewById(R.id.progressBarSignal);
 		ShapeDrawable progressBarSignalDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarSignalColor = "#00FF00";
 		progressBarSignalDrawable.getPaint().setColor(Color.parseColor(progressBarSignalColor));
@@ -133,7 +129,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		progressBarSignal.setProgressDrawable(progressSignal);
 		progressBarSignal.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarPower = (ProgressBar) v.findViewById(R.id.progressBarPower);
+		progressBarPower = v.findViewById(R.id.progressBarPower);
 		ShapeDrawable progressBarPowerDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarPowerColor = "#FFFF00";
 		progressBarPowerDrawable.getPaint().setColor(Color.parseColor(progressBarPowerColor));
@@ -141,43 +137,18 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		progressBarPower.setProgressDrawable(progressPower);
 		progressBarPower.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-//		progressBarBlink = (ProgressBar) v.findViewById(R.id.progressBarBlink);
-//		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
-////		String progressBarBlinkColor = "#FF00FF";
-////		String progressBarBlinkColor = "#990099";
-//		String progressBarBlinkColor = "#BBBBBB";
-//		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarBlinkColor));
-//		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
-//		progressBarBlink.setProgressDrawable(progressRange);
-//		progressBarBlink.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
-//
-//		progressBarBlink.setMax(NeuroSkyThinkGearService.blinkRangeMax);
-
-
-		seekBarAttention = (SeekBar) v.findViewById(R.id.seekBarAttention);
+		seekBarAttention = v.findViewById(R.id.seekBarAttention);
 		seekBarAttention.setOnSeekBarChangeListener(this);
-		seekBarMeditation = (SeekBar) v.findViewById(R.id.seekBarMeditation);
+		seekBarMeditation = v.findViewById(R.id.seekBarMeditation);
 		seekBarMeditation.setOnSeekBarChangeListener(this);
 
-
-		imageViewStatus = (ImageView) v.findViewById(R.id.imageViewStatus);
-
-//		textViewLabelScore = (TextView) v.findViewById(R.id.textViewLabelScore);
-//		textViewLabelLastScore = (TextView) v.findViewById(R.id.textViewLabelLastScore);
-//		textViewLabelHighScore = (TextView) v.findViewById(R.id.textViewLabelHighScore);
-
+		imageViewStatus = v.findViewById(R.id.imageViewStatus);
 
 		textViewScore = v.findViewById(R.id.textViewScore);
 		textViewLastScore = v.findViewById(R.id.textViewLastScore);
 		textViewHighScore = v.findViewById(R.id.textViewHighScore);
 
-
-		// Hide the "Scores" label by default
-//		textViewLabelScores.setVisibility(View.GONE);
-//		viewSpaceScore.setVisibility(View.GONE);
-
-
-		Button buttonDeviceCancel = (Button) v.findViewById(io.puzzlebox.jigsaw.R.id.buttonDeviceCancel);
+		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
 		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -185,7 +156,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			}
 		});
 
-		buttonDeviceEnable = (Button) v.findViewById(io.puzzlebox.jigsaw.R.id.buttonDeviceEnable);
+		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
 		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -193,16 +164,11 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			}
 		});
 
-
-//		intentThinkGear = new Intent(getActivity(), NeuroSkyThinkGearService.class);
-
-
 		/**
 		 * PuzzleboxOrbitAudioIRHandler
 		 */
 
 		if (!DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.isAlive()) {
-
 
 			/**
 			 * Prepare audio stream
@@ -211,10 +177,10 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			// TODO
 //			maximizeAudioVolume(); // Automatically set media volume to maximum
 
-			/** Set the hardware buttons to control the audio output */
+			// Set the hardware buttons to control the audio output
 //			getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-			/** Preload the flight control WAV file into memory */
+			// Preload the flight control WAV file into memory
 //			DevicePuzzleboxOrbitSingleton.getInstance().soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 //			DevicePuzzleboxOrbitSingleton.getInstance().soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
 //				public void onLoadComplete(SoundPool soundPool,
@@ -225,21 +191,13 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 //			});
 //			DevicePuzzleboxOrbitSingleton.getInstance().soundID = DevicePuzzleboxOrbitSingleton.getInstance().soundPool.load(getActivity().getApplicationContext(), DevicePuzzleboxOrbitSingleton.getInstance().audioFile, 1);
 
-
 //			DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.start();
 			DevicePuzzleboxOrbitSingleton.getInstance().startAudioHandler();
-
-
 		}
-
-
-//		if (DevicePuzzleboxOrbitSingleton.getInstance().flightActive)
-//			buttonTestFlight.setText(getResources().getString(R.string.button_stop_test));
 
 		/**
 		 * Update settings according to default UI
 		 */
-
 		// TODO
 //		updateScreenLayout();
 
@@ -248,12 +206,9 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 //
 //		updateControlSignal();
 
-
 		resetFlight(v);
 
-
 		return v;
-
 	}
 
 	@Override
@@ -263,7 +218,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
-					  + " must implement OnFragmentInteractionListener");
+					+ " must implement OnFragmentInteractionListener");
 		}
 	}
 
@@ -277,31 +232,23 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		void onFragmentInteraction(Uri uri);
 	}
 
-	// ################################################################
-
 	public void onPause() {
-
 		super.onPause();
 
 		LocalBroadcastManager.getInstance(
-				  getActivity().getApplicationContext()).unregisterReceiver(
-				  mPacketReceiver);
+				getActivity().getApplicationContext()).unregisterReceiver(
+				mPacketReceiver);
 
 		LocalBroadcastManager.getInstance(
-				  getActivity().getApplicationContext()).unregisterReceiver(
-				  mEventReceiver);
+				getActivity().getApplicationContext()).unregisterReceiver(
+				mEventReceiver);
 
 		stopControl();
-
-	} // onPause
-
-
-	// ################################################################
+	}
 
 	public void onResume() {
 
 		// Store access variables for window and blank point
-
 		Window window = getDialog().getWindow();
 
 		Point size = new Point();
@@ -312,8 +259,6 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		display.getSize(size);
 
 		// Set the width of the dialog proportional to a percentage of the screen width
-//		window.setLayout((int) (size.x * 0.9), WindowManager.LayoutParams.WRAP_CONTENT);
-//		window.setLayout((int) (size.x * 0.975), WindowManager.LayoutParams.WRAP_CONTENT);
 		window.setLayout((int) (size.x * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
 
 		// Set the dimensions  of the dialog proportional to a percentage of the screen dimensions
@@ -335,17 +280,14 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		updateControlSignal();
 
 		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
-				  mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
+				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
 
 		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
-				  mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
+				mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
 
 	}
 
-
-	// ################################################################
-
-	private BroadcastReceiver mPacketReceiver = new BroadcastReceiver() {
+	private final BroadcastReceiver mPacketReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -354,77 +296,42 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			int eegMeditation = Integer.valueOf(intent.getStringExtra("Meditation"));
 			int eegSignal = Integer.valueOf(intent.getStringExtra("Signal Level"));
 
-//			Log.e(TAG, "eegAttention: " + eegAttention);
-
 			progressBarAttention.setProgress(eegAttention);
 			progressBarMeditation.setProgress(eegMeditation);
 			progressBarSignal.setProgress(eegSignal);
 
-//			if ((! buttonDeviceEnable.isEnabled()) && (eegSignal == NeuroSkyThinkGearService.signalSignalMax)) {
-//				// This setting requires the quality of the EEG sensor's
-//				// contact with skin hit to 100% at least once since the
-//				// headset was last connected.
-//				buttonDeviceEnable.setEnabled(true);
-//				buttonDeviceEnable.setVisibility(View.VISIBLE);
-//			}
-
-//			progressBarBlink.setProgress(0);
-
-//			updateEEGRawHistory(SessionSingleton.getInstance().getCurrentRawEEG());
-
-//			updateSessionTime();
-
 			updateStatusImage();
 
-//			Log.e(TAG, "mPacketReceiver: eegConnected: " + eegConnected);
-//			if (eegConnected.equals("true"))
-//				setButtonText(R.id.buttonConnectEEG, "Disconnect EEG");
-//			else
-//				setButtonText(R.id.buttonConnectEEG, "Connect EEG");
-
-
 			updatePower();
-
-
 		}
 
 	};
 
-	// ################################################################
-
 	public void updateControlSignal() {
 
 		Integer[] command =  {
-				  DevicePuzzleboxOrbitSingleton.getInstance().defaultControlThrottle,
-				  DevicePuzzleboxOrbitSingleton.getInstance().defaultControlYaw,
-				  DevicePuzzleboxOrbitSingleton.getInstance().defaultControlPitch,
-				  DevicePuzzleboxOrbitSingleton.getInstance().defaultChannel};
+				DevicePuzzleboxOrbitSingleton.getInstance().defaultControlThrottle,
+				DevicePuzzleboxOrbitSingleton.getInstance().defaultControlYaw,
+				DevicePuzzleboxOrbitSingleton.getInstance().defaultControlPitch,
+				DevicePuzzleboxOrbitSingleton.getInstance().defaultChannel};
 
 
 		// Transmit zero Throttle power if not above EEG power threashold
 		// or demo mode (test flight) is not active
 //		if ((eegPower <= 0) || (! DevicePuzzleboxOrbitSingleton.getInstance().demoActive)){
 		if (eegPower <= 0) {
-//			Log.e(TAG, "(eegPower <= 0)");
 			command[0] = 0;
 		}
-
 
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.command = command;
 
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.updateControlSignal();
+	}
 
-	} // updateControlSignal
-
-
-	// ################################################################
-
-	private BroadcastReceiver mEventReceiver = new BroadcastReceiver() {
+	private final BroadcastReceiver mEventReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-
-//			String action = intent.getAction();
 
 			String name = intent.getStringExtra("name");
 			String value = intent.getStringExtra("value");
@@ -436,38 +343,28 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 					switch(value) {
 						case "STATE_CONNECTING":
 							updateStatusImage();
-//							setButtonText(io.puzzlebox.jigsaw.R.id.buttonConnectEEG, getResources().getString(io.puzzlebox.jigsaw.R.string.buttonStatusNeuroSkyMindWaveConnecting));
 							break;
 						case "STATE_CONNECTED":
-//							Toast.makeText(context, "EEG Connected", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
-//							setButtonText(io.puzzlebox.jigsaw.R.id.buttonConnectEEG, getResources().getString(io.puzzlebox.jigsaw.R.string.buttonStatusNeuroSkyMindWaveDisconnect));
-//							buttonDeviceEnable.setEnabled(true);
-//							buttonDeviceEnable.setVisibility(View.VISIBLE);
 							break;
 						case "STATE_NOT_FOUND":
 							Toast.makeText(context, "EEG Not Found", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
-//							setButtonText(io.puzzlebox.jigsaw.R.id.buttonConnectEEG, getResources().getString(io.puzzlebox.jigsaw.R.string.buttonStatusNeuroSkyMindWaveConnect));
 							buttonDeviceEnable.setEnabled(false);
 							buttonDeviceEnable.setVisibility(View.INVISIBLE);
 							break;
 						case "STATE_NOT_PAIRED":
 							Toast.makeText(context, "EEG Not Paired", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
-//							setButtonText(io.puzzlebox.jigsaw.R.id.buttonConnectEEG, getResources().getString(io.puzzlebox.jigsaw.R.string.buttonStatusNeuroSkyMindWaveConnect));
 							buttonDeviceEnable.setEnabled(false);
 							buttonDeviceEnable.setVisibility(View.INVISIBLE);
 							break;
 						case "STATE_DISCONNECTED":
-//							Toast.makeText(context, "EEG Disconnected", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
-//							setButtonText(io.puzzlebox.jigsaw.R.id.buttonConnectEEG, getResources().getString(io.puzzlebox.jigsaw.R.string.buttonStatusNeuroSkyMindWaveConnect));
 							buttonDeviceEnable.setEnabled(false);
 							buttonDeviceEnable.setVisibility(View.INVISIBLE);
 							break;
 						case "MSG_LOW_BATTERY":
-//							Toast.makeText(context, "EEG Battery Low", Toast.LENGTH_SHORT).show();
 							Toast.makeText(context, io.puzzlebox.jigsaw.R.string.buttonStatusNeuroSkyMindWaveBatteryLow, Toast.LENGTH_SHORT).show();
 							updateStatusImage();
 							break;
@@ -477,36 +374,14 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 				case "eegBlink":
 					Log.d(TAG, "Blink: " + value + "\n");
-//					if (Integer.parseInt(value) > NeuroSkyThinkGearService.blinkRangeMax) {
-//						value = "" + NeuroSkyThinkGearService.blinkRangeMax;
-//					}
-//					try {
-//						progressBarBlink.setProgress(Integer.parseInt(value));
-//					} catch (NumberFormatException e) {
-//						e.printStackTrace();
-//					}
 					break;
-
 			}
-
 		}
 
 	};
 
-	// ################################################################
-
-
 	public void updateStatusImage() {
 
-//		if(DEBUG) {
-//			Log.v(TAG, (new StringBuilder("Attention: ")).append(eegAttention).toString());
-//			Log.v(TAG, (new StringBuilder("Meditation: ")).append(eegMeditation).toString());
-//			Log.v(TAG, (new StringBuilder("Power: ")).append(eegPower).toString());
-//			Log.v(TAG, (new StringBuilder("Signal: ")).append(eegSignal).toString());
-//			Log.v(TAG, (new StringBuilder("Connecting: ")).append(eegConnecting).toString());
-//			Log.v(TAG, (new StringBuilder("Connected: ")).append(eegConnected).toString());
-//		}
-//
 		if(eegPower > 0) {
 			imageViewStatus.setImageResource(R.drawable.status_4_active);
 			return;
@@ -524,139 +399,24 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 		if(eegConnecting) {
 			imageViewStatus.setImageResource(R.drawable.status_1_connecting);
-			return;
 		} else {
 			imageViewStatus.setImageResource(R.drawable.status_default);
-			return;
 		}
-
-	} // updateStatusImage
-
-
-	// ################################################################
-
-	// TODO
-//	@Override
-//	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//
-//		menu.add("Share")
-//				  .setOnMenuItemClickListener(this.mShareButtonClickListener)
-//				  .setIcon(android.R.drawable.ic_menu_share)
-//				  .setShowAsAction(SHOW_AS_ACTION_ALWAYS);
-//
-//		super.onCreateOptionsMenu(menu, inflater);
-//
-//	}
-
-
-	// ################################################################
-
-	// TODO
-//	MenuItem.OnMenuItemClickListener mShareButtonClickListener = new MenuItem.OnMenuItemClickListener() {
-//
-//		@Override
-//		public boolean onMenuItemClick(MenuItem item) {
-//
-//			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext(), item);
-//
-//			if (i != null) {
-//				startActivity(i);
-//			} else {
-//				Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
-//			}
-//
-//			return false;
-//		}
-//	};
-
-
-	// ################################################################
-
-
-	// ################################################################
-
-	// TODO
-//	private void setOrbitActivate() {
-//
-//		Log.d(TAG, "setOrbitActivate");
-//
-//		if (! DevicePuzzleboxOrbitSingleton.getInstance().orbitActive) {
-////			getActivity().startService(intentThinkGear);
-//			DevicePuzzleboxOrbitSingleton.getInstance().orbitActive = true;
-//		} else {
-//			setOrbitDeactivate();
-//		}
-//
-////		DevicePuzzleboxOrbitSingleton.getInstance().flag = true;
-////		DevicePuzzleboxOrbitSingleton.getInstance().connState = true;
-////
-////		servoSeekBar.setEnabled(DevicePuzzleboxOrbitSingleton.getInstance().flag);
-////		connectBloom.setText("Disconnect Bloom");
-////
-////		buttonDemo.setEnabled(true);
-//		buttonConnectOrbit.setEnabled(true);
-//	}
-
-
-	// ################################################################
-
-	// TODO
-//	private void setOrbitDeactivate() {
-//
-//		Log.d(TAG, "setOrbitDeactivate");
-//
-//		DevicePuzzleboxOrbitSingleton.getInstance().orbitActive = false;
-//
-////		DevicePuzzleboxOrbitSingleton.getInstance().flag = false;
-////		DevicePuzzleboxOrbitSingleton.getInstance().connState = false;
-////
-////		servoSeekBar.setEnabled(DevicePuzzleboxOrbitSingleton.getInstance().flag);
-////		connectBloom.setText("Connect Bloom");
-////
-////		buttonDemo.setEnabled(false);
-//
-//		buttonConnectOrbit.setEnabled(false);
-////
-////		progressBarRange.setProgress(0);
-//	}
-
-
-	// ################################################################
-
-
-	// ################################################################
+	}
 
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
-
 		updatePowerThresholds();
-		//		updatePower();
-
-	} // onProgressChanged
-
-
-	// ################################################################
+	}
 
 	public void onStartTrackingTouch(SeekBar seekBar) {
-
 		/**
 		 * Method required by SeekBar.OnSeekBarChangeListener
 		 */
-
-
-	} // onStartTrackingTouch
-
-
-	// ################################################################
+	}
 
 	public void onStopTrackingTouch(SeekBar seekBar) {
-
 		Log.v(TAG, "onStopTrackingTouch()");
-
-
-	} // onStopTrackingTouch
-
-
-	// ################################################################
+	}
 
 	public void updatePowerThresholds() {
 
@@ -711,7 +471,6 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 				percentOfMaxPower = ( ((100 - attentionSeekValue) - (100 - i)) / (float)(100 - attentionSeekValue) );
 				power = thresholdValuesAttention[i] + (int)( minimumPower + ((maximumPower - minimumPower) * percentOfMaxPower) );
 				thresholdValuesAttention[i] = power;
-
 			}
 		}
 
@@ -723,11 +482,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 				thresholdValuesMeditation[i] = power;
 			}
 		}
-
-	} // updatePowerThresholds
-
-
-	// ################################################################
+	}
 
 	public void updatePower() {
 
@@ -749,36 +504,8 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			NeuroSkyThinkGearService.eegPower = calculateSpeed();
 			eegPower = NeuroSkyThinkGearService.eegPower;
 
-            progressBarPower.setProgress(NeuroSkyThinkGearService.eegPower);
-
-//			if (eegPower > 0) {
-//
-//
-//				if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level < 10) {
-//					broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Bright");
-//					DevicePuzzleboxGimmickSingleton.getInstance().x10Level++;
-//				}
-//
-//
-//			} else {
-//
-//				if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level > 0) {
-//					broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Dim");
-//					DevicePuzzleboxGimmickSingleton.getInstance().x10Level--;
-//				}
-//
-//			}
-//
-//
-//			progressBarPower.setProgress(DevicePuzzleboxGimmickSingleton.getInstance().x10Level * 10);
-//
-//
-////			broadcastCommandBluetooth("eSense", "Attention: " + NeuroSkyThinkGearService.eegAttention);
-//			broadcastCommandBluetooth("attention", "" + NeuroSkyThinkGearService.eegAttention);
-
-
+			progressBarPower.setProgress(NeuroSkyThinkGearService.eegPower);
 		}
-
 
 		// TODO
 //		if (InteraXonMuseService.eegConnected) {
@@ -799,26 +526,17 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 //
 //		}
 
-
 		DevicePuzzleboxOrbitSingleton.getInstance().eegPower = eegPower;
-
 
 		if (eegPower > 0) {
 
 			/** Start playback of audio control stream */
-//			if (!DevicePuzzleboxOrbitSingleton.getInstance().flightActive) {
-//				playControl();
-//			}
-
-//			buttonTestFlight.setText( getResources().getString(R.string.button_stop_test) );
-
 			updateScore();
 
 			DevicePuzzleboxOrbitSingleton.getInstance().flightActive = true;
-
 		} else {
 
-			/** Land the helicopter */
+			// Land the helicopter
 //			if (! DevicePuzzleboxOrbitSingleton.getInstance().demoActive ) {
 //				stopControl();
 //			}
@@ -826,19 +544,10 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 //			buttonTestFlight.setText(getResources().getString(R.string.button_test_fly));
 
 			resetCurrentScore();
-
 		}
 
 		updateControlSignal();
-
-
-//		Log.d(TAG, "flightActive: " + DevicePuzzleboxOrbitSingleton.getInstance().flightActive);
-
-
-	} // updatePower
-
-
-	// ################################################################
+	}
 
 	public int calculateSpeed() {
 
@@ -865,14 +574,8 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		if (speed < minimumPower)
 			speed = 0;
 
-
 		return(speed);
-
-
-	} // calculateSpeed
-
-
-	// ################################################################
+	}
 
 	public void updateScore() {
 
@@ -905,11 +608,11 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		int eegMeditationTarget = seekBarMeditation.getProgress();
 
 		if ((eegAttention >= eegAttentionTarget) &&
-				  (eegAttentionTarget > DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget))
+				(eegAttentionTarget > DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget))
 			eegAttentionScore = eegAttentionTarget - DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget;
 
 		if ((eegMeditation >= eegMeditationTarget) &&
-				  (eegMeditationTarget > DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget))
+				(eegMeditationTarget > DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget))
 			eegMeditationScore = eegMeditationTarget - DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget;
 
 		if (eegAttentionScore > eegMeditationScore)
@@ -924,7 +627,6 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			textViewHighScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreHigh));
 		}
 
-
 		// Catch anyone gaming the system with one slider
 		// below the minimum threshold and the other over.
 		// For example, setting Meditation to 1% will keep helicopter
@@ -935,66 +637,25 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			resetCurrentScore();
 		if ((eegAttention < DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget) && (eegMeditation < DevicePuzzleboxOrbitSingleton.getInstance().minimumScoreTarget))
 			resetCurrentScore();
-
-
-	} // updateScore
-
-
-	// ################################################################
+	}
 
 	public void resetCurrentScore() {
-
 		if (DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent > 0)
 			textViewLastScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
 		DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent = 0;
 		textViewScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
-
-	} // resetCurrentScore
-
-
-	// ################################################################
+	}
 
 	public void playControl() {
 
-		Log.d(TAG, "playControl()");
-
-
-		// TODO Convert to service
-
-//		FragmentTabAdvanced fragmentAdvanced =
-//				  (FragmentTabAdvanced) getActivity().getSupportFragmentManager().findFragmentByTag( getTabFragmentAdvanced() );
-//
 		if (DevicePuzzleboxOrbitSingleton.getInstance().generateAudio) {
 
 			/**
 			 * Generate signal on the fly
 			 */
-
-//			// Handle controlled descent thread if activated
-//			if ((fragmentAdvanced.orbitControlledDescentTask != null) &&
-//					  (fragmentAdvanced.orbitControlledDescentTask.keepDescending)) {
-//				fragmentAdvanced.orbitControlledDescentTask.callStopAudio = false;
-//				fragmentAdvanced.orbitControlledDescentTask.keepDescending = false;
-//			}
-
-
-			//			if (puzzleboxOrbitAudioIRHandler != null) {
-
-			//				serviceBinder.ifFlip = fragmentAdvanced.checkBoxInvertControlSignal.isChecked(); // if checked then flip
 			DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.ifFlip = DevicePuzzleboxOrbitSingleton.getInstance().invertControlSignal; // if checked then flip
 
-//			int channel = 0; // default "A"
 			int channel = DevicePuzzleboxOrbitSingleton.getInstance().defaultChannel;
-
-//			if (fragmentAdvanced != null)
-//				channel = fragmentAdvanced.radioGroupChannel.getCheckedRadioButtonId();
-
-			//				if (demoFlightMode)
-			//					updateAudioHandlerLoopNumberWhileMindControl(200);
-			//				else
-			//					updateAudioHandlerLoopNumberWhileMindControl(4500);
-			//
-			//			updateAudioHandlerLoopNumberWhileMindControl(5000);
 
 			updateAudioHandlerLoopNumberWhileMindControl(-1); // Loop infinite for easier user testing
 
@@ -1002,9 +663,6 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 			DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.mutexNotify();
 
-			//			}
-//
-//
 		} else {
 
 			/**
@@ -1013,10 +671,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 			/** Getting the user sound settings */
 			AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
-			//			float actualVolume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 			float maxVolume = (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-			//			float volume = actualVolume / maxVolume;
-
 			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int) maxVolume, 0);
 			/** Is the sound loaded already? */
 			if (DevicePuzzleboxOrbitSingleton.getInstance().loaded) {
@@ -1028,49 +683,14 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 				// TODO No visible effects of changing these variables on digital oscilloscope
 				//				soundPool.play(soundID, 0.5f, 0.5f, 1, 0, 0.5f);
-//				if (DEBUG)
-				Log.v(TAG, "Played sound");
 			}
-
 		}
-
-	} // playControl
-
-
-	// ################################################################
+	}
 
 	public void stopControl() {
-
-		Log.d(TAG, "stopControl()");
-
-		// TODO Convert to service
-
-//		FragmentTabAdvanced fragmentAdvanced =
-//				  (FragmentTabAdvanced) getSupportFragmentManager().findFragmentByTag( getTabFragmentAdvanced() );
-//
-//
-//		// Initial Controlled Descent if activated by user
-//		if ((generateAudio) &&
-//				  (flightActive) &&
-//				  (fragmentAdvanced != null) &&
-//				  (fragmentAdvanced.checkBoxControlledDescent.isChecked()) &&
-//				  (puzzleboxOrbitAudioIRHandler != null)) {
-//
-//			fragmentAdvanced.registerControlledDescent();
-//
-//		} else {
-//
 		stopAudio();
-//
-//		}
-//
 		DevicePuzzleboxOrbitSingleton.getInstance().flightActive = false;
-
-
-	} // stopControl
-
-
-	// ################################################################
+	}
 
 	public void stopAudio() {
 
@@ -1091,12 +711,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 				e.printStackTrace();
 			}
 		}
-
-
-	} // stopControl
-
-
-	// ################################################################
+	}
 
 	public void testFlight(View v) {
 
@@ -1106,29 +721,9 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		 * during development.
 		 */
 
-		Log.v(TAG, "Test Flight clicked");
-
-
-//		Button buttonTestFlight = (Button) v.findViewById(R.id.buttonTestFlight);
-
-
 		if (! DevicePuzzleboxOrbitSingleton.getInstance().flightActive) {
-
-
-//		demoFlightMode = true;
 			DevicePuzzleboxOrbitSingleton.getInstance().flightActive = true;
 			DevicePuzzleboxOrbitSingleton.getInstance().demoActive = true;
-//
-//		FragmentTabAdvanced fragmentAdvanced =
-//				  (FragmentTabAdvanced) getSupportFragmentManager().findFragmentByTag( getTabFragmentAdvanced() );
-//
-//		//		if (fragmentAdvanced.checkBoxGenerateAudio.isChecked())
-//		if (generateAudio && (fragmentAdvanced != null))
-//			eegPower = fragmentAdvanced.seekBarThrottle.getProgress();
-//		else
-//			eegPower = 100;
-
-//			buttonTestFlight.setText( getResources().getString(R.string.button_stop_test) );
 
 			// NOTE 2017-05-10
 			// Control signal should always play to keep Orbit from timing out.
@@ -1136,34 +731,15 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			// In order to have a manual "Stop" ability, the "Test Flight" button doubles as a "Land" button
 			// Turn on sound if it was manually turned off
 //			playControl();
-
-//		demoFlightMode = false;
-
 		} else {
-
-//			DevicePuzzleboxOrbitSingleton.getInstance().flightActive = false;
 			DevicePuzzleboxOrbitSingleton.getInstance().demoActive = false;
-
-			// Manual "Stop" ability
-//			stopControl();
-
-//			buttonTestFlight.setText(getResources().getString(R.string.button_test_fly));
-
 		}
-
 
 		updateControlSignal();
 
-
-	} // testFlight
-
-
-	// ################################################################
+	}
 
 	public void resetFlight(View view) {
-
-		Log.v(TAG, "Reset clicked");
-
 		resetCurrentScore();
 
 		DevicePuzzleboxOrbitSingleton.getInstance().demoActive = false;
@@ -1178,190 +754,48 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 		updatePowerThresholds();
 
-//		stopControl();
-
 		updateControlSignal();
-
-	} // resetFlight
-
-
-	// ################################################################
-
-//	public void demoStop(View view) {
-//
-////		eegPower = 0;
-//
-//		stopControl();
-//
-//	} // demoStop
-
-
-	// ################################################################
-
-//	public void updateScore() {
-//
-//		FragmentTabFlightThinkGear fragmentFlight =
-//				  (FragmentTabFlightThinkGear) getSupportFragmentManager().findFragmentByTag( getTabFragmentFlightThinkGear() );
-//
-//		if (fragmentFlight != null)
-//			fragmentFlight.updateScore();
-//
-//	} // updateScore
-
-
-	// ################################################################
-
-//	public void resetCurrentScore() {
-//
-//		FragmentTabFlightThinkGear fragmentFlight =
-//				  (FragmentTabFlightThinkGear) getSupportFragmentManager().findFragmentByTag( getTabFragmentFlightThinkGear() );
-//
-//		if (fragmentFlight != null)
-//			fragmentFlight.resetCurrentScore();
-//
-//	} // resetCurrentScore
-
-
-	// ################################################################
+	}
 
 	/**
 	 * the puzzleboxOrbitAudioIRHandler to update command
 	 */
 	public void updateAudioHandlerCommand(Integer[] command) {
-
-//		this.puzzleboxOrbitAudioIRHandler.command = command;
-//		this.puzzleboxOrbitAudioIRHandler.updateControlSignal();
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.command = command;
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.updateControlSignal();
-
-
-	} // updateServiceBinderCommand
-
-
-	// ################################################################
+	}
 
 	/**
 	 * the puzzleboxOrbitAudioIRHandler to update channel
 	 */
 	public void updateAudioHandlerChannel(int channel) {
-
-//		this.puzzleboxOrbitAudioIRHandler.channel = channel;
-//		this.puzzleboxOrbitAudioIRHandler.updateControlSignal();
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.channel = channel;
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.updateControlSignal();
-
-
-	} // updateServiceBinderChannel
-
-
-	// ################################################################
+	}
 
 	/**
 	 * @param number the puzzleboxOrbitAudioIRHandler to update loop number while mind control
 	 */
 	public void updateAudioHandlerLoopNumberWhileMindControl(int number) {
-
-//		this.puzzleboxOrbitAudioIRHandler.loopNumberWhileMindControl = number;
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.loopNumberWhileMindControl = number;
-
-
-	} // updateServiceBinderLoopNumberWhileMindControl
-
-
-	// ################################################################
+	}
 
 	public void resetControlSignal(View view) {
-
-//		/**
-//		 * Called when the "Reset" button is pressed
-//		 */
-//
-//		FragmentTabAdvanced fragmentAdvanced =
-//				  (FragmentTabAdvanced) getSupportFragmentManager().findFragmentByTag( getTabFragmentAdvanced() );
-//
-//		if (fragmentAdvanced != null)
-//			fragmentAdvanced.resetControlSignal();
-
-
-	} // resetControlSignal
-
-
-	// ################################################################
+	}
 
 	public void setControlSignalHover(View view) {
-
-//		/**
-//		 * Called when the "Hover" button is pressed
-//		 */
-//
-//		FragmentTabAdvanced fragmentAdvanced =
-//				  (FragmentTabAdvanced) getSupportFragmentManager().findFragmentByTag( getTabFragmentAdvanced() );
-//
-//		if (fragmentAdvanced != null)
-//			fragmentAdvanced.setControlSignalHover();
-
-
-	} // setControlSignalHover
-
-
-	// ################################################################
+	}
 
 	public void setControlSignalForward(View view) {
-
-//		/**
-//		 * Called when the "Forward" button is pressed
-//		 */
-//
-//		FragmentTabAdvanced fragmentAdvanced =
-//				  (FragmentTabAdvanced) getSupportFragmentManager().findFragmentByTag( getTabFragmentAdvanced() );
-//
-//		if (fragmentAdvanced != null)
-//			fragmentAdvanced.setControlSignalForward();
-
-
-	} // setControlSignalForward
-
-
-	// ################################################################
+	}
 
 	public void setControlSignalLeft(View view) {
-
-//		/**
-//		 * Called when the "Left" button is pressed
-//		 */
-//
-//		FragmentTabAdvanced fragmentAdvanced =
-//				  (FragmentTabAdvanced) getSupportFragmentManager().findFragmentByTag( getTabFragmentAdvanced() );
-//
-//		if (fragmentAdvanced != null)
-//			fragmentAdvanced.setControlSignalLeft();
-
-
-	} // setControlSignalLeft
-
-
-	// ################################################################
+	}
 
 	public void setControlSignalRight(View view) {
-
-//		/**
-//		 * Called when the "Right" button is pressed
-//		 */
-//
-//		FragmentTabAdvanced fragmentAdvanced =
-//				  (FragmentTabAdvanced) getSupportFragmentManager().findFragmentByTag( getTabFragmentAdvanced() );
-//
-//		if (fragmentAdvanced != null)
-//			fragmentAdvanced.setControlSignalRight();
-
-
 	} // setControlSignalRight
 
-
-	// ################################################################
-
-	private  void broadcastCommandBluetooth(String name, String value) {
-
+	private void broadcastCommandBluetooth(String name, String value) {
 		Log.d(TAG, "broadcastCommandBluetooth: " + name + ": " + value);
 
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.bluetooth.command");
@@ -1370,8 +804,5 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		intent.putExtra("value", value);
 
 		LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-
 	}
-
-
 }

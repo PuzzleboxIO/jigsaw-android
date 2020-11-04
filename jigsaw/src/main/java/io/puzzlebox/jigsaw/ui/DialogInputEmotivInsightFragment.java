@@ -69,22 +69,9 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		// Required empty public constructor
 	}
 
-//	public static DialogInputEmotivInsightFragment newInstance() {
-//		DialogInputEmotivInsightFragment fragment = new DialogInputEmotivInsightFragment();
-//		Bundle args = new Bundle();
-//		fragment.setArguments(args);
-//		return fragment;
-//	}
-
-//	@Override
-//	public void onCreate(Bundle savedInstanceState) {
-//		super.onCreate(savedInstanceState);
-////		setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogStyle);
-//	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-									 Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 
 		// Inflate the layout for this fragment
 		v = inflater.inflate(R.layout.dialog_input_emotiv_insight, container, false);
@@ -121,14 +108,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 		imageViewEmotivInsight = v.findViewById(R.id.imageViewEmotivInsight);
 
-//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-////			Log.e(TAG, "imageViewEmotivInsight.getDrawable().getDirtyBounds(): " + imageViewEmotivInsight.getDrawable().getDirtyBounds());
-//			Log.e(TAG, "imageViewEmotivInsight.getDrawable().getIntrinsic*(1): " + imageViewEmotivInsight.getDrawable().getIntrinsicWidth() + ", " + imageViewEmotivInsight.getDrawable().getIntrinsicHeight());
-//		}
-
 //		imageViewEmotivInsight.setImageResource(R.drawable.device_eeg_sensor_head);
-
-
 
 //		Resources r = getResources();
 //		Drawable[] layers = new Drawable[7];
@@ -160,7 +140,6 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 //		LayerDrawable layerDrawable = new LayerDrawable(layers);
 //		imageViewEmotivInsight.setImageDrawable(layerDrawable);
 
-
 		// TODO
 //		imageViewAF3 = v.findViewById(R.id.imageViewEmotivInsightSensorAF3);
 //		imageViewAF4 = v.findViewById(R.id.imageViewEmotivInsightSensorAF4);
@@ -173,14 +152,11 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 		intentEmotivInsight = new Intent(getActivity(), EmotivInsightService.class);
 
-
 		// Enable to attempt to automatically connect to nearby Emotiv Insight
 		// headsets, without the user having to manually press the "Connect" button
-//		connectHeadset();
-
+		// connectHeadset();
 
 		return v;
-
 	}
 
 	@Override
@@ -190,7 +166,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
-					  + " must implement OnFragmentInteractionListener");
+					+ " must implement OnFragmentInteractionListener");
 		}
 	}
 
@@ -204,29 +180,18 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		void onFragmentInteraction(Uri uri);
 	}
 
-	// ################################################################
-
 	public void onPause() {
-
 		super.onPause();
-
 		LocalBroadcastManager.getInstance(
-				  getActivity().getApplicationContext()).unregisterReceiver(
-				  mSignalQualityReceiver);
-
+				getActivity().getApplicationContext()).unregisterReceiver(
+				mSignalQualityReceiver);
 		LocalBroadcastManager.getInstance(
-				  getActivity()).unregisterReceiver(
-				  mStatusReceiver);
-
-	} // onPause
-
-
-	// ################################################################
+				getActivity()).unregisterReceiver(
+				mStatusReceiver);
+	}
 
 	public void onResume() {
-
 		// Store access variables for window and blank point
-
 		Window window = getDialog().getWindow();
 
 		Point size = new Point();
@@ -236,29 +201,19 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 		display.getSize(size);
 
-//		// Set the width of the dialog proportional to a percentage of the screen width
-//		window.setLayout((int) (size.x * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
-
-		// Set the dimensions  of the dialog proportional to a percentage of the screen dimensions
-//		window.setLayout((int) (size.x * 0.95), (int) (size.y * 0.935));
-
 		window.setGravity(Gravity.CENTER);
 
 		// Call super onResume after sizing
 		super.onResume();
 
 		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
-				  mSignalQualityReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality"));
+				mSignalQualityReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality"));
 
 		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
-				  mStatusReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.status"));
-
+				mStatusReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.status"));
 	}
 
-
-	// ################################################################
-
-	private BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
+	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -271,17 +226,13 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 			}
 
 			switch(name) {
-
 				case "populateSelectEEG":
 					populateSelectEEG();
 					break;
 
 				case "status":
-
 					if (getActivity() != null) {
-
 						switch (value) {
-
 							case "connected":
 								buttonConnectEEG.setText(getString(R.string.buttonStatusEmotivInsightDisconnect));
 
@@ -297,15 +248,10 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 								buttonDeviceEnable.setVisibility(View.INVISIBLE);
 
 								break;
-
 						}
-
 					}
-
 					break;
-
 				case "select":
-
 					if (value != null) {
 						int mId = Integer.parseInt(value);
 						if (mId == -1) {
@@ -316,70 +262,41 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 						}
 					}
 					break;
-
 			}
-
 		}
 
 	};
 
-	// ################################################################
-
 	public void connectHeadset() {
-
 		/*
 		 * Called when the "Connect" button is pressed
 		 */
-
-		Log.v(TAG, "connectHeadset()");
-
 		if (!DeviceEmotivInsightSingleton.getInstance().lock) {
-//			intentEmotivInsight = new Intent(getActivity(), EmotivInsightService.class);
 			getActivity().startService(intentEmotivInsight);
 		} else {
 			disconnectHeadset();
 		}
-
-	} // connectHeadset
-
-
-//	################################################################
+	}
 
 	public void disconnectHeadset() {
-
 		/*
 		 * Called when "Disconnect" button is pressed
 		 */
-
-		Log.v(TAG, "disconnectHeadset()");
-
 		if (DeviceEmotivInsightSingleton.getInstance().lock) {
 			DeviceEmotivInsightSingleton.getInstance().connectEmotivInsight(-1);
 		}
 
 		getActivity().stopService(intentEmotivInsight);
 
-		// This should actually happen via mStatusReceiver
-//		buttonDeviceEnable.setText(getString(R.string.buttonStatusEmotivInsightConnect));
-
 		buttonConnectEEG.setText(getString(R.string.buttonStatusEmotivInsightConnect));
-
-
-	} // disconnectHeadset
-
-
-	// ################################################################
-
-	public void onSelectEEGRefresh() {
-		Log.i(TAG, "onSelectEEGRefresh()");
 	}
 
-
-	// ################################################################
+	public void onSelectEEGRefresh() {
+	}
 
 	public void onSelectEEGItem(Integer deviceNumber) {
 
-		Log.i(TAG, "Selecting Insight: " + deviceNumber);
+		Log.d(TAG, "Selecting Insight: " + deviceNumber);
 
 		if (deviceNumber != -1) {
 			DeviceEmotivInsightSingleton.getInstance().connectEmotivInsight(deviceNumber);
@@ -392,10 +309,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 			mSelectEEG.dismiss();
 
 		DeviceEmotivInsightSingleton.getInstance().selectEEGDialogVisible = false;
-
 	}
-
-	// ################################################################
 
 	public void populateSelectEEG() {
 
@@ -405,8 +319,6 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 			DialogInputEmotivInsightSelectEEGFragment mSelectEEG = (DialogInputEmotivInsightSelectEEGFragment) getActivity().getSupportFragmentManager().findFragmentByTag("mSelectEEG");
 			if (mSelectEEG != null) {
-//			Log.e(TAG, "(mSelectEEG != null)");
-//			break;
 				return;
 			}
 
@@ -421,25 +333,18 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				}
 
 				showSelectEEG();
-
 			}
 		}
 		else {
 			Log.e(TAG, "populateSelectEEG called on locked device");
 		}
-
 	}
-
-
-	// ################################################################
 
 	public void showSelectEEG() {
 
 		if (!DeviceEmotivInsightSingleton.getInstance().selectEEGDialogVisible) {
 
 			DeviceEmotivInsightSingleton.getInstance().selectEEGDialogVisible = true;
-
-			Log.d(TAG, "showSelectEEG()");
 
 			FragmentManager fm = getActivity().getSupportFragmentManager();
 			DialogInputEmotivInsightSelectEEGFragment mSelectEEG = new DialogInputEmotivInsightSelectEEGFragment();
@@ -449,10 +354,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				Log.e(TAG, "mSelectEEG.show(fm, \"mSelectEEG\"): " + e);
 			}
 		}
-
 	}
-
-	// ################################################################
 
 	private void drawEEGStatus(int AF3, int AF4, int T7, int T8, int Pz, int CMS) {
 
@@ -460,12 +362,6 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 		int scale_x = ConfigurationSingleton.getInstance().displayWidth / 2;
 		int scale_y = ConfigurationSingleton.getInstance().displayHeight / 3;
-
-
-//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-////			Log.e(TAG, "imageViewEmotivInsight.getDrawable().getDirtyBounds(): " + imageViewEmotivInsight.getDrawable().getDirtyBounds());
-//			Log.e(TAG, "imageViewEmotivInsight.getDrawable().getIntrinsic*(2): " + imageViewEmotivInsight.getDrawable().getIntrinsicWidth() + ", " + imageViewEmotivInsight.getDrawable().getIntrinsicHeight());
-//		}
 
 		try {
 			r = getResources();
@@ -477,21 +373,12 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		Drawable[] layers = new Drawable[7];
 		int drawableID;
 
-//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//			// noinspection deprecation
-//			layers[0] = r.getDrawable(R.drawable.device_eeg_sensor_head);
-//		} else {
-////			layers[0] = r.getDrawable(R.drawable.device_eeg_sensor_head, null);
-//			layers[0] = r.getDrawable(R.drawable.device_eeg_sensor_head, null);
-//		}
-
 		layers[0] = new BitmapDrawable(decodeSampledBitmapFromResource(r, R.drawable.device_eeg_sensor_head, scale_x, scale_y));
 
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			Log.e(TAG, "layers[0].getDrawable().getIntrinsic*(): " + layers[0].getIntrinsicWidth() + ", " + layers[0].getIntrinsicHeight());
 		}
-
 
 		switch (AF3) {
 			case 0:
@@ -511,18 +398,9 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				break;
 		}
 
-//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//			//noinspection deprecation
-//			layers[1] = r.getDrawable(drawableID);
-//		} else {
-//			layers[1] = r.getDrawable(drawableID, null);
-//		}
-
 		layers[1] = new BitmapDrawable(decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
 
-		// TODO
-//		imageViewAF3.setImageResource(drawableID);
-
+//		imageViewAF3.setImageResource(drawableID);  // TODO
 
 		switch (AF4) {
 			case 0:
@@ -547,18 +425,9 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				break;
 		}
 
-//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//			//noinspection deprecation
-//			layers[2] = r.getDrawable(drawableID);
-//		} else {
-//			layers[2] = r.getDrawable(drawableID, null);
-//		}
-
 		layers[2] = new BitmapDrawable(decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
 
-		// TODO
-//		imageViewAF4.setImageResource(drawableID);
-
+//		imageViewAF4.setImageResource(drawableID); // TODO
 
 		switch (T7) {
 			case 0:
@@ -578,17 +447,9 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				break;
 		}
 
-//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//			//noinspection deprecation
-//			layers[3] = r.getDrawable(drawableID);
-//		} else {
-//			layers[3] = r.getDrawable(drawableID, null);
-//		}
-
 		layers[3] = new BitmapDrawable(decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
 
-		// TODO
-//		imageViewT7.setImageResource(drawableID);
+//		imageViewT7.setImageResource(drawableID); // TODO
 
 		switch (T8) {
 			case 0:
@@ -608,18 +469,9 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				break;
 		}
 
-//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//			//noinspection deprecation
-//			layers[4] = r.getDrawable(drawableID);
-//		} else {
-//			layers[4] = r.getDrawable(drawableID, null);
-//		}
-
 		layers[4] = new BitmapDrawable(decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
 
-		// TODO
-//		imageViewT8.setImageResource(drawableID);
-
+//		imageViewT8.setImageResource(drawableID); // TODO
 
 		switch (Pz) {
 			case 0:
@@ -639,18 +491,9 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				break;
 		}
 
-//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//			//noinspection deprecation
-//			layers[5] = r.getDrawable(drawableID);
-//		} else {
-//			layers[5] = r.getDrawable(drawableID, null);
-//		}
-
 		layers[5] = new BitmapDrawable(decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
 
-		// TODO
-//		imageViewPz.setImageResource(drawableID);
-
+//		imageViewPz.setImageResource(drawableID); // TODO
 
 		switch (CMS) {
 			case 0:
@@ -670,29 +513,16 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				break;
 		}
 
-//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//			//noinspection deprecation
-//			layers[6] = r.getDrawable(drawableID);
-//		} else {
-//			layers[6] = r.getDrawable(drawableID, null);
-//		}
-
 		layers[6] = new BitmapDrawable(decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
 
-		// TODO
-//		imageViewCMS.setImageResource(drawableID);
-
+//		imageViewCMS.setImageResource(drawableID); // TODO
 
 		LayerDrawable layerDrawable = new LayerDrawable(layers);
 
 		imageViewEmotivInsight.setImageDrawable(layerDrawable);
-
 	}
 
-
-	// ################################################################
-
-	private BroadcastReceiver mSignalQualityReceiver = new BroadcastReceiver() {
+	private final BroadcastReceiver mSignalQualityReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -706,11 +536,11 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 			// If any value has change update all ImageViews
 			if ((AF3 != currentAF3) ||
-					  (AF4 != currentAF4) ||
-					  (T7 != currentT7) ||
-					  (T8 != currentT8) ||
-					  (Pz != currentPz) ||
-					  (CMS != currentCMS)) {
+					(AF4 != currentAF4) ||
+					(T7 != currentT7) ||
+					(T8 != currentT8) ||
+					(Pz != currentPz) ||
+					(CMS != currentCMS)) {
 				drawEEGStatus(AF3, AF4, T7, T8, Pz, CMS);
 			}
 
@@ -720,13 +550,9 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 			currentT8 = T8;
 			currentPz = Pz;
 			currentCMS = CMS;
-
 		}
 
 	};
-
-
-// ################################################################
 
 	public void broadcastTileStatus(String value) {
 
@@ -738,14 +564,10 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		intent.putExtra("category", "inputs");
 
 		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-
 	}
 
-
-	// ################################################################
-
 	public static int calculateInSampleSize(
-			  BitmapFactory.Options options, int reqWidth, int reqHeight) {
+			BitmapFactory.Options options, int reqWidth, int reqHeight) {
 		// Raw height and width of image
 		final int height = options.outHeight;
 		final int width = options.outWidth;
@@ -759,20 +581,15 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 			// Calculate the largest inSampleSize value that is a power of 2 and keeps both
 			// height and width larger than the requested height and width.
 			while ((halfHeight / inSampleSize) > reqHeight
-					  && (halfWidth / inSampleSize) > reqWidth) {
+					&& (halfWidth / inSampleSize) > reqWidth) {
 				inSampleSize *= 2;
 			}
 		}
-
 		return inSampleSize;
 	}
 
-
-	// ################################################################
-
 	public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
-																		  int reqWidth, int reqHeight) {
-
+														 int reqWidth, int reqHeight) {
 		// First decode with inJustDecodeBounds=true to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
@@ -785,5 +602,4 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeResource(res, resId, options);
 	}
-
 }

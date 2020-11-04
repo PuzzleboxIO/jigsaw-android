@@ -6,7 +6,6 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Display;
 import android.view.Gravity;
@@ -21,8 +20,6 @@ import io.puzzlebox.jigsaw.R;
 
 public class DialogInputDeviceSensors extends DialogFragment {
 
-    private final static String TAG = DialogInputDeviceSensors.class.getSimpleName();
-
     public final static String profileID = "sensors";
 
     // UI
@@ -34,7 +31,7 @@ public class DialogInputDeviceSensors extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static DialogInputDeviceSensors newInstance(String param1, String param2) {
+    public static DialogInputDeviceSensors newInstance() {
         DialogInputDeviceSensors fragment = new DialogInputDeviceSensors();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -52,7 +49,7 @@ public class DialogInputDeviceSensors extends DialogFragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.dialog_input_device_sensors, container, false);
 
-        Button buttonDeviceCancel = (Button) v.findViewById(R.id.buttonDeviceCancel);
+        Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
         buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +58,7 @@ public class DialogInputDeviceSensors extends DialogFragment {
             }
         });
 
-        buttonDeviceEnable = (Button) v.findViewById(R.id.buttonDeviceEnable);
+        buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
         buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,8 +66,8 @@ public class DialogInputDeviceSensors extends DialogFragment {
                 dismiss();
             }
         });
-
-        return v;    }
+        return v;
+    }
 
     @Override
     public void onAttach(Context context) {

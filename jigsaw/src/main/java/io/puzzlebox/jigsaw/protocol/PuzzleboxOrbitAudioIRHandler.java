@@ -6,14 +6,8 @@ import android.media.AudioTrack;
 import android.os.Handler.Callback;
 import android.os.HandlerThread;
 import android.os.Message;
-import android.util.Log;
-
-//import android.os.Handler;
-//import android.os.Looper;
 
 public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
-
-	String TAG = "PuzzleboxOrbitAudioIRHandler";
 
 	public static final int CUSTOM_MESSAGE = 1;
 
@@ -21,17 +15,11 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	public boolean keepPlaying = false;
 	private boolean firstRun = true;
 
-	//	private long sleepTimer = 100; // sleep in milliseconds
-
 	private final Object mutex = new Object();
-
-
-	// ################################################################
 
 	/**
 	 * Default values.
 	 */
-
 	AudioTrack track;
 	//	public int sampleRate = 44100;
 	public int sampleRate = 48000;
@@ -40,7 +28,6 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	public boolean ifFlip = false;
 
 	int throttle=80;
-//	int yaw=78;
 	int yaw=49;
 	int pitch=31;
 	public int channel=1;
@@ -55,21 +42,17 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	int controlSignalCode;
 	float[] controlSignalWave;
 
-
-	// ################################################################
-
 	private final double sampleTime = 1/(double)sampleRate;
 
 	/**
 	 * Half periods in the audio code, in seconds.
-	 * 
+	 *
 	 * Four periods exist in the wave
 	 */
 	private final double longHIGH = 0.000829649;
 	private final double longLOW = 0.000797027;
 	private final double shortHIGH = 0.000412649;
 	private final double shortLOW = 0.000378351;
-
 
 	/**
 	 * Pre-calculated and stored half sine waves.
@@ -81,69 +64,40 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 
 	/**
 	 * Pre-assembled audio code bit array in wave form.
-	 * 
+	 *
 	 * waveBit is an array of two wave, each an array of numbers
 	 * waveBit[0] is the first wave, waveBit[1] is the second wave
 	 */
 	private final float[] waveBit[]= {concatFloat(waveShortHIGH,waveShortLOW),concatFloat(waveLongHIGH,waveLongLOW)};
 
-
-	// ################################################################
-
 	public PuzzleboxOrbitAudioIRHandler() {
-		Log.v(TAG, "public PuzzleboxOrbitAudioIRHandler()");
 		int minSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT);
 		track = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT,minSize, AudioTrack.MODE_STREAM);
-
-	} // PuzzleboxOrbitAudioIRHandler
-
+	}
 
 	public PuzzleboxOrbitAudioIRHandler(int sps, boolean flip) {
-		Log.v(TAG, "public PuzzleboxOrbitAudioIRHandler(int sps, boolean flip)");
 		ifFlip = flip;
 		sampleRate = sps;
 		int minSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT);
 		track = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT,minSize, AudioTrack.MODE_STREAM);
-
-	} // PuzzleboxOrbitAudioIRHandler
-
-
-	// ################################################################
+	}
 
 	@Override
 	public void run() {
-
 		running = true;
-
-		//		Log.v(TAG, "run()");
-		//		Log.v(TAG, "running: " + running);
 
 		// Create and start the HandlerThread - it requires a custom name
 		HandlerThread handlerThread = new HandlerThread("MyHandlerThread");
 		handlerThread.start();
 
-		// Get the looper from the handlerThread
-		// Note: this may return null
-		//		Looper looper = handlerThread.getLooper();
-
-		// Create a new handler - passing in the looper to use and this class as
-		// the message handler
-		//		Handler handler = new Handler(looper, this);
-
-
 		// While this thread is running
 		while (running) {
-
-			// TODO - custom thread logic
-			//			Log.v(TAG, "while (running)");
-
 
 			// Don't play audio when app is first loaded
 			if (! firstRun)
 				playControlSignal();
 			else
 				firstRun = false;
-
 
 			// Wait on mutex
 			synchronized (mutex) {
@@ -153,20 +107,11 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 					// Don't care
 					e.printStackTrace();
 				}
-			} // synchronized
-
-
+			}
 		}
-
 		// Tell the handler thread to quit
 		handlerThread.quit();
-		Log.v(TAG, "handlerThread.quit()");
-
-
-	} // run
-
-
-	// ################################################################
+	}
 
 	public void mutexNotify() {
 		synchronized (mutex) {
@@ -174,12 +119,7 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 		}
 	}
 
-	// ################################################################
-
 	public void shutdown() {
-
-		Log.v(TAG, "shutdown()");
-
 		// Set running to false
 		running = false;
 
@@ -187,101 +127,51 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 		synchronized (mutex) {
 			mutex.notifyAll();
 		}
-
-
-	} // shutdown
-
-
-	// ################################################################
+	}
 
 	public boolean handleMessage(Message msg) {
-
-		Log.v(TAG, "handleMessage(Message msg)");
-
 		switch (msg.what) {
-		case CUSTOM_MESSAGE:
-			// TODO - custom logic
-
-			Log.v(TAG, "handleMessage(CUSTOM_MESSAGE)");
-
-			break;
-
-		default:
-			// Return false - as we have not handled the message
-			return false;
+			case CUSTOM_MESSAGE:
+				break;
+			default:
+				// Return false - as we have not handled the message
+				return false;
 		}
-
 		// Return true - as we have handled the message
 		return true;
-
-
-	} // handleMessage
-
-
-	// ################################################################
+	}
 
 	//	public void updateControlSignal(int throttle, int yaw, int pitch, int channel) {
 	public void updateControlSignal() {
-
 		int throttle=command[0].intValue();
 		int yaw=command[1].intValue();
 		int pitch=command[2].intValue();
 		int channel=command[3].intValue();
 
-
 		controlSignalCode = command2code(throttle,yaw,pitch,channel);
 		controlSignalWave =code2wave(controlSignalCode);
-
-
 	}
 
-	// ################################################################
-
 	public void playControlSignal() {
-
 		keepPlaying = true;
-
-		//		Log.v(TAG, "playControlSignal()");
-
-		//		int throttle=command[0].intValue();
-		//		int yaw=command[1].intValue();
-		//		int pitch=command[2].intValue();
-		//		int channel=command[3].intValue();
-
-		//		int code=command2code(throttle,yaw,pitch,channel);
-		//		float[] wave=code2wave(code);
-
-		//		updateControlSignal(throttle,yaw,pitch,channel);
 		updateControlSignal();
-
 		track.play();
 
 		// Send a brief portion of the control signal in order to activate the IR transmitter
 		for (int j = 0; j<4; j++)
-			//			send(wave);		
-			send(controlSignalWave);		
+			send(controlSignalWave);
 
 		// Send the initialization sequence to the IR transmitter
 		send(initialWave());
 
-		// Being sending the complete control signal
-//		for (int j = 0; j<loopNumberWhileMindControl; j++) {
-		
 		// Loop infinite for easier user testing
 		while (true) {
 			if (! keepPlaying)
 				break;
-			//			send(wave);	
-			send(controlSignalWave);	
+			send(controlSignalWave);
 		}
-
 		track.stop();
-
-
-	} // playControlSignal
-
-
-	// ################################################################
+	}
 
 	/**
 	 * Turn throttle, pitch, yaw and channel into IR code (in wave form).
@@ -291,7 +181,6 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	 * @param channel: 1=Channel A, 0=Channel B 2= Channel C, depend on which channel you want to pair to the orbit. You can fly at most 3 orbit in a same room. 
 	 * @return
 	 */
-
 	public int command2code(int throttle, int yaw, int pitch, int channel){
 		int code = throttle << 21;
 		code += 1 << 20 ;
@@ -306,23 +195,14 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 			checkSum += (code >> 4*i) & 15; //15=0x0F=0b00001111
 		checkSum = 16-(checkSum & 15);
 
-
 		return code + checkSum;
+	}
 
-
-	} // command2code
-
-
-	// ################################################################
-
-	/** 
+	/**
 	 * Generate one complete fly command in wave form on the fly.
 	 * @param code: the control code array need to be turned into 
-	 * @param sampleRate: sample rate supported on certain Android device, normally 44100, but on some device it is 48000.
-	 * @param flip: on certain Android device, the signal need to be flipped. true means flip, false means not.
 	 * @return fully assembled fly command in a float array, to be written in buffer and sent out.
 	 */
-
 	public float[] code2wave(int code){
 
 		float[] wave = halfSineGen('d',longLOW);
@@ -333,9 +213,8 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 		wave = concatFloat(wave,tempWave);
 		wave = concatFloat(wave,tempWave);
 
-
 		// Takes out each bit 
-		for (int i=27; i>=0; i--) 
+		for (int i=27; i>=0; i--)
 			wave=concatFloat(wave,waveBit[((code >>> i) & 1)]);
 
 		wave=concatFloat(wave,waveLongHIGH);
@@ -346,25 +225,13 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 
 		wave=concatFloat(wave,new float[4096]);
 
-
 		return wave;
-
-
-	} // code2wave
-
-
-	// ################################################################
+	}
 
 	public void send(float[] samples) {
-
 		assembleRightChannel(samples);
 		track.write(audioData,0,2*samples.length);
-
-
-	} // send
-
-
-	// ################################################################
+	}
 
 	private void assembleRightChannel(float[] samples) {
 
@@ -379,20 +246,13 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 			audioData[2*i]=(short)(samples[i]* Short.MAX_VALUE);
 			angle += increment;
 		}
-
-
-	} // assembleRightChannel
-
-
-	// ################################################################
+	}
 
 	/**
 	 * Generate the initial wave required by IR dongle.
 	 * @return
 	 */
-
 	public float[] initialWave() {
-
 		final double initLongHIGH=0.001-sampleTime*1; //seconds
 		final double initLongZERO=0.002+sampleTime*1;
 		final double initMediumLOW=0.0005-sampleTime*1;
@@ -436,7 +296,6 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 				initWave456[i]=-initWave456[i];
 		}
 
-
 		int initPauseInSamples=(int) Math.floor(initPause * sampleRate);
 		initWave123 = concatFloat(initWave123,new float[initPauseInSamples]);
 		initWave456 = concatFloat(initWave456,new float[initPauseInSamples]);
@@ -444,20 +303,13 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 		float[] initWave123Pattern=initWave123;
 		float[] initWave456Pattern=initWave456;
 
-
 		for (int i=0; i<2; i++){
 			initWave123 = concatFloat(initWave123, initWave123Pattern);
 			initWave456 = concatFloat(initWave456, initWave456Pattern);
 		}
 
-
 		return concatFloat(initWave123,initWave456);
-
-
-	} // initialWave
-
-
-	// ################################################################
+	}
 
 	/**
 	 * Connect two array together, use native system operation for max efficiency.
@@ -465,18 +317,13 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	 * @param B second array
 	 * @return the combined array
 	 */
-
 	public float[] concatFloat(float[] A, float[] B) {
 
 		float[] C = new float[A.length+B.length];
 		System.arraycopy(A, 0, C, 0, A.length);
 		System.arraycopy(B, 0, C, A.length, B.length);
 		return C;
-
-	} // concatFloat
-
-
-	// ################################################################
+	}
 
 	/**
 	 * Generate half sine signal.
@@ -485,7 +332,6 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	 * @param halfPeriod: half of the period of sine wave, in seconds
 	 * @return:
 	 */
-
 	public float[] halfSineGen(char dir,double halfPeriod) {
 		int halfPeriodInSamples = (int) Math.floor(halfPeriod * sampleRate);
 		float halfSine[] = new float[halfPeriodInSamples];
@@ -506,10 +352,6 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 				angle += increment;
 			}
 		}
-
 		return halfSine;
-	} // halfSineGen
-
-
-
-} // PuzzleboxOrbitAudioIRHandler
+	}
+}

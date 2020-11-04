@@ -10,16 +10,15 @@ import android.os.Binder;
 import android.os.IBinder;
 
 import io.puzzlebox.jigsaw.data.DevicePuzzleboxOrbitSingleton;
-//import android.widget.Toast;
 
 public class PuzzleboxOrbitAudioIRService extends Service {
 
 	/**
 	 * default field values.
 	 */
-	
+
 	AudioTrack track;
-//	public int sampleRate = 44100;
+	//	public int sampleRate = 44100;
 	public int sampleRate = 48000;
 
 	short[] audioData = new short[6144];
@@ -29,9 +28,8 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	int channel=1;
 	Integer[] command={throttle,yaw,pitch,channel};
 	int loopNumberWhileMindControl=20;
-	
-	
-	/** 
+
+	/**
 	 * Tone Generator
 	 * This is used to generate a carrier signal, to be played out the right
 	 * audio channel when the IR dongle is attached
@@ -44,89 +42,55 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	private final double freqOfTone = 440; // Hz
 
 	final byte generatedSnd[] = new byte[2 * numSamples];
-	
-
-	/**
-	 * Object constructor.
-	 * @param sps sampleRate of the specific Android device. (only 44100 is tested so far)
-	 * @param ifFlip (DevicePuzzleboxOrbitSingleton.getInstance().invertControlSignal)
-	 */
 
 	public PuzzleboxOrbitAudioIRService()
 	{
 		int minSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT);
 		track = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT,minSize, AudioTrack.MODE_STREAM);
-
-	} // PuzzleboxOrbitAudioIRService
-
-
-	// ################################################################
+	}
 
 	public PuzzleboxOrbitAudioIRService(int sps, boolean flip)
 	{
-		//		AudioTrack track;
 		sampleRate = sps;
 		int minSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT);
 		track = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT,minSize, AudioTrack.MODE_STREAM);
-
-	} // PuzzleboxOrbitAudioIRService
-
-
-	// ################################################################
+	}
 
 	private final IBinder binder = new OrbitBinder();
 
 	@Override
 	public IBinder onBind(Intent arg0) {
-		//return null;
 		return binder;
-	} // onBind
-
-
-	// ################################################################
+	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		//Toast.makeText(this, "Start sending fly commands through audio jack", Toast.LENGTH_SHORT).show();
 		try{
 			new DoBackgroundTask().execute(command);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return START_STICKY;
-	} // onStartCommand
-
-
-	// ################################################################
+	}
 
 	@Override
 	public void onDestroy() {
 		releasetrack();
 		super.onDestroy();
-		//Toast.makeText(this, "Stop sending fly commands in audio jack", Toast.LENGTH_SHORT).show();
-	} // onDestroy
-
-
-	// ################################################################
+	}
 
 	private final double sampleTime = 1/(double)sampleRate;
 
 	/**
 	 * Half periods in the audio code, in seconds.
-	 * 
+	 *
 	 * Four periods exist in the wave
 	 */
-//	private final double longHIGH = 0.000829649;
-//	private final double longLOW = 0.000797027;
-//	private final double shortHIGH = 0.000412649;
-//	private final double shortLOW = 0.000378351;
-	
 	private final double longHIGH = 0.000829649;
 	private final double longLOW = 0.000797027;
 	private final double shortHIGH = 0.000412649;
 	private final double shortLOW = 0.000378351;
 
-	
 	/**
 	 * Pre-calculated and stored half sine waves.
 	 */
@@ -137,21 +101,17 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 
 	/**
 	 * Pre-assembled audio code bit array in wave form.
-	 * 
+	 *
 	 * waveBit is an array of two wave, each an array of numbers
 	 * waveBit[0] is the first wave, waveBit[1] is the second wave
 	 */
 	private final float[] waveBit[]= {concatFloat(waveShortHIGH,waveShortLOW),concatFloat(waveLongHIGH,waveLongLOW)};
 
-
 	public void send(float[] samples)
 	{
 		assembleRightChannel(samples);
 		track.write(audioData,0,2*samples.length);
-	} // send
-
-
-	// ################################################################
+	}
 
 	private void assembleRightChannel(float[] samples)
 	{
@@ -166,10 +126,7 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 			audioData[2*i]=(short)(samples[i]* Short.MAX_VALUE);
 			angle += increment;
 		}
-	} // assembleRightChannel
-
-
-	// ################################################################
+	}
 
 	/**
 	 * release low level resources when not use them anymore.
@@ -177,9 +134,6 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	public void releasetrack(){
 		track.release();
 	} // releasetrack
-
-
-	// ################################################################
 
 	/**
 	 * Turn throttle, pitch, yaw and channel into IR code (in wave form).
@@ -189,7 +143,6 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	 * @param channel: 1=Channel A, 0=Channel B 2= Channel C, depend on which channel you want to pair to the orbit. You can fly at most 3 orbit in a same room. 
 	 * @return
 	 */
-
 	public int command2code(int throttle, int yaw, int pitch, int channel){
 		int code = throttle << 21;
 		code += 1 << 20 ;
@@ -204,32 +157,25 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 			checkSum += (code >> 4*i) & 15; //15=0x0F=0b00001111
 		checkSum = 16-(checkSum & 15);
 		return code + checkSum;
-	} // command2code
+	}
 
-
-	// ################################################################
-
-	/** 
+	/**
 	 * Generate one complete fly command in wave form on the fly.
 	 * @param code: the control code array need to be turned into
-	 * @param sampleRate: sample rate supported on certain Android device, normally 44100, but on some device it is 48000.
-	 * @param flip: on certain Android device, the signal need to be flipped. true means flip, false means not.
-	 * @return fully assembled fly command in a float array, to be written in buffer and sent out.
+	 * @return float[]: fully assembled fly command in a float array, to be written in buffer and sent out.
 	 */
-
 	public float[] code2wave(int code){
 
 		float[] wave = halfSineGen('d',longLOW);
-		
+
 		// longHIGH-sampleTime*2 - float number used to tune the period of the wave
-		
+
 		float[] tempWave = concatFloat(halfSineGen('u',longHIGH-sampleTime*2),halfSineGen('d',shortLOW+sampleTime*2));
 		wave = concatFloat(wave,tempWave);
 		wave = concatFloat(wave,tempWave);
 
-		
 		// Takes out each bit 
-		for (int i=27; i>=0; i--) 
+		for (int i=27; i>=0; i--)
 			wave=concatFloat(wave,waveBit[((code >>> i) & 1)]);
 
 		wave=concatFloat(wave,waveLongHIGH);
@@ -241,17 +187,13 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 		wave=concatFloat(wave,new float[4096]);
 
 		return wave;
-	} // code2wave
-
-
-	// ################################################################
+	}
 
 	/**
 	 * Generate the initial wave required by IR dongle.
 	 * Not a very interesting method to look into.
 	 * @return
 	 */
-
 	public float[] initialWave(){
 		final double initLongHIGH=0.001-sampleTime*1; //seconds
 		final double initLongZERO=0.002+sampleTime*1;
@@ -296,14 +238,12 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 				initWave456[i]=-initWave456[i];
 		}
 
-
 		int initPauseInSamples=(int) Math.floor(initPause * sampleRate);
 		initWave123 = concatFloat(initWave123,new float[initPauseInSamples]);
 		initWave456 = concatFloat(initWave456,new float[initPauseInSamples]);
 
 		float[] initWave123Pattern=initWave123;
 		float[] initWave456Pattern=initWave456;
-
 
 		for (int i=0; i<2; i++){
 			initWave123 = concatFloat(initWave123, initWave123Pattern);
@@ -312,35 +252,7 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 
 		return concatFloat(initWave123,initWave456);
 
-	} // initialWave
-
-
-	// ################################################################
-
-	/** 
-	 * Connect arbitrary number of arrays together.
-	 * since Arrays.copyOf is added in API level 9,
-	 * so this not compatible with API level < 9, or known as Android 2.3	 * 
-	 * @param arbitrary numbers of arrays that you want to connect together 
-	 * @return one array that contains all the parameters in a single array.
-	 */
-
-	//	public float[] concatFloatAll(float[] first, float[]... rest) {
-	//		int totalLength = first.length;
-	//		for (float[] array : rest) {
-	//			totalLength += array.length;
-	//		}
-	//		float[] result= Arrays.copyOf(first, totalLength);
-	//		int offset = first.length;
-	//		for (float[] array : rest){
-	//			System.arraycopy(array, 0, result, offset, array.length);
-	//			offset += array.length;
-	//		}
-	//		return result;
-	//	} // concatFloatAll
-
-
-	// ################################################################
+	}
 
 	/**
 	 * Connect two array together, use native system operation for max efficiency.
@@ -353,17 +265,14 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 		System.arraycopy(A, 0, C, 0, A.length);
 		System.arraycopy(B, 0, C, A.length, B.length);
 		return C;
-	} // concatFloat
-
-
-	// ################################################################
+	}
 
 	/**
 	 * Generate half sine signal.
 	 * This is the smallest component of the wave.
 	 * @param dir: 'u' or 'd', means it's the upper half or lower half or sine wave. 
 	 * @param halfPeriod: half of the period of sine wave, in seconds
-	 * @return:
+	 * @return float[]
 	 */
 	public float[] halfSineGen(char dir,double halfPeriod) {
 		int halfPeriodInSamples = (int) Math.floor(halfPeriod * sampleRate);
@@ -385,20 +294,14 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 				angle += increment;
 			}
 		}
-
 		return halfSine;
-	} // halfSineGen
-	
-	
-	// ################################################################
+	}
 
 	void genTone(){
-
 		/**
 		 * Generate a carrier signal for communication
 		 * with the IR Dongle
 		 */
-		
 
 		/** Fill out the array */
 		for (int i = 0; i < numSamples; ++i) {
@@ -416,34 +319,20 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 			/** In 16 bit wav PCM, first byte is the low order byte */
 			generatedSnd[idx++] = (byte) (val & 0x00ff);
 			generatedSnd[idx++] = (byte) ((val & 0xff00) >>> 8);
-
 		}
-	} // genTone
-	
-	
-	// ################################################################
+	}
 
 	void playTone(){
-
 		/**
 		 * Play the generated carrier signal
 		 */
-
 		final AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
-				//                sampleRate, AudioFormat.CHANNEL_CONFIGURATION_MONO,
 				sampleRateTone, AudioFormat.CHANNEL_OUT_MONO,
-				//              sampleRate, AudioFormat.CHANNEL_OUT_STEREO,
-				//                sampleRate, AudioFormat.CHANNEL_OUT_FRONT_RIGHT,
-				//                sampleRate, AudioFormat.CHANNEL_CONFIGURATION_STEREO,
 				AudioFormat.ENCODING_PCM_16BIT, generatedSnd.length,
 				AudioTrack.MODE_STATIC);
 		audioTrack.write(generatedSnd, 0, generatedSnd.length);
 		audioTrack.play();
-	} // playTone
-
-
-	// ################################################################
-	// ################################################################
+	}
 
 	private class DoBackgroundTask extends AsyncTask< Integer , Void , Integer > {
 		protected Integer doInBackground(Integer... command) {
@@ -454,39 +343,26 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 			int channel=command[3].intValue();
 
 			int code=command2code(throttle,yaw,pitch,channel);
-			float[] wave=code2wave(code);	
+			float[] wave=code2wave(code);
 
 			track.play();
 
 			for (int j = 0; j<4; j++)
-				send(wave);		
+				send(wave);
 
 			send(initialWave());
 
 			for (int j = 0; j<loopNumberWhileMindControl; j++)
-				send(wave);	
+				send(wave);
 
 			track.stop();
 			return 0;
-		} // doInBackground
-
-		//		protected void onPostexecute(Integer result) {
-		//			stopSelf();
-		//		}
-	} // DoBackgroundTask
-
-
-	// ################################################################
-	// ################################################################
+		}
+	}
 
 	public class OrbitBinder extends Binder {
 		PuzzleboxOrbitAudioIRService getService() {
 			return PuzzleboxOrbitAudioIRService.this;
 		}
-	} // OrbitBinder
-
-
-	// ################################################################
-	// ################################################################
-
+	}
 }

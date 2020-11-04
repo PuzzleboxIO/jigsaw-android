@@ -62,7 +62,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		// Required empty public constructor
 	}
 
-	public static DialogInputNeuroSkyMindWaveFragment newInstance(String param1, String param2) {
+	public static DialogInputNeuroSkyMindWaveFragment newInstance() {
 		DialogInputNeuroSkyMindWaveFragment fragment = new DialogInputNeuroSkyMindWaveFragment();
 		Bundle args = new Bundle();
 		fragment.setArguments(args);
@@ -72,20 +72,17 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogStyle);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-									 Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-//		View v = inflater.inflate(R.layout.dialog_input_neurosky_mindwave, container, false);
 		v = inflater.inflate(R.layout.dialog_input_neurosky_mindwave, container, false);
 
 		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_neurosky_mindwave));
-//		getDialog().getWindow().setTitle( getString(R.string.label_neurosky_mindwave_instruction));
 
-		progressBarAttention = (ProgressBar) v.findViewById(R.id.progressBarAttention);
+		progressBarAttention = v.findViewById(R.id.progressBarAttention);
 		final float[] roundedCorners = new float[] { 5, 5, 5, 5, 5, 5, 5, 5 };
 		ShapeDrawable progressBarAttentionDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarAttentionColor = "#FF0000";
@@ -94,7 +91,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		progressBarAttention.setProgressDrawable(progressAttention);
 		progressBarAttention.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarMeditation = (ProgressBar) v.findViewById(R.id.progressBarMeditation);
+		progressBarMeditation = v.findViewById(R.id.progressBarMeditation);
 		ShapeDrawable progressBarMeditationDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarMeditationColor = "#0000FF";
 		progressBarMeditationDrawable.getPaint().setColor(Color.parseColor(progressBarMeditationColor));
@@ -102,7 +99,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		progressBarMeditation.setProgressDrawable(progressMeditation);
 		progressBarMeditation.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarSignal = (ProgressBar) v.findViewById(R.id.progressBarSignal);
+		progressBarSignal = v.findViewById(R.id.progressBarSignal);
 		ShapeDrawable progressBarSignalDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarSignalColor = "#00FF00";
 		progressBarSignalDrawable.getPaint().setColor(Color.parseColor(progressBarSignalColor));
@@ -110,10 +107,8 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		progressBarSignal.setProgressDrawable(progressSignal);
 		progressBarSignal.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarBlink = (ProgressBar) v.findViewById(R.id.progressBarBlink);
+		progressBarBlink = v.findViewById(R.id.progressBarBlink);
 		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
-//		String progressBarBlinkColor = "#FF00FF";
-//		String progressBarBlinkColor = "#990099";
 		String progressBarBlinkColor = "#BBBBBB";
 		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarBlinkColor));
 		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
@@ -122,16 +117,11 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 		progressBarBlink.setMax(NeuroSkyThinkGearService.blinkRangeMax);
 
-
 		// setup the Raw EEG History plot
-		eegRawHistoryPlot = (XYPlot) v.findViewById(R.id.eegRawHistoryPlot);
+		eegRawHistoryPlot = v.findViewById(R.id.eegRawHistoryPlot);
 		eegRawHistorySeries = new SimpleXYSeries("");
 
-		// Use index value as xVal, instead of explicit, user provided xVals.
-		//		eegRawHistorySeries.useImplicitXVals();
-
 		// Setup the boundary mode, boundary values only applicable in FIXED mode.
-
 		if (eegRawHistoryPlot != null) {
 
 			eegRawHistoryPlot.setDomainBoundaries(0, NeuroSkyThinkGearService.EEG_RAW_FREQUENCY, BoundaryMode.FIXED);
@@ -160,11 +150,9 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 			// setGridPadding(float left, float top, float right, float bottom)
 			eegRawHistoryPlot.getGraphWidget().setGridPadding(0, 0, 0, 0);
-
 		}
 
-
-		Button connectEEG = (Button) v.findViewById(R.id.buttonConnectEEG);
+		Button connectEEG = v.findViewById(R.id.buttonConnectEEG);
 		connectEEG.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -172,8 +160,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 			}
 		});
 
-
-		Button buttonDeviceCancel = (Button) v.findViewById(R.id.buttonDeviceCancel);
+		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
 		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -182,8 +169,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 			}
 		});
 
-
-		buttonDeviceEnable = (Button) v.findViewById(R.id.buttonDeviceEnable);
+		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
 		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -192,31 +178,14 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 			}
 		});
 
-
-
 		if (NeuroSkyThinkGearService.eegConnected ) {
 			connectEEG.setText(R.string.buttonStatusNeuroSkyMindWaveDisconnect);
 		}
 
 		intentThinkGear = new Intent(getActivity(), NeuroSkyThinkGearService.class);
 
-
 		return v;
 	}
-
-//	@Override
-//	public void onStart() {
-//		super.onStart();
-//
-//		Dialog dialog = getDialog();
-//		if (dialog != null) {
-//			dialog.setTitle("NeuroSky MindWave Mobile"); // title_dialog_fragment_neurosky_mindwave
-////			setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogStyle);
-////			dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-////			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-////			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//		}
-//	}
 
 	@Override
 	public void onAttach(Context context) {
@@ -225,7 +194,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
-					  + " must implement OnFragmentInteractionListener");
+					+ " must implement OnFragmentInteractionListener");
 		}
 	}
 
@@ -239,32 +208,22 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		void onFragmentInteraction(Uri uri);
 	}
 
-
-	// ################################################################
-
 	public void onPause() {
-
 		super.onPause();
 
 		LocalBroadcastManager.getInstance(
-				  getActivity().getApplicationContext()).unregisterReceiver(
-				  mPacketReceiver);
+				getActivity().getApplicationContext()).unregisterReceiver(
+				mPacketReceiver);
 
 		LocalBroadcastManager.getInstance(
-				  getActivity().getApplicationContext()).unregisterReceiver(
-				  mEventReceiver);
-
-	} // onPause
-
-
-	// ################################################################
+				getActivity().getApplicationContext()).unregisterReceiver(
+				mEventReceiver);
+	}
 
 	public void onResume() {
 
 		// Store access variables for window and blank point
-
 		Window window = getDialog().getWindow();
-
 		Point size = new Point();
 
 		// Store dimensions of the screen in `size`
@@ -273,12 +232,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		display.getSize(size);
 
 		// Set the width of the dialog proportional to a percentage of the screen width
-//		window.setLayout((int) (size.x * 0.9), WindowManager.LayoutParams.WRAP_CONTENT);
-//		window.setLayout((int) (size.x * 0.975), WindowManager.LayoutParams.WRAP_CONTENT);
 		window.setLayout((int) (size.x * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
-
-		// Set the dimensions  of the dialog proportional to a percentage of the screen dimensions
-//		window.setLayout((int) (size.x * 0.95), (int) (size.y * 0.935));
 
 		window.setGravity(Gravity.CENTER);
 
@@ -286,69 +240,38 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		super.onResume();
 
 		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
-				  mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
+				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
 
 		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
-				  mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
-
+				mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
 	}
-
-
-	// ################################################################
 
 	public void connectHeadset() {
 
-		/**
-		 * Called when the "Connect" button is pressed
-		 */
-
-		Log.v(TAG, "connectHeadset(): + spinnerEEG.getSelectedItem()");
+		// Called when the "Connect" button is pressed
 
 		if (! NeuroSkyThinkGearService.eegConnected) {
 			getActivity().startService(intentThinkGear);
 		} else {
 			disconnectHeadset();
 		}
-
-	} // connectHeadset
-
-
-//	################################################################
+	}
 
 	public void disconnectHeadset() {
 
-		/**
-		 * Called when "Disconnect" button is pressed
-		 */
-
-		Log.v(TAG, "disconnectHeadset()");
-
+		// Called when "Disconnect" button is pressed
 
 		NeuroSkyThinkGearService.disconnectHeadset();
 		getActivity().stopService(intentThinkGear);
-
-
 
 		updateStatusImage();
 
 		progressBarAttention.setProgress(0);
 		progressBarMeditation.setProgress(0);
 		progressBarSignal.setProgress(0);
-//		progressBarPower.setProgress(0);
+	}
 
-//		setButtonText(R.id.buttonConnectEEG, "Connect EEG");
-
-
-//		spinnerEEG.setEnabled(true);
-
-
-
-	} // disconnectHeadset
-
-
-	// ################################################################
-
-	private BroadcastReceiver mPacketReceiver = new BroadcastReceiver() {
+	private final BroadcastReceiver mPacketReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -356,8 +279,6 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 			int eegAttention = Integer.valueOf(intent.getStringExtra("Attention"));
 			int eegMeditation = Integer.valueOf(intent.getStringExtra("Meditation"));
 			int eegSignal = Integer.valueOf(intent.getStringExtra("Signal Level"));
-
-//			Log.e(TAG, "eegAttention: " + eegAttention);
 
 			progressBarAttention.setProgress(eegAttention);
 			progressBarMeditation.setProgress(eegMeditation);
@@ -381,28 +302,15 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 			updateEEGRawHistory(SessionSingleton.getInstance().getCurrentRawEEG());
 
-//			updateSessionTime();
-
 			updateStatusImage();
-
-//			Log.e(TAG, "mPacketReceiver: eegConnected: " + eegConnected);
-//			if (eegConnected.equals("true"))
-//				setButtonText(R.id.buttonConnectEEG, "Disconnect EEG");
-//			else
-//				setButtonText(R.id.buttonConnectEEG, "Connect EEG");
-
 		}
 
 	};
 
-	// ################################################################
-
-	private BroadcastReceiver mEventReceiver = new BroadcastReceiver() {
+	private final BroadcastReceiver mEventReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-
-//			String action = intent.getAction();
 
 			String name = intent.getStringExtra("name");
 			String value = intent.getStringExtra("value");
@@ -417,7 +325,6 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveConnecting));
 							break;
 						case "STATE_CONNECTED":
-//							Toast.makeText(context, "EEG Connected", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveDisconnect));
 							buttonDeviceEnable.setEnabled(true);
@@ -447,7 +354,6 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 							progressBarSignal.setProgress(0);
 							break;
 						case "STATE_DISCONNECTED":
-//							Toast.makeText(context, "EEG Disconnected", Toast.LENGTH_SHORT).show();
 							updateStatusImage();
 							setButtonText(R.id.buttonConnectEEG, getResources().getString(R.string.buttonStatusNeuroSkyMindWaveConnect));
 							buttonDeviceEnable.setEnabled(false);
@@ -457,7 +363,6 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 							progressBarSignal.setProgress(0);
 							break;
 						case "MSG_LOW_BATTERY":
-//							Toast.makeText(context, "EEG Battery Low", Toast.LENGTH_SHORT).show();
 							Toast.makeText(context, R.string.buttonStatusNeuroSkyMindWaveBatteryLow, Toast.LENGTH_SHORT).show();
 							updateStatusImage();
 							break;
@@ -476,28 +381,16 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 						e.printStackTrace();
 					}
 					break;
-
 			}
-
 		}
 
 	};
 
-	// ################################################################
-
 	public void setButtonText(int buttonId, String text) {
-
-		/**
-		 * Shortcut for changing the text on a button
-		 */
-
-		Button button = (Button) v.findViewById(buttonId);
+		// Shortcut for changing the text on a button
+		Button button = v.findViewById(buttonId);
 		button.setText(text);
-
-	} // setButtonText
-
-
-	// ################################################################
+	}
 
 	public void updateStatusImage() {
 
@@ -535,9 +428,6 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 	} // updateStatusImage
 
-
-	// ################################################################
-
 	public void updateEEGRawHistory(Number[] rawEEG) {
 
 		if (eegRawHistoryPlot != null) {
@@ -545,29 +435,14 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 			eegRawHistorySeries = new SimpleXYSeries(Arrays.asList(rawEEG), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Raw EEG");
 
-			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null);
-			//		LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.TRANSPARENT, null, null);
 			LineAndPointFormatter format = new LineAndPointFormatter(Color.rgb(0, 0, 0), Color.TRANSPARENT, null, null);
-
-			//		format.getFillPaint().setAlpha(220);
 
 			eegRawHistoryPlot.addSeries(eegRawHistorySeries, format);
 
-
 			// redraw the Plots:
 			eegRawHistoryPlot.redraw();
-
-//			rawEEG = new Number[512];
-//			arrayIndex = 0;
-
-//			ThinkGearSingleton.getInstance().resetRawEEG();
-
 		}
-
-	} // updateEEGRawHistory
-
-
-	// ################################################################
+	}
 
 	public void broadcastTileStatus(String value) {
 
@@ -579,8 +454,5 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		intent.putExtra("category", "inputs");
 
 		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-
 	}
-
-
 }

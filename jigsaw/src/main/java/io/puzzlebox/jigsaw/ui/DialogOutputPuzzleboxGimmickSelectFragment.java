@@ -66,37 +66,9 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
 
         });
 
-
         dynamicLayout = v.findViewById(R.id.dynamicLayoutSelectGimmick);
 
-//        for (int i = 0; i < DeviceEmotivInsightSingleton.getInstance().detectedDevices.size(); i++) {
-//
-//            String deviceName = DeviceEmotivInsightSingleton.getInstance().detectedDevices.get(i);
-//
-//            Log.d(TAG, "Adding Insight: " + i + ": \"" + deviceName + "\" ");
-//
-//            if (savedInstanceState == null) {
-//
-//                DialogOutputPuzzleboxGimmickSelectItemFragment item = io.puzzlebox.jigsaw.ui.DialogOutputPuzzleboxGimmickSelectItemFragment.newInstance(
-//                        R.id.dynamicLayoutSelectGimmick,
-//                        i,
-//                        deviceName);
-//
-//                try {
-//                    FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-//                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-//                    ft.add(R.id.dynamicLayoutSelectGimmick, item, "device" + i);
-//                    ft.commit();
-//                } catch (Exception e) {
-//                    Log.e(TAG, "ft Exception:" + e.toString());
-//                }
-//
-//            }
-//
-//        }
-
         displayDevicesFound(savedInstanceState);
-
 
         return v;
     }
@@ -106,9 +78,6 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -118,16 +87,14 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
         mListener = null;
     }
 
-
     public void displayDevicesFound(Bundle savedInstanceState) {
 
-        Log.e(TAG, "displayDevicesFound: " + DevicePuzzleboxGimmickSingleton.getInstance().devicesFound.size());
+        Log.d(TAG, "displayDevicesFound: " + DevicePuzzleboxGimmickSingleton.getInstance().devicesFound.size());
 
         ArrayList<String> deviceNames = new ArrayList<>();
 
         for (ScanResult sr : DevicePuzzleboxGimmickSingleton.getInstance().devicesFound) {
             if (sr.getDevice().getName() != null) {
-//				deviceNames.add(sr.getDevice().getName() + " [" + sr.getDevice().getAddress() + "]");
                 deviceNames.add(sr.getDevice().getName() + " [" + sr.getDevice().getAddress() + "] [Rssi: " + sr.getRssi() + "]");
             }
         }
@@ -135,13 +102,6 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
         if (deviceNames.isEmpty()) {
             deviceNames.add(getResources().getString(R.string.scan_default_list));
         }
-
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-//                android.R.layout.simple_list_item_1, deviceNames);
-//        setListAdapter(adapter);
-
-
-
 
         for (int i = 0; i < deviceNames.size(); i++) {
 
@@ -164,31 +124,7 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
                 } catch (Exception e) {
                     Log.e(TAG, "ft Exception:" + e.toString());
                 }
-
             }
-
         }
-
-
-
-
-
     }
-
-//    @Override
-//    public void onListItemClick(ListView l, View v, int position, long id) {
-//
-//        String deviceSelection = (String) getListAdapter().getItem(position);
-//        Toast.makeText(getActivity(), deviceSelection, Toast.LENGTH_SHORT).show();
-//
-//        Log.i(TAG, "Device selected: " + deviceSelection);
-//
-//        textViewScanTitle.setText(getResources().getString(R.string.scan_connecting));
-//
-//        broadcastCommandBluetooth("connect", deviceSelection);
-//
-//    }
-
-
-
 }

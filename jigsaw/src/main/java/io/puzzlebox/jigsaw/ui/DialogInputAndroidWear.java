@@ -6,7 +6,6 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Display;
 import android.view.Gravity;
@@ -21,8 +20,6 @@ import io.puzzlebox.jigsaw.R;
 
 public class DialogInputAndroidWear extends DialogFragment {
 
-    private final static String TAG = DialogInputAndroidWear.class.getSimpleName();
-
     public final static String profileID = "wear";
 
     // UI
@@ -34,7 +31,7 @@ public class DialogInputAndroidWear extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static DialogInputAndroidWear newInstance(String param1, String param2) {
+    public static DialogInputAndroidWear newInstance() {
         DialogInputAndroidWear fragment = new DialogInputAndroidWear();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -52,7 +49,7 @@ public class DialogInputAndroidWear extends DialogFragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.dialog_input_android_wear, container, false);
 
-        Button buttonDeviceCancel = (Button) v.findViewById(R.id.buttonDeviceCancel);
+        Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
         buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +58,7 @@ public class DialogInputAndroidWear extends DialogFragment {
             }
         });
 
-        buttonDeviceEnable = (Button) v.findViewById(R.id.buttonDeviceEnable);
+        buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
         buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,8 +91,6 @@ public class DialogInputAndroidWear extends DialogFragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    // ################################################################
-
     public void onResume() {
         // Store access variables for window and blank point
 
@@ -109,22 +104,13 @@ public class DialogInputAndroidWear extends DialogFragment {
         display.getSize(size);
 
         // Set the width of the dialog proportional to a percentage of the screen width
-//		window.setLayout((int) (size.x * 0.9), WindowManager.LayoutParams.WRAP_CONTENT);
-//		window.setLayout((int) (size.x * 0.975), WindowManager.LayoutParams.WRAP_CONTENT);
-//		window.setLayout((int)(size.x *0.98),WindowManager.LayoutParams.WRAP_CONTENT);
         window.setLayout((int)(size.x *0.75), WindowManager.LayoutParams.WRAP_CONTENT);
-
-        // Set the dimensions  of the dialog proportional to a percentage of the screen dimensions
-//		window.setLayout((int) (size.x * 0.95), (int) (size.y * 0.935));
 
         window.setGravity(Gravity.CENTER);
 
         // Call super onResume after sizing
         super.onResume();
-
     }
-
-    // ################################################################
 
     public void broadcastTileStatus(String value) {
 
@@ -136,7 +122,5 @@ public class DialogInputAndroidWear extends DialogFragment {
         intent.putExtra("category", "inputs");
 
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-
     }
-
 }

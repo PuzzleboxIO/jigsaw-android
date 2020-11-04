@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -129,11 +128,7 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
         mListener = null;
     }
 
-
-    // ################################################################
-
     private  void broadcastCommandBluetooth(String name, String value) {
-
         Log.d(TAG, "broadcastCommandBluetooth: " + name + ": " + value);
 
         Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.bluetooth.command");
@@ -142,7 +137,5 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
         intent.putExtra("value", value);
 
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
-
     }
-
 }

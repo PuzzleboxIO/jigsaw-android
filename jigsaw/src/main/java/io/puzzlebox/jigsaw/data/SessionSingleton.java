@@ -13,7 +13,6 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.opencsv.CSVWriter;
@@ -44,18 +43,18 @@ public class SessionSingleton {
 
 	private static ArrayList<HashMap<String, String>> data = new ArrayList<>();
 
-	private static ArrayList<Integer> rawEEG = new ArrayList<>();
+	private static final ArrayList<Integer> rawEEG = new ArrayList<>();
 
 	private static int frequencyRawEEG = 512; // default 512 Hz
 
 	// Storage Permissions
 	private static final int REQUEST_EXTERNAL_STORAGE = 1;
-	private static String[] PERMISSIONS_STORAGE = {
-			  Manifest.permission.READ_EXTERNAL_STORAGE,
-			  Manifest.permission.WRITE_EXTERNAL_STORAGE
+	private static final String[] PERMISSIONS_STORAGE = {
+			Manifest.permission.READ_EXTERNAL_STORAGE,
+			Manifest.permission.WRITE_EXTERNAL_STORAGE
 	};
 
-	private static SessionSingleton ourInstance = new SessionSingleton();
+	private static final SessionSingleton ourInstance = new SessionSingleton();
 
 	public static SessionSingleton getInstance() {
 		return ourInstance;
@@ -64,31 +63,20 @@ public class SessionSingleton {
 	private SessionSingleton() {
 	}
 
-//	public void setData(ArrayList<HashMap<String, String>> data){
-//		this.data = data;
-//	}
-
 	public void appendData(HashMap<String, String> packet){
 		data.add(packet);
 	}
 
-	//	public void appendRawEEG(Number[] rawEEG) {
-////		data.add(packet);
-//	}
 	public void appendRawEEG(int raw) {
 		rawEEG.add(raw);
 	}
 
-
 	public Integer[] getCurrentRawEEG() {
 
-//		int historySize = NeuroSkyThinkGearService.EEG_RAW_HISTORY_SIZE;
 		int historySize = frequencyRawEEG;
 
 		Integer[] currentEEG = new Integer[historySize];
 		for (int i = 0; i < historySize; i++) {
-//			currentEEG[i] = rawEEG.get(i);
-//			currentEEG[i] = rawEEG.get( rawEEG.size() - (historySize - i) );
 			try {
 				currentEEG[i] = rawEEG.get(rawEEG.size() - (historySize - i));
 			} catch (ArrayIndexOutOfBoundsException e) {
@@ -98,58 +86,23 @@ public class SessionSingleton {
 		return currentEEG;
 	}
 
-
 	public ArrayList<HashMap<String, String>> getData(){
 		return data;
 	}
-
-
-//	public ArrayList<String> getFragmentTags() {
-//		return fragmentTags;
-//	}
-//
-//	public void appendFragmentTag(String tag) {
-//		fragmentTags.add(tag);
-//	}
-//
-//	public void resetFragmentTags() {
-//		fragmentTags = new ArrayList<>();
-//	}
-
-
-	// ################################################################
-
-//	public void setSessionFilename(String filename) {
-//		sessionFilename = filename;
-//	}
-//
-//	public String getSessionFilename() {
-//		return sessionFilename;
-//	}
-
-
-	// ################################################################
 
 	public int getRequestExternalStorage() {
 		return REQUEST_EXTERNAL_STORAGE;
 	}
 
-	// ################################################################
-
 	/**
 	 *
 	 * @return yyyy-MM-dd HH:mm:ss formate date as string
 	 */
-
-//	public static Date updateTimestamp() {
 	public Date updateTimestamp() {
 		// Make a new Date object. It will be initialized to the current time.
 		currentTimestamp = new Date();
 		return currentTimestamp;
 	}
-
-
-	// ################################################################
 
 	public String getCurrentDate(){
 		try {
@@ -161,9 +114,6 @@ public class SessionSingleton {
 		}
 	}
 
-
-	// ################################################################
-
 	public String getCurrentTimestamp(){
 		try {
 			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS", Locale.US);
@@ -174,17 +124,11 @@ public class SessionSingleton {
 		}
 	}
 
-
-	// ################################################################
-
 	public String getTimestampPS4() {
 		Date mDate = new Date();
 		SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
 		return mDateFormat.format(mDate);
 	}
-
-
-	// ################################################################
 
 	public void setSessionName(String profileName) {
 		sessionName = profileName;
@@ -194,9 +138,6 @@ public class SessionSingleton {
 		return sessionName;
 	}
 
-
-	// ################################################################
-
 	public void setFrequencyRawEEG(int frequency) {
 		frequencyRawEEG = frequency;
 	}
@@ -205,19 +146,13 @@ public class SessionSingleton {
 		return frequencyRawEEG;
 	}
 
-	// ################################################################
-
 	public String getSessionTimestamp() {
-
-//		Date mDate = new Date();
 
 		java.util.Date date1 = new java.util.Date();
 		java.util.Date date2 = new java.util.Date();
 		long diff = 0;
 
-//		java.text.DateFormat df = new java.text.SimpleDateFormat("hh:mm:ss");
 		java.text.DateFormat df = new SimpleDateFormat("HH:mm:ss.SSS", Locale.US);
-
 
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS", Locale.US);
 		String sessionTimestampString = timeFormat.format(sessionTimestamp);
@@ -248,8 +183,6 @@ public class SessionSingleton {
 		timeInSeconds = timeInSeconds - (minutes * 60);
 		seconds = timeInSeconds;
 
-//		Log.d(TAG, "hours:minutes:seconds " + hours + ":" + minutes + ":" + seconds);
-
 		// TODO There's clearly a bug with the math above, with the (apparently) correct values returning as negative
 		// NOTE Actual session data doesn't seem affected when exported
 		if (hours < 0)
@@ -259,16 +192,8 @@ public class SessionSingleton {
 		if (seconds < 0)
 			seconds = seconds * -1;
 
-//		Log.d(TAG, "hours:minutes:seconds " + hours + ":" + minutes + ":" + seconds);
-
-//		return (hours<10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds) + " h";
-
 		return (hours<10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
-
 	}
-
-
-	// ################################################################
 
 	public void resetSession() {
 		removeTemporarySessionFile();
@@ -276,38 +201,28 @@ public class SessionSingleton {
 		data = new ArrayList<>();
 	}
 
-
-	// ################################################################
-
 	public List<String[]> getExportData() {
 		List<String[]> dataCSV = new ArrayList<>();
 
 		dataCSV.add(new String[] {
-				  "Date",
-				  "Time",
-				  "Attention",
-				  "Meditation",
-				  "Signal Level",
-//				  "Power",
+				"Date",
+				"Time",
+				"Attention",
+				"Meditation",
+				"Signal Level",
 		});
 
-//		for (int i = data.size() - 1; i >= 0; i--) {
 		for (int i = 0; i < data.size(); i++) {
 			dataCSV.add(new String[] {
-					  data.get(i).get("Date"),
-					  data.get(i).get("Time"),
-					  data.get(i).get("Attention"),
-					  data.get(i).get("Meditation"),
-					  data.get(i).get("Signal Level"),
-//					  data.get(i).get("Power"),
+					data.get(i).get("Date"),
+					data.get(i).get("Time"),
+					data.get(i).get("Attention"),
+					data.get(i).get("Meditation"),
+					data.get(i).get("Signal Level"),
 			});
 		}
-
 		return dataCSV;
 	}
-
-
-	// ################################################################
 
 	public Number[] getSessionRangeValues(String key, Integer count) {
 
@@ -316,25 +231,16 @@ public class SessionSingleton {
 		for (int i = 0; i < count; i++) {
 			try {
 				result[i] = Integer.valueOf(
-						  data.get( data.size() - (count - i ) ).get(key));
+						data.get( data.size() - (count - i ) ).get(key));
 			} catch (ArrayIndexOutOfBoundsException e) {
 				result[i] = 0;
 			} catch (Exception e) {
 				e.printStackTrace();
 				result[i] = 0;
 			}
-//			System.out.print(result[i] + ", ");
-//			Log.d(TAG, result[i].toString());
 		}
-
-//		Log.d(TAG, result.toString());
-
 		return result;
-
 	}
-
-
-	// ################################################################
 
 	public String getExportDataCSV() {
 
@@ -346,26 +252,17 @@ public class SessionSingleton {
 		if (dataCSV == null)
 			return output;
 
-
 		for (String[] line: dataCSV) {
 
 			current = Arrays.toString(line);
 			current = current.replaceAll("\\[", "");
 			current = current.replaceAll("]", "");
 			output = output + current + "\n";
-
-//			Log.e(TAG, current);
 		}
-
 		return output;
 	}
 
-
-	// ################################################################
-
 	public void exportDataToCSV(String filepath, String filename) {
-
-//		String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 
 		removeTemporarySessionFile();
 
@@ -373,7 +270,6 @@ public class SessionSingleton {
 			filepath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 
 		if (filename == null) {
-//			filename = getTimestampPS4();
 			filename = sessionName + "_" + getTimestampPS4();
 		}
 
@@ -393,87 +289,53 @@ public class SessionSingleton {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
-
-
-	// ################################################################
 
 	public boolean removeTemporarySessionFile() {
 
 		if (sessionFilename != null) {
 
 			File mFile = new File(Environment.getExternalStorageDirectory().toString()
-					  + File.separator + sessionFilename);
+					+ File.separator + sessionFilename);
 
 			return mFile.exists() && mFile.delete();
-
 		} else
 			return false;
-
 	}
 
-
-	// ################################################################
-
-	//	public Intent getExportSessionIntent(Context context, MenuItem item) {
 	public Intent getExportSessionIntent(Context context) {
 
-//		Log.d(TAG, "exportSession(MenuItem item): " + item.toString());
-		Log.d(TAG, "exportSession()");
-
-		// Fetch and store ShareActionProvider
-//		ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-
 		removeTemporarySessionFile();
-
 
 		Intent mShareIntent = new Intent();
 
 		Intent i = new Intent(Intent.ACTION_SEND);
-//		i.setType("plain/text");
-//		i.setType("plain/csv");
-//		i.setType("text/comma-separated-values");
 		i.setType("application/csv"); // Produces the most correct options in the share menu
 		try {
-
-//			sessionFilename = SessionSingleton.getInstance().getTimestampPS4() + ".csv";
 			sessionFilename = sessionName + "_" + SessionSingleton.getInstance().getTimestampPS4() + ".csv";
 
 			String tempFilePath = Environment.getExternalStorageDirectory().toString()
-					  + File.separator + sessionFilename;
+					+ File.separator + sessionFilename;
 
 			File tempFile = new File(tempFilePath);
 
-//			FileWriter out = GenerateCsv.generateCsvFile(
-//					  tempFile, SessionSingleton.getInstance().getExportDataCSV());
 			GenerateCsv.generateCsvFile(
-					  tempFile, SessionSingleton.getInstance().getExportDataCSV());
+					tempFile, SessionSingleton.getInstance().getExportDataCSV());
 
 			Uri U = Uri.fromFile(tempFile);
 			i.putExtra(Intent.EXTRA_STREAM, U);
 
-//			i.putExtra(Intent.EXTRA_SUBJECT, context.getResources().getString(R.string.share_subject));
 			i.putExtra(Intent.EXTRA_SUBJECT, sessionFilename);
 			i.putExtra(Intent.EXTRA_TEXT, context.getResources().getString(R.string.share_message));
 
 			mShareIntent = Intent.createChooser(i, "Share Session");
-
-//			context.startActivity(mShareIntent);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return mShareIntent;
-
 	}
 
-
-	// ################################################################
-
 	public static class GenerateCsv {
-		//		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
 		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
 			FileWriter writer = null;
 
@@ -490,15 +352,12 @@ public class SessionSingleton {
 						writer.close();
 					}
 				} catch (IOException e) {
-					Log.d(TAG, "IOException: " + e);
+					Log.e(TAG, "IOException: " + e);
 				}
 			}
 			return writer;
 		}
 	}
-
-
-	// ################################################################
 
 	/**
 	 * Checks if the app has permission to write to device storage
@@ -517,21 +376,19 @@ public class SessionSingleton {
 			final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 			builder.setTitle(activity.getResources().getString(R.string.dialog_title_request_permission));
 			builder.setMessage(activity.getResources().getString(R.string.dialog_message_request_permission));
-			builder.setPositiveButton(android.R.string.ok, null);
+			builder.setPositiveButton(android.R.string.ok,null);
 			builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
 				@Override
 				@TargetApi(Build.VERSION_CODES.M)
 				public void onDismiss(DialogInterface dialog) {
 					ActivityCompat.requestPermissions(
-							  activity,
-							  PERMISSIONS_STORAGE,
-							  REQUEST_EXTERNAL_STORAGE
+							activity,
+							PERMISSIONS_STORAGE,
+							REQUEST_EXTERNAL_STORAGE
 					);
 				}
 			});
 			builder.show();
-
-
 		} else {
 			Intent i = SessionSingleton.getInstance().getExportSessionIntent(activity.getApplicationContext());
 
@@ -541,30 +398,5 @@ public class SessionSingleton {
 				Toast.makeText(activity.getApplicationContext(), "Error exporting session data for sharing", Toast.LENGTH_SHORT).show();
 			}
 		}
-
 	}
-
-
-	// ################################################################
-
-//	public void exportDataGoogleDrive() {
-//
-//		try {
-////			String filenameCSV = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getTimestampPS4() + ".csv";
-////			CSVWriter writer = new CSVWriter(new FileWriter(filenameCSV), ',');
-//
-//			List<String[]> dataCSV = getExportData();
-//
-////			Intent intent = new Intent(get(), CreateFileInAppFolderActivity.class);
-//
-////			writer.writeAll(dataCSV);
-////			writer.close();
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
-
-
 }
