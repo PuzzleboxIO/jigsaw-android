@@ -41,14 +41,17 @@ dependencies {
     implementation 'androidx.fragment:fragment:1.8.0'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
     implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
+    implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'androidx.annotation:annotation:1.8.2'
 
-    // Google Play Services
-    implementation 'com.google.android.gms:play-services-ads:23.6.0'
-    implementation 'com.google.android.gms:play-services-auth:21.3.0'
-
-    // NeuroSky MindWave Mobile 2
+    // NeuroSky MindWave Mobile 2 — Stream SDK (Bluetooth connection)
     implementation files('libs/libStreamSDK_v1.2.0.jar')
+
+    // NeuroSky EEG Algorithm SDK — local signal processing (Attention, Meditation, Eye Blink, Bandpower)
+    // NskAlgoSdk.jar is picked up automatically by the fileTree above.
+    // Native counterpart libNskAlgo.so ships for arm64-v8a, armeabi-v7a, armeabi, x86, x86_64
+    // in libs/{abi}/ — copy the needed ABI(s) to the consuming app's jniLibs to package them.
+    // (Not yet wired into app logic; available for future integration.)
 
     // Emotiv Insight — compileOnly so classes are available during compilation but NOT
     // bundled in the output AAR. The full community-3.3.4.aar (with native libs) is
