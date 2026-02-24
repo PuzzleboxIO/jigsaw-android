@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,18 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import io.puzzlebox.jigsaw.R;
 
@@ -144,8 +138,7 @@ public class SupportFragment extends Fragment {
 		output = "Manufacturer: " + Build.MANUFACTURER + "\n";
 		output = output + "Model: " + Build.MODEL + "\n";
 		output = output + "Product: " + Build.PRODUCT + "\n";
-		if (Build.VERSION.SDK_INT >= 8)
-			output = output + "Hardware: " + Build.HARDWARE + "\n";
+		output = output + "Hardware: " + Build.HARDWARE + "\n";
 		output = output + "Device: " + Build.DEVICE + "\n";
 		output = output +
 				getResources().getString(R.string.app_name) +
@@ -155,6 +148,7 @@ public class SupportFragment extends Fragment {
 		return (output);
 	}
 
+	@SuppressWarnings("deprecation") // AsyncTask deprecated in API 30, but functional through API 36
 	private class EmailMessage extends AsyncTask<String, Void, Object> {
 
 		String contactURL = "";
@@ -170,34 +164,40 @@ public class SupportFragment extends Fragment {
 		}
 
 		protected Object doInBackground(String... vars) {
+			HttpURLConnection connection = null;
 			try {
+				String subject = "[" + getResources().getString(R.string.app_name)
+						+ " Support] (Android " + versionName + ")";
 
-				// Create a new HttpClient and Post Header
-				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = new HttpPost(contactURL);
+				// Build URL-encoded POST body (replaces Apache HttpClient)
+				String postBody = URLEncoder.encode("email_name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8")
+						+ "&" + URLEncoder.encode("email_from", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8")
+						+ "&" + URLEncoder.encode("email_subject", "UTF-8") + "=" + URLEncoder.encode(subject, "UTF-8")
+						+ "&" + URLEncoder.encode("email_body", "UTF-8") + "=" + URLEncoder.encode(message, "UTF-8");
 
-				try {
-					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-					nameValuePairs.add(new BasicNameValuePair("email_name", name));
-					nameValuePairs.add(new BasicNameValuePair("email_from", email));
-					nameValuePairs.add(new BasicNameValuePair("email_subject", "[" +
-							getResources().getString(R.string.app_name) +
-							" Support] (Android " + versionName + ")"));
-					nameValuePairs.add(new BasicNameValuePair("email_body", message));
-					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				byte[] postBytes = postBody.getBytes(StandardCharsets.UTF_8);
 
-					// Execute HTTP Post Request
-					HttpResponse response = httpclient.execute(httppost);
+				URL url = new URL(contactURL);
+				connection = (HttpURLConnection) url.openConnection();
+				connection.setRequestMethod("POST");
+				connection.setDoOutput(true);
+				connection.setFixedLengthStreamingMode(postBytes.length);
+				connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				connection.connect();
 
-				} catch (ClientProtocolException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+				try (OutputStream os = connection.getOutputStream()) {
+					os.write(postBytes);
 				}
 
-			} catch (Exception e) {
+				int responseCode = connection.getResponseCode();
+				Log.d(TAG, "Support email response code: " + responseCode);
+
+			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				if (connection != null) {
+					connection.disconnect();
+				}
 			}
 			return null;
 		}

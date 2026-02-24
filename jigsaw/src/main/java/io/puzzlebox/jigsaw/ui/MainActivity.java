@@ -10,11 +10,11 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements
 			}
 		};
 
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		mDrawerLayout.addDrawerListener(mDrawerToggle);
 
 		if (savedInstanceState == null) {
 			SelectItem(0);
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements
 
 	public void SelectItem(int position) {
 
-		android.support.v4.app.Fragment fragment = null;
+		androidx.fragment.app.Fragment fragment = null;
 		Bundle args = new Bundle();
 		String backStackName = "";
 		switch (position) {
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements
 
 		if (fragment != null)
 			fragment.setArguments(args);
-		android.support.v4.app.FragmentManager frgManager = getSupportFragmentManager();
+		androidx.fragment.app.FragmentManager frgManager = getSupportFragmentManager();
 		frgManager.beginTransaction().replace(R.id.container, fragment)
 				  .addToBackStack(backStackName)
 				  .commit();

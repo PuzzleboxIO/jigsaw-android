@@ -1,58 +1,59 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    namespace 'io.puzzlebox.jigsaw'
+    compileSdk 36
 
     defaultConfig {
-//        minSdkVersion 9  // API 2.3 [getActivity()]
-//        minSdkVersion 15 // API 4.0.3
-//        minSdkVersion 16 // API 4.1 [Manifest.permission.READ_EXTERNAL_STORAGE]
-//        minSdkVersion 18 // API 4.3 [Emotiv Community SDK]
-        minSdkVersion 21   // 5.x - required for ScanResult.getDevice()
-        targetSdkVersion 28
+//        minSdk 9  // API 2.3 [getActivity()]
+//        minSdk 15 // API 4.0.3
+//        minSdk 16 // API 4.1 [Manifest.permission.READ_EXTERNAL_STORAGE]
+//        minSdk 18 // API 4.3 [Emotiv Community SDK]
+        minSdk 21   // 5.x - required for ScanResult.getDevice()
+        targetSdk 36
         versionCode 6
         versionName "2.4.0"
         ndk {
-            abiFilters "armeabi"
+            abiFilters "armeabi-v7a"
         }
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-//        debug {
-//            debuggable true
-//        }
-//        staging {
-//            // Specifies a sorted list of fallback build types that the
-//            // plugin should try to use when a dependency does not include a
-//            // "staging" build type. You may specify as many fallbacks as you
-//            // like, and the plugin selects the first build type that's
-//            // available in the dependency.
-//            matchingFallbacks = ['debug', 'qa', 'release']
-//        }
-//        releaseApp {}
-//        releaseSdk {}
     }
 
-    useLibrary 'org.apache.http.legacy' // TODO: deprecated in Android 6.0
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    // All JARs except the Emotiv classes JAR (handled separately below as compileOnly)
+    implementation fileTree(include: ['*.jar'], dir: 'libs', exclude: ['community-emotiv-classes.jar'])
 
-    // Android Support Libraries
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    // AndroidX (replaces com.android.support:appcompat-v7 and support libraries)
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.core:core:1.13.1'
+    implementation 'androidx.fragment:fragment:1.8.0'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
+    implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
+    implementation 'androidx.annotation:annotation:1.8.2'
 
     // Google Play Services
-    implementation 'com.google.android.gms:play-services-ads:15.0.1'
-    implementation 'com.google.android.gms:play-services-auth:15.0.1'
-    implementation 'com.google.android.gms:play-services-drive:15.0.1'
-    implementation 'com.google.android.gms:play-services-gcm:15.0.1'
-    implementation 'com.google.android.gms:play-services-vision:15.0.2'
+    implementation 'com.google.android.gms:play-services-ads:23.6.0'
+    implementation 'com.google.android.gms:play-services-auth:21.3.0'
+
+    // NeuroSky MindWave Mobile 2
+    implementation files('libs/libStreamSDK_v1.2.0.jar')
+
+    // Emotiv Insight — compileOnly so classes are available during compilation but NOT
+    // bundled in the output AAR. The full community-3.3.4.aar (with native libs) is
+    // consumed by :mobile at runtime, avoiding duplicate class conflicts.
+    compileOnly files('libs/community-emotiv-classes.jar')
 
     // Androidplot
     // implementation 'com.androidplot:androidplot-core:0.6.1'
@@ -63,30 +64,9 @@ dependencies {
     // USB Serial for Puzzlebox Pyramid
     //    implementation files('libs/usb-serial-for-android-v010.jar')
 
-    // NeuroSky MindWave Mobile
+    // NeuroSky MindWave Mobile (original)
     //    implementation files('libs/ThinkGear.jar')
-
-    // NeuroSky MindWave Mobile 2
-    implementation files('libs/libStreamSDK_v1.2.0.jar')
-
-    // Emotiv Insight
-    implementation 'com.emotiv.sdk:community:3.3.4@aar'
 
     // InteraXon Muse
     //    implementation files('libs/libmuseandroid.jar')
-
-    // Melon
-    //    implementation files('libs/Melon_Alpha_Android_SDK.jar')
-    //    implementation 'com.android.support:support-v4:27.1.1'
-}
-
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        def requested = details.requested
-        if (requested.group == 'com.android.support') {
-            if (!requested.name.startsWith("multidex")) {
-                details.useVersion '28.0.0'
-            }
-        }
-    }
 }

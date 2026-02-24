@@ -6,7 +6,7 @@ import android.support.wearable.view.DotsPageIndicator;
 import android.support.wearable.view.GridViewPager;
 import android.support.wearable.view.WatchViewStub;
 
-import io.puzzlebox.jigsaw.android.R;
+import io.puzzlebox.jigsaw.wear.R;
 
 public class MainActivity extends Activity {
 

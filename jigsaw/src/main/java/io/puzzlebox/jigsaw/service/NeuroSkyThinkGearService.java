@@ -2,6 +2,8 @@ package io.puzzlebox.jigsaw.service;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -9,7 +11,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -156,7 +158,8 @@ public class NeuroSkyThinkGearService extends Service {
 		 * Prepare Bluetooth and NeuroSky ThinkGear EEG interface
 		 */
 
-		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+		bluetoothAdapter = bluetoothManager.getAdapter();
 
 		if (bluetoothAdapter != null) {
 

@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import io.puzzlebox.jigsaw.android.R;
+import io.puzzlebox.jigsaw.wear.R;
 
 public class SensorFragment extends Fragment implements SensorEventListener {
 

@@ -8,7 +8,7 @@ package io.puzzlebox.jigsaw.ui;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;

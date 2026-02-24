@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="io.puzzlebox.jigsaw.android">
+          xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- Classic Bluetooth — restricted to API < 31 (replaced by BLUETOOTH_CONNECT on 31+) -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+
+    <!-- Android 12+ (API 31+) Bluetooth permissions -->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- Storage: scoped storage applies from API 29+; this permission only effective on API 28- -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +36,8 @@
 
         <activity
             android:name="io.puzzlebox.jigsaw.ui.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,20 +45,6 @@
         </activity>
 
         <!--<activity android:name=".data.CreateSessionFileInGoogleDrive" />-->
-
-        <!--<service-->
-            <!--android:name=".protocol.ThinkGearService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="false" />-->
-
-        <!--<service-->
-            <!--android:name=".protocol.MuseService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="false" />-->
-
-        <!--<service-->
-            <!--android:name=".protocol.RBLService"-->
-            <!--android:enabled="true" />-->
 
     </application>
 
