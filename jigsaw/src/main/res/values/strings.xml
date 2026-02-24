@@ -26,4 +26,9 @@
     <string name="toast_warning_profile_unavailable_input">Tip: To launch this profile please enable its Input(s) on the first row</string>
     <string name="toast_warning_profile_unavailable_output">Tip: To launch this profile please enable its Output(s) on the second row</string>
 
+    <string name="permission_bluetooth_dialog_title">This app needs your permission</string>
+    <string name="permission_bluetooth_dialog_message">Please grant location access so this app can scan for Bluetooth devices.</string>
+    <string name="permission_bluetooth_required">Bluetooth permissions are required to scan for and connect to devices.</string>
+    <string name="permission_location_required">Location permission is required for Bluetooth device scanning.</string>
+
 </resources>

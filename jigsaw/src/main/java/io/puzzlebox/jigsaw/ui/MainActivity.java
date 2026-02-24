@@ -6,14 +6,19 @@
 
 package io.puzzlebox.jigsaw.ui;
 
+import android.annotation.TargetApi;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
@@ -23,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements
 		  DialogOutputSessionFragment.OnFragmentInteractionListener {
 
 	private final static String TAG = MainActivity.class.getSimpleName();
+
+	protected static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+	protected static final int PERMISSION_REQUEST_BLUETOOTH = 2;
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -170,7 +179,53 @@ public class MainActivity extends AppCompatActivity implements
 	}
 
 	protected void onCreateCustom() {
-		// For use with custom applications
+		// Request Bluetooth and location permissions required for BLE scanning.
+		// Subclasses that override this method without calling super() are responsible
+		// for their own permission requests (e.g. orbit-android's MainActivity).
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+			List<String> needed = new ArrayList<>();
+			if (checkSelfPermission(android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED)
+				needed.add(android.Manifest.permission.BLUETOOTH_SCAN);
+			if (checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+				needed.add(android.Manifest.permission.BLUETOOTH_CONNECT);
+			if (!needed.isEmpty())
+				requestPermissions(needed.toArray(new String[0]), PERMISSION_REQUEST_BLUETOOTH);
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+				final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle(getString(R.string.permission_bluetooth_dialog_title));
+				builder.setMessage(getString(R.string.permission_bluetooth_dialog_message));
+				builder.setPositiveButton(android.R.string.ok, null);
+				builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+					@Override
+					@TargetApi(Build.VERSION_CODES.M)
+					public void onDismiss(DialogInterface dialog) {
+						requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+								PERMISSION_REQUEST_COARSE_LOCATION);
+					}
+				});
+				builder.show();
+			}
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode,
+										   @NonNull String[] permissions,
+										   @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == PERMISSION_REQUEST_BLUETOOTH) {
+			for (int result : grantResults) {
+				if (result != PackageManager.PERMISSION_GRANTED) {
+					Toast.makeText(this, getString(R.string.permission_bluetooth_required), Toast.LENGTH_LONG).show();
+					return;
+				}
+			}
+		} else if (requestCode == PERMISSION_REQUEST_COARSE_LOCATION) {
+			if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+				Toast.makeText(this, getString(R.string.permission_location_required), Toast.LENGTH_LONG).show();
+			}
+		}
 	}
 
 	@Override
