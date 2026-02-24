@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.app.Activity;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -30,6 +30,10 @@ import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 
+import com.opencsv.CSVWriter;
+
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
@@ -43,6 +47,8 @@ public class DialogOutputSessionFragment extends DialogFragment {
 	private final static String TAG = DialogOutputSessionFragment.class.getSimpleName();
 
 	public final static String profileID = "session";
+
+	private static final int REQUEST_CREATE_CSV = 100;
 
 	// UI
 	Button buttonDeviceEnable;
@@ -270,21 +276,33 @@ public class DialogOutputSessionFragment extends DialogFragment {
 	};
 
 	public void exportSession() {
+		String filename = SessionSingleton.getInstance().getSessionName()
+				+ "_" + SessionSingleton.getInstance().getTimestampPS4() + ".csv";
+		Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+		intent.addCategory(Intent.CATEGORY_OPENABLE);
+		intent.setType("text/csv");
+		intent.putExtra(Intent.EXTRA_TITLE, filename);
+		startActivityForResult(intent, REQUEST_CREATE_CSV);
+	}
 
-		// Permission must be requested to read/write storage in Android 4.1 and later
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == REQUEST_CREATE_CSV && resultCode == Activity.RESULT_OK && data != null) {
+			Uri uri = data.getData();
+			if (uri != null) writeCsvToUri(uri);
+		}
+	}
 
-			SessionSingleton.getInstance().verifyStoragePermissions(getActivity());
-
-		} else {
-
-			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
-
-			if (i != null) {
-				startActivity(i);
-			} else {
-				Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
-			}
+	private void writeCsvToUri(Uri uri) {
+		try (OutputStream os = requireContext().getContentResolver().openOutputStream(uri);
+			 OutputStreamWriter osw = new OutputStreamWriter(os);
+			 CSVWriter writer = new CSVWriter(osw, ',')) {
+			writer.writeAll(SessionSingleton.getInstance().getExportData());
+			Toast.makeText(getContext(), "Session exported successfully", Toast.LENGTH_SHORT).show();
+		} catch (Exception e) {
+			Log.e(TAG, "writeCsvToUri: " + e);
+			Toast.makeText(getContext(), "Export failed", Toast.LENGTH_SHORT).show();
 		}
 	}
 
