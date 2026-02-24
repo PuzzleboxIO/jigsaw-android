@@ -12,8 +12,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,24 +91,34 @@ public class MainActivity extends AppCompatActivity implements
 		mDrawerLayout = findViewById(R.id.drawer_layout);
 		mDrawerList = findViewById(R.id.navigation_drawer);
 
-		// Android 15+ (API 35+) forces edge-to-edge: AppCompat's SubDecor places
-		// the fragment container at y=0 (behind the status bar and ActionBar).
-		// Apply window-inset-aware top padding after layout so tiles start below the ActionBar.
+		// Android 15+ (API 35+) forces edge-to-edge: AppCompat's SubDecor places both the
+		// fragment container and the navigation drawer at y=0 (behind the status bar and
+		// ActionBar). Use post() to measure actual on-screen positions after layout and
+		// apply exactly the padding needed to push each view below the ActionBar bottom.
 		if (Build.VERSION.SDK_INT >= 35) {
 			final View container = findViewById(R.id.container);
+			final ListView drawerList = mDrawerList;
 			if (container != null) {
-				ViewCompat.setOnApplyWindowInsetsListener(container, (v, insets) -> {
-					int statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
-					int navBarHeight   = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
-					TypedValue tv2 = new TypedValue();
-					int actionBarHeight = 0;
-					if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv2, true)) {
-						actionBarHeight = TypedValue.complexToDimensionPixelSize(tv2.data, getResources().getDisplayMetrics());
+				container.post(() -> {
+					View actionBarCont = getWindow().getDecorView()
+							.findViewById(androidx.appcompat.R.id.action_bar_container);
+					if (actionBarCont == null) return;
+					int[] abLoc = new int[2];
+					actionBarCont.getLocationOnScreen(abLoc);
+					int abBottom = abLoc[1] + actionBarCont.getHeight();
+
+					int[] cLoc = new int[2];
+					container.getLocationOnScreen(cLoc);
+					int topPad = abBottom - cLoc[1];
+					if (topPad > 0) container.setPadding(0, topPad, 0, 0);
+
+					if (drawerList != null) {
+						int[] dLoc = new int[2];
+						drawerList.getLocationOnScreen(dLoc);
+						int drawPad = abBottom - dLoc[1];
+						if (drawPad > 0) drawerList.setPadding(0, drawPad, 0, 0);
 					}
-					v.setPadding(0, statusBarHeight + actionBarHeight, 0, navBarHeight);
-					return WindowInsetsCompat.CONSUMED;
 				});
-				ViewCompat.requestApplyInsets(container);
 			}
 		}
 
