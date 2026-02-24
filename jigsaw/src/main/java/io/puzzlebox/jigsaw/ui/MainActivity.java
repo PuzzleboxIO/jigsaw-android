@@ -9,8 +9,11 @@ package io.puzzlebox.jigsaw.ui;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -89,6 +92,27 @@ public class MainActivity extends AppCompatActivity implements
 		mTitle = mDrawerTitle = getTitle();
 		mDrawerLayout = findViewById(R.id.drawer_layout);
 		mDrawerList = findViewById(R.id.navigation_drawer);
+
+		// Android 15+ (API 35+) forces edge-to-edge: AppCompat's SubDecor places
+		// the fragment container at y=0 (behind the status bar and ActionBar).
+		// Apply window-inset-aware top padding after layout so tiles start below the ActionBar.
+		if (Build.VERSION.SDK_INT >= 35) {
+			final View container = findViewById(R.id.container);
+			if (container != null) {
+				ViewCompat.setOnApplyWindowInsetsListener(container, (v, insets) -> {
+					int statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+					int navBarHeight   = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+					TypedValue tv2 = new TypedValue();
+					int actionBarHeight = 0;
+					if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv2, true)) {
+						actionBarHeight = TypedValue.complexToDimensionPixelSize(tv2.data, getResources().getDisplayMetrics());
+					}
+					v.setPadding(0, statusBarHeight + actionBarHeight, 0, navBarHeight);
+					return WindowInsetsCompat.CONSUMED;
+				});
+				ViewCompat.requestApplyInsets(container);
+			}
+		}
 
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 				  GravityCompat.START);
