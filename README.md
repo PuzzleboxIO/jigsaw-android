@@ -5,7 +5,8 @@ jigsaw-android
 Puzzlebox Jigsaw for Android
 
 
-Copyright (2015-2020)
+Copyright Puzzlebox Productions, LLC (2015-2023)
+Copyright Steve Castellotti (2023-2026)
 
 by Puzzlebox Productions, LLC
 http://puzzlebox.io/jigsaw
