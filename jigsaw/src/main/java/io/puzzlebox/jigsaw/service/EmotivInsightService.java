@@ -89,7 +89,11 @@ public class EmotivInsightService extends Service {
 	@Override
 	public void onDestroy() {
 //		this.unregisterReceiver(mConnectReceiver);
-		IEdk.IEE_EngineDisconnect();
+		try {
+			IEdk.IEE_EngineDisconnect();
+		} catch (UnsatisfiedLinkError | Exception e) {
+			Log.w(TAG, "onDestroy: IEE_EngineDisconnect failed: " + e);
+		}
 		threadAlive = false;
 		super.onDestroy();
 	}

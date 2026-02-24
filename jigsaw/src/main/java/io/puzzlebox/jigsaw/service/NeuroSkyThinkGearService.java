@@ -5,6 +5,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -163,6 +165,13 @@ public class NeuroSkyThinkGearService extends Service {
 
 		if (bluetoothAdapter != null) {
 
+			// BLUETOOTH_CONNECT is required on API 31+ before accessing bonded devices
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+					checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+				Log.w(TAG, "createService: BLUETOOTH_CONNECT not granted, cannot initialize TGDevice");
+				return;
+			}
+
 			/** create the TGDevice */
 			tgDevice = new TGDevice(bluetoothAdapter, handlerThinkGear);
 
@@ -263,9 +272,10 @@ public class NeuroSkyThinkGearService extends Service {
 		/**
 		 * Called when the "Connect" button is pressed
 		 */
-		if(bluetoothAdapter == null) {
-			// Alert user that Bluetooth is not available
+		if (bluetoothAdapter == null) {
 			Toast.makeText(this, "Bluetooth not available", Toast.LENGTH_LONG).show();
+		} else if (tgDevice == null) {
+			Toast.makeText(this, "Bluetooth permission not granted", Toast.LENGTH_LONG).show();
 		} else {
 			if (tgDevice.getState() != TGDevice.STATE_CONNECTING && tgDevice.getState() != TGDevice.STATE_CONNECTED) {
 				tgDevice.connect(rawEnabled);
