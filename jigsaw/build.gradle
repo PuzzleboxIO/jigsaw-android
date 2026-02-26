@@ -44,6 +44,14 @@ android {
 
     sourceSets {
         main {
+            // Package pre-built native libraries from libs/{abi}/ into the AAR so
+            // consuming app modules receive them automatically without needing their
+            // own jniLibs copies.  libbedk.so is also bundled inside
+            // community-3.3.4.aar; consuming apps use packagingOptions.pickFirst
+            // to resolve that duplicate.
+            jniLibs {
+                srcDirs = ['libs']
+            }
             java {
                 // Exclude SDK-dependent source files when their optional JARs are absent.
                 // Callers reference SDK state via NeuroSkyEegState (NeuroSky) or via

@@ -27,6 +27,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
+    // libbedk.so is provided by both :jigsaw's jniLibs and community-3.3.4.aar.
+    // Pick the first copy encountered rather than failing with a duplicate error.
+    packagingOptions {
+        pickFirst '**/libbedk.so'
+    }
 }
 
 dependencies {
