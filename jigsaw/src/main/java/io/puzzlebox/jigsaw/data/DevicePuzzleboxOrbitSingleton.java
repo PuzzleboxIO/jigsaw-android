@@ -83,7 +83,7 @@ public class DevicePuzzleboxOrbitSingleton {
 	/**
 	 * Audio
 	 *
-	 * By default the flight control command is hard-coded into WAV files
+	 * By default, the flight control command is hard-coded into WAV files
 	 * When "Generate Control Signal" is enabled the tones used to communicate
 	 * with the infrared dongle are generated on-the-fly.
 	 */

@@ -25,9 +25,6 @@ android {
         targetSdk 36
         versionCode 6
         versionName "2.4.0"
-        ndk {
-            abiFilters "armeabi-v7a"
-        }
     }
 
     buildTypes {
@@ -79,13 +76,13 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs', exclude: ['community-emotiv-classes.jar'])
 
     // AndroidX (replaces com.android.support:appcompat-v7 and support libraries)
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.core:core:1.13.1'
-    implementation 'androidx.fragment:fragment:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.core:core:1.17.0'
+    implementation 'androidx.fragment:fragment:1.8.9'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
     implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
-    implementation 'androidx.viewpager:viewpager:1.0.0'
-    implementation 'androidx.annotation:annotation:1.8.2'
+    implementation 'androidx.viewpager:viewpager:1.1.0'
+    implementation 'androidx.annotation:annotation:1.9.1'
 
     // NeuroSky MindWave Mobile 2 — Stream SDK (libStreamSDK_v1.2.0.jar) and
     // NeuroSky EEG Algorithm SDK (NskAlgoSdk.jar) are both picked up by the

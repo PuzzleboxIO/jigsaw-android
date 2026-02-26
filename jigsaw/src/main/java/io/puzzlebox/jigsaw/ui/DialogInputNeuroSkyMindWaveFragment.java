@@ -117,11 +117,11 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 		progressBarBlink.setMax(NeuroSkyEegState.blinkRangeMax);
 
-		// setup the Raw EEG History plot
+		// Set up the Raw EEG History plot
 		eegRawHistoryPlot = v.findViewById(R.id.eegRawHistoryPlot);
 		eegRawHistorySeries = new SimpleXYSeries("");
 
-		// Setup the boundary mode, boundary values only applicable in FIXED mode.
+		// Set up the boundary mode, boundary values only applicable in FIXED mode.
 		if (eegRawHistoryPlot != null) {
 
 			eegRawHistoryPlot.setDomainBoundaries(0, NeuroSkyEegState.EEG_RAW_FREQUENCY, BoundaryMode.FIXED);

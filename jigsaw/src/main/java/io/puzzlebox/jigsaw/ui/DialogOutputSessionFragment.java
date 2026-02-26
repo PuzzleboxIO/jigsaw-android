@@ -118,11 +118,11 @@ public class DialogOutputSessionFragment extends DialogFragment {
 			}
 		});
 
-		// setup the Session History plot
+		// Set up the Session History plot
 		sessionPlot1 = v.findViewById(R.id.sessionPlot1);
 		sessionPlotSeries1 = new SimpleXYSeries("Session Plot");
 
-		// Setup the boundary mode, boundary values only applicable in FIXED mode.
+		// Set up the boundary mode, boundary values only applicable in FIXED mode.
 		if (sessionPlot1 != null) {
 
 			sessionPlot1.setDomainBoundaries(0, 30, BoundaryMode.FIXED);
@@ -155,11 +155,11 @@ public class DialogOutputSessionFragment extends DialogFragment {
 			sessionPlot1.getGraphWidget().setGridPadding(0, 0, 0, 0);
 		}
 
-		// setup the Session History plot
+		// Set up the Session History plot
 		sessionPlot2 = v.findViewById(R.id.sessionPlot2);
 		sessionPlotSeries2 = new SimpleXYSeries("Session Plot");
 
-		// Setup the boundary mode, boundary values only applicable in FIXED mode.
+		// Set up the boundary mode, boundary values only applicable in FIXED mode.
 		if (sessionPlot2 != null) {
 
 			sessionPlot2.setDomainBoundaries(0, 30, BoundaryMode.FIXED);
