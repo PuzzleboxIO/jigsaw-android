@@ -6,6 +6,7 @@ Puzzlebox Jigsaw for Android
 
 
 Copyright Puzzlebox Productions, LLC (2015-2023)
+
 Copyright Steve Castellotti (2023-2026)
 
 by Puzzlebox Productions, LLC
