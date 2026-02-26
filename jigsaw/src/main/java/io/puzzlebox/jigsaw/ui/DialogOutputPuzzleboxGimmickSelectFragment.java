@@ -1,5 +1,6 @@
 package io.puzzlebox.jigsaw.ui;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.net.Uri;
@@ -87,6 +88,7 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
         mListener = null;
     }
 
+    @SuppressLint("MissingPermission")
     public void displayDevicesFound(Bundle savedInstanceState) {
 
         Log.d(TAG, "displayDevicesFound: " + DevicePuzzleboxGimmickSingleton.getInstance().devicesFound.size());

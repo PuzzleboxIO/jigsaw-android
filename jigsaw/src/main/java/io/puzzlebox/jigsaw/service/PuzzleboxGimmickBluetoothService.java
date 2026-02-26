@@ -1,5 +1,6 @@
 package io.puzzlebox.jigsaw.service;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -31,6 +32,7 @@ import java.util.List;
 
 import io.puzzlebox.jigsaw.data.DevicePuzzleboxGimmickSingleton;
 
+@SuppressLint("MissingPermission")
 public class PuzzleboxGimmickBluetoothService extends Service {
 
 	private final static String TAG = PuzzleboxGimmickBluetoothService.class.getSimpleName();

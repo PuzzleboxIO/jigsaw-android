@@ -142,7 +142,6 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_rounded_corners_grey"
                     android:gravity="center"
-                    android:onClick="sendMessage"
                     android:paddingLeft="@dimen/padding_medium"
                     android:paddingRight="@dimen/padding_medium"
                     android:text="@string/button_support_send" />
