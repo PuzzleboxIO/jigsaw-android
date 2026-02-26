@@ -24,6 +24,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
+import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -63,7 +64,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 			super(looper);
 		}
 		@Override
-		public void handleMessage(Message msg) {
+		public void handleMessage(@NonNull Message msg) {
 			long endTime = System.currentTimeMillis() + 5*1000;
 			while (System.currentTimeMillis() < endTime) {
 				synchronized (this) {
@@ -403,7 +404,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 		// API 33+ characteristic read callback (new signature — called on API 33+)
 		@Override
-		public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] value, int status) {
+		public void onCharacteristicRead(@NonNull BluetoothGatt gatt, @NonNull BluetoothGattCharacteristic characteristic, @NonNull byte[] value, int status) {
 			if (status == BluetoothGatt.GATT_SUCCESS) {
 				try {
 					Log.d(TAG, "characteristic.getUuid(): " + characteristic.getUuid());
@@ -425,7 +426,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 		// API 33+ descriptor read callback
 		@Override
-		public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] value) {
+		public void onDescriptorRead(@NonNull BluetoothGatt gatt, @NonNull BluetoothGattDescriptor descriptor, int status, @NonNull byte[] value) {
 			Log.d(TAG, "onDescriptorRead()");
 			if (status == BluetoothGatt.GATT_SUCCESS) {
 				try {
@@ -492,7 +493,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 		// API 33+ characteristic changed callback (new signature — called on API 33+)
 		@Override
-		public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] value) {
+		public void onCharacteristicChanged(@NonNull BluetoothGatt gatt, @NonNull BluetoothGattCharacteristic characteristic, @NonNull byte[] value) {
 			final String val = new String(value, StandardCharsets.UTF_8);
 			Log.d("VALUE", "notify new value - " + val);
 		}

@@ -15,6 +15,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.Editable;
@@ -192,7 +193,7 @@ public class SessionFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
+	public void onAttach(@NonNull Activity activity) {
 		super.onAttach(activity);
 		try {
 			mListener = (OnFragmentInteractionListener) activity;
@@ -238,7 +239,7 @@ public class SessionFragment extends Fragment {
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
 		menu.add("Share")
 				.setOnMenuItemClickListener(this.mShareButtonClickListener)
 				.setIcon(android.R.drawable.ic_menu_share)
@@ -249,7 +250,7 @@ public class SessionFragment extends Fragment {
 
 	MenuItem.OnMenuItemClickListener mShareButtonClickListener = new MenuItem.OnMenuItemClickListener() {
 		@Override
-		public boolean onMenuItemClick(MenuItem item) {
+		public boolean onMenuItemClick(@NonNull MenuItem item) {
 			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
 			exportSession();
 			return false;

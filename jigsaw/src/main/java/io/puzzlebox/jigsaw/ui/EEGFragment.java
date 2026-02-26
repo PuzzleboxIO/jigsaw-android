@@ -19,6 +19,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
@@ -224,8 +225,7 @@ public class EEGFragment extends Fragment implements
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerEEG.setAdapter(adapter);
 
-		if (android.os.Build.VERSION.SDK_INT >= 16)
-			spinnerEEG.setPopupBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+		spinnerEEG.setPopupBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
 
 		textViewSessionTime = v.findViewById(R.id.textViewSessionTime);
 
@@ -282,7 +282,7 @@ public class EEGFragment extends Fragment implements
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
+	public void onAttach(@NonNull Activity activity) {
 		super.onAttach(activity);
 		try {
 			mListener = (OnFragmentInteractionListener) activity;
@@ -347,7 +347,7 @@ public class EEGFragment extends Fragment implements
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
 
 		menu.add("Share")
 				.setOnMenuItemClickListener(this.mShareButtonClickListener)
@@ -360,7 +360,7 @@ public class EEGFragment extends Fragment implements
 	MenuItem.OnMenuItemClickListener mShareButtonClickListener = new MenuItem.OnMenuItemClickListener() {
 
 		@Override
-		public boolean onMenuItemClick(MenuItem item) {
+		public boolean onMenuItemClick(@NonNull MenuItem item) {
 			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
 
 			if (i != null) {

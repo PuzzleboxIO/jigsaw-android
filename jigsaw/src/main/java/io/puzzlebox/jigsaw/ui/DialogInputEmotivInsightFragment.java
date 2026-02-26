@@ -14,6 +14,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -160,7 +161,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 	}
 
 	@Override
-	public void onAttach(Context context) {
+	public void onAttach(@NonNull Context context) {
 		super.onAttach(context);
 		if (context instanceof EmotivInsightFragmentListener) {
 			mListener = (EmotivInsightFragmentListener) context;
@@ -376,9 +377,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		layers[0] = new BitmapDrawable(decodeSampledBitmapFromResource(r, R.drawable.device_eeg_sensor_head, scale_x, scale_y));
 
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			Log.e(TAG, "layers[0].getDrawable().getIntrinsic*(): " + layers[0].getIntrinsicWidth() + ", " + layers[0].getIntrinsicHeight());
-		}
+		Log.e(TAG, "layers[0].getDrawable().getIntrinsic*(): " + layers[0].getIntrinsicWidth() + ", " + layers[0].getIntrinsicHeight());
 
 		switch (AF3) {
 			case 0:

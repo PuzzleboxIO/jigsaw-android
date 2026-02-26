@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public @NonNull View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
 		DrawerItemHolder drawerHolder;
 		View view = convertView;

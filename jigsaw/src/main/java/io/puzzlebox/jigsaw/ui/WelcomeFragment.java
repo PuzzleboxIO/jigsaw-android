@@ -8,6 +8,7 @@ package io.puzzlebox.jigsaw.ui;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ public class WelcomeFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
+	public void onAttach(@NonNull Activity activity) {
 		super.onAttach(activity);
 		try {
 			mListener = (OnFragmentInteractionListener) activity;

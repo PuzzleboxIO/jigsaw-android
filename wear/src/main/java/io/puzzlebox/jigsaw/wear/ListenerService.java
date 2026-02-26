@@ -5,13 +5,14 @@ package io.puzzlebox.jigsaw.wear;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
 
 public class ListenerService extends WearableListenerService {
 
     @Override
-    public void onMessageReceived(MessageEvent messageEvent) {
+    public void onMessageReceived(@NonNull MessageEvent messageEvent) {
         Log.i("test", "onMessageReceived()");
 //        if(messageEvent.getPath().equals(Constants.PATH_NOTIFICAITON_MESSAGE)) {
 //            final String message = new String(messageEvent.getData());

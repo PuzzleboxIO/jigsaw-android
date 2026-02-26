@@ -32,7 +32,8 @@
         android:maxSdkVersion="30"/>
     <!-- Coarse location — required alongside FINE on API 29–30 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"
-        android:maxSdkVersion="30"/>
+        android:maxSdkVersion="30"
+        tools:replace="android:maxSdkVersion"/>
 
     <application
         android:allowBackup="true"

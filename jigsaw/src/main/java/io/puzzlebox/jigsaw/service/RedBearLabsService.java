@@ -17,7 +17,6 @@
 package io.puzzlebox.jigsaw.service;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -43,7 +42,6 @@ import io.puzzlebox.jigsaw.protocol.RedBearLabsGattAttributes;
  * Service for managing connection and data communication with a GATT server
  * hosted on a given Bluetooth LE device.
  */
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 @SuppressLint("MissingPermission")
 public class RedBearLabsService extends Service {
 	private final static String TAG = RedBearLabsService.class.getSimpleName();

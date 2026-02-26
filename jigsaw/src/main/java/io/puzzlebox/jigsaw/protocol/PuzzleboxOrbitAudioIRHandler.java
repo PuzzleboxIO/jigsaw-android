@@ -143,10 +143,10 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 
 	//	public void updateControlSignal(int throttle, int yaw, int pitch, int channel) {
 	public void updateControlSignal() {
-		int throttle=command[0].intValue();
-		int yaw=command[1].intValue();
-		int pitch=command[2].intValue();
-		int channel=command[3].intValue();
+		int throttle=command[0];
+		int yaw=command[1];
+		int pitch=command[2];
+		int channel=command[3];
 
 		controlSignalCode = command2code(throttle,yaw,pitch,channel);
 		controlSignalWave =code2wave(controlSignalCode);

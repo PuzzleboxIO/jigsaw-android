@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.Editable;
@@ -200,7 +201,7 @@ public class DialogOutputSessionFragment extends DialogFragment {
 	}
 
 	@Override
-	public void onAttach(Context context) {
+	public void onAttach(@NonNull Context context) {
 		super.onAttach(context);
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
@@ -242,7 +243,7 @@ public class DialogOutputSessionFragment extends DialogFragment {
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
 		menu.add("Share")
 				.setOnMenuItemClickListener(this.mShareButtonClickListener)
 				.setIcon(android.R.drawable.ic_menu_share)
@@ -254,7 +255,7 @@ public class DialogOutputSessionFragment extends DialogFragment {
 	MenuItem.OnMenuItemClickListener mShareButtonClickListener = new MenuItem.OnMenuItemClickListener() {
 
 		@Override
-		public boolean onMenuItemClick(MenuItem item) {
+		public boolean onMenuItemClick(@NonNull MenuItem item) {
 			shareSession();
 			return false;
 		}

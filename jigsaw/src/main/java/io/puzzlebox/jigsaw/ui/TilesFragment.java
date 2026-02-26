@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import android.util.DisplayMetrics;
@@ -103,6 +104,7 @@ public class TilesFragment extends Fragment {
 			/// Add image view to the carousel container
 			mInputCarouselContainer.addView(tileViewAnimator);
 		}
+		devicesInputResourcesTypedArray.recycle();
 
 		// Populate the output devices carousel with items
 		for (int i = 0 ; i < devicesOutputResourcesTypedArray.length() ; ++i) {
@@ -124,6 +126,7 @@ public class TilesFragment extends Fragment {
 
 			mOutputCarouselContainer.addView(tileViewAnimator);
 		}
+		devicesOutputResourcesTypedArray.recycle();
 
 		// Populate the device profile carousel with items
 		for (int i = 0 ; i < devicesProfileResourcesTypedArray.length() ; ++i) {
@@ -144,6 +147,7 @@ public class TilesFragment extends Fragment {
 			tileViewAnimator.addView(imageItem);
 			mProfileCarouselContainer.addView(tileViewAnimator);
 		}
+		devicesProfileResourcesTypedArray.recycle();
 		return v;
 	}
 
@@ -204,7 +208,7 @@ public class TilesFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Context context) {
+	public void onAttach(@NonNull Context context) {
 		super.onAttach(context);
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;

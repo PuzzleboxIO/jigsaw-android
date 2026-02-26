@@ -337,10 +337,10 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	private class DoBackgroundTask extends AsyncTask< Integer , Void , Integer > {
 		protected Integer doInBackground(Integer... command) {
 
-			int throttle=command[0].intValue();
-			int yaw=command[1].intValue();
-			int pitch=command[2].intValue();
-			int channel=command[3].intValue();
+			int throttle=command[0];
+			int yaw=command[1];
+			int pitch=command[2];
+			int channel=command[3];
 
 			int code=command2code(throttle,yaw,pitch,channel);
 			float[] wave=code2wave(code);
