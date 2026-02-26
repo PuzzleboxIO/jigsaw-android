@@ -34,7 +34,7 @@ Certain devices require downloading of proprietary SDK libraries:
 - Please verify the filenames against listing in jigsaw/build.gradle
 
 NeuroSky MindWave Mobile EEG
-http://store.neurosky.com/products/developer-tools-3-android
+https://store.neurosky.com/products/android-developer-tools-4
 
 Emotiv EPOC and Emotiv Insight
 http://wiki.emotiv.com/tiki-index.php?page=Downloads
