@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
@@ -291,16 +292,16 @@ public class SessionSingleton {
 		}
 	}
 
+	// Tracks the last exported file so it can be cleaned up without needing a Context.
+	private File lastExportedFile = null;
+
 	public boolean removeTemporarySessionFile() {
-
-		if (sessionFilename != null) {
-
-			File mFile = new File(Environment.getExternalStorageDirectory().toString()
-					+ File.separator + sessionFilename);
-
-			return mFile.exists() && mFile.delete();
-		} else
-			return false;
+		if (lastExportedFile != null && lastExportedFile.exists()) {
+			boolean deleted = lastExportedFile.delete();
+			if (deleted) lastExportedFile = null;
+			return deleted;
+		}
+		return false;
 	}
 
 	public Intent getExportSessionIntent(Context context) {
@@ -314,16 +315,20 @@ public class SessionSingleton {
 		try {
 			sessionFilename = sessionName + "_" + SessionSingleton.getInstance().getTimestampPS4() + ".csv";
 
-			String tempFilePath = Environment.getExternalStorageDirectory().toString()
-					+ File.separator + sessionFilename;
-
-			File tempFile = new File(tempFilePath);
+			// Use app-private external storage — no permission required on any API level.
+			File exportDir = context.getExternalFilesDir(null);
+			File tempFile = new File(exportDir, sessionFilename);
 
 			GenerateCsv.generateCsvFile(
 					tempFile, SessionSingleton.getInstance().getExportDataCSV());
 
-			Uri U = Uri.fromFile(tempFile);
+			lastExportedFile = tempFile;
+
+			// FileProvider replaces Uri.fromFile() which throws FileUriExposedException on API 24+.
+			Uri U = FileProvider.getUriForFile(context,
+					context.getPackageName() + ".fileprovider", tempFile);
 			i.putExtra(Intent.EXTRA_STREAM, U);
+			i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
 			i.putExtra(Intent.EXTRA_SUBJECT, sessionFilename);
 			i.putExtra(Intent.EXTRA_TEXT, context.getResources().getString(R.string.share_message));

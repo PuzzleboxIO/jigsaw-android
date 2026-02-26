@@ -31,12 +31,12 @@ import android.widget.Toast;
 
 import io.puzzlebox.jigsaw.data.DevicePuzzleboxOrbitSingleton;
 import io.puzzlebox.jigsaw.data.ProfileSingleton;
-import io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService;
+import io.puzzlebox.jigsaw.data.NeuroSkyEegState;
 import io.puzzlebox.jigsaw.R;
 
-import static io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService.eegConnected;
-import static io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService.eegConnecting;
-import static io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService.eegSignal;
+import static io.puzzlebox.jigsaw.data.NeuroSkyEegState.eegConnected;
+import static io.puzzlebox.jigsaw.data.NeuroSkyEegState.eegConnecting;
+import static io.puzzlebox.jigsaw.data.NeuroSkyEegState.eegSignal;
 
 public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		implements SeekBar.OnSeekBarChangeListener {
@@ -495,16 +495,16 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		if (eegConnected) {
 
 			if (eegSignal < 100) {
-				NeuroSkyThinkGearService.eegAttention = 0;
-				NeuroSkyThinkGearService.eegMeditation = 0;
-				progressBarAttention.setProgress(NeuroSkyThinkGearService.eegAttention);
-				progressBarMeditation.setProgress(NeuroSkyThinkGearService.eegMeditation);
+				NeuroSkyEegState.eegAttention = 0;
+				NeuroSkyEegState.eegMeditation = 0;
+				progressBarAttention.setProgress(NeuroSkyEegState.eegAttention);
+				progressBarMeditation.setProgress(NeuroSkyEegState.eegMeditation);
 			}
 
-			NeuroSkyThinkGearService.eegPower = calculateSpeed();
-			eegPower = NeuroSkyThinkGearService.eegPower;
+			NeuroSkyEegState.eegPower = calculateSpeed();
+			eegPower = NeuroSkyEegState.eegPower;
 
-			progressBarPower.setProgress(NeuroSkyThinkGearService.eegPower);
+			progressBarPower.setProgress(NeuroSkyEegState.eegPower);
 		}
 
 		// TODO

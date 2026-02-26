@@ -88,14 +88,14 @@
                     />
 
                 <Button
-                    android:id="@+id/buttonExportSession"
+                    android:id="@+id/buttonShareSession"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:background="@drawable/shape_rounded_corners_grey"
                     android:gravity="center"
-                    android:text="@string/button_session_export"/>
+                    android:text="@string/button_session_share"/>
 
             </LinearLayout>
 

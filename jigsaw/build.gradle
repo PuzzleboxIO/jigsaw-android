@@ -1,5 +1,17 @@
 apply plugin: 'com.android.library'
 
+// ── Optional SDK presence checks ─────────────────────────────────────────────
+// These JARs are not committed to version control; they must be downloaded
+// separately and placed in jigsaw/libs/. When absent the dependent source
+// files are excluded from the build so compilation still succeeds.
+def emotivSdkPresent   = file('libs/community-emotiv-classes.jar').exists()
+def neuroSkySdkPresent = file('libs/libStreamSDK_v1.2.0.jar').exists()
+def museSdkPresent     = file('libs/libmuseandroid.jar').exists()
+
+if (!emotivSdkPresent)   println "NOTE: Emotiv SDK absent — Emotiv source files excluded from :jigsaw build"
+if (!neuroSkySdkPresent) println "NOTE: NeuroSky SDK absent — NeuroSkyThinkGearService excluded from :jigsaw build"
+if (!museSdkPresent)     println "NOTE: InteraXon Muse SDK absent — InteraXonMuseService excluded from :jigsaw build"
+
 android {
     namespace 'io.puzzlebox.jigsaw'
     compileSdk 36
@@ -29,6 +41,29 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
+    sourceSets {
+        main {
+            java {
+                // Exclude SDK-dependent source files when their optional JARs are absent.
+                // Callers reference SDK state via NeuroSkyEegState (NeuroSky) or via
+                // reflection (Emotiv) so they compile cleanly regardless.
+                if (!emotivSdkPresent) {
+                    exclude '**/DeviceEmotivInsightSingleton.java'
+                    exclude '**/EmotivInsightService.java'
+                    exclude '**/DialogProfilePuzzleboxOrbitEmotivInsightFragment.java'
+                    exclude '**/DialogInputEmotivInsightFragment.java'
+                    exclude '**/DialogInputEmotivInsightSelectEEGFragment.java'
+                }
+                if (!neuroSkySdkPresent) {
+                    exclude '**/NeuroSkyThinkGearService.java'
+                }
+                if (!museSdkPresent) {
+                    exclude '**/InteraXonMuseService.java'
+                }
+            }
+        }
+    }
 }
 
 dependencies {
@@ -44,19 +79,22 @@ dependencies {
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'androidx.annotation:annotation:1.8.2'
 
-    // NeuroSky MindWave Mobile 2 — Stream SDK (Bluetooth connection)
-    implementation files('libs/libStreamSDK_v1.2.0.jar')
+    // NeuroSky MindWave Mobile 2 — Stream SDK (libStreamSDK_v1.2.0.jar) and
+    // NeuroSky EEG Algorithm SDK (NskAlgoSdk.jar) are both picked up by the
+    // fileTree above. The explicit files() entry has been removed to avoid
+    // duplicate dependency resolution.
+    //
+    // Native counterpart libNskAlgo.so ships for arm64-v8a, armeabi-v7a, armeabi,
+    // x86, x86_64 in libs/{abi}/ — copy the needed ABI(s) to the consuming app's
+    // jniLibs to package them. (Not yet wired into app logic; available for future.)
 
-    // NeuroSky EEG Algorithm SDK — local signal processing (Attention, Meditation, Eye Blink, Bandpower)
-    // NskAlgoSdk.jar is picked up automatically by the fileTree above.
-    // Native counterpart libNskAlgo.so ships for arm64-v8a, armeabi-v7a, armeabi, x86, x86_64
-    // in libs/{abi}/ — copy the needed ABI(s) to the consuming app's jniLibs to package them.
-    // (Not yet wired into app logic; available for future integration.)
-
-    // Emotiv Insight — compileOnly so classes are available during compilation but NOT
-    // bundled in the output AAR. The full community-3.3.4.aar (with native libs) is
-    // consumed by :mobile at runtime, avoiding duplicate class conflicts.
-    compileOnly files('libs/community-emotiv-classes.jar')
+    // Emotiv Insight — compileOnly so classes are available during compilation but
+    // NOT bundled in the output AAR. The full community-3.3.4.aar (with native libs)
+    // is consumed by :mobile at runtime, avoiding duplicate class conflicts.
+    // Skipped entirely when the JAR is absent; source files are excluded above.
+    if (emotivSdkPresent) {
+        compileOnly files('libs/community-emotiv-classes.jar')
+    }
 
     // Androidplot
     // implementation 'com.androidplot:androidplot-core:0.6.1'

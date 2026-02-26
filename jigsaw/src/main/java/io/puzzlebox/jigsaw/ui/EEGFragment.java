@@ -51,7 +51,7 @@ import io.puzzlebox.jigsaw.data.SessionSingleton;
 // TODO 2017-02-15 Disable Muse
 //import io.puzzlebox.jigsaw.service.InteraXonMuseService;
 
-import io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService;
+import io.puzzlebox.jigsaw.data.NeuroSkyEegState;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 
@@ -168,14 +168,14 @@ public class EEGFragment extends Fragment implements
 		progressBarBlink.setProgressDrawable(progressRange);
 		progressBarBlink.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarBlink.setMax(NeuroSkyThinkGearService.blinkRangeMax);
+		progressBarBlink.setMax(NeuroSkyEegState.blinkRangeMax);
 
 		// setup the Raw EEG History plot
 		eegRawHistoryPlot = v.findViewById(R.id.eegRawHistoryPlot);
 		eegRawHistorySeries = new SimpleXYSeries("");
 
 		if (eegRawHistoryPlot != null) {
-			eegRawHistoryPlot.setDomainBoundaries(0, NeuroSkyThinkGearService.EEG_RAW_FREQUENCY, BoundaryMode.FIXED);
+			eegRawHistoryPlot.setDomainBoundaries(0, NeuroSkyEegState.EEG_RAW_FREQUENCY, BoundaryMode.FIXED);
 			eegRawHistoryPlot.setRangeBoundaries(0, 1, BoundaryMode.GROW);
 			eegRawHistoryPlot.addSeries(eegRawHistorySeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
 
@@ -209,7 +209,7 @@ public class EEGFragment extends Fragment implements
 
 		String[] items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InteraXon Muse"};
 
-//		if (NeuroSkyNeuroSkyThinkGearService.eegConnected || NeuroSkyNeuroSkyThinkGearService.eegConnecting)
+//		if (NeuroSkyNeuroSkyEegState.eegConnected || NeuroSkyNeuroSkyEegState.eegConnecting)
 //			items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InteraXon Muse"};
 
 		// TODO 2017-02-15 Disable Muse
@@ -237,7 +237,7 @@ public class EEGFragment extends Fragment implements
 			}
 		});
 
-		if (NeuroSkyThinkGearService.eegConnected ) {
+		if (NeuroSkyEegState.eegConnected ) {
 			connectEEG.setText("Disconnect EEG");
 			spinnerEEG.setEnabled(false);
 		}
@@ -258,7 +258,14 @@ public class EEGFragment extends Fragment implements
 			}
 		});
 
-		intentThinkGear = new Intent(getActivity(), NeuroSkyThinkGearService.class);
+		// Instantiate the Intent via reflection so this file compiles even when
+		// NeuroSkyThinkGearService is excluded (NeuroSky SDK absent from build).
+		try {
+			intentThinkGear = new Intent(getActivity(),
+					Class.forName("io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService"));
+		} catch (ClassNotFoundException e) {
+			intentThinkGear = null; // NeuroSky SDK not available in this build
+		}
 
 		// TODO 2017-02-15 Disable Muse
 //		intentMuse = new Intent(getActivity(), InteraXonMuseService.class);
@@ -451,7 +458,9 @@ public class EEGFragment extends Fragment implements
 		switch (String.valueOf(spinnerEEG.getSelectedItem())) {
 
 			case "NeuroSky MindWave Mobile":
-				if (! NeuroSkyThinkGearService.eegConnected) {
+				if (intentThinkGear == null) {
+					Toast.makeText(getActivity(), "NeuroSky SDK not available in this build", Toast.LENGTH_SHORT).show();
+				} else if (!NeuroSkyEegState.eegConnected) {
 					getActivity().startService(intentThinkGear);
 				} else {
 					disconnectHeadset();
@@ -486,8 +495,8 @@ public class EEGFragment extends Fragment implements
 		switch (String.valueOf(spinnerEEG.getSelectedItem())) {
 
 			case "NeuroSky MindWave Mobile":
-				NeuroSkyThinkGearService.disconnectHeadset();
-				getActivity().stopService(intentThinkGear);
+				NeuroSkyEegState.disconnectIfConnected();
+				if (intentThinkGear != null) getActivity().stopService(intentThinkGear);
 				break;
 
 			case "Emotiv Insight":
@@ -619,18 +628,18 @@ public class EEGFragment extends Fragment implements
 		 * which is used to fly the helicopter
 		 */
 
-		if (NeuroSkyThinkGearService.eegConnected) {
+		if (NeuroSkyEegState.eegConnected) {
 
-			if (NeuroSkyThinkGearService.eegSignal < 100) {
-				NeuroSkyThinkGearService.eegAttention = 0;
-				NeuroSkyThinkGearService.eegMeditation = 0;
-				progressBarAttention.setProgress(NeuroSkyThinkGearService.eegAttention);
-				progressBarMeditation.setProgress(NeuroSkyThinkGearService.eegMeditation);
+			if (NeuroSkyEegState.eegSignal < 100) {
+				NeuroSkyEegState.eegAttention = 0;
+				NeuroSkyEegState.eegMeditation = 0;
+				progressBarAttention.setProgress(NeuroSkyEegState.eegAttention);
+				progressBarMeditation.setProgress(NeuroSkyEegState.eegMeditation);
 			}
 
-			NeuroSkyThinkGearService.eegPower = calculateSpeed();
+			NeuroSkyEegState.eegPower = calculateSpeed();
 
-			progressBarPower.setProgress(NeuroSkyThinkGearService.eegPower);
+			progressBarPower.setProgress(NeuroSkyEegState.eegPower);
 
 
 		}

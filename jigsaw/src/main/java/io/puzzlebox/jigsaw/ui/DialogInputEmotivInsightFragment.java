@@ -63,7 +63,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 	private static Intent intentEmotivInsight;
 
-	private OnFragmentInteractionListener mListener;
+	private EmotivInsightFragmentListener mListener;
 
 	public DialogInputEmotivInsightFragment() {
 		// Required empty public constructor
@@ -162,11 +162,11 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
-		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
+		if (context instanceof EmotivInsightFragmentListener) {
+			mListener = (EmotivInsightFragmentListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
-					+ " must implement OnFragmentInteractionListener");
+					+ " must implement EmotivInsightFragmentListener");
 		}
 	}
 

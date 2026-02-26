@@ -27,6 +27,7 @@ import com.neurosky.thinkgear.TGDevice;
 
 import java.util.HashMap;
 
+import io.puzzlebox.jigsaw.data.NeuroSkyEegState;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
 public class NeuroSkyThinkGearService extends Service {
@@ -34,26 +35,13 @@ public class NeuroSkyThinkGearService extends Service {
 	private final static String TAG = NeuroSkyThinkGearService.class.getSimpleName();
 
 	/**
-	 * Configuration
+	 * Configuration — public constants and mutable state are kept in
+	 * NeuroSkyEegState so that UI classes can reference them without a
+	 * compile-time dependency on this SDK-dependent service.
 	 */
-	public final static int EEG_RAW_FREQUENCY = 512; // 512 Hz sample rate
-
-	public static boolean eegConnected = false;
-	public static boolean eegConnecting = false;
-
-	public static int eegAttention = 0;
-	public static int eegMeditation = 0;
-	public static int eegPower = 0;
-	public static int eegSignal = 0;
-
-	public static int signalSignalMax = 100;
-
-	public static int blinkRangeMax = 128;
-
-	public final static boolean rawEnabled = true;
-	public final static int EEG_RAW_HISTORY_SIZE = EEG_RAW_FREQUENCY; // number of points to plot in EEG history
-	private static final Number[] rawEEG = new Number[EEG_RAW_HISTORY_SIZE];
-	private static final int arrayIndex = 0;
+	public final static int EEG_RAW_FREQUENCY   = NeuroSkyEegState.EEG_RAW_FREQUENCY;
+	public final static int EEG_RAW_HISTORY_SIZE = NeuroSkyEegState.EEG_RAW_HISTORY_SIZE;
+	public final static boolean rawEnabled       = NeuroSkyEegState.rawEnabled;
 
 	private ServiceHandler mServiceHandler;
 
@@ -196,48 +184,48 @@ public class NeuroSkyThinkGearService extends Service {
 						break;
 					case TGDevice.STATE_CONNECTING:
 						Log.d(TAG, "Connecting to EEG");
-						eegConnecting = true;
-						eegConnected = false;
+						NeuroSkyEegState.eegConnecting = true;
+						NeuroSkyEegState.eegConnected = false;
 						broadcastEventEEG("eegStatus", "STATE_CONNECTING");
 						break;
 					case TGDevice.STATE_CONNECTED:
 						Log.d(TAG, "EEG Connected");
-						eegConnecting = false;
-						eegConnected = true;
+						NeuroSkyEegState.eegConnecting = false;
+						NeuroSkyEegState.eegConnected = true;
 						broadcastEventEEG("eegStatus", "STATE_CONNECTED");
 						SessionSingleton.getInstance().resetSession();
 						tgDevice.start();
 						break;
 					case TGDevice.STATE_NOT_FOUND:
 						Log.d(TAG, "EEG headset not found");
-						eegConnecting = false;
-						eegConnected = false;
+						NeuroSkyEegState.eegConnecting = false;
+						NeuroSkyEegState.eegConnected = false;
 						broadcastEventEEG("eegStatus", "STATE_NOT_FOUND");
 						break;
 					case TGDevice.STATE_NOT_PAIRED:
 						Log.d(TAG, "EEG headset not paired");
-						eegConnecting = false;
-						eegConnected = false;
+						NeuroSkyEegState.eegConnecting = false;
+						NeuroSkyEegState.eegConnected = false;
 						broadcastEventEEG("eegStatus", "STATE_NOT_PAIRED");
 						break;
 					case TGDevice.STATE_DISCONNECTED:
 						Log.d(TAG, "EEG Disconnected");
-						eegConnecting = false;
-						eegConnected = false;
+						NeuroSkyEegState.eegConnecting = false;
+						NeuroSkyEegState.eegConnected = false;
 						broadcastEventEEG("eegStatus", "STATE_DISCONNECTED");
 						disconnectHeadset();
 						break;
 				}
 				break;
 			case TGDevice.MSG_POOR_SIGNAL:
-				eegSignal = calculateSignal(msg.arg1);
+				NeuroSkyEegState.eegSignal = calculateSignal(msg.arg1);
 				processPacketEEG();
 				break;
 			case TGDevice.MSG_ATTENTION:
-				eegAttention = msg.arg1;
+				NeuroSkyEegState.eegAttention = msg.arg1;
 				break;
 			case TGDevice.MSG_MEDITATION:
-				eegMeditation = msg.arg1;
+				NeuroSkyEegState.eegMeditation = msg.arg1;
 				break;
 			case TGDevice.MSG_BLINK:
 				/**
@@ -278,7 +266,7 @@ public class NeuroSkyThinkGearService extends Service {
 			Toast.makeText(this, "Bluetooth permission not granted", Toast.LENGTH_LONG).show();
 		} else {
 			if (tgDevice.getState() != TGDevice.STATE_CONNECTING && tgDevice.getState() != TGDevice.STATE_CONNECTED) {
-				tgDevice.connect(rawEnabled);
+				tgDevice.connect(NeuroSkyEegState.rawEnabled);
 			}
 			else if (tgDevice.getState() == TGDevice.STATE_CONNECTED)
 			/** "Disconnect" button was pressed */
@@ -290,15 +278,15 @@ public class NeuroSkyThinkGearService extends Service {
 		/**
 		 * Called when "Disconnect" button is pressed
 		 */
-		eegConnecting = false;
-		eegConnected = false;
+		NeuroSkyEegState.eegConnecting = false;
+		NeuroSkyEegState.eegConnected = false;
 
-		eegAttention = 0;
-		eegMeditation = 0;
-		eegSignal = 0;
-		eegPower = 0;
+		NeuroSkyEegState.eegAttention = 0;
+		NeuroSkyEegState.eegMeditation = 0;
+		NeuroSkyEegState.eegSignal = 0;
+		NeuroSkyEegState.eegPower = 0;
 
-		if (tgDevice.getState() == TGDevice.STATE_CONNECTED) {
+		if (tgDevice != null && tgDevice.getState() == TGDevice.STATE_CONNECTED) {
 			tgDevice.stop();
 			tgDevice.close();
 		}
@@ -337,9 +325,9 @@ public class NeuroSkyThinkGearService extends Service {
 
 			packet.put("Date", SessionSingleton.getInstance().getCurrentDate());
 			packet.put("Time", SessionSingleton.getInstance().getCurrentTimestamp());
-			packet.put("Attention", String.valueOf(eegAttention));
-			packet.put("Meditation", String.valueOf(eegMeditation));
-			packet.put("Signal Level", String.valueOf(eegSignal));
+			packet.put("Attention", String.valueOf(NeuroSkyEegState.eegAttention));
+			packet.put("Meditation", String.valueOf(NeuroSkyEegState.eegMeditation));
+			packet.put("Signal Level", String.valueOf(NeuroSkyEegState.eegSignal));
 
 			Log.v(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
 			SessionSingleton.getInstance().appendData(packet);

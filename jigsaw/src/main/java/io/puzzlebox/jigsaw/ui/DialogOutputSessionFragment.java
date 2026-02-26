@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
@@ -30,10 +29,6 @@ import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 
-import com.opencsv.CSVWriter;
-
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
@@ -47,8 +42,6 @@ public class DialogOutputSessionFragment extends DialogFragment {
 	private final static String TAG = DialogOutputSessionFragment.class.getSimpleName();
 
 	public final static String profileID = "session";
-
-	private static final int REQUEST_CREATE_CSV = 100;
 
 	// UI
 	Button buttonDeviceEnable;
@@ -84,13 +77,6 @@ public class DialogOutputSessionFragment extends DialogFragment {
 		});
 
 		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
-		buttonDeviceEnable.setText(getResources().getString(R.string.button_session_export));
-		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				exportSession();
-			}
-		});
 
 		editTextSessionProfile = v.findViewById(R.id.editTextSessionProfile);
 
@@ -124,12 +110,11 @@ public class DialogOutputSessionFragment extends DialogFragment {
 			}
 		});
 
-		Button buttonExportSession = v.findViewById(R.id.buttonExportSession);
-		buttonExportSession.setText(getResources().getString(R.string.button_session_export));
-		buttonExportSession.setOnClickListener(new View.OnClickListener() {
+		Button buttonShareSession = v.findViewById(R.id.buttonShareSession);
+		buttonShareSession.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				exportSession();
+				shareSession();
 			}
 		});
 
@@ -270,39 +255,17 @@ public class DialogOutputSessionFragment extends DialogFragment {
 
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
-			exportSession();
+			shareSession();
 			return false;
 		}
 	};
 
-	public void exportSession() {
-		String filename = SessionSingleton.getInstance().getSessionName()
-				+ "_" + SessionSingleton.getInstance().getTimestampPS4() + ".csv";
-		Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-		intent.addCategory(Intent.CATEGORY_OPENABLE);
-		intent.setType("text/csv");
-		intent.putExtra(Intent.EXTRA_TITLE, filename);
-		startActivityForResult(intent, REQUEST_CREATE_CSV);
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == REQUEST_CREATE_CSV && resultCode == Activity.RESULT_OK && data != null) {
-			Uri uri = data.getData();
-			if (uri != null) writeCsvToUri(uri);
-		}
-	}
-
-	private void writeCsvToUri(Uri uri) {
-		try (OutputStream os = requireContext().getContentResolver().openOutputStream(uri);
-			 OutputStreamWriter osw = new OutputStreamWriter(os);
-			 CSVWriter writer = new CSVWriter(osw, ',')) {
-			writer.writeAll(SessionSingleton.getInstance().getExportData());
-			Toast.makeText(getContext(), "Session exported successfully", Toast.LENGTH_SHORT).show();
-		} catch (Exception e) {
-			Log.e(TAG, "writeCsvToUri: " + e);
-			Toast.makeText(getContext(), "Export failed", Toast.LENGTH_SHORT).show();
+	public void shareSession() {
+		Intent i = SessionSingleton.getInstance().getExportSessionIntent(requireContext());
+		if (i != null) {
+			startActivity(i);
+		} else {
+			Toast.makeText(getContext(), "Error preparing session data for sharing", Toast.LENGTH_SHORT).show();
 		}
 	}
 

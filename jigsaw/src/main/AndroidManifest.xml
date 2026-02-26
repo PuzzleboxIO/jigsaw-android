@@ -63,6 +63,18 @@
             android:enabled="true"
             android:exported="false"/>
 
+        <!-- FileProvider for sharing CSV session exports via Intent.ACTION_SEND.
+             Uses ${applicationId} so the authority is unique per app (jigsaw vs orbit). -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

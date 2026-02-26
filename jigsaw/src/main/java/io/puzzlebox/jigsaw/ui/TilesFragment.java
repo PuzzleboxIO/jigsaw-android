@@ -162,9 +162,20 @@ public class TilesFragment extends Fragment {
 						dialogInputNeuroSkyMindWaveFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_neurosky_mindwave));
 						break;
 					case 1:
-						// Emotiv Insight
-						DialogInputEmotivInsightFragment dialogInputEmotivInsightFragment = new DialogInputEmotivInsightFragment();
-						dialogInputEmotivInsightFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_emotiv_insight));
+						// Emotiv Insight — SDK may not be present in this build; use reflection
+						// so this file compiles regardless of whether the SDK JARs are available.
+						try {
+							androidx.fragment.app.DialogFragment dialogInputEmotivInsightFragment =
+									(androidx.fragment.app.DialogFragment) Class
+											.forName("io.puzzlebox.jigsaw.ui.DialogInputEmotivInsightFragment")
+											.getDeclaredConstructor()
+											.newInstance();
+							dialogInputEmotivInsightFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_emotiv_insight));
+						} catch (ReflectiveOperationException e) {
+							android.widget.Toast.makeText(getActivity(),
+									"Emotiv Insight SDK not available in this build",
+									android.widget.Toast.LENGTH_SHORT).show();
+						}
 						break;
 					case 2:
 						// Joystick

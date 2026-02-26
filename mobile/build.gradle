@@ -36,5 +36,8 @@ dependencies {
 
     // Emotiv Insight full AAR — provides native libs (libbedk.so) and AAR resources
     // not included in the classes-only JAR used by :jigsaw for compilation.
-    implementation files('../jigsaw/libs/community-3.3.4.aar')
+    // Skipped when absent; Emotiv source files are excluded from :jigsaw in that case.
+    if (file('../jigsaw/libs/community-3.3.4.aar').exists()) {
+        implementation files('../jigsaw/libs/community-3.3.4.aar')
+    }
 }

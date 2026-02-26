@@ -27,20 +27,54 @@ Google Play: https://play.google.com/store/apps/details?id=io.puzzlebox.jigsaw.a
 
 Instructions:
 
-Certain devices require downloading of proprietary SDK libraries:
+Third-party SDK libraries are optional. The build succeeds without them; features
+that depend on a missing SDK are gracefully disabled at runtime with a toast message.
 
-- The .jar files should be added to jigsaw/libs
+Place SDK files in `jigsaw/libs/` as listed below.
 
-- Please verify the filenames against listing in jigsaw/build.gradle
+---
 
-NeuroSky MindWave Mobile EEG
+**NeuroSky MindWave Mobile EEG**
 https://store.neurosky.com/products/android-developer-tools-4
 
-Emotiv EPOC and Emotiv Insight
-http://wiki.emotiv.com/tiki-index.php?page=Downloads
+```
+jigsaw/libs/ThinkGear.jar
+jigsaw/libs/libStreamSDK_v1.2.0.jar
+jigsaw/libs/NskAlgoSdk.jar
+jigsaw/src/release/jniLibs/armeabi-v7a/libNSUART.so
+jigsaw/src/release/jniLibs/armeabi-v7a/libNskAlgoSdk.so
+```
 
-InterAxon Muse
+SDK presence is detected by checking for `libStreamSDK_v1.2.0.jar`.
+When absent, `NeuroSkyThinkGearService.java` is excluded from compilation.
+
+---
+
+**Emotiv EPOC / Emotiv Insight**
+https://www.emotiv.com/developer/
+
+```
+jigsaw/libs/community-3.3.4.aar
+jigsaw/libs/community-emotiv-classes.jar
+jigsaw/src/release/jniLibs/armeabi-v7a/libbedk.so
+```
+
+SDK presence is detected by checking for `community-emotiv-classes.jar`.
+When absent, all Emotiv source files are excluded from compilation and the AAR
+is not linked. The `community-3.3.4.aar` is also referenced by `orbit-android`
+via its `jigsaw` symlink.
+
+---
+
+**InterAxon Muse** *(currently disabled)*
 https://sites.google.com/a/interaxon.ca/muse-developer-site/download
+
+```
+jigsaw/libs/libmuseandroid.jar
+```
+
+SDK presence is detected by checking for `libmuseandroid.jar`.
+When absent, `InteraXonMuseService.java` is excluded from compilation.
 
 
 ============

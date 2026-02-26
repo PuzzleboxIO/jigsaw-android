@@ -35,7 +35,7 @@ import java.util.Arrays;
 
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
-import io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService;
+import io.puzzlebox.jigsaw.data.NeuroSkyEegState;
 
 public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
@@ -115,7 +115,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		progressBarBlink.setProgressDrawable(progressRange);
 		progressBarBlink.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
-		progressBarBlink.setMax(NeuroSkyThinkGearService.blinkRangeMax);
+		progressBarBlink.setMax(NeuroSkyEegState.blinkRangeMax);
 
 		// setup the Raw EEG History plot
 		eegRawHistoryPlot = v.findViewById(R.id.eegRawHistoryPlot);
@@ -124,7 +124,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		// Setup the boundary mode, boundary values only applicable in FIXED mode.
 		if (eegRawHistoryPlot != null) {
 
-			eegRawHistoryPlot.setDomainBoundaries(0, NeuroSkyThinkGearService.EEG_RAW_FREQUENCY, BoundaryMode.FIXED);
+			eegRawHistoryPlot.setDomainBoundaries(0, NeuroSkyEegState.EEG_RAW_FREQUENCY, BoundaryMode.FIXED);
 			eegRawHistoryPlot.setRangeBoundaries(0, 1, BoundaryMode.GROW);
 
 			eegRawHistoryPlot.addSeries(eegRawHistorySeries, new LineAndPointFormatter(Color.rgb(200, 100, 100), Color.BLACK, null, null));
@@ -178,11 +178,18 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 			}
 		});
 
-		if (NeuroSkyThinkGearService.eegConnected ) {
+		if (NeuroSkyEegState.eegConnected ) {
 			connectEEG.setText(R.string.buttonStatusNeuroSkyMindWaveDisconnect);
 		}
 
-		intentThinkGear = new Intent(getActivity(), NeuroSkyThinkGearService.class);
+		// Instantiate the Intent via reflection so this file compiles even when
+		// NeuroSkyThinkGearService is excluded (NeuroSky SDK absent from build).
+		try {
+			intentThinkGear = new Intent(getActivity(),
+					Class.forName("io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService"));
+		} catch (ClassNotFoundException e) {
+			intentThinkGear = null; // NeuroSky SDK not available in this build
+		}
 
 		return v;
 	}
@@ -250,7 +257,9 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 		// Called when the "Connect" button is pressed
 
-		if (! NeuroSkyThinkGearService.eegConnected) {
+		if (intentThinkGear == null) {
+			Toast.makeText(getActivity(), "NeuroSky SDK not available in this build", Toast.LENGTH_SHORT).show();
+		} else if (!NeuroSkyEegState.eegConnected) {
 			getActivity().startService(intentThinkGear);
 		} else {
 			disconnectHeadset();
@@ -261,8 +270,8 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 		// Called when "Disconnect" button is pressed
 
-		NeuroSkyThinkGearService.disconnectHeadset();
-		getActivity().stopService(intentThinkGear);
+		NeuroSkyEegState.disconnectIfConnected();
+		if (intentThinkGear != null) getActivity().stopService(intentThinkGear);
 
 		updateStatusImage();
 
@@ -285,7 +294,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 			progressBarSignal.setProgress(eegSignal);
 
 			// TODO re-enable when extra safety desired
-//			if ((! buttonDeviceEnable.isEnabled()) && (eegSignal == NeuroSkyNeuroSkyThinkGearService.signalSignalMax)) {
+//			if ((! buttonDeviceEnable.isEnabled()) && (eegSignal == NeuroSkyNeuroSkyEegState.signalSignalMax)) {
 //				// This setting requires the quality of the EEG sensor's
 //				// contact with skin hit to 100% at least once since the
 //				// headset was last connected.
@@ -372,8 +381,8 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 				case "eegBlink":
 					Log.d(TAG, "Blink: " + value + "\n");
-					if (Integer.parseInt(value) > NeuroSkyThinkGearService.blinkRangeMax) {
-						value = "" + NeuroSkyThinkGearService.blinkRangeMax;
+					if (Integer.parseInt(value) > NeuroSkyEegState.blinkRangeMax) {
+						value = "" + NeuroSkyEegState.blinkRangeMax;
 					}
 					try {
 						progressBarBlink.setProgress(Integer.parseInt(value));
