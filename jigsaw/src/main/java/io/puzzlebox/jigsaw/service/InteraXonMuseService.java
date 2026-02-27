@@ -90,7 +90,7 @@ public class InteraXonMuseService extends Service {
 					try {
 						wait(endTime - System.currentTimeMillis());
 					} catch (Exception e) {
-						e.printStackTrace();
+						Log.e(TAG, "Exception", e);
 					}
 				}
 			}
@@ -161,11 +161,6 @@ public class InteraXonMuseService extends Service {
 	public IBinder onBind(Intent intent) {
 		// We don't provide binding, so return null
 		return null;
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
 	}
 
 	public void connectHeadset() {
@@ -264,13 +259,13 @@ public class InteraXonMuseService extends Service {
 
 			packet.put("Signal Level", String.valueOf(eegSignal));
 
-			Log.v(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
+			Log.v(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet);
 			SessionSingleton.getInstance().appendData(packet);
 
 			broadcastPacketEEG(packet);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception", e);
 		}
 	}
 

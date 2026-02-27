@@ -30,6 +30,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import io.puzzlebox.jigsaw.data.DevicePuzzleboxOrbitSingleton;
 import io.puzzlebox.jigsaw.data.ProfileSingleton;
 import io.puzzlebox.jigsaw.data.NeuroSkyEegState;
@@ -90,53 +92,43 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_puzzlebox_orbit));
 
 		buttonTestFlight = v.findViewById(R.id.buttonTestFlight);
-		buttonTestFlight.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				testFlight(v);
-			}
-		});
+		buttonTestFlight.setOnClickListener(view -> testFlight(view));
 
 		buttonResetFlight = v.findViewById(R.id.buttonResetFlight);
-		buttonResetFlight.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				resetFlight(v);
-			}
-		});
+		buttonResetFlight.setOnClickListener(view -> resetFlight(view));
 
 		progressBarAttention = v.findViewById(R.id.progressBarAttention);
 		final float[] roundedCorners = new float[] { 5, 5, 5, 5, 5, 5, 5, 5 };
 		ShapeDrawable progressBarAttentionDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarAttentionColor = "#FF0000";
 		progressBarAttentionDrawable.getPaint().setColor(Color.parseColor(progressBarAttentionColor));
-		ClipDrawable progressAttention = new ClipDrawable(progressBarAttentionDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressAttention = new ClipDrawable(progressBarAttentionDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarAttention.setProgressDrawable(progressAttention);
-		progressBarAttention.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarAttention.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarMeditation = v.findViewById(R.id.progressBarMeditation);
 		ShapeDrawable progressBarMeditationDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarMeditationColor = "#0000FF";
 		progressBarMeditationDrawable.getPaint().setColor(Color.parseColor(progressBarMeditationColor));
-		ClipDrawable progressMeditation = new ClipDrawable(progressBarMeditationDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressMeditation = new ClipDrawable(progressBarMeditationDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarMeditation.setProgressDrawable(progressMeditation);
-		progressBarMeditation.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarMeditation.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarSignal = v.findViewById(R.id.progressBarSignal);
 		ShapeDrawable progressBarSignalDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarSignalColor = "#00FF00";
 		progressBarSignalDrawable.getPaint().setColor(Color.parseColor(progressBarSignalColor));
-		ClipDrawable progressSignal = new ClipDrawable(progressBarSignalDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressSignal = new ClipDrawable(progressBarSignalDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarSignal.setProgressDrawable(progressSignal);
-		progressBarSignal.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarSignal.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarPower = v.findViewById(R.id.progressBarPower);
 		ShapeDrawable progressBarPowerDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarPowerColor = "#FFFF00";
 		progressBarPowerDrawable.getPaint().setColor(Color.parseColor(progressBarPowerColor));
-		ClipDrawable progressPower = new ClipDrawable(progressBarPowerDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressPower = new ClipDrawable(progressBarPowerDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarPower.setProgressDrawable(progressPower);
-		progressBarPower.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarPower.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		seekBarAttention = v.findViewById(R.id.seekBarAttention);
 		seekBarAttention.setOnSeekBarChangeListener(this);
@@ -150,20 +142,10 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		textViewHighScore = v.findViewById(R.id.textViewHighScore);
 
 		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
-		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismiss();
-			}
-		});
+		buttonDeviceCancel.setOnClickListener(view -> dismiss());
 
 		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
-		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismiss();
-			}
-		});
+		buttonDeviceEnable.setOnClickListener(view -> dismiss());
 
 		/**
 		 * PuzzleboxOrbitAudioIRHandler
@@ -218,7 +200,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new RuntimeException(context
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}
@@ -293,9 +275,9 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-			int eegAttention = Integer.valueOf(intent.getStringExtra("Attention"));
-			int eegMeditation = Integer.valueOf(intent.getStringExtra("Meditation"));
-			int eegSignal = Integer.valueOf(intent.getStringExtra("Signal Level"));
+			int eegAttention = Integer.parseInt(intent.getStringExtra("Attention"));
+			int eegMeditation = Integer.parseInt(intent.getStringExtra("Meditation"));
+			int eegSignal = Integer.parseInt(intent.getStringExtra("Signal Level"));
 
 			progressBarAttention.setProgress(eegAttention);
 			progressBarMeditation.setProgress(eegMeditation);
@@ -343,8 +325,6 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 					switch(value) {
 						case "STATE_CONNECTING":
-							updateStatusImage();
-							break;
 						case "STATE_CONNECTED":
 							updateStatusImage();
 							break;
@@ -621,11 +601,11 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		else
 			DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent = DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent + eegMeditationScore;
 
-		textViewScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
+		textViewScore.setText(String.format(Locale.getDefault(), "%d", DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
 
 		if (DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent > DevicePuzzleboxOrbitSingleton.getInstance().scoreHigh) {
 			DevicePuzzleboxOrbitSingleton.getInstance().scoreHigh = DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent;
-			textViewHighScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreHigh));
+			textViewHighScore.setText(String.format(Locale.getDefault(), "%d", DevicePuzzleboxOrbitSingleton.getInstance().scoreHigh));
 		}
 
 		// Catch anyone gaming the system with one slider
@@ -642,9 +622,9 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 	public void resetCurrentScore() {
 		if (DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent > 0)
-			textViewLastScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
+			textViewLastScore.setText(String.format(Locale.getDefault(), "%d", DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
 		DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent = 0;
-		textViewScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
+		textViewScore.setText(String.format(Locale.getDefault(), "%d", DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
 	}
 
 	public void playControl() {
@@ -709,7 +689,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 			try {
 				DevicePuzzleboxOrbitSingleton.getInstance().soundPool.stop(DevicePuzzleboxOrbitSingleton.getInstance().soundID);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.e(TAG, "Exception", e);
 			}
 		}
 	}
@@ -780,21 +760,6 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 	public void updateAudioHandlerLoopNumberWhileMindControl(int number) {
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.loopNumberWhileMindControl = number;
 	}
-
-	public void resetControlSignal(View view) {
-	}
-
-	public void setControlSignalHover(View view) {
-	}
-
-	public void setControlSignalForward(View view) {
-	}
-
-	public void setControlSignalLeft(View view) {
-	}
-
-	public void setControlSignalRight(View view) {
-	} // setControlSignalRight
 
 	private void broadcastCommandBluetooth(String name, String value) {
 		Log.d(TAG, "broadcastCommandBluetooth: " + name + ": " + value);

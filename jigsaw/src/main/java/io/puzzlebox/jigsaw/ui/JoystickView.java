@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
+import android.os.Looper;
 import androidx.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -135,7 +136,7 @@ public class JoystickView extends View
 	 */
 	private OnMultipleLongPressListener mOnMultipleLongPressListener;
 
-	private final Handler mHandlerMultipleLongPress = new Handler();
+	private final Handler mHandlerMultipleLongPress = new Handler(Looper.getMainLooper());
 	private final Runnable mRunnableMultipleLongPress;
 	private int mMoveTolerance;
 
@@ -204,12 +205,9 @@ public class JoystickView extends View
 		mPaintBackground.setStyle(Paint.Style.FILL);
 
 		// Init Runnable for MultiLongPress
-		mRunnableMultipleLongPress = new Runnable() {
-			@Override
-			public void run() {
-				if (mOnMultipleLongPressListener != null)
-					mOnMultipleLongPressListener.onMultipleLongPress();
-			}
+		mRunnableMultipleLongPress = () -> {
+			if (mOnMultipleLongPressListener != null)
+				mOnMultipleLongPressListener.onMultipleLongPress();
 		};
 	}
 
@@ -475,11 +473,9 @@ public class JoystickView extends View
 	@Override // Runnable
 	public void run() {
 		while (!Thread.interrupted()) {
-			post(new Runnable() {
-				public void run() {
-					if (mCallback != null)
-						mCallback.onMove(getAngle(), getStrength());
-				}
+			post(() -> {
+				if (mCallback != null)
+					mCallback.onMove(getAngle(), getStrength());
 			});
 
 			try {

@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 public class DevicePuzzleboxGimmickSingleton {
 
-	public String x10ID = "C2";
+	public final String x10ID = "C2";
 	public int x10Level = 0;
 
 	public boolean connected = false;
 
-	public boolean lock = false;
+	public final boolean lock = false;
 	public boolean selectGimmickDialogVisible = false;
 
 	private final static String CLIENT_CHARACTERISTIC_CONFIG = "00002902-0000-1000-8000-00805f9b34fb";
@@ -21,9 +21,9 @@ public class DevicePuzzleboxGimmickSingleton {
 
 	public String deviceHash = null;
 
-	public ArrayList<ScanResult> devicesFound = new ArrayList<>();
+	public final ArrayList<ScanResult> devicesFound = new ArrayList<>();
 
-	private static DevicePuzzleboxGimmickSingleton ourInstance = new DevicePuzzleboxGimmickSingleton();
+	private static final DevicePuzzleboxGimmickSingleton ourInstance = new DevicePuzzleboxGimmickSingleton();
 
 	public static DevicePuzzleboxGimmickSingleton getInstance() {
 		return ourInstance;

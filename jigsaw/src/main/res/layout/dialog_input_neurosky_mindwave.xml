@@ -39,7 +39,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:paddingLeft="@dimen/padding_medium"
                     android:paddingStart="@dimen/padding_medium"
                     android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_neurosky_mindwave_connect"/>
@@ -74,7 +73,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
-                    android:paddingLeft="@dimen/padding_medium"
                     android:paddingStart="@dimen/padding_medium"
                     android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_neurosky_mindwave_attention" />
@@ -84,10 +82,10 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="20dip"
-                    android:paddingLeft="@dimen/padding_small"
-                    android:paddingRight="@dimen/padding_small"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:paddingStart="@dimen/padding_small"
+                    android:paddingEnd="@dimen/padding_small"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"/>
 
                 <TextView
                     android:id="@+id/textViewLabelMeditation"
@@ -95,7 +93,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
-                    android:paddingLeft="@dimen/padding_medium"
                     android:paddingStart="@dimen/padding_medium"
                     android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_neurosky_mindwave_meditation" />
@@ -105,10 +102,10 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="20dip"
-                    android:paddingLeft="@dimen/padding_small"
-                    android:paddingRight="@dimen/padding_small"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:paddingStart="@dimen/padding_small"
+                    android:paddingEnd="@dimen/padding_small"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"/>
 
                 <TextView
                     android:id="@+id/textViewLabelSignal"
@@ -116,7 +113,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
-                    android:paddingLeft="@dimen/padding_medium"
                     android:paddingStart="@dimen/padding_medium"
                     android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_neurosky_mindwave_signal" />
@@ -126,10 +122,8 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="20dip"
-                    android:paddingLeft="@dimen/padding_small"
                     android:paddingStart="@dimen/padding_small"
                     android:paddingEnd="@dimen/padding_small"
-                    android:paddingRight="@dimen/padding_small"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
 
@@ -139,7 +133,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
-                    android:paddingLeft="@dimen/padding_medium"
                     android:paddingStart="@dimen/padding_medium"
                     android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_neurosky_mindwave_blink" />
@@ -149,10 +142,10 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="20dip"
-                    android:paddingLeft="@dimen/padding_small"
-                    android:paddingRight="@dimen/padding_small"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:paddingStart="@dimen/padding_small"
+                    android:paddingEnd="@dimen/padding_small"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"/>
 
                 <TextView
                     android:id="@+id/textViewLabelRawEEG"
@@ -160,7 +153,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="5dp"
-                    android:paddingLeft="@dimen/padding_medium"
                     android:paddingStart="@dimen/padding_medium"
                     android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_neurosky_mindwave_raw_eeg" />
@@ -195,7 +187,6 @@
             android:id="@+id/buttonDeviceCancel"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:paddingLeft="@dimen/padding_medium"
             android:paddingStart="@dimen/padding_medium"
             android:paddingEnd="@dimen/padding_medium"
             android:background="@drawable/shape_rounded_corners_grey"
@@ -213,7 +204,6 @@
             android:layout_height="40dp"
             android:background="@drawable/shape_rounded_corners_grey"
             android:enabled="false"
-            android:paddingLeft="@dimen/padding_medium"
             android:paddingStart="@dimen/padding_medium"
             android:paddingEnd="@dimen/padding_medium"
             android:text="@string/buttonDeviceEnable"

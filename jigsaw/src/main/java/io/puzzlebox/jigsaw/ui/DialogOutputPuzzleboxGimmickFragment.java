@@ -79,33 +79,24 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
         getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_gimmick));
 
         buttonConnectGimmick = v.findViewById(R.id.buttonConnectGimmick);
-        buttonConnectGimmick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e(TAG, "buttonConnectGimmick()");
-                connectGimmick();
-            }
+        buttonConnectGimmick.setOnClickListener(view -> {
+            Log.e(TAG, "buttonConnectGimmick()");
+            connectGimmick();
         });
 
         Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
-        buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                disconnectGimmick();
-                broadcastTileStatus("false");
-                Log.e(TAG, "buttonDeviceCancel()");
-                dismiss();
-            }
+        buttonDeviceCancel.setOnClickListener(view -> {
+            disconnectGimmick();
+            broadcastTileStatus("false");
+            Log.e(TAG, "buttonDeviceCancel()");
+            dismiss();
         });
 
         buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
-        buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                broadcastTileStatus("true");
-                Log.e(TAG, "buttonDeviceEnable()");
-                dismiss();
-            }
+        buttonDeviceEnable.setOnClickListener(view -> {
+            broadcastTileStatus("true");
+            Log.e(TAG, "buttonDeviceEnable()");
+            dismiss();
         });
 
 
@@ -128,7 +119,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
+            throw new RuntimeException(context
                     + " must implement OnFragmentInteractionListener");
         }
     }

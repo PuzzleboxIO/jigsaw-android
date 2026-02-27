@@ -211,7 +211,6 @@
                     android:paddingLeft="@dimen/padding_medium"
                     android:paddingRight="@dimen/padding_medium"
                     android:text="@string/label_puzzlebox_orbit_emotiv_insight_training_neutral"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     />
                 <!--android:layout_toLeftOf="@id/buttonTrainNeutral"-->
@@ -224,7 +223,6 @@
                     android:text="@string/button_puzzlebox_orbit_emotiv_insight_training_neutral_untrained"
                     android:visibility="visible"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     />
 
             </RelativeLayout>
@@ -255,7 +253,6 @@
                     android:paddingLeft="@dimen/padding_medium"
                     android:paddingRight="@dimen/padding_medium"
                     android:text="@string/label_puzzlebox_orbit_emotiv_insight_training_mental_command"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     />
                 <!--android:layout_toLeftOf="@id/buttonTrainNeutral"-->
@@ -268,7 +265,6 @@
                     android:text="@string/button_puzzlebox_orbit_emotiv_insight_training_mental_command_untrained"
                     android:visibility="visible"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     />
 
             </RelativeLayout>

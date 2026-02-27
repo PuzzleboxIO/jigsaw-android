@@ -109,7 +109,7 @@ public class SessionSingleton {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 			return dateFormat.format(currentTimestamp);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception", e);
 			return null;
 		}
 	}
@@ -119,7 +119,7 @@ public class SessionSingleton {
 			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS", Locale.US);
 			return timeFormat.format(currentTimestamp);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception", e);
 			return null;
 		}
 	}
@@ -160,19 +160,19 @@ public class SessionSingleton {
 		try {
 			date1 = df.parse( sessionTimestampString );
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception", e);
 		}
 
 		try {
 			date2 = df.parse( getCurrentTimestamp() );
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception", e);
 		}
 
 		try {
 			diff = date2.getTime() - date1.getTime();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception", e);
 		}
 
 		int timeInSeconds = (int) (diff / 1000);
@@ -235,7 +235,7 @@ public class SessionSingleton {
 			} catch (ArrayIndexOutOfBoundsException e) {
 				result[i] = 0;
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.e(TAG, "Exception", e);
 				result[i] = 0;
 			}
 		}
@@ -287,7 +287,7 @@ public class SessionSingleton {
 			sessionFilename = filename;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception", e);
 		}
 	}
 
@@ -334,7 +334,7 @@ public class SessionSingleton {
 
 			mShareIntent = Intent.createChooser(i, "Share Session");
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception", e);
 		}
 		return mShareIntent;
 	}
@@ -349,7 +349,7 @@ public class SessionSingleton {
 				writer.flush();
 
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.e(TAG, "Exception", e);
 			} finally {
 				try {
 					if (writer != null) {

@@ -27,10 +27,10 @@ public class DevicePuzzleboxOrbitSingleton {
 	/**
 	 * Flight Configuration
 	 */
-	public int defaultTargetAttention = 72;
-	public int defaultTargetMeditation = 0;
+	public final int defaultTargetAttention = 72;
+	public final int defaultTargetMeditation = 0;
 
-	public int minimumScoreTarget = 40;
+	public final int minimumScoreTarget = 40;
 	public int scoreCurrent = 0;
 	public int scoreLast = 0;
 	public int scoreHigh = 0;
@@ -46,18 +46,18 @@ public class DevicePuzzleboxOrbitSingleton {
 	/**
 	 * Joystick Configuration
 	 */
-	public int defaultJoystickThrottle = 0;
-	public int minimumJoystickThrottle = 20;
+	public final int defaultJoystickThrottle = 0;
+	public final int minimumJoystickThrottle = 20;
 	//	public int defaultJoystickYaw = 63;
-	public int defaultJoystickYaw = 49;
-	public int defaultJoystickPitch = 31;
+	public final int defaultJoystickYaw = 49;
+	public final int defaultJoystickPitch = 31;
 
 	/**
 	 * Advanced Configuration
 	 */
-	public int defaultControlThrottle = 80;
-	public int defaultControlYaw = 49;
-	public int defaultControlPitch = 31;
+	public final int defaultControlThrottle = 80;
+	public final int defaultControlYaw = 49;
+	public final int defaultControlPitch = 31;
 
 	public int hoverControlThrottle = 80;
 	public int hoverControlYaw = 49;
@@ -91,14 +91,14 @@ public class DevicePuzzleboxOrbitSingleton {
 	//	int audioFile = R.raw.throttle_hover_android_htc_one_x;
 
 	//	public int defaultChannel = 0; // B
-	public int defaultChannel = 1; // A
+	public final int defaultChannel = 1; // A
 
-	public boolean generateAudio = true;
+	public final boolean generateAudio = true;
 	public boolean invertControlSignal = false;
 
 	public SoundPool soundPool;
 	public int soundID;
-	public boolean loaded = false;
+	public final boolean loaded = false;
 
 	public PuzzleboxOrbitAudioIRHandler puzzleboxOrbitAudioIRHandler = new PuzzleboxOrbitAudioIRHandler();
 
@@ -120,8 +120,7 @@ public class DevicePuzzleboxOrbitSingleton {
 			try {
 				puzzleboxOrbitAudioIRHandler.start();
 			} catch (Exception e) {
-				Log.e(TAG, "Exception starting PuzzleboxOrbitAudioIRHandler: " + e.getStackTrace());
-				e.printStackTrace();
+				Log.e(TAG, "Exception starting PuzzleboxOrbitAudioIRHandler", e);
 
 				DevicePuzzleboxOrbitSingleton.getInstance().resetAudioHandler();
 

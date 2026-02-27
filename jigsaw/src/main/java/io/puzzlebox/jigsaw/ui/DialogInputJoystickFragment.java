@@ -67,21 +67,15 @@ public class DialogInputJoystickFragment extends DialogFragment
 		joystickView.setOnMoveListener(onMoveJoystick);
 
 		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
-		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				broadcastTileStatus("false");
-				dismiss();
-			}
+		buttonDeviceCancel.setOnClickListener(view -> {
+			broadcastTileStatus("false");
+			dismiss();
 		});
 
 		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
-		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				broadcastTileStatus("true");
-				dismiss();
-			}
+		buttonDeviceEnable.setOnClickListener(view -> {
+			broadcastTileStatus("true");
+			dismiss();
 		});
 
 		return v;
@@ -93,7 +87,7 @@ public class DialogInputJoystickFragment extends DialogFragment
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new RuntimeException(context
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}

@@ -52,7 +52,7 @@ public class EmotivInsightService extends Service {
 					try {
 						wait(endTime - System.currentTimeMillis());
 					} catch (Exception e) {
-						e.printStackTrace();
+						Log.e(TAG, "Exception", e);
 					}
 				}
 			}
@@ -118,7 +118,7 @@ public class EmotivInsightService extends Service {
 					}
 					catch (Exception e)
 					{
-						e.printStackTrace();
+						Log.e(TAG, "Exception", e);
 					}
 				}
 			}
@@ -126,7 +126,7 @@ public class EmotivInsightService extends Service {
 		processingThread.start();
 	}
 
-	Handler handler = new Handler() {
+	final Handler handler = new Handler(Looper.getMainLooper()) {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -302,6 +302,10 @@ public class EmotivInsightService extends Service {
 	}
 
 	class IncomingHandler extends Handler {
+		IncomingHandler() {
+			super(Looper.getMainLooper());
+		}
+
 		@Override
 		public void handleMessage(Message msg) {
 			int deviceNumber = msg.what;

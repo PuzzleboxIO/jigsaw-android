@@ -91,12 +91,7 @@ public class TilesFragment extends Fragment {
 			// Set the size of the image view to the previously computed value
 			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageWidth));
 
-			imageItem.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					showDialog("input", index);
-				}
-			});
+			imageItem.setOnClickListener(view -> showDialog("input", index));
 
 			TileViewAnimator tileViewAnimator = new TileViewAnimator(getContext());
 			tileViewAnimator.addView(imageItem);
@@ -114,12 +109,7 @@ public class TilesFragment extends Fragment {
 			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageWidth));
 
 			final int index = i;
-			imageItem.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					showDialog("output", index);
-				}
-			});
+			imageItem.setOnClickListener(view -> showDialog("output", index));
 
 			TileViewAnimator tileViewAnimator = new TileViewAnimator(getContext());
 			tileViewAnimator.addView(imageItem);
@@ -136,12 +126,7 @@ public class TilesFragment extends Fragment {
 			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageWidth));
 
 			final int index = i;
-			imageItem.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					showDialog("profile", index);
-				}
-			});
+			imageItem.setOnClickListener(view -> showDialog("profile", index));
 
 			TileViewAnimator tileViewAnimator = new TileViewAnimator(getContext());
 			tileViewAnimator.addView(imageItem);
@@ -153,7 +138,7 @@ public class TilesFragment extends Fragment {
 
 	public void showDialog(String type, int index) {
 
-		FragmentManager fm = getFragmentManager();
+		FragmentManager fm = getParentFragmentManager();
 
 		switch (type) {
 
@@ -213,7 +198,7 @@ public class TilesFragment extends Fragment {
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new RuntimeException(context
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}

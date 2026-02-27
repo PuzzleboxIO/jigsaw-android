@@ -2,6 +2,7 @@ package io.puzzlebox.jigsaw.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -52,56 +53,30 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		getDialog().getWindow().setTitle( getString(io.puzzlebox.jigsaw.R.string.title_dialog_fragment_audio_ir));
 
 		switchDetectTransmitter = v.findViewById(R.id.switchDetectTransmitter);
-		switchDetectTransmitter.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				switchDetectTransmitterClicked(v);
-			}
-		});
+		switchDetectTransmitter.setOnClickListener(view -> switchDetectTransmitterClicked(view));
 
 		switchDetectVolume = v.findViewById(R.id.switchDetectVolume);
-		switchDetectVolume.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				switchDetectVolumeClicked(v);
-			}
-		});
+		switchDetectVolume.setOnClickListener(view -> switchDetectVolumeClicked(view));
 
 		switchInvertControlSignal = v.findViewById(R.id.switchInvertControlSignal);
-		switchInvertControlSignal.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				switchInvertControlSignalClicked(v);
-			}
-		});
+		switchInvertControlSignal.setOnClickListener(view -> switchInvertControlSignalClicked(view));
 
 		buttonTestAudioIR = v.findViewById(R.id.buttonTestAudioIR);
 		buttonTestAudioIR.setVisibility(View.VISIBLE);
 		buttonTestAudioIR.setEnabled(true);
-		buttonTestAudioIR.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				demoMode(v);
-			}
-		});
+		buttonTestAudioIR.setOnClickListener(view -> demoMode(view));
 
 		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
-		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				broadcastTileStatus("false");
-				dismiss();
-			}
+		buttonDeviceCancel.setOnClickListener(view -> {
+			broadcastTileStatus("false");
+			dismiss();
 		});
 
 		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
-		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				updateTileStatus();
-				dismissAudioIR();
-				dismiss();
-			}
+		buttonDeviceEnable.setOnClickListener(view -> {
+			updateTileStatus();
+			dismissAudioIR();
+			dismiss();
 		});
 
 		audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
@@ -185,7 +160,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 			try {
 				DevicePuzzleboxOrbitSingleton.getInstance().soundPool.stop(DevicePuzzleboxOrbitSingleton.getInstance().soundID);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.e(TAG, "Exception", e);
 			}
 		}
 	}
@@ -247,7 +222,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		super.onResume();
 
 		if ((audioManager != null) &&
-				((audioManager.isWiredHeadsetOn()))) {
+				((isWiredHeadsetConnected()))) {
 			switchDetectTransmitter.setChecked(true);
 
 			if (!checkVolumeMax()) {
@@ -277,7 +252,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		buttonDeviceEnable.setVisibility(View.INVISIBLE);
 
 		// Check to see if headphone jack detects transmitter and if not Toast a warning message
-		if (! audioManager.isWiredHeadsetOn() &&
+		if (! isWiredHeadsetConnected() &&
 				(! warningDetectTransmitterDisplayed)) {
 			Toast.makeText(getActivity().getApplicationContext(), getString(io.puzzlebox.jigsaw.R.string.toast_audio_ir_detect_transmitter_warning), Toast.LENGTH_LONG).show();
 			warningDetectTransmitterDisplayed = true;
@@ -300,6 +275,18 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		// This is necessary for some audio hardware.
 		// For details and an example see: https://puzzlebox.io/orbit/development/wiki/AddingSupportIR
 		DevicePuzzleboxOrbitSingleton.getInstance().invertControlSignal = switchInvertControlSignal.isChecked();
+	}
+
+	private boolean isWiredHeadsetConnected() {
+		AudioDeviceInfo[] devices = audioManager.getDevices(AudioManager.GET_DEVICES_ALL);
+		for (AudioDeviceInfo device : devices) {
+			int type = device.getType();
+			if (type == AudioDeviceInfo.TYPE_WIRED_HEADSET ||
+					type == AudioDeviceInfo.TYPE_WIRED_HEADPHONES) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean checkVolumeMax() {

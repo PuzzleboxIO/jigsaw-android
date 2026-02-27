@@ -71,7 +71,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 					try {
 						wait(endTime - System.currentTimeMillis());
 					} catch (Exception e) {
-						e.printStackTrace();
+						Log.e(TAG, "Exception", e);
 					}
 				}
 			}
@@ -103,7 +103,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 		final BluetoothManager manager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
 
-		handler = new Handler();
+		handler = new Handler(Looper.getMainLooper());
 		bluetoothAdapter = manager.getAdapter();
 
 		if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
@@ -127,11 +127,6 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
 	}
 
 	public void createService() {
@@ -177,8 +172,6 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 					commandDecoder(commandValue);
 					break;
 				case "x10":
-					commandGimmick(commandValue);
-					break;
 				case "joystick":
 					commandGimmick(commandValue);
 					break;
@@ -213,7 +206,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		try {
 			gatt.disconnect();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception", e);
 		}
 	}
 
@@ -333,13 +326,10 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		DevicePuzzleboxGimmickSingleton.getInstance().devicesFound.clear();
 
 		if (enable) {
-			handler.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					scanning = false;
-					scanner.stopScan(mScanCallback);
-					broadcastEventBluetooth("command", "displayDevicesFound");
-				}
+			handler.postDelayed(() -> {
+				scanning = false;
+				scanner.stopScan(mScanCallback);
+				broadcastEventBluetooth("command", "displayDevicesFound");
 			}, 10000);
 
 			scanning = true;
@@ -350,7 +340,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 	private final ScanCallback mScanCallback = new ScanCallback() {
 		@Override
 		public void onScanResult(int callbackType, ScanResult result) {
-			Log.d(TAG, "Device found: " + result.getDevice().getName() + ": " + result.toString());
+			Log.d(TAG, "Device found: " + result.getDevice().getName() + ": " + result);
 
 			boolean found = false;
 

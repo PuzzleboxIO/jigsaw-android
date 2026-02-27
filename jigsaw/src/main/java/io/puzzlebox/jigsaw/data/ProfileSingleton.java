@@ -18,7 +18,7 @@ public class ProfileSingleton {
 
 	private static final ArrayList<HashMap<String, String>> inputs = new ArrayList<>();
 	private static final ArrayList<HashMap<String, String>> outputs = new ArrayList<>();
-	public ArrayList<HashMap<String, String>> profiles = new ArrayList<>();
+	public final ArrayList<HashMap<String, String>> profiles = new ArrayList<>();
 	private static final ArrayList<String[]> profiles_inputs = new ArrayList<>();
 	private static final ArrayList<String[]> profiles_outputs = new ArrayList<>();
 
@@ -245,7 +245,7 @@ public class ProfileSingleton {
 			} catch (Exception e) {
 				// TODO 2018-03-14
 				allAvailable = false;
-				Log.e(TAG, "Exception parsing inputsActive/outputsActive: " + e.toString());
+				Log.e(TAG, "Exception parsing inputsActive/outputsActive: " + e);
 			}
 
 			if (allAvailable) {

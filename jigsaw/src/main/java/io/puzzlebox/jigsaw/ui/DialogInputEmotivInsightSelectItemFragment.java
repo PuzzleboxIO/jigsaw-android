@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import io.puzzlebox.jigsaw.R;
 
 public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
@@ -80,7 +82,7 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 		TextView textViewSelectEEGNumber = v.findViewById(R.id.textViewSelectEEGNumber);
 //		textViewSelectEEGNumber.setTypeface(tf);
 //		textViewSelectEEGNumber.setTextSize(pixels);
-		textViewSelectEEGNumber.setText("#" + String.valueOf(mParamInsightId) + ": ");
+		textViewSelectEEGNumber.setText(String.format(Locale.getDefault(), "#%d: ", mParamInsightId));
 
 		TextView textViewSelectEEGName = v.findViewById(R.id.textViewSelectEEGName);
 //		textViewSelectEEGName.setTypeface(tf);
@@ -88,27 +90,19 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 		textViewSelectEEGName.setText(mParamName);
 
 		LinearLayout layoutSelectEEG = v.findViewById(R.id.layoutSelectEEG);
-		layoutSelectEEG.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
-				intent.putExtra("name", "select");
-				intent.putExtra("value", Integer.toString(mId));
-				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-			}
+		layoutSelectEEG.setOnClickListener(view -> {
+			Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
+			intent.putExtra("name", "select");
+			intent.putExtra("value", Integer.toString(mId));
+			LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
 		});
 
 		Button buttonChoose = v.findViewById(R.id.buttonChoose);
-		buttonChoose.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
-				intent.putExtra("name", "select");
-				intent.putExtra("value", Integer.toString(mId));
-				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-
-			}
-
+		buttonChoose.setOnClickListener(view -> {
+			Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
+			intent.putExtra("name", "select");
+			intent.putExtra("value", Integer.toString(mId));
+			LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
 		});
 		return v;
 	}
@@ -119,7 +113,7 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-			Log.e(TAG, context.toString()  + " must implement OnFragmentInteractionListener");
+			Log.e(TAG, context + " must implement OnFragmentInteractionListener");
 		}
 	}
 

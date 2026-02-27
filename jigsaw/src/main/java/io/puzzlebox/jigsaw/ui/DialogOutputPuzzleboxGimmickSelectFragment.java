@@ -57,15 +57,11 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.dialog_output_puzzlebox_gimmick_select, null);
 
         Button buttonRefresh = v.findViewById(R.id.buttonRefresh);
-        buttonRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "buttonChoose onClick(): " + -1);
-                if (mListener != null) {
-                    mListener.onSelectGimmickItem(-1);
-                }
+        buttonRefresh.setOnClickListener(view -> {
+            Log.d(TAG, "buttonChoose onClick(): " + -1);
+            if (mListener != null) {
+                mListener.onSelectGimmickItem(-1);
             }
-
         });
 
         dynamicLayout = v.findViewById(R.id.dynamicLayoutSelectGimmick);
@@ -125,7 +121,7 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
                     ft.add(R.id.dynamicLayoutSelectGimmick, item, "device" + i);
                     ft.commit();
                 } catch (Exception e) {
-                    Log.e(TAG, "ft Exception:" + e.toString());
+                    Log.e(TAG, "ft Exception:" + e);
                 }
             }
         }

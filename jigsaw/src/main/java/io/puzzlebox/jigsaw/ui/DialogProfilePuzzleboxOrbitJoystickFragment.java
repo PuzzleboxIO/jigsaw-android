@@ -84,20 +84,10 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 		}
 
 		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
-		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismiss();
-			}
-		});
+		buttonDeviceCancel.setOnClickListener(view -> dismiss());
 
 		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
-		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismiss();
-			}
-		});
+		buttonDeviceEnable.setOnClickListener(view -> dismiss());
 
 		/**
 		 * PuzzleboxOrbitAudioIRHandler
@@ -136,7 +126,7 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new RuntimeException(context
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}
@@ -308,7 +298,7 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 			try {
 				DevicePuzzleboxOrbitSingleton.getInstance().soundPool.stop(DevicePuzzleboxOrbitSingleton.getInstance().soundID);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.e(TAG, "Exception", e);
 			}
 		}
 	}

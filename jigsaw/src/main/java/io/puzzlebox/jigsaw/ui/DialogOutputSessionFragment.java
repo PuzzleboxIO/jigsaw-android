@@ -70,12 +70,7 @@ public class DialogOutputSessionFragment extends DialogFragment {
 		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_session));
 
 		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
-		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismiss();
-			}
-		});
+		buttonDeviceCancel.setOnClickListener(view -> dismiss());
 
 		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
 
@@ -104,20 +99,10 @@ public class DialogOutputSessionFragment extends DialogFragment {
 		textViewSessionTime = v.findViewById(R.id.textViewSessionTime);
 
 		Button resetSession = v.findViewById(R.id.buttonResetSession);
-		resetSession.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				resetSession();
-			}
-		});
+		resetSession.setOnClickListener(view -> resetSession());
 
 		Button buttonShareSession = v.findViewById(R.id.buttonShareSession);
-		buttonShareSession.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				shareSession();
-			}
-		});
+		buttonShareSession.setOnClickListener(view -> shareSession());
 
 		// Set up the Session History plot
 		sessionPlot1 = v.findViewById(R.id.sessionPlot1);
@@ -206,7 +191,7 @@ public class DialogOutputSessionFragment extends DialogFragment {
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new RuntimeException(context
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}
@@ -252,13 +237,9 @@ public class DialogOutputSessionFragment extends DialogFragment {
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
-	MenuItem.OnMenuItemClickListener mShareButtonClickListener = new MenuItem.OnMenuItemClickListener() {
-
-		@Override
-		public boolean onMenuItemClick(@NonNull MenuItem item) {
-			shareSession();
-			return false;
-		}
+	final MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {
+		shareSession();
+		return false;
 	};
 
 	public void shareSession() {

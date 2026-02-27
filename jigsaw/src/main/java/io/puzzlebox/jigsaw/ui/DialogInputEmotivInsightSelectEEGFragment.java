@@ -55,15 +55,11 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 //		textViewSelectEEG.setTextSize(pixels);
 
 		Button buttonRefresh = v.findViewById(R.id.buttonRefresh);
-		buttonRefresh.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.d(TAG, "buttonChoose onClick(): " + -1);
-				if (mListener != null) {
-					mListener.onSelectEEGItem(-1);
-				}
+		buttonRefresh.setOnClickListener(view -> {
+			Log.d(TAG, "buttonChoose onClick(): " + -1);
+			if (mListener != null) {
+				mListener.onSelectEEGItem(-1);
 			}
-
 		});
 
 		dynamicLayout = v.findViewById(R.id.dynamicLayoutSelectEEG);
@@ -86,7 +82,7 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 					ft.add(R.id.dynamicLayoutSelectEEG, item, "device" + i);
 					ft.commit();
 				} catch (Exception e) {
-					Log.e(TAG, "ft Exception:" + e.toString());
+					Log.e(TAG, "ft Exception:" + e);
 				}
 			}
 		}
@@ -99,7 +95,7 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-			Log.e(TAG, context.toString()  + " must implement OnFragmentInteractionListener");
+			Log.e(TAG, context + " must implement OnFragmentInteractionListener");
 		}
 	}
 

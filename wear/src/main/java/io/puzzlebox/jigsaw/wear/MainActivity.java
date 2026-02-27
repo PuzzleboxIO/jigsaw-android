@@ -19,14 +19,12 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		WatchViewStub stub = findViewById(R.id.watch_view_stub);
-		stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
-			@Override public void onLayoutInflated(WatchViewStub stub) {
-				final GridViewPager pager = findViewById(R.id.pager);
-				pager.setAdapter(new SensorFragmentPagerAdapter(getFragmentManager()));
+		stub.setOnLayoutInflatedListener(stub2 -> {
+			final GridViewPager pager = findViewById(R.id.pager);
+			pager.setAdapter(new SensorFragmentPagerAdapter(getFragmentManager()));
 
-				DotsPageIndicator indicator = findViewById(R.id.page_indicator);
-				indicator.setPager(pager);
-			}
+			DotsPageIndicator indicator = findViewById(R.id.page_indicator);
+			indicator.setPager(pager);
 		});
 	}
 }

@@ -6,7 +6,7 @@
 
 package io.puzzlebox.jigsaw.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -48,12 +48,12 @@ public class WelcomeFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(@NonNull Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(@NonNull Context context) {
+		super.onAttach(context);
 		try {
-			mListener = (OnFragmentInteractionListener) activity;
+			mListener = (OnFragmentInteractionListener) context;
 		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
+			throw new ClassCastException(context
 					  + " must implement OnFragmentInteractionListener");
 		}
 	}

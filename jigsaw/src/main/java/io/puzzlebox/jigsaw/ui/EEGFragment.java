@@ -6,7 +6,6 @@
 
 package io.puzzlebox.jigsaw.ui;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -133,41 +132,41 @@ public class EEGFragment extends Fragment implements
 		ShapeDrawable progressBarAttentionDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarAttentionColor = "#FF0000";
 		progressBarAttentionDrawable.getPaint().setColor(Color.parseColor(progressBarAttentionColor));
-		ClipDrawable progressAttention = new ClipDrawable(progressBarAttentionDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressAttention = new ClipDrawable(progressBarAttentionDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarAttention.setProgressDrawable(progressAttention);
-		progressBarAttention.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarAttention.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarMeditation = v.findViewById(R.id.progressBarMeditation);
 		ShapeDrawable progressBarMeditationDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarMeditationColor = "#0000FF";
 		progressBarMeditationDrawable.getPaint().setColor(Color.parseColor(progressBarMeditationColor));
-		ClipDrawable progressMeditation = new ClipDrawable(progressBarMeditationDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressMeditation = new ClipDrawable(progressBarMeditationDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarMeditation.setProgressDrawable(progressMeditation);
-		progressBarMeditation.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarMeditation.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarSignal = v.findViewById(R.id.progressBarSignal);
 		ShapeDrawable progressBarSignalDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarSignalColor = "#00FF00";
 		progressBarSignalDrawable.getPaint().setColor(Color.parseColor(progressBarSignalColor));
-		ClipDrawable progressSignal = new ClipDrawable(progressBarSignalDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressSignal = new ClipDrawable(progressBarSignalDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarSignal.setProgressDrawable(progressSignal);
-		progressBarSignal.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarSignal.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarPower = v.findViewById(R.id.progressBarPower);
 		ShapeDrawable progressBarPowerDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarPowerColor = "#FFFF00";
 		progressBarPowerDrawable.getPaint().setColor(Color.parseColor(progressBarPowerColor));
-		ClipDrawable progressPower = new ClipDrawable(progressBarPowerDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressPower = new ClipDrawable(progressBarPowerDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarPower.setProgressDrawable(progressPower);
-		progressBarPower.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarPower.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarBlink = v.findViewById(R.id.progressBarBlink);
 		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
 		String progressBarRangeColor = "#BBBBBB";
 		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarRangeColor));
-		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarBlink.setProgressDrawable(progressRange);
-		progressBarBlink.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarBlink.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarBlink.setMax(NeuroSkyEegState.blinkRangeMax);
 
@@ -230,12 +229,7 @@ public class EEGFragment extends Fragment implements
 		textViewSessionTime = v.findViewById(R.id.textViewSessionTime);
 
 		Button connectEEG = v.findViewById(R.id.buttonConnectEEG);
-		connectEEG.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				connectHeadset();
-			}
-		});
+		connectEEG.setOnClickListener(v -> connectHeadset());
 
 		if (NeuroSkyEegState.eegConnected ) {
 			connectEEG.setText("Disconnect EEG");
@@ -251,12 +245,7 @@ public class EEGFragment extends Fragment implements
 //		}
 
 		Button resetSession = v.findViewById(R.id.buttonResetSession);
-		resetSession.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				resetSession();
-			}
-		});
+		resetSession.setOnClickListener(v -> resetSession());
 
 		// Instantiate the Intent via reflection so this file compiles even when
 		// NeuroSkyThinkGearService is excluded (NeuroSky SDK absent from build).
@@ -282,12 +271,12 @@ public class EEGFragment extends Fragment implements
 	}
 
 	@Override
-	public void onAttach(@NonNull Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(@NonNull Context context) {
+		super.onAttach(context);
 		try {
-			mListener = (OnFragmentInteractionListener) activity;
+			mListener = (OnFragmentInteractionListener) context;
 		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
+			throw new ClassCastException(context
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}
@@ -337,16 +326,6 @@ public class EEGFragment extends Fragment implements
 	}
 
 	@Override
-	public void onStop() {
-		super.onStop();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
 	public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
 
 		menu.add("Share")
@@ -357,20 +336,16 @@ public class EEGFragment extends Fragment implements
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
-	MenuItem.OnMenuItemClickListener mShareButtonClickListener = new MenuItem.OnMenuItemClickListener() {
+	MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {
+		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
 
-		@Override
-		public boolean onMenuItemClick(@NonNull MenuItem item) {
-			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
-
-			if (i != null) {
-				startActivity(i);
-			} else {
-				Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
-			}
-
-			return false;
+		if (i != null) {
+			startActivity(i);
+		} else {
+			Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
 		}
+
+		return false;
 	};
 
 	public void updateScreenLayout() {
@@ -697,9 +672,9 @@ public class EEGFragment extends Fragment implements
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-			int eegAttention = Integer.valueOf(intent.getStringExtra("Attention"));
-			int eegMeditation = Integer.valueOf(intent.getStringExtra("Meditation"));
-			int eegSignal = Integer.valueOf(intent.getStringExtra("Signal Level"));
+			int eegAttention = Integer.parseInt(intent.getStringExtra("Attention"));
+			int eegMeditation = Integer.parseInt(intent.getStringExtra("Meditation"));
+			int eegSignal = Integer.parseInt(intent.getStringExtra("Signal Level"));
 
 			progressBarAttention.setProgress(eegAttention);
 			progressBarMeditation.setProgress(eegMeditation);
@@ -772,7 +747,7 @@ public class EEGFragment extends Fragment implements
 					try {
 						progressBarBlink.setProgress(Integer.parseInt(value));
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						Log.e(TAG, "Exception", e);
 					}
 					break;
 			}

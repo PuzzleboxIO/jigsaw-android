@@ -81,26 +81,19 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
         textViewSelectGimmickName.setText(mParamName);
 
         LinearLayout layoutSelectGimmick = v.findViewById(R.id.layoutSelectGimmick);
-        layoutSelectGimmick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status");
-                intent.putExtra("name", "select");
-                intent.putExtra("value", mParamName);
-                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-            }
+        layoutSelectGimmick.setOnClickListener(view -> {
+            Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status");
+            intent.putExtra("name", "select");
+            intent.putExtra("value", mParamName);
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         });
 
         Button buttonChoose = v.findViewById(R.id.buttonChoose);
-        buttonChoose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status");
-                intent.putExtra("name", "select");
-                intent.putExtra("value", Integer.toString(mId));
-                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-            }
-
+        buttonChoose.setOnClickListener(view -> {
+            Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status");
+            intent.putExtra("name", "select");
+            intent.putExtra("value", Integer.toString(mId));
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
         });
         return v;
     }

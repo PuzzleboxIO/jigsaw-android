@@ -73,7 +73,7 @@ public class NeuroSkyThinkGearService extends Service {
 					try {
 						wait(endTime - System.currentTimeMillis());
 					} catch (Exception e) {
-						e.printStackTrace();
+						Log.e(TAG, "Exception", e);
 					}
 				}
 			}
@@ -130,17 +130,9 @@ public class NeuroSkyThinkGearService extends Service {
 		return null;
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
-	private final Handler handlerThinkGear = new Handler(new Handler.Callback() {
-		@Override
-		public boolean handleMessage(Message msg) {
-			parseEEG(msg);
-			return true;
-		}
+	private final Handler handlerThinkGear = new Handler(Looper.getMainLooper(), msg -> {
+		parseEEG(msg);
+		return true;
 	});
 
 	public void createService() {
@@ -245,8 +237,6 @@ public class NeuroSkyThinkGearService extends Service {
 			case TGDevice.MSG_RAW_MULTI:
 				// TGRawMulti rawM = (TGRawMulti)msg.obj;
 				// Log.d(TAG, "Raw1: " + rawM.ch1 + "\nRaw2: " + rawM.ch2);
-			case TGDevice.MSG_HEART_RATE:
-				// Log.d(TAG, "Heart rate: " + msg.arg1 + "\n");
 				break;
 			case TGDevice.MSG_LOW_BATTERY:
 				broadcastEventEEG("eegStatus", "MSG_LOW_BATTERY");
@@ -329,13 +319,13 @@ public class NeuroSkyThinkGearService extends Service {
 			packet.put("Meditation", String.valueOf(NeuroSkyEegState.eegMeditation));
 			packet.put("Signal Level", String.valueOf(NeuroSkyEegState.eegSignal));
 
-			Log.v(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet.toString());
+			Log.v(TAG, "SessionSingleton.getInstance().appendData(packet): " + packet);
 			SessionSingleton.getInstance().appendData(packet);
 
 			broadcastPacketEEG(packet);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception", e);
 		}
 	}
 

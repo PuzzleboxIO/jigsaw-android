@@ -13,6 +13,7 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -30,6 +31,8 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 import com.emotiv.insight.IEmoStateDLL;
 import com.emotiv.insight.MentalCommandDetection;
@@ -91,7 +94,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 	private int currentPz = 0;
 	private int currentCMS = 0;
 
-	int[] thresholdValuesMentalCommand = new int[101];
+	final int[] thresholdValuesMentalCommand = new int[101];
 	int minimumPower = 0; // minimum power for the Orbit
 	int maximumPower = 100; // maximum power for the Orbit
 
@@ -112,20 +115,10 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_puzzlebox_orbit_emotiv_insight));
 
 		buttonTestFlight = v.findViewById(R.id.buttonTestFlight);
-		buttonTestFlight.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				testFlight(v);
-			}
-		});
+		buttonTestFlight.setOnClickListener(view -> testFlight(view));
 
 		buttonResetFlight = v.findViewById(R.id.buttonResetFlight);
-		buttonResetFlight.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				resetFlight(v);
-			}
-		});
+		buttonResetFlight.setOnClickListener(view -> resetFlight(view));
 
 		imageViewAF3 = v.findViewById(R.id.imageViewEmotivInsightSensorAF3);
 		imageViewAF4 = v.findViewById(R.id.imageViewEmotivInsightSensorAF4);
@@ -135,34 +128,28 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		imageViewCMS = v.findViewById(R.id.imageViewEmotivInsightSensorCMS);
 
 		buttonTrainNeutral = v.findViewById(R.id.buttonTrainNeutral);
-		buttonTrainNeutral.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.d(TAG, "Training Neutral");
-				DeviceEmotivInsightSingleton.getInstance().currentInsightTraining = "neutral";
-				MentalCommandDetection.IEE_MentalCommandSetTrainingControl(DeviceEmotivInsightSingleton.getInstance().userID, MentalCommandDetection.IEE_MentalCommandTrainingControl_t.MC_REJECT.getType());
-				MentalCommandDetection.IEE_MentalCommandSetTrainingControl(DeviceEmotivInsightSingleton.getInstance().userID, MentalCommandDetection.IEE_MentalCommandTrainingControl_t.MC_RESET.getType());
-				progressBarTrainMentalCommand.setProgress(0);
-				buttonTrainMentalCommand.setText(getString(R.string.button_puzzlebox_orbit_emotiv_insight_training_neutral_untrained));
-				MentalCommandDetection.IEE_MentalCommandSetTrainingAction(DeviceEmotivInsightSingleton.getInstance().userID, IEmoStateDLL.IEE_MentalCommandAction_t.MC_NEUTRAL.ToInt());
-				MentalCommandDetection.IEE_MentalCommandSetTrainingControl(DeviceEmotivInsightSingleton.getInstance().userID, MentalCommandDetection.IEE_MentalCommandTrainingControl_t.MC_START.getType());
-				animateProgressBar();
-			}
+		buttonTrainNeutral.setOnClickListener(view -> {
+			Log.d(TAG, "Training Neutral");
+			DeviceEmotivInsightSingleton.getInstance().currentInsightTraining = "neutral";
+			MentalCommandDetection.IEE_MentalCommandSetTrainingControl(DeviceEmotivInsightSingleton.getInstance().userID, MentalCommandDetection.IEE_MentalCommandTrainingControl_t.MC_REJECT.getType());
+			MentalCommandDetection.IEE_MentalCommandSetTrainingControl(DeviceEmotivInsightSingleton.getInstance().userID, MentalCommandDetection.IEE_MentalCommandTrainingControl_t.MC_RESET.getType());
+			progressBarTrainMentalCommand.setProgress(0);
+			buttonTrainMentalCommand.setText(getString(R.string.button_puzzlebox_orbit_emotiv_insight_training_neutral_untrained));
+			MentalCommandDetection.IEE_MentalCommandSetTrainingAction(DeviceEmotivInsightSingleton.getInstance().userID, IEmoStateDLL.IEE_MentalCommandAction_t.MC_NEUTRAL.ToInt());
+			MentalCommandDetection.IEE_MentalCommandSetTrainingControl(DeviceEmotivInsightSingleton.getInstance().userID, MentalCommandDetection.IEE_MentalCommandTrainingControl_t.MC_START.getType());
+			animateProgressBar();
 		});
 
 		progressBarTrainNeutral = v.findViewById(R.id.progressBarTrainNeutral);
 
 		buttonTrainMentalCommand = v.findViewById(R.id.buttonTrainMentalCommand);
-		buttonTrainMentalCommand.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.d(TAG, "Training Mental Command (Push)");
-				DeviceEmotivInsightSingleton.getInstance().currentInsightTraining = "mental command";
-				MentalCommandDetection.IEE_MentalCommandSetTrainingControl(DeviceEmotivInsightSingleton.getInstance().userID, MentalCommandDetection.IEE_MentalCommandTrainingControl_t.MC_REJECT.getType());
-				MentalCommandDetection.IEE_MentalCommandSetTrainingAction(DeviceEmotivInsightSingleton.getInstance().userID, IEmoStateDLL.IEE_MentalCommandAction_t.MC_PUSH.ToInt());
-				MentalCommandDetection.IEE_MentalCommandSetTrainingControl(DeviceEmotivInsightSingleton.getInstance().userID, MentalCommandDetection.IEE_MentalCommandTrainingControl_t.MC_START.getType());
-				animateProgressBar();
-			}
+		buttonTrainMentalCommand.setOnClickListener(view -> {
+			Log.d(TAG, "Training Mental Command (Push)");
+			DeviceEmotivInsightSingleton.getInstance().currentInsightTraining = "mental command";
+			MentalCommandDetection.IEE_MentalCommandSetTrainingControl(DeviceEmotivInsightSingleton.getInstance().userID, MentalCommandDetection.IEE_MentalCommandTrainingControl_t.MC_REJECT.getType());
+			MentalCommandDetection.IEE_MentalCommandSetTrainingAction(DeviceEmotivInsightSingleton.getInstance().userID, IEmoStateDLL.IEE_MentalCommandAction_t.MC_PUSH.ToInt());
+			MentalCommandDetection.IEE_MentalCommandSetTrainingControl(DeviceEmotivInsightSingleton.getInstance().userID, MentalCommandDetection.IEE_MentalCommandTrainingControl_t.MC_START.getType());
+			animateProgressBar();
 		});
 
 		progressBarTrainMentalCommand = v.findViewById(R.id.progressBarTrainMentalCommand);
@@ -170,25 +157,25 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		ShapeDrawable progressBarMentalCommandDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarMentalCommandColor = "#AA00FF";
 		progressBarMentalCommandDrawable.getPaint().setColor(Color.parseColor(progressBarMentalCommandColor));
-		ClipDrawable progressMentalCommand = new ClipDrawable(progressBarMentalCommandDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressMentalCommand = new ClipDrawable(progressBarMentalCommandDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarActivityMentalCommand.setProgressDrawable(progressMentalCommand);
-		progressBarActivityMentalCommand.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarActivityMentalCommand.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarContactQuality = v.findViewById(R.id.progressBarContactQuality);
 		ShapeDrawable progressBarContactQualityDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarContactQualityColor = "#00FF00";
 		progressBarContactQualityDrawable.getPaint().setColor(Color.parseColor(progressBarContactQualityColor));
-		ClipDrawable progressSignal = new ClipDrawable(progressBarContactQualityDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressSignal = new ClipDrawable(progressBarContactQualityDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarContactQuality.setProgressDrawable(progressSignal);
-		progressBarContactQuality.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarContactQuality.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarPower = (ProgressBar) v.findViewById(R.id.progressBarPower);
 		ShapeDrawable progressBarPowerDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarPowerColor = "#FFFF00";
 		progressBarPowerDrawable.getPaint().setColor(Color.parseColor(progressBarPowerColor));
-		ClipDrawable progressPower = new ClipDrawable(progressBarPowerDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressPower = new ClipDrawable(progressBarPowerDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarPower.setProgressDrawable(progressPower);
-		progressBarPower.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarPower.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		seekBarActivityMentalCommand = v.findViewById(R.id.seekBarActivityMentalCommand);
 		seekBarActivityMentalCommand.setProgress(DeviceEmotivInsightSingleton.getInstance().defaultMentalCommandPower);
@@ -204,20 +191,10 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		seekBarThrottle.setOnSeekBarChangeListener(this);
 
 		Button buttonDeviceCancel = v.findViewById(io.puzzlebox.jigsaw.R.id.buttonDeviceCancel);
-		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismiss();
-			}
-		});
+		buttonDeviceCancel.setOnClickListener(view -> dismiss());
 
 		buttonDeviceEnable = v.findViewById(io.puzzlebox.jigsaw.R.id.buttonDeviceEnable);
-		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismiss();
-			}
-		});
+		buttonDeviceEnable.setOnClickListener(view -> dismiss());
 
 		/*
 		 * PuzzleboxOrbitAudioIRHandler
@@ -236,7 +213,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		if (context instanceof EmotivInsightFragmentListener) {
 			mListener = (EmotivInsightFragmentListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new RuntimeException(context
 					+ " must implement EmotivInsightFragmentListener");
 		}
 	}
@@ -317,12 +294,12 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 
 			int eegSignal = 0;
 
-			int AF3 = Integer.valueOf(intent.getStringExtra("AF3"));
-			int AF4 = Integer.valueOf(intent.getStringExtra("AF4"));
-			int T7 = Integer.valueOf(intent.getStringExtra("T7"));
-			int T8 = Integer.valueOf(intent.getStringExtra("T8"));
-			int Pz = Integer.valueOf(intent.getStringExtra("Pz"));
-			int CMS = Integer.valueOf(intent.getStringExtra("CMS"));
+			int AF3 = Integer.parseInt(intent.getStringExtra("AF3"));
+			int AF4 = Integer.parseInt(intent.getStringExtra("AF4"));
+			int T7 = Integer.parseInt(intent.getStringExtra("T7"));
+			int T8 = Integer.parseInt(intent.getStringExtra("T8"));
+			int Pz = Integer.parseInt(intent.getStringExtra("Pz"));
+			int CMS = Integer.parseInt(intent.getStringExtra("CMS"));
 
 			// If there is no change to values no need to recaculate eegSignal and redraw all ImageViews
 			if ((AF3 != currentAF3) &&
@@ -342,9 +319,6 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 			currentCMS = CMS;
 
 			switch (AF3) {
-				case 0:
-					imageViewAF3.setImageResource(R.drawable.device_eeg_sensor_white);
-					break;
 				case 1:
 					imageViewAF3.setImageResource(R.drawable.device_eeg_sensor_red);
 					eegSignal += 5;
@@ -363,9 +337,6 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 			}
 
 			switch (T7) {
-				case 0:
-					imageViewT7.setImageResource(R.drawable.device_eeg_sensor_white);
-					break;
 				case 1:
 					imageViewT7.setImageResource(R.drawable.device_eeg_sensor_red);
 					eegSignal += 5;
@@ -384,9 +355,6 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 			}
 
 			switch (Pz) {
-				case 0:
-					imageViewPz.setImageResource(R.drawable.device_eeg_sensor_white);
-					break;
 				case 1:
 					imageViewPz.setImageResource(R.drawable.device_eeg_sensor_red);
 					eegSignal += 5;
@@ -405,9 +373,6 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 			}
 
 			switch (T8) {
-				case 0:
-					imageViewT8.setImageResource(R.drawable.device_eeg_sensor_white);
-					break;
 				case 1:
 					imageViewT8.setImageResource(R.drawable.device_eeg_sensor_red);
 					eegSignal += 5;
@@ -426,9 +391,6 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 			}
 
 			switch (AF4) {
-				case 0:
-					imageViewAF4.setImageResource(R.drawable.device_eeg_sensor_white);
-					break;
 				case 1:
 					imageViewAF4.setImageResource(R.drawable.device_eeg_sensor_red);
 					eegSignal += 5;
@@ -447,9 +409,6 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 			}
 
 			switch (CMS) {
-				case 0:
-					imageViewCMS.setImageResource(R.drawable.device_eeg_sensor_cms_white);
-					break;
 				case 1:
 					imageViewCMS.setImageResource(R.drawable.device_eeg_sensor_cms_red);
 					eegSignal += 5;
@@ -473,15 +432,15 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 				if (eegSignal <= 20) {
 					progressBarContactQualityColor = "#FFAA00";
 					progressBarContactQualityDrawable.getPaint().setColor(Color.parseColor(progressBarContactQualityColor));
-					ClipDrawable progressSignal = new ClipDrawable(progressBarContactQualityDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+					ClipDrawable progressSignal = new ClipDrawable(progressBarContactQualityDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 					progressBarContactQuality.setProgressDrawable(progressSignal);
 				} else {
 					progressBarContactQualityColor = "#00FF00";
 					progressBarContactQualityDrawable.getPaint().setColor(Color.parseColor(progressBarContactQualityColor));
-					ClipDrawable progressSignal = new ClipDrawable(progressBarContactQualityDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+					ClipDrawable progressSignal = new ClipDrawable(progressBarContactQualityDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 					progressBarContactQuality.setProgressDrawable(progressSignal);
 				}
-				progressBarContactQuality.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+				progressBarContactQuality.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 				progressBarContactQuality.setProgress(eegSignal);
 			}
 			previousEEGSignal = eegSignal;
@@ -717,19 +676,19 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 
 		DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent = DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent + mentalCommandScore;
 
-		textViewScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
+		textViewScore.setText(String.format(Locale.getDefault(), "%d", DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
 
 		if (DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent > DevicePuzzleboxOrbitSingleton.getInstance().scoreHigh) {
 			DevicePuzzleboxOrbitSingleton.getInstance().scoreHigh = DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent;
-			textViewHighScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreHigh));
+			textViewHighScore.setText(String.format(Locale.getDefault(), "%d", DevicePuzzleboxOrbitSingleton.getInstance().scoreHigh));
 		}
 	}
 
 	public void resetCurrentScore() {
 		if (DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent > 0)
-			textViewLastScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
+			textViewLastScore.setText(String.format(Locale.getDefault(), "%d", DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
 		DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent = 0;
-		textViewScore.setText(Integer.toString(DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
+		textViewScore.setText(String.format(Locale.getDefault(), "%d", DevicePuzzleboxOrbitSingleton.getInstance().scoreCurrent));
 	}
 
 	public void playControl() {
@@ -790,7 +749,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 			try {
 				DevicePuzzleboxOrbitSingleton.getInstance().soundPool.stop(DevicePuzzleboxOrbitSingleton.getInstance().soundID);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.e(TAG, "Exception", e);
 			}
 		}
 	}
@@ -849,21 +808,6 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.loopNumberWhileMindControl = number;
 	}
 
-	public void resetControlSignal(View view) {
-	}
-
-	public void setControlSignalHover(View view) {
-	}
-
-	public void setControlSignalForward(View view) {
-	}
-
-	public void setControlSignalLeft(View view) {
-	}
-
-	public void setControlSignalRight(View view) {
-	}
-
 	private final BroadcastReceiver mActionReceiver = new BroadcastReceiver() {
 
 		@Override
@@ -873,7 +817,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 			String value = intent.getStringExtra("value");
 
 			if (name.equals("2")) {
-				double actionPower = Double.valueOf(value);
+				double actionPower = Double.parseDouble(value);
 				int eegMentalCommand = (int) (actionPower * 100);
 				Log.d(TAG, "eegMentalCommand:" + eegMentalCommand);
 
@@ -888,7 +832,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 
 	//	public void animateLightSaber(int animateTime, int animateSteps) {
 	public void animateProgressBar() {
-		handlerAnimation = new Handler();
+		handlerAnimation = new Handler(Looper.getMainLooper());
 		new Thread(new TaskAnimateProgressBar()).start();
 	}
 
@@ -900,18 +844,15 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 				try {
 					Thread.sleep(400);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					Log.e(TAG, "Exception", e);
 				}
-				handlerAnimation.post(new Runnable() {
-					@Override
-					public void run() {
-						switch (DeviceEmotivInsightSingleton.getInstance().currentInsightTraining) {
-							case "neutral":
-								progressBarTrainNeutral.setProgress(value);
-								break;
-							case "mental command":
-								progressBarTrainMentalCommand.setProgress(value);
-						}
+				handlerAnimation.post(() -> {
+					switch (DeviceEmotivInsightSingleton.getInstance().currentInsightTraining) {
+						case "neutral":
+							progressBarTrainNeutral.setProgress(value);
+							break;
+						case "mental command":
+							progressBarTrainMentalCommand.setProgress(value);
 					}
 				});
 			}

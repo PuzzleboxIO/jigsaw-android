@@ -12,7 +12,6 @@
         android:id="@+id/textViewInstruction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/padding_medium"
         android:paddingStart="@dimen/padding_medium"
         android:paddingEnd="@dimen/padding_medium"
         android:layout_gravity="start"

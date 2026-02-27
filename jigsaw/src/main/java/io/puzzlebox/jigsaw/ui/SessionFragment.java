@@ -6,7 +6,6 @@
 
 package io.puzzlebox.jigsaw.ui;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -107,12 +106,7 @@ public class SessionFragment extends Fragment {
 		textViewSessionTime = v.findViewById(R.id.textViewSessionTime);
 
 		Button resetSession = v.findViewById(R.id.buttonResetSession);
-		resetSession.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				resetSession();
-			}
-		});
+		resetSession.setOnClickListener(view -> resetSession());
 
 		// setup the Session History plot
 		sessionPlot1 = v.findViewById(R.id.sessionPlot1);
@@ -193,12 +187,12 @@ public class SessionFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(@NonNull Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(@NonNull Context context) {
+		super.onAttach(context);
 		try {
-			mListener = (OnFragmentInteractionListener) activity;
+			mListener = (OnFragmentInteractionListener) context;
 		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
+			throw new ClassCastException(context
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}
@@ -248,13 +242,10 @@ public class SessionFragment extends Fragment {
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
-	MenuItem.OnMenuItemClickListener mShareButtonClickListener = new MenuItem.OnMenuItemClickListener() {
-		@Override
-		public boolean onMenuItemClick(@NonNull MenuItem item) {
-			Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
-			exportSession();
-			return false;
-		}
+	MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {
+		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
+		exportSession();
+		return false;
 	};
 
 	public void exportSession() {

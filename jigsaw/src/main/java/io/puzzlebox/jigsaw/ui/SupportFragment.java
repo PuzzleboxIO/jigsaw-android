@@ -1,6 +1,6 @@
 package io.puzzlebox.jigsaw.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -87,22 +87,17 @@ public class SupportFragment extends Fragment {
 		editTextMessage = v.findViewById(R.id.editTextMessage);
 
 		buttonSendMessage = v.findViewById(R.id.buttonSendMessage);
-		buttonSendMessage.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				sendMessage();
-			}
-		});
+		buttonSendMessage.setOnClickListener(view -> sendMessage());
 		return v;
 	}
 
 	@Override
-	public void onAttach(@NonNull Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(@NonNull Context context) {
+		super.onAttach(context);
 		try {
-			mListener = (OnFragmentInteractionListener) activity;
+			mListener = (OnFragmentInteractionListener) context;
 		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
+			throw new ClassCastException(context
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}
@@ -194,7 +189,7 @@ public class SupportFragment extends Fragment {
 				Log.d(TAG, "Support email response code: " + responseCode);
 
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.e(TAG, "Exception", e);
 			} finally {
 				if (connection != null) {
 					connection.disconnect();

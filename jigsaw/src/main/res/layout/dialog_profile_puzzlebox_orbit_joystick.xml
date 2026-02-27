@@ -15,7 +15,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginBottom="10dp"
         android:paddingStart="@dimen/padding_medium"
-        android:paddingLeft="@dimen/padding_medium"
         android:paddingEnd="@dimen/padding_medium"
         android:text="@string/label_puzzlebox_orbit_joystick_instruction"/>
 

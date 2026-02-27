@@ -53,61 +53,39 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
         editTextChannel.setText(DevicePuzzleboxGimmickSingleton.getInstance().x10ID);
 
         Button buttonStatusPuzzleboxGimmickX10Off = v.findViewById(R.id.buttonStatusPuzzleboxGimmickX10Off);
-        buttonStatusPuzzleboxGimmickX10Off.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e(TAG, "buttonStatusPuzzleboxGimmickX10Off()");
-                broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Off");
-                DevicePuzzleboxGimmickSingleton.getInstance().x10Level = 0;
-            }
+        buttonStatusPuzzleboxGimmickX10Off.setOnClickListener(view -> {
+            Log.e(TAG, "buttonStatusPuzzleboxGimmickX10Off()");
+            broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Off");
+            DevicePuzzleboxGimmickSingleton.getInstance().x10Level = 0;
         });
         Button buttonStatusPuzzleboxGimmickX10On = v.findViewById(R.id.buttonStatusPuzzleboxGimmickX10On);
-        buttonStatusPuzzleboxGimmickX10On.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e(TAG, "buttonStatusPuzzleboxGimmickX10On()");
-                broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " On");
-                DevicePuzzleboxGimmickSingleton.getInstance().x10Level = 10;
-            }
+        buttonStatusPuzzleboxGimmickX10On.setOnClickListener(view -> {
+            Log.e(TAG, "buttonStatusPuzzleboxGimmickX10On()");
+            broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " On");
+            DevicePuzzleboxGimmickSingleton.getInstance().x10Level = 10;
         });
         Button buttonStatusPuzzleboxGimmickX10Dim = v.findViewById(R.id.buttonStatusPuzzleboxGimmickX10Dim);
-        buttonStatusPuzzleboxGimmickX10Dim.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e(TAG, "buttonStatusPuzzleboxGimmickX10Dim()");
-                if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level > 0) {
-                    broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Dim");
-                    DevicePuzzleboxGimmickSingleton.getInstance().x10Level--;
-                }
+        buttonStatusPuzzleboxGimmickX10Dim.setOnClickListener(view -> {
+            Log.e(TAG, "buttonStatusPuzzleboxGimmickX10Dim()");
+            if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level > 0) {
+                broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Dim");
+                DevicePuzzleboxGimmickSingleton.getInstance().x10Level--;
             }
         });
         Button buttonStatusPuzzleboxGimmickX10Bright = v.findViewById(R.id.buttonStatusPuzzleboxGimmickX10Bright);
-        buttonStatusPuzzleboxGimmickX10Bright.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e(TAG, "buttonStatusPuzzleboxGimmickX10Bright()");
-                if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level < 10) {
-                    broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Bright");
-                    DevicePuzzleboxGimmickSingleton.getInstance().x10Level++;
-                }
+        buttonStatusPuzzleboxGimmickX10Bright.setOnClickListener(view -> {
+            Log.e(TAG, "buttonStatusPuzzleboxGimmickX10Bright()");
+            if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level < 10) {
+                broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Bright");
+                DevicePuzzleboxGimmickSingleton.getInstance().x10Level++;
             }
         });
 
         Button buttonDeviceCancel = v.findViewById(io.puzzlebox.jigsaw.R.id.buttonDeviceCancel);
-        buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        buttonDeviceCancel.setOnClickListener(view -> dismiss());
 
         Button buttonDeviceEnable = v.findViewById(io.puzzlebox.jigsaw.R.id.buttonDeviceEnable);
-        buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        buttonDeviceEnable.setOnClickListener(view -> dismiss());
 
         return v;
     }
@@ -118,7 +96,7 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
+            throw new RuntimeException(context
                     + " must implement OnFragmentInteractionListener");
         }
     }

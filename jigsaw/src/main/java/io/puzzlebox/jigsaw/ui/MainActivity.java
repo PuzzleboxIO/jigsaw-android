@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	private CharSequence mTitle;
-	private CharSequence mDrawerTitle;
 	NavigationDrawerAdapter adapter;
 
 	List<DrawerItem> dataList;
@@ -96,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements
 			Log.e(TAG, "Exception calculating screen dimensions for navigation WebView: " + e);
 		}
 
-		mTitle = mDrawerTitle = getTitle();
+		mTitle = getTitle();
 		mDrawerLayout = findViewById(R.id.drawer_layout);
 		mDrawerList = findViewById(R.id.navigation_drawer);
 
@@ -161,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements
 			}
 
 			public void onDrawerOpened(View drawerView) {
-				getSupportActionBar().setTitle(mDrawerTitle);
 				invalidateOptionsMenu(); // creates call to
 				// onPrepareOptionsMenu()
 			}
@@ -256,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements
 				try{
 					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.e(TAG, "Exception", e);
 				}
 				if (fragment == null)
 					fragment = new WelcomeFragment();
@@ -266,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements
 				try{
 					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.e(TAG, "Exception", e);
 				}
 				if (fragment == null)
 					fragment = new SessionFragment();
@@ -276,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements
 				try{
 					fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.e(TAG, "Exception", e);
 				}
 				if (fragment == null)
 					fragment = new EEGFragment();
@@ -286,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements
 				try{
                     fragment = getSupportFragmentManager().findFragmentByTag(backStackName);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.e(TAG, "Exception", e);
 				}
 				if (fragment == null)
 					fragment = new SupportFragment();

@@ -88,33 +88,33 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		ShapeDrawable progressBarAttentionDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarAttentionColor = "#FF0000";
 		progressBarAttentionDrawable.getPaint().setColor(Color.parseColor(progressBarAttentionColor));
-		ClipDrawable progressAttention = new ClipDrawable(progressBarAttentionDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressAttention = new ClipDrawable(progressBarAttentionDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarAttention.setProgressDrawable(progressAttention);
-		progressBarAttention.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarAttention.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarMeditation = v.findViewById(R.id.progressBarMeditation);
 		ShapeDrawable progressBarMeditationDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarMeditationColor = "#0000FF";
 		progressBarMeditationDrawable.getPaint().setColor(Color.parseColor(progressBarMeditationColor));
-		ClipDrawable progressMeditation = new ClipDrawable(progressBarMeditationDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressMeditation = new ClipDrawable(progressBarMeditationDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarMeditation.setProgressDrawable(progressMeditation);
-		progressBarMeditation.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarMeditation.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarSignal = v.findViewById(R.id.progressBarSignal);
 		ShapeDrawable progressBarSignalDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarSignalColor = "#00FF00";
 		progressBarSignalDrawable.getPaint().setColor(Color.parseColor(progressBarSignalColor));
-		ClipDrawable progressSignal = new ClipDrawable(progressBarSignalDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressSignal = new ClipDrawable(progressBarSignalDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarSignal.setProgressDrawable(progressSignal);
-		progressBarSignal.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarSignal.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarBlink = v.findViewById(R.id.progressBarBlink);
 		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
 		String progressBarBlinkColor = "#BBBBBB";
 		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarBlinkColor));
-		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.LEFT, ClipDrawable.HORIZONTAL);
+		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarBlink.setProgressDrawable(progressRange);
-		progressBarBlink.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarBlink.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
 
 		progressBarBlink.setMax(NeuroSkyEegState.blinkRangeMax);
 
@@ -154,29 +154,18 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		}
 
 		Button connectEEG = v.findViewById(R.id.buttonConnectEEG);
-		connectEEG.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				connectHeadset();
-			}
-		});
+		connectEEG.setOnClickListener(v -> connectHeadset());
 
 		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
-		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				broadcastTileStatus("false");
-				dismiss();
-			}
+		buttonDeviceCancel.setOnClickListener(v -> {
+			broadcastTileStatus("false");
+			dismiss();
 		});
 
 		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
-		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				broadcastTileStatus("true");
-				dismiss();
-			}
+		buttonDeviceEnable.setOnClickListener(v -> {
+			broadcastTileStatus("true");
+			dismiss();
 		});
 
 		if (NeuroSkyEegState.eegConnected ) {
@@ -201,7 +190,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new RuntimeException(context
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}
@@ -286,9 +275,9 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-			int eegAttention = Integer.valueOf(intent.getStringExtra("Attention"));
-			int eegMeditation = Integer.valueOf(intent.getStringExtra("Meditation"));
-			int eegSignal = Integer.valueOf(intent.getStringExtra("Signal Level"));
+			int eegAttention = Integer.parseInt(intent.getStringExtra("Attention"));
+			int eegMeditation = Integer.parseInt(intent.getStringExtra("Meditation"));
+			int eegSignal = Integer.parseInt(intent.getStringExtra("Signal Level"));
 
 			progressBarAttention.setProgress(eegAttention);
 			progressBarMeditation.setProgress(eegMeditation);
@@ -388,7 +377,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 					try {
 						progressBarBlink.setProgress(Integer.parseInt(value));
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						Log.e(TAG, "Exception", e);
 					}
 					break;
 			}

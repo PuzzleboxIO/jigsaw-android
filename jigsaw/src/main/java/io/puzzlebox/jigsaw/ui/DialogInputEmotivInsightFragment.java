@@ -80,31 +80,20 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_emotiv_insight));
 
 		buttonConnectEEG = v.findViewById(R.id.buttonConnectEEG);
-		buttonConnectEEG.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				connectHeadset();
-			}
-		});
+		buttonConnectEEG.setOnClickListener(v -> connectHeadset());
 
 
 		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
-		buttonDeviceCancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				disconnectHeadset();
-				broadcastTileStatus("false");
-				dismiss();
-			}
+		buttonDeviceCancel.setOnClickListener(v -> {
+			disconnectHeadset();
+			broadcastTileStatus("false");
+			dismiss();
 		});
 
 		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
-		buttonDeviceEnable.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				broadcastTileStatus("true");
-				dismiss();
-			}
+		buttonDeviceEnable.setOnClickListener(v -> {
+			broadcastTileStatus("true");
+			dismiss();
 		});
 
 		imageViewEmotivInsight = v.findViewById(R.id.imageViewEmotivInsight);
@@ -166,7 +155,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		if (context instanceof EmotivInsightFragmentListener) {
 			mListener = (EmotivInsightFragmentListener) context;
 		} else {
-			throw new RuntimeException(context.toString()
+			throw new RuntimeException(context
 					+ " must implement EmotivInsightFragmentListener");
 		}
 	}
@@ -374,15 +363,12 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		Drawable[] layers = new Drawable[7];
 		int drawableID;
 
-		layers[0] = new BitmapDrawable(decodeSampledBitmapFromResource(r, R.drawable.device_eeg_sensor_head, scale_x, scale_y));
+		layers[0] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, R.drawable.device_eeg_sensor_head, scale_x, scale_y));
 
 
 		Log.e(TAG, "layers[0].getDrawable().getIntrinsic*(): " + layers[0].getIntrinsicWidth() + ", " + layers[0].getIntrinsicHeight());
 
 		switch (AF3) {
-			case 0:
-				drawableID = R.drawable.device_eeg_sensor_af3_white;
-				break;
 			case 1:
 				drawableID = R.drawable.device_eeg_sensor_af3_red;
 				break;
@@ -397,15 +383,11 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				break;
 		}
 
-		layers[1] = new BitmapDrawable(decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
+		layers[1] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
 
 //		imageViewAF3.setImageResource(drawableID);  // TODO
 
 		switch (AF4) {
-			case 0:
-				drawableID = R.drawable.device_eeg_sensor_af4_white;
-//				imageViewAF4.setImageResource(R.drawable.device_eeg_sensor_white);
-				break;
 			case 1:
 				drawableID = R.drawable.device_eeg_sensor_af4_red;
 //				imageViewAF4.setImageResource(R.drawable.device_eeg_sensor_red);
@@ -424,14 +406,11 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				break;
 		}
 
-		layers[2] = new BitmapDrawable(decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
+		layers[2] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
 
 //		imageViewAF4.setImageResource(drawableID); // TODO
 
 		switch (T7) {
-			case 0:
-				drawableID = R.drawable.device_eeg_sensor_t7_white;
-				break;
 			case 1:
 				drawableID = R.drawable.device_eeg_sensor_t7_red;
 				break;
@@ -446,14 +425,11 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				break;
 		}
 
-		layers[3] = new BitmapDrawable(decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
+		layers[3] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
 
 //		imageViewT7.setImageResource(drawableID); // TODO
 
 		switch (T8) {
-			case 0:
-				drawableID = R.drawable.device_eeg_sensor_t8_white;
-				break;
 			case 1:
 				drawableID = R.drawable.device_eeg_sensor_t8_red;
 				break;
@@ -468,14 +444,11 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				break;
 		}
 
-		layers[4] = new BitmapDrawable(decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
+		layers[4] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
 
 //		imageViewT8.setImageResource(drawableID); // TODO
 
 		switch (Pz) {
-			case 0:
-				drawableID = R.drawable.device_eeg_sensor_pz_white;
-				break;
 			case 1:
 				drawableID = R.drawable.device_eeg_sensor_pz_red;
 				break;
@@ -490,14 +463,11 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				break;
 		}
 
-		layers[5] = new BitmapDrawable(decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
+		layers[5] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
 
 //		imageViewPz.setImageResource(drawableID); // TODO
 
 		switch (CMS) {
-			case 0:
-				drawableID = R.drawable.device_eeg_sensor_tp7_cms_white;
-				break;
 			case 1:
 				drawableID = R.drawable.device_eeg_sensor_tp7_cms_red;
 				break;
@@ -512,7 +482,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				break;
 		}
 
-		layers[6] = new BitmapDrawable(decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
+		layers[6] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
 
 //		imageViewCMS.setImageResource(drawableID); // TODO
 
@@ -526,12 +496,12 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-			int AF3 = Integer.valueOf(intent.getStringExtra("AF3"));
-			int AF4 = Integer.valueOf(intent.getStringExtra("AF4"));
-			int T7 = Integer.valueOf(intent.getStringExtra("T7"));
-			int T8 = Integer.valueOf(intent.getStringExtra("T8"));
-			int Pz = Integer.valueOf(intent.getStringExtra("Pz"));
-			int CMS = Integer.valueOf(intent.getStringExtra("CMS"));
+			int AF3 = Integer.parseInt(intent.getStringExtra("AF3"));
+			int AF4 = Integer.parseInt(intent.getStringExtra("AF4"));
+			int T7 = Integer.parseInt(intent.getStringExtra("T7"));
+			int T8 = Integer.parseInt(intent.getStringExtra("T8"));
+			int Pz = Integer.parseInt(intent.getStringExtra("Pz"));
+			int CMS = Integer.parseInt(intent.getStringExtra("CMS"));
 
 			// If any value has change update all ImageViews
 			if ((AF3 != currentAF3) ||

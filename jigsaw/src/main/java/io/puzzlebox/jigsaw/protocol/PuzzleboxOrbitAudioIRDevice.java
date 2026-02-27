@@ -1,15 +1,18 @@
 package io.puzzlebox.jigsaw.protocol;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class PuzzleboxOrbitAudioIRDevice extends AsyncTask<String, Void, String> {
 
+	private static final String TAG = PuzzleboxOrbitAudioIRDevice.class.getSimpleName();
+
 	//	int device_frame_cycle = 21; // 22ms frame cycle for Blade mCX2 (MLP4DSM RC)
 //	int device_frame_cycle = 500; // 0.5s frame cycle for Arduino
-	int device_frame_cycle = 70; // 70ms frame cycle for IR Dongle
+	final int device_frame_cycle = 70; // 70ms frame cycle for IR Dongle
 	boolean keep_running = true;
 
 //	byte[] commandNeutral = {0x00, 0x00, 0x00, (byte) 0xaa, 0x05, (byte) 0xff, 0x09, (byte) 0xff, 0x0d, (byte) 0xff, 0x13, 0x54, 0x14, (byte) 0xaa};
@@ -19,10 +22,10 @@ class PuzzleboxOrbitAudioIRDevice extends AsyncTask<String, Void, String> {
 	int[] commandThrottleMinimum = {1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0};
 	int[] commandThrottleMaximum = {1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0};
 
-	String commandNeutral = "x000";
-	String commandHover = "x085";
-	String commandIdle = "x030";
-	String commandMaximumThrust = "x100";
+	final String commandNeutral = "x000";
+	final String commandHover = "x085";
+	final String commandIdle = "x030";
+	final String commandMaximumThrust = "x100";
 
 	String command = "neutral";
 
@@ -33,9 +36,6 @@ class PuzzleboxOrbitAudioIRDevice extends AsyncTask<String, Void, String> {
 		while (keep_running) {
 
 			switch (command) {
-				case "neutral":
-					setting = commandNeutral;
-					break;
 				case "idle":
 					setting = commandIdle;
 					break;
@@ -53,8 +53,7 @@ class PuzzleboxOrbitAudioIRDevice extends AsyncTask<String, Void, String> {
 			try {
 				Thread.sleep(device_frame_cycle);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e(TAG, "Exception", e);
 			}
 		}
 		return response;

@@ -6,8 +6,11 @@ import android.media.AudioTrack;
 import android.os.Handler.Callback;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.util.Log;
 
 public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
+
+	private static final String TAG = PuzzleboxOrbitAudioIRHandler.class.getSimpleName();
 
 	public static final int CUSTOM_MESSAGE = 1;
 
@@ -20,16 +23,16 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	/**
 	 * Default values.
 	 */
-	AudioTrack track;
+	final AudioTrack track;
 	//	public int sampleRate = 44100;
 	public int sampleRate = 48000;
 
 	short[] audioData = new short[6144];
 	public boolean ifFlip = false;
 
-	int throttle=80;
-	int yaw=49;
-	int pitch=31;
+	final int throttle=80;
+	final int yaw=49;
+	final int pitch=31;
 	public int channel=1;
 //	int throttle=DevicePuzzleboxOrbitSingleton.getInstance().defaultControlThrottle;
 //	int yaw=DevicePuzzleboxOrbitSingleton.getInstance().defaultControlYaw;
@@ -104,8 +107,7 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 				try {
 					mutex.wait();
 				} catch (InterruptedException e) {
-					// Don't care
-					e.printStackTrace();
+					Log.e(TAG, "Exception", e);
 				}
 			}
 		}

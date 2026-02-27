@@ -8,26 +8,29 @@ import android.media.AudioTrack;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import io.puzzlebox.jigsaw.data.DevicePuzzleboxOrbitSingleton;
 
 public class PuzzleboxOrbitAudioIRService extends Service {
 
+	private static final String TAG = PuzzleboxOrbitAudioIRService.class.getSimpleName();
+
 	/**
 	 * default field values.
 	 */
 
-	AudioTrack track;
+	final AudioTrack track;
 	//	public int sampleRate = 44100;
 	public int sampleRate = 48000;
 
 	short[] audioData = new short[6144];
-	int throttle=80;
-	int yaw=78;
-	int pitch=31;
-	int channel=1;
-	Integer[] command={throttle,yaw,pitch,channel};
-	int loopNumberWhileMindControl=20;
+	final int throttle=80;
+	final int yaw=78;
+	final int pitch=31;
+	final int channel=1;
+	final Integer[] command={throttle,yaw,pitch,channel};
+	final int loopNumberWhileMindControl=20;
 
 	/**
 	 * Tone Generator
@@ -68,7 +71,7 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 		try{
 			new DoBackgroundTask().execute(command);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception", e);
 		}
 		return START_STICKY;
 	}
