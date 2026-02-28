@@ -13,8 +13,8 @@ android {
 //        minSdk 21 // 5.x - required for ScanResult.getDevice()
         minSdk 23 // 6.0 - required for AudioManager.getDevices()
         targetSdk 36
-        versionCode 6
-        versionName "2.4.0"
+        versionCode 7
+        versionName "2.5.0"
     }
 
     buildTypes {
