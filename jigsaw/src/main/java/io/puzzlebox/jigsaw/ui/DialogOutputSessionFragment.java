@@ -13,10 +13,14 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.graphics.Point;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -216,6 +220,19 @@ public class DialogOutputSessionFragment extends DialogFragment {
 	public void onResume() {
 
 		Log.v(TAG, "onResume()");
+
+		Window window = requireDialog().getWindow();
+
+		if (window == null) {
+			super.onResume();
+			return;
+		}
+
+		Point size = new Point();
+		Display display = window.getWindowManager().getDefaultDisplay();
+		display.getSize(size);
+		window.setLayout((int) (size.x * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
+		window.setGravity(Gravity.CENTER);
 
 		super.onResume();
 
