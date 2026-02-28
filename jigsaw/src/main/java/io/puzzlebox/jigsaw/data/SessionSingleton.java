@@ -351,7 +351,7 @@ public class SessionSingleton {
 	/**
 	 * Checks if the app has permission to write to device storage
 	 *
-	 * If the app does not has permission then the user will be prompted to grant permissions
+	 * If the app does not have permission then the user will be prompted to grant permissions
 	 * Android Jelly Bean (4.1) [API 16]
 	 *
 	 * @param activity

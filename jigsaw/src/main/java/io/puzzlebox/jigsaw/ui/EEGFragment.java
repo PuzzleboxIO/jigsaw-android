@@ -171,7 +171,7 @@ public class EEGFragment extends Fragment implements
 
 		progressBarBlink.setMax(NeuroSkyEegState.blinkRangeMax);
 
-		// setup the Raw EEG History plot
+		// Set up the Raw EEG History plot
 		eegRawHistoryPlot = v.findViewById(R.id.eegRawHistoryPlot);
 		eegRawHistorySeries = new SimpleXYSeries("");
 
@@ -503,11 +503,11 @@ public class EEGFragment extends Fragment implements
 
 	public void updatePowerThresholds() {
 
-		/**
+		/*
 		 * The "Power" level refers to the Puzzlebox Orbit helicopter's
-		 * throttle setting. Typically this is an "off" or "on" state,
+		 * throttle setting. Typically, this is an "off" or "on" state,
 		 * meaning the helicopter is either flying or not flying at all.
-		 * However this method could be used to increase the throttle
+		 * However, this method could be used to increase the throttle
 		 * or perhaps the forward motion of the helicopter to a level
 		 * proportionate to how far past their target brainwave levels
 		 * are set (via the progress bar sliders).
@@ -569,9 +569,9 @@ public class EEGFragment extends Fragment implements
 
 	public int calculateSpeed() {
 
-		/**
+		/*
 		 * This method is used for calculating whether
-		 * or not the "Attention" or "Meditation" levels
+		 * the "Attention" or "Meditation" levels
 		 * are sufficient to trigger the helicopter throttle
 		 */
 

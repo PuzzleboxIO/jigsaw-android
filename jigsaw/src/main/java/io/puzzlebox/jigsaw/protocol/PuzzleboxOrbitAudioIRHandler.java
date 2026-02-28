@@ -183,7 +183,7 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 		code += 1 << 20 ;
 		code += yaw << 12;
 		code += pitch << 4 ;
-		//  weird, if use int code= throttle << 21 + 1<<20 + yaw <<12 +pitch<<4; it won't work.
+		//  Weird, if using int code= throttle << 21 + 1<<20 + yaw <<12 +pitch<<4; it won't work.
 		code += ((channel >>> 1) & 1) << 19;
 		code += (channel & 1) << 11;
 

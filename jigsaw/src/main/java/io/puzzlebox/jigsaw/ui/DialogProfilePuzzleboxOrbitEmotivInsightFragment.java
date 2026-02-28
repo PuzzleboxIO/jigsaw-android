@@ -555,9 +555,9 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 	public void updatePowerThresholds() {
 		/*
 		 * The "Power" level refers to the Puzzlebox Orbit helicopter's
-		 * throttle setting. Typically this is an "off" or "on" state,
+		 * throttle setting. Typically, this is an "off" or "on" state,
 		 * meaning the helicopter is either flying or not flying at all.
-		 * However this method could be used to increase the throttle
+		 * However, this method could be used to increase the throttle
 		 * or perhaps the forward motion of the helicopter to a level
 		 * proportionate to how far past their target brainwave levels
 		 * are set (via the progress bar sliders).
@@ -627,7 +627,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 	public int calculateSpeed() {
 		/*
 		 * This method is used for calculating whether
-		 * or not the "Attention" or "Meditation" levels
+		 * the "Attention" or "Meditation" levels
 		 * are sufficient to trigger the helicopter throttle
 		 */
 		int mentalCommandPower = progressBarActivityMentalCommand.getProgress();
@@ -650,14 +650,14 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		/*
 		 * Score points based on target slider levels
 		 * If you pass your goal with either Attention or Meditation
-		 * the higher target of the two will counts as points per second.
+		 * the higher target of the two will count as points per second.
 		 *
 		 * Minimum threshold for points is set as "minimumScoreTarget"
 		 *
 		 * For example, assume minimumScoreTarget is 40%.
-		 * If your target Attention is 60% and you go past to reach 80%
+		 * If your target Attention is 60%, and you go past to reach 80%
 		 * you will receive 20 points per second (60-40). If your
-		 * target is 80% and you reach 80% you will receive 40
+		 * target is 80%, and you reach 80% you will receive 40
 		 * points per second (80-40).
 		 *
 		 * You can set both Attention and Meditation targets at the
@@ -776,7 +776,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		DevicePuzzleboxOrbitSingleton.getInstance().demoActive = false;
 
 		// Setting eegPower to zero will cause the Orbit to land if flying
-		// However if the user's data is actively being received
+		// However, if the user's data is actively being received
 		// the Orbit may take off again approximately one second later
 		eegPower = 0;
 
