@@ -167,24 +167,19 @@ public class JoystickView extends View
 	public JoystickView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
-				attrs,
-				R.styleable.JoystickView,
-				0, 0
-		);
-
 		int buttonColor;
 		int borderColor;
 		int backgroundColor;
 		int borderWidth;
-		try {
+		try (TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
+				attrs,
+				R.styleable.JoystickView,
+				0, 0)) {
 			buttonColor = styledAttributes.getColor(R.styleable.JoystickView_JV_buttonColor, DEFAULT_COLOR);
 			borderColor = styledAttributes.getColor(R.styleable.JoystickView_JV_borderColor, DEFAULT_COLOR);
 			backgroundColor = styledAttributes.getColor(R.styleable.JoystickView_JV_backgroundColor, DEFAULT_BACKGROUND_COLOR);
 			borderWidth = styledAttributes.getDimensionPixelSize(R.styleable.JoystickView_JV_borderWidth, DEFAULT_WIDTH_BORDER);
 			mFixedCenter = styledAttributes.getBoolean(R.styleable.JoystickView_JV_fixedCenter, DEFAULT_FIXED_CENTER);
-		} finally {
-			styledAttributes.recycle();
 		}
 
 		// Initialize the drawing according to attributes
@@ -250,8 +245,8 @@ public class JoystickView extends View
 
 		// radius based on smallest size : height OR width
 		int d = Math.min(w, h);
-		mButtonRadius = (int) (d / 2 * RATIO_SIZE_BUTTON);
-		mBorderRadius = (int) (d / 2 * RATIO_SIZE_BORDER);
+		mButtonRadius = (int) (d / 2.0 * RATIO_SIZE_BUTTON);
+		mBorderRadius = (int) (d / 2.0 * RATIO_SIZE_BORDER);
 	}
 
 	@Override
@@ -323,7 +318,7 @@ public class JoystickView extends View
 			case MotionEvent.ACTION_POINTER_DOWN: {
 				// when the second finger touch
 				if (event.getPointerCount() == 2) {
-					mHandlerMultipleLongPress.postDelayed(mRunnableMultipleLongPress, ViewConfiguration.getLongPressTimeout()*2);
+					mHandlerMultipleLongPress.postDelayed(mRunnableMultipleLongPress, ViewConfiguration.getLongPressTimeout() * 2L);
 					mMoveTolerance = MOVE_TOLERANCE;
 				}
 				break;
@@ -356,6 +351,12 @@ public class JoystickView extends View
 		// to force a new draw
 		invalidate();
 
+		return true;
+	}
+
+	@Override
+	public boolean performClick() {
+		super.performClick();
 		return true;
 	}
 

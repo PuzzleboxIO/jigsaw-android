@@ -2,8 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="io.puzzlebox.jigsaw.ui.WelcomeFragment"
-             android:background="@color/White">
+             tools:context="io.puzzlebox.jigsaw.ui.WelcomeFragment">
 
     <!--<TextView-->
         <!--android:layout_width="match_parent"-->
@@ -20,6 +19,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
             android:src="@drawable/logo_puzzlebox"
+            android:contentDescription="@string/app_name"
             android:layout_gravity="center"/>
 
         <TextView

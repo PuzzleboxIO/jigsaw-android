@@ -6,7 +6,6 @@
 
 package io.puzzlebox.jigsaw.ui;
 
-import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -196,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements
 				builder.setPositiveButton(android.R.string.ok, null);
 				builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
 					@Override
-					@TargetApi(Build.VERSION_CODES.M)
 					public void onDismiss(DialogInterface dialog) {
 						requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
 								PERMISSION_REQUEST_COARSE_LOCATION);

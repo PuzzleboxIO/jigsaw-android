@@ -71,7 +71,7 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	 * waveBit is an array of two wave, each an array of numbers
 	 * waveBit[0] is the first wave, waveBit[1] is the second wave
 	 */
-	private final float[] waveBit[]= {concatFloat(waveShortHIGH,waveShortLOW),concatFloat(waveLongHIGH,waveLongLOW)};
+	private final float[][] waveBit = {concatFloat(waveShortHIGH,waveShortLOW),concatFloat(waveLongHIGH,waveLongLOW)};
 
 	public PuzzleboxOrbitAudioIRHandler() {
 		int minSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT);
@@ -132,12 +132,9 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	}
 
 	public boolean handleMessage(Message msg) {
-		switch (msg.what) {
-			case CUSTOM_MESSAGE:
-				break;
-			default:
-				// Return false - as we have not handled the message
-				return false;
+		if (msg.what != CUSTOM_MESSAGE) {
+			// Return false - as we have not handled the message
+			return false;
 		}
 		// Return true - as we have handled the message
 		return true;
@@ -166,10 +163,8 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 		// Send the initialization sequence to the IR transmitter
 		send(initialWave());
 
-		// Loop infinite for easier user testing
-		while (true) {
-			if (! keepPlaying)
-				break;
+		// Loop until stopped
+		while (keepPlaying) {
 			send(controlSignalWave);
 		}
 		track.stop();
@@ -336,7 +331,7 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	 */
 	public float[] halfSineGen(char dir,double halfPeriod) {
 		int halfPeriodInSamples = (int) Math.floor(halfPeriod * sampleRate);
-		float halfSine[] = new float[halfPeriodInSamples];
+		float[] halfSine = new float[halfPeriodInSamples];
 		double increment = Math.PI/(halfPeriod*sampleRate);
 		double angle = 0;
 

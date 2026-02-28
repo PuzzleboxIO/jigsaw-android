@@ -1,7 +1,6 @@
 package io.puzzlebox.jigsaw.data;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -98,10 +97,9 @@ public class SessionSingleton {
 	 *
 	 * @return yyyy-MM-dd HH:mm:ss formate date as string
 	 */
-	public Date updateTimestamp() {
+	public void updateTimestamp() {
 		// Make a new Date object. It will be initialized to the current time.
 		currentTimestamp = new Date();
-		return currentTimestamp;
 	}
 
 	public String getCurrentDate(){
@@ -244,22 +242,22 @@ public class SessionSingleton {
 
 	public String getExportDataCSV() {
 
-		String output = "";
+		StringBuilder output = new StringBuilder();
 		String current;
 
 		List<String[]> dataCSV = getExportData();
 
 		if (dataCSV == null)
-			return output;
+			return output.toString();
 
 		for (String[] line: dataCSV) {
 
 			current = Arrays.toString(line);
 			current = current.replaceAll("\\[", "");
 			current = current.replaceAll("]", "");
-			output = output + current + "\n";
+			output.append(current).append("\n");
 		}
-		return output;
+		return output.toString();
 	}
 
 	public void exportDataToCSV(String filepath, String filename) {
@@ -340,26 +338,13 @@ public class SessionSingleton {
 	}
 
 	public static class GenerateCsv {
-		public static FileWriter generateCsvFile(File sFileName,String fileContent) {
-			FileWriter writer = null;
-
-			try {
-				writer = new FileWriter(sFileName);
+		public static void generateCsvFile(File sFileName, String fileContent) {
+			try (FileWriter writer = new FileWriter(sFileName)) {
 				writer.append(fileContent);
 				writer.flush();
-
 			} catch (IOException e) {
 				Log.e(TAG, "Exception", e);
-			} finally {
-				try {
-					if (writer != null) {
-						writer.close();
-					}
-				} catch (IOException e) {
-					Log.e(TAG, "IOException: " + e);
-				}
 			}
-			return writer;
 		}
 	}
 
@@ -383,7 +368,6 @@ public class SessionSingleton {
 			builder.setPositiveButton(android.R.string.ok,null);
 			builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
 				@Override
-				@TargetApi(Build.VERSION_CODES.M)
 				public void onDismiss(DialogInterface dialog) {
 					ActivityCompat.requestPermissions(
 							activity,

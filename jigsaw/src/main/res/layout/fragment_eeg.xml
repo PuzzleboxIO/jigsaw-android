@@ -18,6 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
             android:text="@string/label_attention" />
 
         <ProgressBar
@@ -45,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
             android:text="@string/label_meditation" />
 
         <ProgressBar
@@ -72,6 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
             android:text="@string/label_power" />
 
         <ProgressBar
@@ -90,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
             android:text="@string/label_signal" />
 
         <ProgressBar
@@ -108,6 +112,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
             android:text="@string/label_blink" />
 
         <ProgressBar
@@ -133,14 +138,13 @@
                 style="@style/button_text"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
                 android:background="@drawable/shape_rounded_corners_grey"
                 android:text="@string/buttonConnectEEG"
                 android:layout_gravity="center"
                 android:gravity="center"/>
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinnerEEG"
                 android:entries="@array/eeg_hardware"
@@ -156,7 +160,6 @@
         <!--style="@style/button_text"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="30dp"-->
-        <!--android:layout_centerHorizontal="true"-->
         <!--android:background="@drawable/shape_rounded_corners_grey"-->
         <!--android:text="@string/buttonSaveSession"-->
         <!--android:layout_gravity="center"-->
@@ -167,7 +170,6 @@
         <!--style="@style/button_text"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="30dp"-->
-        <!--android:layout_centerHorizontal="true"-->
         <!--android:background="@drawable/shape_rounded_corners_grey"-->
         <!--android:text="@string/buttonExportCSV"-->
         <!--android:layout_gravity="center"-->
@@ -178,7 +180,6 @@
         <!--style="@style/button_text"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="30dp"-->
-        <!--android:layout_centerHorizontal="true"-->
         <!--android:background="@drawable/shape_rounded_corners_grey"-->
         <!--android:text="@string/buttonResetSession"-->
         <!--android:layout_gravity="center"-->
@@ -197,7 +198,6 @@
                 style="@style/button_text"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
                 android:background="@drawable/shape_rounded_corners_grey"
                 android:text="@string/buttonResetSession"
                 android:layout_gravity="center"
@@ -221,7 +221,8 @@
             android:layout_marginRight="0dp"
             android:layout_marginTop="0dp"
             android:layout_weight="1"
-            title="EEG Raw Wave" />
+            title="EEG Raw Wave"
+            tools:ignore="AndroidUnknownAttribute" />
 
 
     </LinearLayout>

@@ -38,7 +38,7 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View v = inflater.inflate(R.layout.dialog_input_emotiv_insight_select_eeg, null);
+		View v = inflater.inflate(R.layout.dialog_input_emotiv_insight_select_eeg, container, false);
 
 		// External fonts
 //		String fontPath = "fonts/HelveticaNeueforTarget-Rm.otf";

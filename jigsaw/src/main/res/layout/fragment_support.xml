@@ -67,6 +67,7 @@
                     android:id="@+id/textViewLabelName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:labelFor="@id/editTextName"
                     android:text="@string/label_support_name" />
 
                 <EditText
@@ -75,6 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
+                    android:autofillHints="name"
                     android:inputType="textPersonName" >
 
                     <requestFocus />
@@ -93,6 +95,7 @@
                     android:id="@+id/textViewLabelEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:labelFor="@id/editTextEmail"
                     android:text="@string/label_support_email" />
 
                 <EditText
@@ -101,6 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
+                    android:autofillHints="emailAddress"
                     android:inputType="textEmailAddress" />
             </LinearLayout>
 
@@ -112,6 +116,7 @@
                 android:paddingEnd="@dimen/padding_medium"
                 android:paddingLeft="@dimen/padding_medium"
                 android:paddingRight="@dimen/padding_medium"
+                android:labelFor="@id/editTextMessage"
                 android:text="@string/label_support_message" />
 
             <EditText
@@ -119,6 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:autofillHints="off"
                 android:inputType="textMultiLine"
                 android:paddingStart="@dimen/padding_large"
                 android:paddingEnd="@dimen/padding_large"

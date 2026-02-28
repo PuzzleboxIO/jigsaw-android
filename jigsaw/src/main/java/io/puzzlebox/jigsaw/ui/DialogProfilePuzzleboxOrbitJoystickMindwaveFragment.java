@@ -12,6 +12,7 @@ import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
@@ -26,7 +27,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
-import android.widget.Switch;
+import androidx.appcompat.widget.SwitchCompat;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +59,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 	ProgressBar progressBarSignal;
 	ProgressBar progressBarPower;
 
-	public Switch switchThrottlePitch;
+	public SwitchCompat switchThrottlePitch;
 
 	public SeekBar seekBarThrottle;
 	public SeekBar seekBarYaw;
@@ -74,10 +75,10 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 	 * Configuration
 	 */
 	public int eegPower = 0;
-	int[] thresholdValuesAttention = new int[101];
-	int[] thresholdValuesMeditation = new int[101];
-	int minimumPower = 0; // minimum power for the Orbit
-	int maximumPower = 100; // maximum power for the Orbit
+	final int[] thresholdValuesAttention = new int[101];
+	final int[] thresholdValuesMeditation = new int[101];
+	final int minimumPower = 0; // minimum power for the Orbit
+	final int maximumPower = 100; // maximum power for the Orbit
 
 	private OnFragmentInteractionListener mListener;
 
@@ -100,7 +101,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		progressBarAttentionDrawable.getPaint().setColor(Color.parseColor(progressBarAttentionColor));
 		ClipDrawable progressAttention = new ClipDrawable(progressBarAttentionDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarAttention.setProgressDrawable(progressAttention);
-		progressBarAttention.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarAttention.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarMeditation = v.findViewById(R.id.progressBarMeditation);
 		ShapeDrawable progressBarMeditationDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
@@ -108,7 +109,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		progressBarMeditationDrawable.getPaint().setColor(Color.parseColor(progressBarMeditationColor));
 		ClipDrawable progressMeditation = new ClipDrawable(progressBarMeditationDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarMeditation.setProgressDrawable(progressMeditation);
-		progressBarMeditation.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarMeditation.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarSignal = v.findViewById(R.id.progressBarSignal);
 		ShapeDrawable progressBarSignalDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
@@ -116,7 +117,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		progressBarSignalDrawable.getPaint().setColor(Color.parseColor(progressBarSignalColor));
 		ClipDrawable progressSignal = new ClipDrawable(progressBarSignalDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarSignal.setProgressDrawable(progressSignal);
-		progressBarSignal.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarSignal.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarPower = v.findViewById(R.id.progressBarPower);
 		ShapeDrawable progressBarPowerDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
@@ -124,7 +125,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		progressBarPowerDrawable.getPaint().setColor(Color.parseColor(progressBarPowerColor));
 		ClipDrawable progressPower = new ClipDrawable(progressBarPowerDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarPower.setProgressDrawable(progressPower);
-		progressBarPower.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarPower.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		seekBarAttention = v.findViewById(R.id.seekBarAttention);
 		seekBarAttention.setOnSeekBarChangeListener(this);

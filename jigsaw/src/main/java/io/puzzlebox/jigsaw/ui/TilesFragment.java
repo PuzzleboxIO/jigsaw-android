@@ -25,13 +25,6 @@ public class TilesFragment extends Fragment {
 	 */
 	private static final float INITIAL_ITEMS_COUNT = 2.5F;
 
-	/**
-	 * Input carousel container layout
-	 */
-	private LinearLayout mInputCarouselContainer;
-	private LinearLayout mOutputCarouselContainer;
-	private LinearLayout mProfileCarouselContainer;
-
 	private OnFragmentInteractionListener mListener;
 
 	public static TilesFragment newInstance() {
@@ -57,22 +50,22 @@ public class TilesFragment extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_tiles, container, false);
 
 		// Get reference to carousel container
-		mInputCarouselContainer = v.findViewById(R.id.carousel_devices_input);
-		mOutputCarouselContainer = v.findViewById(R.id.carousel_devices_output);
-		mProfileCarouselContainer = v.findViewById(R.id.carousel_devices_profile);
+		LinearLayout mInputCarouselContainer = v.findViewById(R.id.carousel_devices_input);
+		LinearLayout mOutputCarouselContainer = v.findViewById(R.id.carousel_devices_output);
+		LinearLayout mProfileCarouselContainer = v.findViewById(R.id.carousel_devices_profile);
 
 
 		// Compute the width of a carousel item based on the screen width and number of initial items.
 		final DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-		final int imageWidth = (int) (displayMetrics.widthPixels / INITIAL_ITEMS_COUNT);
-
-		// Get the array of input devices resources
-		final TypedArray devicesInputResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_input_icon_array);
-		final TypedArray devicesOutputResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_output_icon_array);
-		final TypedArray devicesProfileResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_profile_array);
+		final int imageSize = (int) (displayMetrics.widthPixels / INITIAL_ITEMS_COUNT);
 
 		ImageView imageItem;
+
+		// Get the array of input devices resources
+		try (TypedArray devicesInputResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_input_icon_array);
+				TypedArray devicesOutputResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_output_icon_array);
+				TypedArray devicesProfileResourcesTypedArray = getResources().obtainTypedArray(R.array.devices_profile_array)) {
 
 		// Populate the input devices carousel with items
 		for (int i = 0 ; i < devicesInputResourcesTypedArray.length() ; ++i) {
@@ -89,7 +82,7 @@ public class TilesFragment extends Fragment {
 			imageItem.setImageResource(devicesInputResourcesTypedArray.getResourceId(i, -1));
 
 			// Set the size of the image view to the previously computed value
-			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageWidth));
+			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize));
 
 			imageItem.setOnClickListener(view -> showDialog("input", index));
 
@@ -99,14 +92,13 @@ public class TilesFragment extends Fragment {
 			/// Add image view to the carousel container
 			mInputCarouselContainer.addView(tileViewAnimator);
 		}
-		devicesInputResourcesTypedArray.recycle();
 
 		// Populate the output devices carousel with items
 		for (int i = 0 ; i < devicesOutputResourcesTypedArray.length() ; ++i) {
 			imageItem = new ImageView(getActivity());
 			imageItem.setBackgroundResource(R.drawable.shadow);
 			imageItem.setImageResource(devicesOutputResourcesTypedArray.getResourceId(i, -1));
-			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageWidth));
+			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize));
 
 			final int index = i;
 			imageItem.setOnClickListener(view -> showDialog("output", index));
@@ -116,14 +108,13 @@ public class TilesFragment extends Fragment {
 
 			mOutputCarouselContainer.addView(tileViewAnimator);
 		}
-		devicesOutputResourcesTypedArray.recycle();
 
 		// Populate the device profile carousel with items
 		for (int i = 0 ; i < devicesProfileResourcesTypedArray.length() ; ++i) {
 			imageItem = new ImageView(getActivity());
 			imageItem.setBackgroundResource(R.drawable.shadow);
 			imageItem.setImageResource(devicesProfileResourcesTypedArray.getResourceId(i, -1));
-			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageWidth, imageWidth));
+			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize));
 
 			final int index = i;
 			imageItem.setOnClickListener(view -> showDialog("profile", index));
@@ -132,7 +123,7 @@ public class TilesFragment extends Fragment {
 			tileViewAnimator.addView(imageItem);
 			mProfileCarouselContainer.addView(tileViewAnimator);
 		}
-		devicesProfileResourcesTypedArray.recycle();
+		}
 		return v;
 	}
 

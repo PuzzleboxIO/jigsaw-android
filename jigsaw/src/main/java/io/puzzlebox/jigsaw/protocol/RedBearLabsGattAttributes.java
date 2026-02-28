@@ -23,7 +23,7 @@ import java.util.HashMap;
  * demonstration purposes.
  */
 public class RedBearLabsGattAttributes {
-	private static final HashMap<String, String> attributes = new HashMap<String, String>();
+	private static final HashMap<String, String> attributes = new HashMap<>();
 	public static final String CLIENT_CHARACTERISTIC_CONFIG = "00002902-0000-1000-8000-00805f9b34fb";
 	public static final String BLE_SHIELD_TX = "713d0003-503e-4c75-ba94-3148f18d941e";
 	public static final String BLE_SHIELD_RX = "713d0002-503e-4c75-ba94-3148f18d941e";

@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Switch;
+import androidx.appcompat.widget.SwitchCompat;
 import android.widget.Toast;
 
 import io.puzzlebox.jigsaw.R;
@@ -26,9 +26,9 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 	public final static String profileID = "puzzlebox_orbit_ir";
 
 	// UI
-	public Switch switchDetectTransmitter;
-	public Switch switchDetectVolume;
-	public Switch switchInvertControlSignal;
+	public SwitchCompat switchDetectTransmitter;
+	public SwitchCompat switchDetectVolume;
+	public SwitchCompat switchInvertControlSignal;
 	Button buttonDeviceEnable;
 	Button buttonTestAudioIR;
 
@@ -37,8 +37,6 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 
 	public boolean warningDetectTransmitterDisplayed = false;
 	public boolean warningDetectVolumeDisplayed = false;
-
-	private OnFragmentInteractionListener mListener;
 
 	public DialogOutputAudioIRFragment() {
 		// Required empty public constructor
@@ -53,18 +51,18 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		getDialog().getWindow().setTitle( getString(io.puzzlebox.jigsaw.R.string.title_dialog_fragment_audio_ir));
 
 		switchDetectTransmitter = v.findViewById(R.id.switchDetectTransmitter);
-		switchDetectTransmitter.setOnClickListener(view -> switchDetectTransmitterClicked(view));
+		switchDetectTransmitter.setOnClickListener(this::switchDetectTransmitterClicked);
 
 		switchDetectVolume = v.findViewById(R.id.switchDetectVolume);
-		switchDetectVolume.setOnClickListener(view -> switchDetectVolumeClicked(view));
+		switchDetectVolume.setOnClickListener(this::switchDetectVolumeClicked);
 
 		switchInvertControlSignal = v.findViewById(R.id.switchInvertControlSignal);
-		switchInvertControlSignal.setOnClickListener(view -> switchInvertControlSignalClicked(view));
+		switchInvertControlSignal.setOnClickListener(this::switchInvertControlSignalClicked);
 
 		buttonTestAudioIR = v.findViewById(R.id.buttonTestAudioIR);
 		buttonTestAudioIR.setVisibility(View.VISIBLE);
 		buttonTestAudioIR.setEnabled(true);
-		buttonTestAudioIR.setOnClickListener(view -> demoMode(view));
+		buttonTestAudioIR.setOnClickListener(this::demoMode);
 
 		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
 		buttonDeviceCancel.setOnClickListener(view -> {
@@ -183,7 +181,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		mListener = null;
+		OnFragmentInteractionListener mListener = null;
 	}
 
 	public interface OnFragmentInteractionListener {
@@ -278,7 +276,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 	}
 
 	private boolean isWiredHeadsetConnected() {
-		AudioDeviceInfo[] devices = audioManager.getDevices(AudioManager.GET_DEVICES_ALL);
+		AudioDeviceInfo[] devices = audioManager.getDevices(AudioManager.GET_DEVICES_INPUTS | AudioManager.GET_DEVICES_OUTPUTS);
 		for (AudioDeviceInfo device : devices) {
 			int type = device.getType();
 			if (type == AudioDeviceInfo.TYPE_WIRED_HEADSET ||

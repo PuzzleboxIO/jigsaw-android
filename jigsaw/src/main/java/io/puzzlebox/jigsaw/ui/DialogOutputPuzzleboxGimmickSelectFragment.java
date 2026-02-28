@@ -54,7 +54,7 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.dialog_output_puzzlebox_gimmick_select, null);
+        View v = inflater.inflate(R.layout.dialog_output_puzzlebox_gimmick_select, container, false);
 
         Button buttonRefresh = v.findViewById(R.id.buttonRefresh);
         buttonRefresh.setOnClickListener(view -> {

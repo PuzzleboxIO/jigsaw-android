@@ -25,7 +25,7 @@
                 <!--android:layout_height="wrap_content"-->
                 <!--android:layout_gravity="center"-->
                 <!--android:text="@string/title_dialog_fragment_session"-->
-                <!--android:textSize="18dp"-->
+                <!--android:textSize="18sp"-->
                 <!--android:textStyle="bold"/>-->
             <!--&lt;!&ndash;style="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle"&ndash;&gt;-->
 
@@ -35,11 +35,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:minWidth="256dp"
+                android:inputType="text"
+                android:hint="@string/session_profile"
+                android:autofillHints="username"
                 android:text="@string/session_profile"/>
 
             <Space
-                android:layout_width="20px"
-                android:layout_height="20px"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 />
 
             <TextView
@@ -48,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/label_session_time"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -76,7 +79,6 @@
                     android:id="@+id/buttonResetSession"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:background="@drawable/shape_rounded_corners_grey"
                     android:gravity="center"
@@ -91,7 +93,6 @@
                     android:id="@+id/buttonShareSession"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:background="@drawable/shape_rounded_corners_grey"
                     android:gravity="center"
@@ -100,7 +101,7 @@
             </LinearLayout>
 
             <!--<Space-->
-            <!--android:layout_width="20px"-->
+            <!--android:layout_width="20dp"-->
             <!--android:layout_height="32dp"-->
             <!--/>-->
             <Space
@@ -115,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/label_session_history"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold"/>
 
 
@@ -214,7 +215,7 @@
                     android:id="@+id/sessionPlot1"
                     title="Session Plot"
                     android:layout_width="match_parent"
-                    android:layout_height="120dip"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="0dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
@@ -223,7 +224,8 @@
                     android:paddingBottom="0dp"
                     android:paddingLeft="0dp"
                     android:paddingRight="0dp"
-                    android:paddingTop="0dp"/>
+                    android:paddingTop="0dp"
+                    tools:ignore="AndroidUnknownAttribute"/>
 
                 <!--<TextView-->
                     <!--android:id="@+id/textViewSessionPlot1"-->
@@ -325,7 +327,7 @@
                     android:id="@+id/sessionPlot2"
                     title="Session Plot"
                     android:layout_width="match_parent"
-                    android:layout_height="120dip"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="0dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
@@ -334,7 +336,8 @@
                     android:paddingBottom="0dp"
                     android:paddingLeft="0dp"
                     android:paddingRight="0dp"
-                    android:paddingTop="0dp"/>
+                    android:paddingTop="0dp"
+                    tools:ignore="AndroidUnknownAttribute"/>
 
 
                 <!--<TextView-->
@@ -381,6 +384,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
             android:background="@drawable/shape_rounded_corners_grey"
             android:text="@string/buttonDeviceBack"/>
         <!--android:text="@string/buttonDeviceCancel"/>-->
@@ -399,6 +403,7 @@
             android:enabled="false"
             android:visibility="invisible"
             android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
             android:text="@string/buttonDeviceEnable"
             />
         <!--android:enabled="false"-->

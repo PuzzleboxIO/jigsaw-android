@@ -299,7 +299,6 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 	 * BluetoothGattCharacteristic.setValue() and the single-arg gatt.writeCharacteristic()
 	 * are deprecated in API 33. The new three-argument form is used on API 33+.
 	 */
-	@SuppressWarnings("deprecation")
 	private void writeCharacteristicCompat(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] value) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 			gatt.writeCharacteristic(characteristic, value, BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
@@ -408,7 +407,6 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 		// Legacy callback for API < 33 — delegates to new signature
 		@Override
-		@SuppressWarnings("deprecation")
 		public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
 			onCharacteristicRead(gatt, characteristic,
 					characteristic.getValue() != null ? characteristic.getValue() : new byte[0], status);
@@ -423,7 +421,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 					Log.d(TAG, "descriptor.getUuid(): " + descriptor.getUuid());
 
 					if ((descriptor.getUuid() != null) &&
-							(value != null && value.length > 0) &&
+							(value.length > 0) &&
 							(descriptor.getUuid().toString().equals(DevicePuzzleboxGimmickSingleton.getInstance().getHashCharacteristicUuid()))) {
 						String text = new String(value, StandardCharsets.UTF_8);
 						Log.d(TAG, "descriptor value UTF-8: " + text);
@@ -441,7 +439,6 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 		// Legacy descriptor read callback for API < 33
 		@Override
-		@SuppressWarnings("deprecation")
 		public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
 			onDescriptorRead(gatt, descriptor, status,
 					descriptor.getValue() != null ? descriptor.getValue() : new byte[0]);
@@ -490,7 +487,6 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 		// Legacy characteristic changed callback for API < 33
 		@Override
-		@SuppressWarnings("deprecation")
 		public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
 			onCharacteristicChanged(gatt, characteristic,
 					characteristic.getValue() != null ? characteristic.getValue() : new byte[0]);

@@ -30,7 +30,6 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -91,7 +90,7 @@ public class RedBearLabsService extends Service {
 			} else {
 				Log.w(TAG, "onReadRemoteRssi received: " + status);
 			}
-		};
+		}
 
 		@Override
 		public void onServicesDiscovered(BluetoothGatt gatt, int status) {
@@ -212,16 +211,11 @@ public class RedBearLabsService extends Service {
 		}
 
 		// Previously connected device. Try to reconnect.
-		if (mBluetoothDeviceAddress != null
-				&& address.equals(mBluetoothDeviceAddress)
+		if (address.equals(mBluetoothDeviceAddress)
 				&& mBluetoothGatt != null) {
 			Log.d(TAG,
 					"Trying to use an existing mBluetoothGatt for connection.");
-			if (mBluetoothGatt.connect()) {
-				return true;
-			} else {
-				return false;
-			}
+			return mBluetoothGatt.connect();
 		}
 
 		final BluetoothDevice device = mBluetoothAdapter

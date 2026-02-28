@@ -44,7 +44,9 @@
                 android:ems="2"
                 android:gravity="center"
                 android:inputType="textCapCharacters"
-                android:text="C5" />
+                android:hint="@string/x10_channel_default"
+                android:autofillHints="off"
+                android:text="@string/x10_channel_default" />
 
             <LinearLayout
                 android:id="@+id/layoutX10Power"
@@ -125,7 +127,8 @@
                     android:background="@drawable/shape_rounded_corners_grey"
                     android:maxLines="1"
                     android:text="@string/buttonStatusPuzzleboxGimmickX10Bright"
-                    android:paddingStart="@dimen/padding_medium"/>
+                    android:paddingStart="@dimen/padding_medium"
+                    android:paddingEnd="@dimen/padding_medium"/>
 
 
 

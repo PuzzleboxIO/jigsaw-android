@@ -27,7 +27,6 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 	private static final String ARG_INSIGHT_ID = "paramInsightId";
 	private static final String ARG_NAME = "paramName";
 
-	private int mParamParentId;
 	private int mParamInsightId;
 	private String mParamName;
 
@@ -55,7 +54,7 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
-			mParamParentId = getArguments().getInt(ARG_PARENT_ID);
+			int mParamParentId = getArguments().getInt(ARG_PARENT_ID);
 			mParamInsightId = getArguments().getInt(ARG_INSIGHT_ID);
 			mParamName = getArguments().getString(ARG_NAME);
 		}

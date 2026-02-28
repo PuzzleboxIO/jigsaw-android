@@ -234,7 +234,7 @@
                     android:gravity="start"
                     android:orientation="vertical">
 
-                    <Switch
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchThrottlePitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -354,7 +354,7 @@
 
                             <TextView
                                 android:id="@+id/textViewScore"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:paddingLeft="@dimen/padding_medium"
@@ -385,7 +385,7 @@
 
                             <TextView
                                 android:id="@+id/textViewLastScore"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:paddingLeft="@dimen/padding_medium"
@@ -416,7 +416,7 @@
 
                             <TextView
                                 android:id="@+id/textViewHighScore"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:paddingLeft="@dimen/padding_medium"

@@ -41,7 +41,6 @@
                     android:id="@+id/textViewX"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/padding_medium"
                     android:paddingStart="@dimen/padding_medium"
                     android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_android_wear_x" />
@@ -57,7 +56,6 @@
                     android:id="@+id/textViewY"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/padding_medium"
                     android:paddingStart="@dimen/padding_medium"
                     android:paddingEnd="@dimen/padding_medium"
                     android:text="@string/label_android_wear_y" />
@@ -109,7 +107,6 @@
             android:id="@+id/buttonDeviceCancel"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:paddingLeft="@dimen/padding_medium"
             android:paddingStart="@dimen/padding_medium"
             android:paddingEnd="@dimen/padding_medium"
             android:background="@drawable/shape_rounded_corners_grey"
@@ -129,7 +126,6 @@
             android:background="@drawable/shape_rounded_corners_grey"
             android:enabled="true"
             android:visibility="visible"
-            android:paddingLeft="@dimen/padding_medium"
             android:paddingStart="@dimen/padding_medium"
             android:paddingEnd="@dimen/padding_medium"
             android:text="@string/buttonDeviceEnable"

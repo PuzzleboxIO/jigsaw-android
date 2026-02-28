@@ -11,21 +11,21 @@
         android:id="@+id/value_x"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="34sp" android:text="89" android:layout_gravity="center_horizontal"
+        android:textSize="34sp" tools:text="89" android:layout_gravity="center_horizontal"
         android:layout_marginTop="12dp"/>
 
     <TextView
         android:id="@+id/value_y"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="34sp" android:text="89" android:layout_gravity="center_horizontal"
+        android:textSize="34sp" tools:text="89" android:layout_gravity="center_horizontal"
         android:layout_marginTop="12dp"/>
 
     <TextView
         android:id="@+id/value_z"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="34sp" android:text="89" android:layout_gravity="center_horizontal"
+        android:textSize="34sp" tools:text="89" android:layout_gravity="center_horizontal"
         android:layout_marginTop="12dp"/>
 
 </LinearLayout>

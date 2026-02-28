@@ -3,7 +3,7 @@
 
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
-    <string name="action_example"></string>
+    <string name="action_example"/>
     <string name="action_settings">About</string>
     <string name="share">Share</string>
 
@@ -30,5 +30,6 @@
     <string name="permission_bluetooth_dialog_message">Please grant location access so this app can scan for Bluetooth devices.</string>
     <string name="permission_bluetooth_required">Bluetooth permissions are required to scan for and connect to devices.</string>
     <string name="permission_location_required">Location permission is required for Bluetooth device scanning.</string>
+    <string name="x10_channel_default">C5</string>
 
 </resources>

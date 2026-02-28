@@ -46,7 +46,7 @@
                 >
                 <!--android:paddingTop="20dp"-->
 
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switchDetectTransmitter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     android:text="@string/label_audio_ir_detect_transmitter_present"/>
                 <!--android:maxLines="1"-->
 
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switchDetectVolume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/label_audio_ir_advanced_settings"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:paddingTop="30dp"
                     android:textStyle="bold"/>
 
@@ -85,7 +85,7 @@
                     <!--style="@style/DialogStyle"-->
                     <!--/>-->
 
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switchInvertControlSignal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

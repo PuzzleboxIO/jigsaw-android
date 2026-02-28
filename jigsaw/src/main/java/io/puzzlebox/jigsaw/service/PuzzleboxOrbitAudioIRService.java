@@ -41,10 +41,9 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	private final int duration = 10; // seconds
 	private final int sampleRateTone = 8000;
 	private final int numSamples = duration * sampleRateTone;
-	private final double sample[] = new double[numSamples];
-	private final double freqOfTone = 440; // Hz
+	private final double[] sample = new double[numSamples];
 
-	final byte generatedSnd[] = new byte[2 * numSamples];
+	final byte[] generatedSnd = new byte[2 * numSamples];
 
 	public PuzzleboxOrbitAudioIRService()
 	{
@@ -108,7 +107,7 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	 * waveBit is an array of two wave, each an array of numbers
 	 * waveBit[0] is the first wave, waveBit[1] is the second wave
 	 */
-	private final float[] waveBit[]= {concatFloat(waveShortHIGH,waveShortLOW),concatFloat(waveLongHIGH,waveLongLOW)};
+	private final float[][] waveBit = {concatFloat(waveShortHIGH,waveShortLOW),concatFloat(waveLongHIGH,waveLongLOW)};
 
 	public void send(float[] samples)
 	{
@@ -279,7 +278,7 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	 */
 	public float[] halfSineGen(char dir,double halfPeriod) {
 		int halfPeriodInSamples = (int) Math.floor(halfPeriod * sampleRate);
-		float halfSine[] = new float[halfPeriodInSamples];
+		float[] halfSine = new float[halfPeriodInSamples];
 		double increment = Math.PI/(halfPeriod*sampleRate);
 		double angle = 0;
 
@@ -305,6 +304,7 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 		 * Generate a carrier signal for communication
 		 * with the IR Dongle
 		 */
+		final double freqOfTone = 440; // Hz
 
 		/** Fill out the array */
 		for (int i = 0; i < numSamples; ++i) {

@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,7 +121,7 @@ public class ProfileSingleton {
 		if(resourceId==0){
 			return null;
 		} else {
-			return Resources.getSystem().getDrawable(resourceId);
+			return ResourcesCompat.getDrawable(Resources.getSystem(), resourceId, null);
 		}
 	}
 
@@ -129,9 +131,8 @@ public class ProfileSingleton {
 			if (map.get("id").equals(name)) {
 				Log.d(TAG, "icon: " + map.get("icon"));
 
-				return Resources.getSystem().getDrawable(
-						Resources.getSystem().getIdentifier(map.get("icon"), "drawable", "io.puzzlebox.orbit")
-				);
+				return ResourcesCompat.getDrawable(Resources.getSystem(),
+						Resources.getSystem().getIdentifier(map.get("icon"), "drawable", "io.puzzlebox.orbit"), null);
 			}
 		}
 		return null;
@@ -233,15 +234,19 @@ public class ProfileSingleton {
 				++j;
 			}
 
-			Boolean allAvailable = true;
+			boolean allAvailable = true;
 
 			try {
 				for (Boolean check : inputsActive)
-					if (!check)
+					if (!check) {
 						allAvailable = false;
+						break;
+					}
 				for (Boolean check : outputsActive)
-					if (!check)
+					if (!check) {
 						allAvailable = false;
+						break;
+					}
 			} catch (Exception e) {
 				// TODO 2018-03-14
 				allAvailable = false;

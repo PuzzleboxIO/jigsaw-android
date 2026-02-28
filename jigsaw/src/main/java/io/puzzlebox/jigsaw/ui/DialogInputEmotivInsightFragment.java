@@ -12,7 +12,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -369,18 +368,10 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		Log.e(TAG, "layers[0].getDrawable().getIntrinsic*(): " + layers[0].getIntrinsicWidth() + ", " + layers[0].getIntrinsicHeight());
 
 		switch (AF3) {
-			case 1:
-				drawableID = R.drawable.device_eeg_sensor_af3_red;
-				break;
-			case 2:
-				drawableID = R.drawable.device_eeg_sensor_af3_orange;
-				break;
-			case 4:
-				drawableID = R.drawable.device_eeg_sensor_af3_green;
-				break;
-			default:
-				drawableID = R.drawable.device_eeg_sensor_af3_white;
-				break;
+			case 1 -> drawableID = R.drawable.device_eeg_sensor_af3_red;
+			case 2 -> drawableID = R.drawable.device_eeg_sensor_af3_orange;
+			case 4 -> drawableID = R.drawable.device_eeg_sensor_af3_green;
+			default -> drawableID = R.drawable.device_eeg_sensor_af3_white;
 		}
 
 		layers[1] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
@@ -388,22 +379,10 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 //		imageViewAF3.setImageResource(drawableID);  // TODO
 
 		switch (AF4) {
-			case 1:
-				drawableID = R.drawable.device_eeg_sensor_af4_red;
-//				imageViewAF4.setImageResource(R.drawable.device_eeg_sensor_red);
-				break;
-			case 2:
-				drawableID = R.drawable.device_eeg_sensor_af4_orange;
-//				imageViewAF4.setImageResource(R.drawable.device_eeg_sensor_orange);
-				break;
-			case 4:
-				drawableID = R.drawable.device_eeg_sensor_af4_green;
-//				imageViewAF4.setImageResource(R.drawable.device_eeg_sensor_green);
-				break;
-			default:
-				drawableID = R.drawable.device_eeg_sensor_af4_white;
-//				imageViewAF4.setImageResource(R.drawable.device_eeg_sensor_white);
-				break;
+			case 1 -> drawableID = R.drawable.device_eeg_sensor_af4_red;
+			case 2 -> drawableID = R.drawable.device_eeg_sensor_af4_orange;
+			case 4 -> drawableID = R.drawable.device_eeg_sensor_af4_green;
+			default -> drawableID = R.drawable.device_eeg_sensor_af4_white;
 		}
 
 		layers[2] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
@@ -411,18 +390,10 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 //		imageViewAF4.setImageResource(drawableID); // TODO
 
 		switch (T7) {
-			case 1:
-				drawableID = R.drawable.device_eeg_sensor_t7_red;
-				break;
-			case 2:
-				drawableID = R.drawable.device_eeg_sensor_t7_orange;
-				break;
-			case 4:
-				drawableID = R.drawable.device_eeg_sensor_t7_green;
-				break;
-			default:
-				drawableID = R.drawable.device_eeg_sensor_t7_white;
-				break;
+			case 1 -> drawableID = R.drawable.device_eeg_sensor_t7_red;
+			case 2 -> drawableID = R.drawable.device_eeg_sensor_t7_orange;
+			case 4 -> drawableID = R.drawable.device_eeg_sensor_t7_green;
+			default -> drawableID = R.drawable.device_eeg_sensor_t7_white;
 		}
 
 		layers[3] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
@@ -430,18 +401,10 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 //		imageViewT7.setImageResource(drawableID); // TODO
 
 		switch (T8) {
-			case 1:
-				drawableID = R.drawable.device_eeg_sensor_t8_red;
-				break;
-			case 2:
-				drawableID = R.drawable.device_eeg_sensor_t8_orange;
-				break;
-			case 4:
-				drawableID = R.drawable.device_eeg_sensor_t8_green;
-				break;
-			default:
-				drawableID = R.drawable.device_eeg_sensor_t8_white;
-				break;
+			case 1 -> drawableID = R.drawable.device_eeg_sensor_t8_red;
+			case 2 -> drawableID = R.drawable.device_eeg_sensor_t8_orange;
+			case 4 -> drawableID = R.drawable.device_eeg_sensor_t8_green;
+			default -> drawableID = R.drawable.device_eeg_sensor_t8_white;
 		}
 
 		layers[4] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
@@ -449,18 +412,10 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 //		imageViewT8.setImageResource(drawableID); // TODO
 
 		switch (Pz) {
-			case 1:
-				drawableID = R.drawable.device_eeg_sensor_pz_red;
-				break;
-			case 2:
-				drawableID = R.drawable.device_eeg_sensor_pz_orange;
-				break;
-			case 4:
-				drawableID = R.drawable.device_eeg_sensor_pz_green;
-				break;
-			default:
-				drawableID = R.drawable.device_eeg_sensor_pz_white;
-				break;
+			case 1 -> drawableID = R.drawable.device_eeg_sensor_pz_red;
+			case 2 -> drawableID = R.drawable.device_eeg_sensor_pz_orange;
+			case 4 -> drawableID = R.drawable.device_eeg_sensor_pz_green;
+			default -> drawableID = R.drawable.device_eeg_sensor_pz_white;
 		}
 
 		layers[5] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));
@@ -468,18 +423,10 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 //		imageViewPz.setImageResource(drawableID); // TODO
 
 		switch (CMS) {
-			case 1:
-				drawableID = R.drawable.device_eeg_sensor_tp7_cms_red;
-				break;
-			case 2:
-				drawableID = R.drawable.device_eeg_sensor_tp7_cms_orange;
-				break;
-			case 4:
-				drawableID = R.drawable.device_eeg_sensor_tp7_cms_green;
-				break;
-			default:
-				drawableID = R.drawable.device_eeg_sensor_tp7_cms_white;
-				break;
+			case 1 -> drawableID = R.drawable.device_eeg_sensor_tp7_cms_red;
+			case 2 -> drawableID = R.drawable.device_eeg_sensor_tp7_cms_orange;
+			case 4 -> drawableID = R.drawable.device_eeg_sensor_tp7_cms_green;
+			default -> drawableID = R.drawable.device_eeg_sensor_tp7_cms_white;
 		}
 
 		layers[6] = new BitmapDrawable(r, decodeSampledBitmapFromResource(r, drawableID, scale_x, scale_y));

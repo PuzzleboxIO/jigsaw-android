@@ -2,6 +2,7 @@ package io.puzzlebox.jigsaw.service;
 
 import android.app.Service;
 import android.content.Intent;
+import androidx.annotation.NonNull;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -33,8 +34,6 @@ public class EmotivInsightService extends Service {
 
 	private boolean threadAlive = false;
 
-	private ServiceHandler mServiceHandler;
-
 	public EmotivInsightService() {
 	}
 
@@ -44,7 +43,7 @@ public class EmotivInsightService extends Service {
 			super(looper);
 		}
 		@Override
-		public void handleMessage(Message msg) {
+		public void handleMessage(@NonNull Message msg) {
 			// Sleep for 5 seconds
 			long endTime = System.currentTimeMillis() + 5*1000;
 			while (System.currentTimeMillis() < endTime) {
@@ -74,7 +73,7 @@ public class EmotivInsightService extends Service {
 
 		// Get the HandlerThread's Looper and use it for our Handler
 		Looper mServiceLooper = thread.getLooper();
-		mServiceHandler = new ServiceHandler(mServiceLooper);
+		ServiceHandler mServiceHandler = new ServiceHandler(mServiceLooper);
 
 		// get an instance of the receiver in your service
 //		IntentFilter filter = new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.connect");

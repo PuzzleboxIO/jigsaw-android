@@ -41,7 +41,7 @@ import java.util.Arrays;
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
-import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
+import static android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM;
 
 public class SessionFragment extends Fragment {
 
@@ -237,12 +237,12 @@ public class SessionFragment extends Fragment {
 		menu.add("Share")
 				.setOnMenuItemClickListener(this.mShareButtonClickListener)
 				.setIcon(android.R.drawable.ic_menu_share)
-				.setShowAsAction(SHOW_AS_ACTION_ALWAYS);
+				.setShowAsAction(SHOW_AS_ACTION_IF_ROOM);
 
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
-	MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {
+	final MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {
 		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
 		exportSession();
 		return false;
@@ -265,7 +265,7 @@ public class SessionFragment extends Fragment {
 				Toast.LENGTH_SHORT).show();
 	}
 
-	private BroadcastReceiver mPacketReceiver = new BroadcastReceiver() {
+	private final BroadcastReceiver mPacketReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {

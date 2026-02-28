@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.util.List;
 
@@ -16,9 +17,9 @@ import io.puzzlebox.jigsaw.R;
 
 public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
-	Context context;
-	List<DrawerItem> drawerItemList;
-	int layoutResID;
+	private final Context context;
+	final List<DrawerItem> drawerItemList;
+	final int layoutResID;
 
 	public NavigationDrawerAdapter(Context context, int layoutResourceID,
 	                               List<DrawerItem> listItems) {
@@ -53,8 +54,8 @@ public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
 		DrawerItem dItem = this.drawerItemList.get(position);
 
-		drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(
-				  dItem.getImgResID()));
+		drawerHolder.icon.setImageDrawable(ResourcesCompat.getDrawable(view.getResources(),
+				  dItem.getImgResID(), null));
 		drawerHolder.ItemName.setText(dItem.getItemName());
 
 		return view;

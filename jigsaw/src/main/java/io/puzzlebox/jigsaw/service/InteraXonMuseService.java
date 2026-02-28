@@ -2,6 +2,7 @@ package io.puzzlebox.jigsaw.service;
 
 import android.app.Service;
 import android.content.Intent;
+import androidx.annotation.NonNull;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -69,7 +70,6 @@ public class InteraXonMuseService extends Service {
 	private static Muse muse = null;
 	private ConnectionListener connectionListener = null;
 	private DataListener dataListener = null;
-	private final boolean dataTransmission = true;
 	private static MuseFileWriter fileWriter = null;
 
 	public InteraXonMuseService() {
@@ -81,7 +81,7 @@ public class InteraXonMuseService extends Service {
 			super(looper);
 		}
 		@Override
-		public void handleMessage(Message msg) {
+		public void handleMessage(@NonNull Message msg) {
 			// Normally we would do some work here, like download a file.
 			// For our sample, we just sleep for 5 seconds.
 			long endTime = System.currentTimeMillis() + 5*1000;
@@ -183,7 +183,7 @@ public class InteraXonMuseService extends Service {
 				getApplicationContext(), android.R.layout.simple_spinner_item, spinnerItems);
 		musesSpinner.setAdapter(adapterArray);
 
-		if (pairedMuses.size() < 1 ||
+		if (pairedMuses.isEmpty() ||
 				musesSpinner.getAdapter().getCount() < 1) {
 			Log.w("Muse Headband", "There is nothing to connect to");
 		}
@@ -291,6 +291,7 @@ public class InteraXonMuseService extends Service {
 	}
 
 	private void configure_library() {
+		final boolean dataTransmission = true;
 		muse.registerConnectionListener(connectionListener);
 
 		muse.registerDataListener(dataListener,
@@ -334,8 +335,7 @@ public class InteraXonMuseService extends Service {
 			MuseVersion museVersion = muse.getMuseVersion();
 			String version = museVersion.getFirmwareType() +
 					" - " + museVersion.getFirmwareVersion() +
-					" - " + Integer.toString(
-					museVersion.getProtocolVersion());
+					" - " + museVersion.getProtocolVersion();
 
 			if (current == ConnectionState.CONNECTED) {
 				eegConnected = true;

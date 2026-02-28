@@ -36,7 +36,7 @@ import java.util.Arrays;
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
-import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
+import static android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM;
 
 public class DialogOutputSessionFragment extends DialogFragment {
 
@@ -232,7 +232,7 @@ public class DialogOutputSessionFragment extends DialogFragment {
 		menu.add("Share")
 				.setOnMenuItemClickListener(this.mShareButtonClickListener)
 				.setIcon(android.R.drawable.ic_menu_share)
-				.setShowAsAction(SHOW_AS_ACTION_ALWAYS);
+				.setShowAsAction(SHOW_AS_ACTION_IF_ROOM);
 
 		super.onCreateOptionsMenu(menu, inflater);
 	}

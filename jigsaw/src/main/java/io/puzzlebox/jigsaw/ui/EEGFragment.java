@@ -19,6 +19,7 @@ import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
@@ -53,7 +54,7 @@ import io.puzzlebox.jigsaw.data.SessionSingleton;
 
 import io.puzzlebox.jigsaw.data.NeuroSkyEegState;
 
-import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
+import static android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM;
 
 public class EEGFragment extends Fragment implements
 		SeekBar.OnSeekBarChangeListener {
@@ -134,7 +135,7 @@ public class EEGFragment extends Fragment implements
 		progressBarAttentionDrawable.getPaint().setColor(Color.parseColor(progressBarAttentionColor));
 		ClipDrawable progressAttention = new ClipDrawable(progressBarAttentionDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarAttention.setProgressDrawable(progressAttention);
-		progressBarAttention.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarAttention.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarMeditation = v.findViewById(R.id.progressBarMeditation);
 		ShapeDrawable progressBarMeditationDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
@@ -142,7 +143,7 @@ public class EEGFragment extends Fragment implements
 		progressBarMeditationDrawable.getPaint().setColor(Color.parseColor(progressBarMeditationColor));
 		ClipDrawable progressMeditation = new ClipDrawable(progressBarMeditationDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarMeditation.setProgressDrawable(progressMeditation);
-		progressBarMeditation.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarMeditation.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarSignal = v.findViewById(R.id.progressBarSignal);
 		ShapeDrawable progressBarSignalDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
@@ -150,7 +151,7 @@ public class EEGFragment extends Fragment implements
 		progressBarSignalDrawable.getPaint().setColor(Color.parseColor(progressBarSignalColor));
 		ClipDrawable progressSignal = new ClipDrawable(progressBarSignalDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarSignal.setProgressDrawable(progressSignal);
-		progressBarSignal.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarSignal.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarPower = v.findViewById(R.id.progressBarPower);
 		ShapeDrawable progressBarPowerDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
@@ -158,7 +159,7 @@ public class EEGFragment extends Fragment implements
 		progressBarPowerDrawable.getPaint().setColor(Color.parseColor(progressBarPowerColor));
 		ClipDrawable progressPower = new ClipDrawable(progressBarPowerDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarPower.setProgressDrawable(progressPower);
-		progressBarPower.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarPower.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarBlink = v.findViewById(R.id.progressBarBlink);
 		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
@@ -166,7 +167,7 @@ public class EEGFragment extends Fragment implements
 		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarRangeColor));
 		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarBlink.setProgressDrawable(progressRange);
-		progressBarBlink.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarBlink.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarBlink.setMax(NeuroSkyEegState.blinkRangeMax);
 
@@ -232,7 +233,7 @@ public class EEGFragment extends Fragment implements
 		connectEEG.setOnClickListener(v -> connectHeadset());
 
 		if (NeuroSkyEegState.eegConnected ) {
-			connectEEG.setText("Disconnect EEG");
+			connectEEG.setText(R.string.buttonDisconnectEEG);
 			spinnerEEG.setEnabled(false);
 		}
 
@@ -331,12 +332,12 @@ public class EEGFragment extends Fragment implements
 		menu.add("Share")
 				.setOnMenuItemClickListener(this.mShareButtonClickListener)
 				.setIcon(android.R.drawable.ic_menu_share)
-				.setShowAsAction(SHOW_AS_ACTION_ALWAYS);
+				.setShowAsAction(SHOW_AS_ACTION_IF_ROOM);
 
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
-	MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {
+	final MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {
 		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
 
 		if (i != null) {

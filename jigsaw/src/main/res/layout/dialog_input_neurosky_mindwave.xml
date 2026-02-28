@@ -20,7 +20,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:gravity="center"
@@ -160,12 +160,13 @@
                 <com.androidplot.xy.XYPlot
                     android:id="@+id/eegRawHistoryPlot"
                     android:layout_width="fill_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="0dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
                     android:layout_marginTop="0dp"
                     android:layout_weight="1"
-                    title="EEG Raw Wave" />
+                    title="EEG Raw Wave"
+                    tools:ignore="AndroidUnknownAttribute" />
                 <!--android:layout_height="0dip"-->
 
             </LinearLayout>

@@ -31,24 +31,8 @@ class PuzzleboxOrbitAudioIRDevice extends AsyncTask<String, Void, String> {
 
 	protected String doInBackground(String... buffers) {
 		String response = "";
-		String setting;
 
 		while (keep_running) {
-
-			switch (command) {
-				case "idle":
-					setting = commandIdle;
-					break;
-				case "hover":
-					setting = commandHover;
-					break;
-				case "maximum_thrust":
-					setting = commandMaximumThrust;
-					break;
-				default:
-					setting = commandNeutral;
-					break;
-			}
 
 			try {
 				Thread.sleep(device_frame_cycle);
@@ -70,11 +54,9 @@ class PuzzleboxOrbitAudioIRDevice extends AsyncTask<String, Void, String> {
 		int frequency = samplesPerSecond / (halfPeriodInSamples * 2); // frequency of the tone (Hz)
 
 //		float time[] = linspace( 1 / samplesPerSecond, halfPeriod, halfPeriodInSamples);
-		List<Double> time = linspace( 1 / samplesPerSecond, halfPeriod, halfPeriodInSamples);
+		List<Double> time = linspace( 1.0 / samplesPerSecond, halfPeriod, halfPeriodInSamples);
 
-		int[] wave = {};
-
-		return(wave);
+		return new int[]{};
 	}
 
 	public static List<Double> linspace(double start, double stop, int n) {

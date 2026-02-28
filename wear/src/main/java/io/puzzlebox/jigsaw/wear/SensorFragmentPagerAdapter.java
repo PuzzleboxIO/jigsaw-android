@@ -9,7 +9,7 @@ public class SensorFragmentPagerAdapter extends FragmentGridPagerAdapter {
 
     // Reference: https://github.com/drejkim/AndroidWearMotionSensors
 
-    private int[] sensorTypes = {
+    private final int[] sensorTypes = {
             Sensor.TYPE_ACCELEROMETER,
             Sensor.TYPE_GYROSCOPE
     };

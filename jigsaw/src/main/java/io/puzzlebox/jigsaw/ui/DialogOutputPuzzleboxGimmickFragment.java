@@ -280,10 +280,8 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
                 case "command":
 
-                    switch (commandValue) {
-                        case "displayDevicesFound":
-                            displayDevicesFound();
-                            break;
+                    if ("displayDevicesFound".equals(commandValue)) {
+                        displayDevicesFound();
                     }
 
                     break;

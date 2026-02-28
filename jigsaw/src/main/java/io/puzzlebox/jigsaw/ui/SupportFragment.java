@@ -33,7 +33,7 @@ public class SupportFragment extends Fragment {
 	/**
 	 * Configuration
 	 */
-	static String contactURL = "http://puzzlebox.io/cgi-bin/puzzlebox/support_contact/puzzlebox_orbit_support_gateway.py";
+	static final String contactURL = "http://puzzlebox.io/cgi-bin/puzzlebox/support_contact/puzzlebox_orbit_support_gateway.py";
 	String versionName = "";
 
 	/**

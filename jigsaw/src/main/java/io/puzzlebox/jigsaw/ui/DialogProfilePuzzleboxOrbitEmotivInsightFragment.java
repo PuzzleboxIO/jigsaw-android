@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
@@ -32,6 +33,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 import com.emotiv.insight.IEmoStateDLL;
@@ -95,8 +97,8 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 	private int currentCMS = 0;
 
 	final int[] thresholdValuesMentalCommand = new int[101];
-	int minimumPower = 0; // minimum power for the Orbit
-	int maximumPower = 100; // maximum power for the Orbit
+	final int minimumPower = 0; // minimum power for the Orbit
+	final int maximumPower = 100; // maximum power for the Orbit
 
 	private Handler handlerAnimation;
 
@@ -115,10 +117,10 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_puzzlebox_orbit_emotiv_insight));
 
 		buttonTestFlight = v.findViewById(R.id.buttonTestFlight);
-		buttonTestFlight.setOnClickListener(view -> testFlight(view));
+		buttonTestFlight.setOnClickListener(this::testFlight);
 
 		buttonResetFlight = v.findViewById(R.id.buttonResetFlight);
-		buttonResetFlight.setOnClickListener(view -> resetFlight(view));
+		buttonResetFlight.setOnClickListener(this::resetFlight);
 
 		imageViewAF3 = v.findViewById(R.id.imageViewEmotivInsightSensorAF3);
 		imageViewAF4 = v.findViewById(R.id.imageViewEmotivInsightSensorAF4);
@@ -159,7 +161,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		progressBarMentalCommandDrawable.getPaint().setColor(Color.parseColor(progressBarMentalCommandColor));
 		ClipDrawable progressMentalCommand = new ClipDrawable(progressBarMentalCommandDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarActivityMentalCommand.setProgressDrawable(progressMentalCommand);
-		progressBarActivityMentalCommand.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarActivityMentalCommand.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarContactQuality = v.findViewById(R.id.progressBarContactQuality);
 		ShapeDrawable progressBarContactQualityDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
@@ -167,15 +169,15 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		progressBarContactQualityDrawable.getPaint().setColor(Color.parseColor(progressBarContactQualityColor));
 		ClipDrawable progressSignal = new ClipDrawable(progressBarContactQualityDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarContactQuality.setProgressDrawable(progressSignal);
-		progressBarContactQuality.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarContactQuality.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
-		progressBarPower = (ProgressBar) v.findViewById(R.id.progressBarPower);
+		progressBarPower = v.findViewById(R.id.progressBarPower);
 		ShapeDrawable progressBarPowerDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
 		String progressBarPowerColor = "#FFFF00";
 		progressBarPowerDrawable.getPaint().setColor(Color.parseColor(progressBarPowerColor));
 		ClipDrawable progressPower = new ClipDrawable(progressBarPowerDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarPower.setProgressDrawable(progressPower);
-		progressBarPower.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarPower.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		seekBarActivityMentalCommand = v.findViewById(R.id.seekBarActivityMentalCommand);
 		seekBarActivityMentalCommand.setProgress(DeviceEmotivInsightSingleton.getInstance().defaultMentalCommandPower);
@@ -186,7 +188,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		textViewLastScore = v.findViewById(R.id.textViewLastScore);
 		textViewHighScore = v.findViewById(R.id.textViewHighScore);
 
-		seekBarThrottle = (SeekBar) v.findViewById(R.id.seekBarThrottle);
+		seekBarThrottle = v.findViewById(R.id.seekBarThrottle);
 		seekBarThrottle.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultControlThrottle);
 		seekBarThrottle.setOnSeekBarChangeListener(this);
 
@@ -440,7 +442,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 					ClipDrawable progressSignal = new ClipDrawable(progressBarContactQualityDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 					progressBarContactQuality.setProgressDrawable(progressSignal);
 				}
-				progressBarContactQuality.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+				progressBarContactQuality.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 				progressBarContactQuality.setProgress(eegSignal);
 			}
 			previousEEGSignal = eegSignal;
@@ -565,9 +567,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		float percentOfMaxPower;
 
 		// Reset all values to zero
-		for (int i = 0; i < thresholdValuesMentalCommand.length; i++) {
-			thresholdValuesMentalCommand[i] = 0;
-		}
+		Arrays.fill(thresholdValuesMentalCommand, 0);
 
 		mentalCommandSeekValue = seekBarActivityMentalCommand.getProgress();
 		if (mentalCommandSeekValue > 0) {

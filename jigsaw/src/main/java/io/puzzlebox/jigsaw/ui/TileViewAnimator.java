@@ -15,7 +15,7 @@ public class TileViewAnimator extends LinearLayout {
 	private Animation inAnimation;
 	private Animation outAnimation;
 
-	Context context;
+	final Context context;
 
 	public TileViewAnimator(Context context)
 	{

@@ -69,17 +69,16 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 		JoystickView joystickViewYawPitch = v.findViewById(R.id.joystickViewYawPitch);
 		joystickViewYawPitch.setOnMoveListener(onMoveJoystickYawPitch);
 
-		ViewGroup.LayoutParams lp = llJoysticks.getLayoutParams();
-		lp = joystickViewThrottle.getLayoutParams();
+		ViewGroup.LayoutParams lp = joystickViewThrottle.getLayoutParams();
 
-		if (((int) (ConfigurationSingleton.getInstance().displayWidth / 2))
+		if ((ConfigurationSingleton.getInstance().displayWidth / 2)
 				< (lp.width * 2 + paddingJoysticks * 2)) {
 
-			lp.width = ((int) (ConfigurationSingleton.getInstance().displayWidth / 2)) - paddingJoysticks;
+			lp.width = (ConfigurationSingleton.getInstance().displayWidth / 2) - paddingJoysticks;
 			joystickViewThrottle.setLayoutParams(lp);
 
 			lp = joystickViewYawPitch.getLayoutParams();
-			lp.width = ((int) (ConfigurationSingleton.getInstance().displayWidth / 2)) - paddingJoysticks;
+			lp.width = (ConfigurationSingleton.getInstance().displayWidth / 2) - paddingJoysticks;
 			joystickViewYawPitch.setLayoutParams(lp);
 		}
 
@@ -248,13 +247,11 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 		// because smaller values instruct the helicopter to spin to the right
 		// (clockwise if looking down from above) whereas intuitively moving
 		// the slider to the left should cause it to spin left
-		Integer[] command =  {
+		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.command = new Integer[] {
 				seekBarThrottle.getProgress(),
 				seekBarYaw.getMax() - seekBarYaw.getProgress(),
 				seekBarPitch.getProgress(),
 				1};
-
-		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.command = command;
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.updateControlSignal();
 	}
 

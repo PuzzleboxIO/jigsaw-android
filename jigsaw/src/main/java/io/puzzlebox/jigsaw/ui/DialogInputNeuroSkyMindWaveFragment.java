@@ -12,6 +12,7 @@ import android.graphics.drawable.shapes.RoundRectShape;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
@@ -90,7 +91,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		progressBarAttentionDrawable.getPaint().setColor(Color.parseColor(progressBarAttentionColor));
 		ClipDrawable progressAttention = new ClipDrawable(progressBarAttentionDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarAttention.setProgressDrawable(progressAttention);
-		progressBarAttention.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarAttention.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarMeditation = v.findViewById(R.id.progressBarMeditation);
 		ShapeDrawable progressBarMeditationDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
@@ -98,7 +99,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		progressBarMeditationDrawable.getPaint().setColor(Color.parseColor(progressBarMeditationColor));
 		ClipDrawable progressMeditation = new ClipDrawable(progressBarMeditationDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarMeditation.setProgressDrawable(progressMeditation);
-		progressBarMeditation.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarMeditation.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarSignal = v.findViewById(R.id.progressBarSignal);
 		ShapeDrawable progressBarSignalDrawable = new ShapeDrawable(new RoundRectShape(roundedCorners, null,null));
@@ -106,7 +107,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		progressBarSignalDrawable.getPaint().setColor(Color.parseColor(progressBarSignalColor));
 		ClipDrawable progressSignal = new ClipDrawable(progressBarSignalDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarSignal.setProgressDrawable(progressSignal);
-		progressBarSignal.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarSignal.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarBlink = v.findViewById(R.id.progressBarBlink);
 		ShapeDrawable progressBarRangeDrawable = new ShapeDrawable();
@@ -114,7 +115,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		progressBarRangeDrawable.getPaint().setColor(Color.parseColor(progressBarBlinkColor));
 		ClipDrawable progressRange = new ClipDrawable(progressBarRangeDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
 		progressBarBlink.setProgressDrawable(progressRange);
-		progressBarBlink.setBackground(getResources().getDrawable(android.R.drawable.progress_horizontal));
+		progressBarBlink.setBackground(ResourcesCompat.getDrawable(getResources(), android.R.drawable.progress_horizontal, null));
 
 		progressBarBlink.setMax(NeuroSkyEegState.blinkRangeMax);
 

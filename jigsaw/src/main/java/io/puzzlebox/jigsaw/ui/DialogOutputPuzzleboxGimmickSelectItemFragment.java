@@ -3,6 +3,7 @@ package io.puzzlebox.jigsaw.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import java.util.Locale;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,7 +23,6 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
     private static final String ARG_INSIGHT_ID = "paramInsightId";
     private static final String ARG_NAME = "paramName";
 
-    private int mParamParentId;
     private int mParamInsightId;
     private String mParamName;
 
@@ -60,7 +60,7 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParamParentId = getArguments().getInt(ARG_PARENT_ID);
+            int mParamParentId = getArguments().getInt(ARG_PARENT_ID);
             mParamInsightId = getArguments().getInt(ARG_INSIGHT_ID);
             mParamName = getArguments().getString(ARG_NAME);
         }
@@ -75,7 +75,7 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
         mId = mParamInsightId; // we use a separate variable here because parameters may overwrite each other
 
         TextView textViewSelectGimmickNumber = v.findViewById(R.id.textViewSelectGimmickNumber);
-        textViewSelectGimmickNumber.setText("#" + String.valueOf(mParamInsightId) + ": ");
+        textViewSelectGimmickNumber.setText(String.format(Locale.US, "#%d: ", mParamInsightId));
 
         TextView textViewSelectGimmickName = v.findViewById(R.id.textViewSelectGimmickName);
         textViewSelectGimmickName.setText(mParamName);

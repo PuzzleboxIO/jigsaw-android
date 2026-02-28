@@ -2,6 +2,7 @@ package io.puzzlebox.jigsaw.service;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
+import androidx.annotation.NonNull;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
@@ -64,7 +65,7 @@ public class NeuroSkyThinkGearService extends Service {
 			super(looper);
 		}
 		@Override
-		public void handleMessage(Message msg) {
+		public void handleMessage(@NonNull Message msg) {
 			// Normally we would do some work here, like download a file.
 			// For our sample, we just sleep for 5 seconds.
 			long endTime = System.currentTimeMillis() + 5*1000;
@@ -232,8 +233,6 @@ public class NeuroSkyThinkGearService extends Service {
 			case TGDevice.MSG_RAW_DATA:
 				SessionSingleton.getInstance().appendRawEEG(msg.arg1);
 				break;
-			case TGDevice.MSG_RAW_COUNT:
-				break;
 			case TGDevice.MSG_RAW_MULTI:
 				// TGRawMulti rawM = (TGRawMulti)msg.obj;
 				// Log.d(TAG, "Raw1: " + rawM.ch1 + "\nRaw2: " + rawM.ch2);
@@ -293,15 +292,9 @@ public class NeuroSkyThinkGearService extends Service {
 		int value;
 
 		switch (signal) {
-			case 200:
-				value = 0;
-				break;
-			case 0:
-				value = 100;
-				break;
-			default:
-				value = (int)(100 - ((signal / 200.0) * 100));
-				break;
+			case 200 -> value = 0;
+			case 0 -> value = 100;
+			default -> value = (int)(100 - ((signal / 200.0) * 100));
 		}
 		return(value);
 	}

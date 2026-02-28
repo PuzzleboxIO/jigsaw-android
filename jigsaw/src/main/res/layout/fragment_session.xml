@@ -12,7 +12,7 @@
         android:layout_gravity="center">
 
         <Space
-            android:layout_width="20px"
+            android:layout_width="20dp"
             android:layout_height="32dp"
             />
 
@@ -23,7 +23,7 @@
             android:id="@+id/textViewSessionProfile"
             android:layout_gravity="center"
             android:textStyle="bold"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -31,11 +31,14 @@
             android:id="@+id/editTextSessionProfile"
             android:text="@string/session_profile"
             android:minWidth="256dp"
+            android:inputType="text"
+            android:hint="@string/session_profile"
+            android:autofillHints="username"
             android:gravity="center"/>
 
         <Space
-            android:layout_width="20px"
-            android:layout_height="20px"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             />
 
         <TextView
@@ -45,7 +48,7 @@
             android:id="@+id/textViewLabelSessionTime"
             android:layout_gravity="center"
             android:textStyle="bold"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,14 +61,13 @@
             style="@style/button_text"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_centerHorizontal="true"
             android:background="@drawable/shape_rounded_corners_grey"
             android:text="@string/buttonResetSession"
             android:layout_gravity="center"
             android:gravity="center"/>
 
         <Space
-            android:layout_width="20px"
+            android:layout_width="20dp"
             android:layout_height="32dp"
             />
 
@@ -76,7 +78,7 @@
             android:id="@+id/textViewSessionHistory"
             android:layout_gravity="center"
             android:textStyle="bold"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
 
         <com.androidplot.xy.XYPlot
             android:id="@+id/sessionPlot1"
@@ -86,7 +88,8 @@
             android:layout_marginRight="0dp"
             android:layout_marginTop="0dp"
             android:layout_weight="1"
-            title="Session Plot" />
+            title="Session Plot"
+            tools:ignore="AndroidUnknownAttribute" />
 
         <com.androidplot.xy.XYPlot
             android:id="@+id/sessionPlot2"
@@ -96,7 +99,8 @@
             android:layout_marginRight="0dp"
             android:layout_marginTop="0dp"
             android:layout_weight="1"
-            title="Session Plot" />
+            title="Session Plot"
+            tools:ignore="AndroidUnknownAttribute" />
 
 
     </LinearLayout>

@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import io.puzzlebox.jigsaw.wear.R;
 
 public class SensorFragment extends Fragment implements SensorEventListener {
@@ -25,7 +27,6 @@ public class SensorFragment extends Fragment implements SensorEventListener {
     private static final int ROTATION_WAIT_TIME_MS = 100;
 
     private View mView;
-    private TextView mTextTitle;
     private TextView mTextValues;
     private SensorManager mSensorManager;
     private Sensor mSensor;
@@ -62,9 +63,9 @@ public class SensorFragment extends Fragment implements SensorEventListener {
 
         mView = inflater.inflate(R.layout.sensor, container, false);
 
-        mTextTitle = (TextView) mView.findViewById(R.id.text_title);
+        TextView mTextTitle = mView.findViewById(R.id.text_title);
         mTextTitle.setText(mSensor.getStringType());
-        mTextValues = (TextView) mView.findViewById(R.id.text_values);
+        mTextValues = mView.findViewById(R.id.text_values);
 
         return mView;
     }
@@ -89,11 +90,9 @@ public class SensorFragment extends Fragment implements SensorEventListener {
             return;
         }
 
-        mTextValues.setText(
-                "x = " + Float.toString(event.values[0]) + "\n" +
-                        "y = " + Float.toString(event.values[1]) + "\n" +
-                        "z = " + Float.toString(event.values[2]) + "\n"
-        );
+        mTextValues.setText(String.format(Locale.getDefault(),
+                "x = %f\ny = %f\nz = %f\n",
+                event.values[0], event.values[1], event.values[2]));
 
         if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             detectShake(event);
