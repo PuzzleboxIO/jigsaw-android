@@ -90,7 +90,12 @@ public class DialogInputDeviceSensors extends DialogFragment {
     public void onResume() {
         // Store access variables for window and blank point
 
-        Window window = getDialog().getWindow();
+        Window window = requireDialog().getWindow();
+
+        if (window == null) {
+            super.onResume();
+            return;
+        }
 
         Point size = new Point();
 
@@ -126,7 +131,7 @@ public class DialogInputDeviceSensors extends DialogFragment {
         intent.putExtra("value", value);
         intent.putExtra("category", "inputs");
 
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
 
     }
 

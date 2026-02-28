@@ -94,7 +94,7 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
 
         for (ScanResult sr : DevicePuzzleboxGimmickSingleton.getInstance().devicesFound) {
             if (sr.getDevice().getName() != null) {
-                deviceNames.add(sr.getDevice().getName() + " [" + sr.getDevice().getAddress() + "] [Rssi: " + sr.getRssi() + "]");
+                deviceNames.add(sr.getDevice().getName() + " [" + sr.getDevice().getAddress() + "] [RSSI: " + sr.getRssi() + "]");
             }
         }
 

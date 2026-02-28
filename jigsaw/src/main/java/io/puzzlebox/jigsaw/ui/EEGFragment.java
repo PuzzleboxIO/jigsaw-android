@@ -6,6 +6,7 @@
 
 package io.puzzlebox.jigsaw.ui;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
@@ -61,16 +63,15 @@ public class EEGFragment extends Fragment implements
 
 	/**
 	 * TODO
-	 *
 	 * - Progress Bars colors no longer edge-to-edge
 	 * - Power calculation not appearing in exported CSV files
 	 */
 
 	private final static String TAG = EEGFragment.class.getSimpleName();
 
-	private static OnFragmentInteractionListener mListener;
+	private OnFragmentInteractionListener mListener;
 
-	private static View v;
+	private View v;
 
 	/**
 	 * Configuration
@@ -84,23 +85,22 @@ public class EEGFragment extends Fragment implements
 	/**
 	 * UI
 	 */
-	private static ProgressBar progressBarAttention;
-	private static SeekBar seekBarAttention;
-	private static ProgressBar progressBarMeditation;
-	private static SeekBar seekBarMeditation;
-	private static ProgressBar progressBarSignal;
-	private static ProgressBar progressBarPower;
-	private static ProgressBar progressBarBlink;
+	private ProgressBar progressBarAttention;
+	private SeekBar seekBarAttention;
+	private ProgressBar progressBarMeditation;
+	private SeekBar seekBarMeditation;
+	private ProgressBar progressBarSignal;
+	private ProgressBar progressBarPower;
+	private ProgressBar progressBarBlink;
 
-	private static Spinner spinnerEEG;
+	private Spinner spinnerEEG;
 
-	private static TextView textViewSessionTime;
+	private TextView textViewSessionTime;
 
-	private static XYPlot eegRawHistoryPlot = null;
-	private static SimpleXYSeries eegRawHistorySeries = null;
+	private XYPlot eegRawHistoryPlot = null;
+	private SimpleXYSeries eegRawHistorySeries = null;
 
-	private static Intent intentThinkGear;
-	private static Intent intentMuse;
+	private Intent intentThinkGear;
 
 	public static EEGFragment newInstance() {
 		EEGFragment fragment = new EEGFragment();
@@ -116,14 +116,14 @@ public class EEGFragment extends Fragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
 	}
 
+	@SuppressLint("SourceLockedOrientationActivity")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 
-		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// Inflate the layout for this fragment
 		v = inflater.inflate(R.layout.fragment_eeg, container, false);
@@ -219,7 +219,7 @@ public class EEGFragment extends Fragment implements
 
 		spinnerEEG = v.findViewById(R.id.spinnerEEG);
 
-		ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(),
 				R.layout.spinner_item, items);
 
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -251,7 +251,7 @@ public class EEGFragment extends Fragment implements
 		// Instantiate the Intent via reflection so this file compiles even when
 		// NeuroSkyThinkGearService is excluded (NeuroSky SDK absent from build).
 		try {
-			intentThinkGear = new Intent(getActivity(),
+			intentThinkGear = new Intent(requireActivity(),
 					Class.forName("io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService"));
 		} catch (ClassNotFoundException e) {
 			intentThinkGear = null; // NeuroSky SDK not available in this build
@@ -267,6 +267,21 @@ public class EEGFragment extends Fragment implements
 
 		updatePowerThresholds();
 		updatePower();
+
+		requireActivity().addMenuProvider(new MenuProvider() {
+			@Override
+			public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+				menu.add("Share")
+						.setOnMenuItemClickListener(mShareButtonClickListener)
+						.setIcon(android.R.drawable.ic_menu_share)
+						.setShowAsAction(SHOW_AS_ACTION_IF_ROOM);
+			}
+
+			@Override
+			public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+				return false;
+			}
+		}, getViewLifecycleOwner());
 
 		return v;
 	}
@@ -306,11 +321,11 @@ public class EEGFragment extends Fragment implements
 		super.onPause();
 
 		LocalBroadcastManager.getInstance(
-				getActivity().getApplicationContext()).unregisterReceiver(
+				requireActivity().getApplicationContext()).unregisterReceiver(
 				mPacketReceiver);
 
 		LocalBroadcastManager.getInstance(
-				getActivity().getApplicationContext()).unregisterReceiver(
+				requireActivity().getApplicationContext()).unregisterReceiver(
 				mEventReceiver);
 	}
 
@@ -319,31 +334,20 @@ public class EEGFragment extends Fragment implements
 		super.onResume();
 		updateSessionTime();
 
-		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
 				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
 
-		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
 				mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
 	}
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
-
-		menu.add("Share")
-				.setOnMenuItemClickListener(this.mShareButtonClickListener)
-				.setIcon(android.R.drawable.ic_menu_share)
-				.setShowAsAction(SHOW_AS_ACTION_IF_ROOM);
-
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-
 	final MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {
-		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
+		Intent i = SessionSingleton.getInstance().getExportSessionIntent(requireActivity().getApplicationContext());
 
 		if (i != null) {
 			startActivity(i);
 		} else {
-			Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
+			Toast.makeText(requireActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
 		}
 
 		return false;
@@ -435,16 +439,16 @@ public class EEGFragment extends Fragment implements
 
 			case "NeuroSky MindWave Mobile":
 				if (intentThinkGear == null) {
-					Toast.makeText(getActivity(), "NeuroSky SDK not available in this build", Toast.LENGTH_SHORT).show();
+					Toast.makeText(requireActivity(), "NeuroSky SDK not available in this build", Toast.LENGTH_SHORT).show();
 				} else if (!NeuroSkyEegState.eegConnected) {
-					getActivity().startService(intentThinkGear);
+					requireActivity().startService(intentThinkGear);
 				} else {
 					disconnectHeadset();
 				}
 				break;
 
 			case "Emotiv Insight":
-				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support only available in developer edition", Toast.LENGTH_SHORT).show();
+				Toast.makeText(requireActivity().getApplicationContext(), "Emotiv Insight support only available in developer edition", Toast.LENGTH_SHORT).show();
 				break;
 
 			// TODO 2017-02-15 Disable Muse
@@ -452,12 +456,12 @@ public class EEGFragment extends Fragment implements
 //
 //				if (enableMuse) {
 //					if (!InteraXonMuseService.eegConnected) {
-//						getActivity().startService(intentMuse);
+//						requireActivity().startService(intentMuse);
 //					} else {
 //						disconnectHeadset();
 //					}
 //				} else {
-//					Toast.makeText(getActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
+//					Toast.makeText(requireActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
 //				}
 //
 //				break;
@@ -472,20 +476,20 @@ public class EEGFragment extends Fragment implements
 
 			case "NeuroSky MindWave Mobile":
 				NeuroSkyEegState.disconnectIfConnected();
-				if (intentThinkGear != null) getActivity().stopService(intentThinkGear);
+				if (intentThinkGear != null) requireActivity().stopService(intentThinkGear);
 				break;
 
 			case "Emotiv Insight":
-				Toast.makeText(getActivity().getApplicationContext(), "Emotiv Insight support only available in developer edition", Toast.LENGTH_SHORT).show();
+				Toast.makeText(requireActivity().getApplicationContext(), "Emotiv Insight support only available in developer edition", Toast.LENGTH_SHORT).show();
 				break;
 
 			// TODO 2017-02-15 Disable Muse
 //			case "InteraXon Muse":
 //				if (enableMuse) {
 //					InteraXonMuseService.disconnectHeadset();
-//					getActivity().stopService(intentMuse);
+//					requireActivity().stopService(intentMuse);
 //				} else {
-//					Toast.makeText(getActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
+//					Toast.makeText(requireActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
 //				}
 //
 //				break;
@@ -663,7 +667,7 @@ public class EEGFragment extends Fragment implements
 	private void resetSession() {
 		SessionSingleton.getInstance().resetSession();
 		textViewSessionTime.setText( R.string.session_time );
-		Toast.makeText((getActivity().getApplicationContext()),
+		Toast.makeText((requireActivity().getApplicationContext()),
 				"Session data reset",
 				Toast.LENGTH_SHORT).show();
 	}
@@ -673,13 +677,12 @@ public class EEGFragment extends Fragment implements
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-			int eegAttention = Integer.parseInt(intent.getStringExtra("Attention"));
-			int eegMeditation = Integer.parseInt(intent.getStringExtra("Meditation"));
-			int eegSignal = Integer.parseInt(intent.getStringExtra("Signal Level"));
-
-			progressBarAttention.setProgress(eegAttention);
-			progressBarMeditation.setProgress(eegMeditation);
-			progressBarSignal.setProgress(eegSignal);
+			String attentionStr = intent.getStringExtra("Attention");
+			String meditationStr = intent.getStringExtra("Meditation");
+			String signalStr = intent.getStringExtra("Signal Level");
+			if (attentionStr != null) progressBarAttention.setProgress(Integer.parseInt(attentionStr));
+			if (meditationStr != null) progressBarMeditation.setProgress(Integer.parseInt(meditationStr));
+			if (signalStr != null) progressBarSignal.setProgress(Integer.parseInt(signalStr));
 
 			updatePower();
 
@@ -704,10 +707,11 @@ public class EEGFragment extends Fragment implements
 		public void onReceive(Context context, Intent intent) {
 			String name = intent.getStringExtra("name");
 			String value = intent.getStringExtra("value");
+			if (name == null) return;
 			switch(name) {
 
 				case "eegStatus":
-
+					if (value == null) break;
 					switch(value) {
 						case "STATE_CONNECTING":
 							updateStatusImage();
@@ -746,7 +750,7 @@ public class EEGFragment extends Fragment implements
 				case "eegBlink":
 					Log.d(TAG, "Blink: " + value + "\n");
 					try {
-						progressBarBlink.setProgress(Integer.parseInt(value));
+						if (value != null) progressBarBlink.setProgress(Integer.parseInt(value));
 					} catch (NumberFormatException e) {
 						Log.e(TAG, "Exception", e);
 					}

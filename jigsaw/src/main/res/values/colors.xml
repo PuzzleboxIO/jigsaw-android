@@ -2,7 +2,6 @@
 <resources>
     <color name="WhiteTint">#88FFFFFF</color>
     <color name="tileHighlight">#40FFFFFF</color>
-    <!--<color name="WhiteTint">#92FFFFFF</color>-->
     <color name="GreyTint">#88888888</color>
     <color name="tileAvailable">#8000FF00</color>
     <color name="tileActivated">#80FFFF00</color>

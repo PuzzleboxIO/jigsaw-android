@@ -1,5 +1,6 @@
 package io.puzzlebox.jigsaw.wear;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
@@ -34,6 +35,7 @@ public class DataLayerListenerService extends WearableListenerService {
             String path = uri.getPath();
             if (COUNT_PATH.equals(path)) {
                 String nodeId = uri.getHost();
+                if (nodeId == null) continue;
                 byte[] payload = uri.toString().getBytes();
 
                 // Use the newer Task-based Wearable API (replaces deprecated MessageApi)
@@ -43,6 +45,7 @@ public class DataLayerListenerService extends WearableListenerService {
         }
     }
 
+    @SuppressLint("WearRecents")
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         LOGD(TAG, "onMessageReceived: " + messageEvent);

@@ -1,15 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="io.puzzlebox.jigsaw.ui.SessionFragment">
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical|center_horizontal|top"
-        android:layout_gravity="center">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_vertical|center_horizontal|top"
+              tools:context="io.puzzlebox.jigsaw.ui.SessionFragment">
 
         <Space
             android:layout_width="20dp"
@@ -103,6 +98,5 @@
             tools:ignore="AndroidUnknownAttribute" />
 
 
-    </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

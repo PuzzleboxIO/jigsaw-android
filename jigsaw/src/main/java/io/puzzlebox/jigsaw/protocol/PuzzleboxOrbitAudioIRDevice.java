@@ -6,6 +6,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("deprecation") // AsyncTask deprecated in API 30, but functional through API 36
 class PuzzleboxOrbitAudioIRDevice extends AsyncTask<String, Void, String> {
 
 	private static final String TAG = PuzzleboxOrbitAudioIRDevice.class.getSimpleName();

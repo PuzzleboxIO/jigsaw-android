@@ -6,6 +6,7 @@
 
 package io.puzzlebox.jigsaw.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import androidx.annotation.NonNull;
@@ -38,11 +39,12 @@ public class WelcomeFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 	}
 
+	@SuppressLint("SourceLockedOrientationActivity")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		return inflater.inflate(R.layout.fragment_welcome, container, false);
 	}

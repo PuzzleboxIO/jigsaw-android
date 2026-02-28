@@ -93,7 +93,7 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 			Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
 			intent.putExtra("name", "select");
 			intent.putExtra("value", Integer.toString(mId));
-			LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+			LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
 		});
 
 		Button buttonChoose = v.findViewById(R.id.buttonChoose);
@@ -101,7 +101,7 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 			Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
 			intent.putExtra("name", "select");
 			intent.putExtra("value", Integer.toString(mId));
-			LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+			LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
 		});
 		return v;
 	}

@@ -13,6 +13,8 @@ import android.os.Process;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
+import java.lang.ref.WeakReference;
+
 import com.emotiv.insight.IEdk;
 import com.emotiv.insight.IEdkErrorCode;
 import com.emotiv.insight.IEmoStateDLL;
@@ -300,9 +302,12 @@ public class EmotivInsightService extends Service {
 		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 	}
 
-	class IncomingHandler extends Handler {
-		IncomingHandler() {
+	static class IncomingHandler extends Handler {
+		private final WeakReference<EmotivInsightService> serviceRef;
+
+		IncomingHandler(EmotivInsightService service) {
 			super(Looper.getMainLooper());
+			serviceRef = new WeakReference<>(service);
 		}
 
 		@Override
@@ -325,7 +330,8 @@ public class EmotivInsightService extends Service {
 					Log.e(TAG, "lock: false");
 					DeviceEmotivInsightSingleton.getInstance().lock = false;
 				}
-				broadcastSignalQualityReset();
+				EmotivInsightService service = serviceRef.get();
+				if (service != null) service.broadcastSignalQualityReset();
 			}
 		}
 	}
@@ -333,7 +339,7 @@ public class EmotivInsightService extends Service {
 	/**
 	 * Target we publish for clients to send messages to IncomingHandler.
 	 */
-	final Messenger mMessenger = new Messenger(new IncomingHandler());
+	final Messenger mMessenger = new Messenger(new IncomingHandler(this));
 
 	/**
 	 * When binding to the service, we return an interface to our messenger

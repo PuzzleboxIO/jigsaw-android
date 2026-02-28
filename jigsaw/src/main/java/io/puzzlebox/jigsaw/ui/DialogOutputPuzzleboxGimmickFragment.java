@@ -71,12 +71,14 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        Window activityWindow = requireActivity().getWindow();
+        if (activityWindow != null) activityWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.dialog_output_puzzlebox_gimmick, container, false);
 
-        getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_gimmick));
+        Window dialogWindow = requireDialog().getWindow();
+        if (dialogWindow != null) dialogWindow.setTitle( getString(R.string.title_dialog_fragment_gimmick));
 
         buttonConnectGimmick = v.findViewById(R.id.buttonConnectGimmick);
         buttonConnectGimmick.setOnClickListener(view -> {
@@ -139,20 +141,25 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
         intent.putExtra("value", value);
         intent.putExtra("category", "outputs");
 
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
     }
 
     public void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(
-                getActivity()).unregisterReceiver(
+                requireActivity()).unregisterReceiver(
                 mStatusReceiver);
     }
 
     public void onResume() {
 
         // Store access variables for window and blank point
-        Window window = getDialog().getWindow();
+        Window window = requireDialog().getWindow();
+
+        if (window == null) {
+            super.onResume();
+            return;
+        }
 
         Point size = new Point();
 
@@ -172,7 +179,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
         // Call super onResume after sizing
         super.onResume();
 
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
                 mStatusReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status"));
 
     }
@@ -184,8 +191,9 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
             String name = intent.getStringExtra("name");
             String value = intent.getStringExtra("value");
+            if (name == null) return;
 
-            if (! name.equals("populateSelectGimmick")) {
+            if (! "populateSelectGimmick".equals(name)) {
                 Log.d(TAG, "[" + name + "]: " + value);
             }
 
@@ -196,7 +204,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
                 case "status":
 
-                    if (getActivity() != null) {
+                    if (getActivity() != null && value != null) {
 
                         switch (value) {
 
@@ -243,10 +251,10 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
         buttonConnectGimmick.setText(getResources().getString(R.string.buttonStatusPuzzleboxGimmickConnecting));
 
-        broadcastCommandBluetooth("connect", deviceNumber);
+        broadcastCommandBluetooth(deviceNumber);
 
         // Dismiss dialog
-        DialogOutputPuzzleboxGimmickSelectFragment mSelectGimmick = (DialogOutputPuzzleboxGimmickSelectFragment) getActivity().getSupportFragmentManager().findFragmentByTag("mSelectGimmick");
+        DialogOutputPuzzleboxGimmickSelectFragment mSelectGimmick = (DialogOutputPuzzleboxGimmickSelectFragment) requireActivity().getSupportFragmentManager().findFragmentByTag("mSelectGimmick");
 
         if (mSelectGimmick != null)
             mSelectGimmick.dismiss();
@@ -254,16 +262,16 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
         DevicePuzzleboxGimmickSingleton.getInstance().selectGimmickDialogVisible = false;
     }
 
-    private  void broadcastCommandBluetooth(String name, String value) {
+    private  void broadcastCommandBluetooth(String value) {
 
-        Log.d(TAG, "broadcastCommandBluetooth: " + name + ": " + value);
+        Log.d(TAG, "broadcastCommandBluetooth: connect: " + value);
 
         Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.bluetooth.command");
 
-        intent.putExtra("name", name);
+        intent.putExtra("name", "connect");
         intent.putExtra("value", value);
 
-        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent);
     }
 
     private final BroadcastReceiver mEventReceiver = new BroadcastReceiver() {
@@ -324,7 +332,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
         for (ScanResult sr : DevicePuzzleboxGimmickSingleton.getInstance().devicesFound) {
             if (sr.getDevice().getName() != null) {
-                deviceNames.add(sr.getDevice().getName() + " [" + sr.getDevice().getAddress() + "] [Rssi: " + sr.getRssi() + "]");
+                deviceNames.add(sr.getDevice().getName() + " [" + sr.getDevice().getAddress() + "] [RSSI: " + sr.getRssi() + "]");
             }
         }
 
@@ -339,7 +347,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
             DevicePuzzleboxGimmickSingleton.getInstance().selectGimmickDialogVisible = true;
 
-            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentManager fm = requireActivity().getSupportFragmentManager();
             DialogOutputPuzzleboxGimmickSelectFragment mSelectGimmick = new DialogOutputPuzzleboxGimmickSelectFragment();
             try {
                 mSelectGimmick.show(fm, "mSelectGimmick");

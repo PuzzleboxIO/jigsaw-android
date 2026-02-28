@@ -46,7 +46,7 @@ public class DeviceEmotivInsightSingleton {
 	}
 
 	public void connectEmotivInsight(int deviceNumber) {
-		if (!mBound) return;
+		if (!mBound || mService == null) return;
 		// Create and send a message to the service, using a supported 'what' value
 		Message msg = Message.obtain(null, deviceNumber, 0, 0);
 		try {

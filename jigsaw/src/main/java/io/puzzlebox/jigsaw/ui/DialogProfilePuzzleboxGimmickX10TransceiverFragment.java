@@ -55,20 +55,20 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
         Button buttonStatusPuzzleboxGimmickX10Off = v.findViewById(R.id.buttonStatusPuzzleboxGimmickX10Off);
         buttonStatusPuzzleboxGimmickX10Off.setOnClickListener(view -> {
             Log.e(TAG, "buttonStatusPuzzleboxGimmickX10Off()");
-            broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Off");
+            broadcastCommandBluetooth(DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Off");
             DevicePuzzleboxGimmickSingleton.getInstance().x10Level = 0;
         });
         Button buttonStatusPuzzleboxGimmickX10On = v.findViewById(R.id.buttonStatusPuzzleboxGimmickX10On);
         buttonStatusPuzzleboxGimmickX10On.setOnClickListener(view -> {
             Log.e(TAG, "buttonStatusPuzzleboxGimmickX10On()");
-            broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " On");
+            broadcastCommandBluetooth(DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " On");
             DevicePuzzleboxGimmickSingleton.getInstance().x10Level = 10;
         });
         Button buttonStatusPuzzleboxGimmickX10Dim = v.findViewById(R.id.buttonStatusPuzzleboxGimmickX10Dim);
         buttonStatusPuzzleboxGimmickX10Dim.setOnClickListener(view -> {
             Log.e(TAG, "buttonStatusPuzzleboxGimmickX10Dim()");
             if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level > 0) {
-                broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Dim");
+                broadcastCommandBluetooth(DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Dim");
                 DevicePuzzleboxGimmickSingleton.getInstance().x10Level--;
             }
         });
@@ -76,7 +76,7 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
         buttonStatusPuzzleboxGimmickX10Bright.setOnClickListener(view -> {
             Log.e(TAG, "buttonStatusPuzzleboxGimmickX10Bright()");
             if (DevicePuzzleboxGimmickSingleton.getInstance().x10Level < 10) {
-                broadcastCommandBluetooth("x10", DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Bright");
+                broadcastCommandBluetooth(DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Bright");
                 DevicePuzzleboxGimmickSingleton.getInstance().x10Level++;
             }
         });
@@ -107,14 +107,14 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
         mListener = null;
     }
 
-    private  void broadcastCommandBluetooth(String name, String value) {
-        Log.d(TAG, "broadcastCommandBluetooth: " + name + ": " + value);
+    private  void broadcastCommandBluetooth(String value) {
+        Log.d(TAG, "broadcastCommandBluetooth: x10: " + value);
 
         Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.bluetooth.command");
 
-        intent.putExtra("name", name);
+        intent.putExtra("name", "x10");
         intent.putExtra("value", value);
 
-        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent);
     }
 }

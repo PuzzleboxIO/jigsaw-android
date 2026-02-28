@@ -1,5 +1,6 @@
 package io.puzzlebox.jigsaw.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -66,20 +67,21 @@ public class SupportFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 	}
 
+	@SuppressLint("SourceLockedOrientationActivity")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 									 Bundle savedInstanceState) {
 
-		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.fragment_support, container, false);
 
 		try {
-			versionName = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(),0).versionName;
+			versionName = requireActivity().getPackageManager().getPackageInfo(requireActivity().getPackageName(),0).versionName;
 		}
 		catch (PackageManager.NameNotFoundException e) {
-			Log.v(TAG, e.getMessage());
+			Log.v(TAG, String.valueOf(e.getMessage()));
 		}
 
 		editTextName = v.findViewById(R.id.editTextName);
@@ -109,7 +111,7 @@ public class SupportFragment extends Fragment {
 	}
 
 	public void sendMessage() {
-		Toast.makeText(getActivity().getApplicationContext(), "Thank you for your feedback!", Toast.LENGTH_LONG).show();
+		Toast.makeText(requireActivity().getApplicationContext(), "Thank you for your feedback!", Toast.LENGTH_LONG).show();
 
 		String name = editTextName.getText().toString();
 		String email = editTextEmail.getText().toString();
@@ -136,14 +138,13 @@ public class SupportFragment extends Fragment {
 		output = output + "Product: " + Build.PRODUCT + "\n";
 		output = output + "Hardware: " + Build.HARDWARE + "\n";
 		output = output + "Device: " + Build.DEVICE + "\n";
-		output = output +
-				getResources().getString(R.string.app_name) +
-				" Version: " + versionName + "\n";
+		output = output + getResources().getString(R.string.app_name) + " Version: " + versionName + "\n";
 		output = output + "Android Version: " + Build.VERSION.SDK_INT + "\n";
 
 		return (output);
 	}
 
+	@SuppressLint("StaticFieldLeak")
 	@SuppressWarnings("deprecation") // AsyncTask deprecated in API 30, but functional through API 36
 	private class EmailMessage extends AsyncTask<String, Void, Object> {
 

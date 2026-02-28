@@ -132,12 +132,7 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	}
 
 	public boolean handleMessage(Message msg) {
-		if (msg.what != CUSTOM_MESSAGE) {
-			// Return false - as we have not handled the message
-			return false;
-		}
-		// Return true - as we have handled the message
-		return true;
+		return msg.what == CUSTOM_MESSAGE;
 	}
 
 	//	public void updateControlSignal(int throttle, int yaw, int pitch, int channel) {

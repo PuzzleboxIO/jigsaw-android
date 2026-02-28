@@ -92,7 +92,8 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.dialog_profile_puzzlebox_gimmick_demo, container, false);
 
-        getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_puzzlebox_gimmick_demo));
+        Window dialogWindow = requireDialog().getWindow();
+        if (dialogWindow != null) dialogWindow.setTitle( getString(R.string.title_dialog_fragment_puzzlebox_gimmick_demo));
 
         buttonTestFlight = v.findViewById(R.id.buttonTestFlight);
         buttonTestFlight.setOnClickListener(this::testFlight);
@@ -188,11 +189,11 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
         super.onPause();
 
         LocalBroadcastManager.getInstance(
-                getActivity().getApplicationContext()).unregisterReceiver(
+                requireActivity().getApplicationContext()).unregisterReceiver(
                 mPacketReceiver);
 
         LocalBroadcastManager.getInstance(
-                getActivity().getApplicationContext()).unregisterReceiver(
+                requireActivity().getApplicationContext()).unregisterReceiver(
                 mEventReceiver);
 
         stopControl();
@@ -201,7 +202,12 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
     public void onResume() {
 
         // Store access variables for window and blank point
-        Window window = getDialog().getWindow();
+        Window window = requireDialog().getWindow();
+
+        if (window == null) {
+            super.onResume();
+            return;
+        }
 
         Point size = new Point();
 
@@ -224,17 +230,17 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
         if (ProfileSingleton.getInstance().getValue(io.puzzlebox.jigsaw.ui.DialogOutputAudioIRFragment.profileID, "active").equals("true")) {
             playControl();
         } else {
-            Toast.makeText(getActivity().getApplicationContext(), getString(R.string.toast_puzzlebox_orbit_joystick_audio_ir_warning), Toast.LENGTH_LONG).show();
+            Toast.makeText(requireActivity().getApplicationContext(), getString(R.string.toast_puzzlebox_orbit_joystick_audio_ir_warning), Toast.LENGTH_LONG).show();
         }
 
         updatePowerThresholds();
         updatePower();
         updateControlSignal();
 
-        LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+        LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
                 mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
 
-        LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+        LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
                 mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
     }
 
@@ -243,13 +249,16 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            int eegAttention = Integer.parseInt(intent.getStringExtra("Attention"));
-            int eegMeditation = Integer.parseInt(intent.getStringExtra("Meditation"));
-            int eegSignal = Integer.parseInt(intent.getStringExtra("Signal Level"));
-
-            progressBarAttention.setProgress(eegAttention);
-            progressBarMeditation.setProgress(eegMeditation);
-            progressBarSignal.setProgress(eegSignal);
+            String attentionStr = intent.getStringExtra("Attention");
+            String meditationStr = intent.getStringExtra("Meditation");
+            String signalStr = intent.getStringExtra("Signal Level");
+            int eegSignal = 0;
+            if (attentionStr != null) progressBarAttention.setProgress(Integer.parseInt(attentionStr));
+            if (meditationStr != null) progressBarMeditation.setProgress(Integer.parseInt(meditationStr));
+            if (signalStr != null) {
+                eegSignal = Integer.parseInt(signalStr);
+                progressBarSignal.setProgress(eegSignal);
+            }
 
             updateStatusImage();
 
@@ -268,7 +277,7 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
                 DevicePuzzleboxOrbitSingleton.getInstance().defaultControlPitch,
                 DevicePuzzleboxOrbitSingleton.getInstance().defaultChannel};
 
-        // Transmit zero Throttle power if not above EEG power threashold
+        // Transmit zero Throttle power if not above EEG power threshold
         // or demo mode (test flight) is not active
         if (eegPower <= 0) {
             command[0] = 0;
@@ -284,11 +293,11 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
 
             String name = intent.getStringExtra("name");
             String value = intent.getStringExtra("value");
-
+            if (name == null) return;
             switch(name) {
 
                 case "eegStatus":
-
+                    if (value == null) break;
                     switch(value) {
                         case "STATE_CONNECTING":
                         case "STATE_CONNECTED":
@@ -539,7 +548,7 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
          * points per second (80-40).
          *
          * You can set both Attention and Meditation targets at the
-         * same time. Reaching either will fly the helicopter but you
+         * same time. Reaching either will fly the helicopter, but you
          * will only receive points for the higher-scoring target of
          * the two.
          *
@@ -607,7 +616,7 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
              */
 
             /** Getting the user sound settings */
-            AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+            AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
             float maxVolume = (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int) maxVolume, 0);
@@ -711,6 +720,6 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
         intent.putExtra("name", name);
         intent.putExtra("value", value);
 
-        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent);
     }
 }

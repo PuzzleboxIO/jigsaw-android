@@ -86,7 +86,7 @@ public class RedBearLabsService extends Service {
 
 		public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
 			if (status == BluetoothGatt.GATT_SUCCESS) {
-				broadcastUpdate(ACTION_GATT_RSSI, rssi);
+				broadcastUpdate(rssi);
 			} else {
 				Log.w(TAG, "onReadRemoteRssi received: " + status);
 			}
@@ -105,14 +105,14 @@ public class RedBearLabsService extends Service {
 		public void onCharacteristicRead(BluetoothGatt gatt,
 										 BluetoothGattCharacteristic characteristic, int status) {
 			if (status == BluetoothGatt.GATT_SUCCESS) {
-				broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+				broadcastUpdate(characteristic);
 			}
 		}
 
 		@Override
 		public void onCharacteristicChanged(BluetoothGatt gatt,
 											BluetoothGattCharacteristic characteristic) {
-			broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+			broadcastUpdate(characteristic);
 		}
 	};
 
@@ -121,15 +121,14 @@ public class RedBearLabsService extends Service {
 		sendBroadcast(intent);
 	}
 
-	private void broadcastUpdate(final String action, int rssi) {
-		final Intent intent = new Intent(action);
+	private void broadcastUpdate(int rssi) {
+		final Intent intent = new Intent(ACTION_GATT_RSSI);
 		intent.putExtra(EXTRA_DATA, String.valueOf(rssi));
 		sendBroadcast(intent);
 	}
 
-	private void broadcastUpdate(final String action,
-								 final BluetoothGattCharacteristic characteristic) {
-		final Intent intent = new Intent(action);
+	private void broadcastUpdate(final BluetoothGattCharacteristic characteristic) {
+		final Intent intent = new Intent(ACTION_DATA_AVAILABLE);
 
 		// This is special handling for the Heart Rate Measurement profile. Data
 		// parsing is

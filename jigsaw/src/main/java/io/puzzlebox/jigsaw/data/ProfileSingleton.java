@@ -6,11 +6,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import io.puzzlebox.jigsaw.R;
 
@@ -128,7 +130,7 @@ public class ProfileSingleton {
 	public static Drawable getDeviceDrawable(String name) {
 		for (HashMap<String, String> map : inputs) {
 			Log.d(TAG, "id: " + map.get("id"));
-			if (map.get("id").equals(name)) {
+			if (Objects.equals(map.get("id"), name)) {
 				Log.d(TAG, "icon: " + map.get("icon"));
 
 				return ResourcesCompat.getDrawable(Resources.getSystem(),
@@ -140,13 +142,13 @@ public class ProfileSingleton {
 
 	public String getDeviceIconPath(String name) {
 		for (HashMap<String, String> map : inputs) {
-			if (map.get("id").equals(name)) {
+			if (Objects.equals(map.get("id"), name)) {
 				return(map.get("icon"));
 			}
 		}
 
 		for (HashMap<String, String> map : outputs) {
-			if (map.get("id").equals(name)) {
+			if (Objects.equals(map.get("id"), name)) {
 				return(map.get("icon"));
 			}
 		}
@@ -155,19 +157,19 @@ public class ProfileSingleton {
 
 	public void updateStatus(String id, String name, String value) {
 		for (HashMap<String, String> map : inputs) {
-			if (map.get("id").equals(id)) {
+			if (Objects.equals(map.get("id"), id)) {
 				map.put(name, value);
 			}
 		}
 
 		for (HashMap<String, String> map : outputs) {
-			if (map.get("id").equals(id)) {
+			if (Objects.equals(map.get("id"), id)) {
 				map.put(name, value);
 			}
 		}
 
 		for (HashMap<String, String> map : profiles) {
-			if (map.get("id").equals(id)) {
+			if (Objects.equals(map.get("id"), id)) {
 				map.put(name, value);
 			}
 		}
@@ -178,17 +180,17 @@ public class ProfileSingleton {
 		try {
 			switch (category) {
 				case "inputs":
-					if (inputs.get(index).get("active").equals("true")) {
+					if ("true".equals(inputs.get(index).get("active"))) {
 						result = true;
 					}
 					break;
 				case "outputs":
-					if (outputs.get(index).get("active").equals("true")) {
+					if ("true".equals(outputs.get(index).get("active"))) {
 						result = true;
 					}
 					break;
 				case "profiles":
-					if (profiles.get(index).get("active").equals("true")) {
+					if ("true".equals(profiles.get(index).get("active"))) {
 						result = true;
 					}
 					break;
@@ -202,7 +204,7 @@ public class ProfileSingleton {
 	public Drawable getProfileTileColor(Context context, int index) {
 		if (ProfileSingleton.getInstance().isActive("profiles", index)) {
 			profiles.get(index).put("status", "activated");
-			return new ColorDrawable(  context.getResources().getColor(R.color.tileActivated));
+			return new ColorDrawable(ContextCompat.getColor(context, R.color.tileActivated));
 		} else {
 			Boolean[] inputsActive = new Boolean[profiles_inputs.get(index).length];
 			Boolean[] outputsActive = new Boolean[profiles_outputs.get(index).length];
@@ -212,7 +214,7 @@ public class ProfileSingleton {
 			for (String name : profiles_inputs.get(index)) {
 				k = 0;
 				for (HashMap<String, String> map : inputs) {
-					if (map.get("id").equals(name)) {
+					if (Objects.equals(map.get("id"), name)) {
 						inputsActive[j] = (isActive("inputs", k));
 						Log.d(TAG, "inputsActive[" + j + "]: " + inputsActive[j]);
 					}
@@ -225,7 +227,7 @@ public class ProfileSingleton {
 			for (String name : profiles_outputs.get(index)) {
 				k = 0;
 				for (HashMap<String, String> map : outputs) {
-					if (map.get("id").equals(name)) {
+					if (Objects.equals(map.get("id"), name)) {
 						outputsActive[j] = (isActive("outputs", k));
 						Log.d(TAG, "outputsActive[" + j + "]: " + outputsActive[j]);
 					}
@@ -255,27 +257,27 @@ public class ProfileSingleton {
 
 			if (allAvailable) {
 				profiles.get(index).put("status", "available");
-				return new ColorDrawable(context.getResources().getColor(R.color.white));
+				return new ColorDrawable(ContextCompat.getColor(context, R.color.white));
 			} else {
 				profiles.get(index).put("status", "disabled");
-				return new ColorDrawable(context.getResources().getColor(R.color.tileDisabled));
+				return new ColorDrawable(ContextCompat.getColor(context, R.color.tileDisabled));
 			}
 		}
 	}
 
 	public String getStatus(String id) {
 		for (HashMap<String, String> map : inputs) {
-			if (map.get("id").equals(id)) {
+			if (Objects.equals(map.get("id"), id)) {
 				return map.get("status");
 			}
 		}
 		for (HashMap<String, String> map : outputs) {
-			if (map.get("id").equals(id)) {
+			if (Objects.equals(map.get("id"), id)) {
 				return map.get("status");
 			}
 		}
 		for (HashMap<String, String> map : profiles) {
-			if (map.get("id").equals(id)) {
+			if (Objects.equals(map.get("id"), id)) {
 				return map.get("status");
 			}
 		}
@@ -284,19 +286,19 @@ public class ProfileSingleton {
 
 	public String getValue(String id, String name) {
 		for (HashMap<String, String> map : inputs) {
-			if (map.get("id").equals(id)) {
+			if (Objects.equals(map.get("id"), id)) {
 				return map.get(name);
 			}
 		}
 
 		for (HashMap<String, String> map : outputs) {
-			if (map.get("id").equals(id)) {
+			if (Objects.equals(map.get("id"), id)) {
 				return map.get(name);
 			}
 		}
 
 		for (HashMap<String, String> map : profiles) {
-			if (map.get("id").equals(id)) {
+			if (Objects.equals(map.get("id"), id)) {
 				return map.get(name);
 			}
 		}

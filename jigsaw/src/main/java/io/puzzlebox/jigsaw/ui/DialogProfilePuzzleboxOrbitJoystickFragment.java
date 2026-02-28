@@ -50,7 +50,8 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_profile_puzzlebox_orbit_joystick, container, false);
 
-		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_puzzlebox_orbit_joystick));
+		Window dialogWindow = requireDialog().getWindow();
+		if (dialogWindow != null) dialogWindow.setTitle( getString(R.string.title_dialog_fragment_puzzlebox_orbit_joystick));
 
 		seekBarThrottle = v.findViewById(R.id.seekBarThrottle);
 		seekBarThrottle.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickThrottle);
@@ -110,7 +111,7 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 //					DevicePuzzleboxOrbitSingleton.getInstance().loaded = true;
 //				}
 //			});
-//			DevicePuzzleboxOrbitSingleton.getInstance().soundID = DevicePuzzleboxOrbitSingleton.getInstance().soundPool.load(getActivity().getApplicationContext(), DevicePuzzleboxOrbitSingleton.getInstance().audioFile, 1);
+//			DevicePuzzleboxOrbitSingleton.getInstance().soundID = DevicePuzzleboxOrbitSingleton.getInstance().soundPool.load(requireActivity().getApplicationContext(), DevicePuzzleboxOrbitSingleton.getInstance().audioFile, 1);
 
 //			DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.start();
 			DevicePuzzleboxOrbitSingleton.getInstance().startAudioHandler();
@@ -147,7 +148,12 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 
 	public void onResume() {
 		// Store access variables for window and blank point
-		Window window = getDialog().getWindow();
+		Window window = requireDialog().getWindow();
+
+        if (window == null) {
+            super.onResume();
+            return;
+        }
 
 		Point size = new Point();
 
@@ -166,7 +172,7 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 		if (ProfileSingleton.getInstance().getValue(DialogOutputAudioIRFragment.profileID, "active").equals("true"))
 			playControl();
 		else
-			Toast.makeText(getActivity().getApplicationContext(), getString(R.string.toast_puzzlebox_orbit_joystick_audio_ir_warning), Toast.LENGTH_LONG).show();
+			Toast.makeText(requireActivity().getApplicationContext(), getString(R.string.toast_puzzlebox_orbit_joystick_audio_ir_warning), Toast.LENGTH_LONG).show();
 	}
 
 	private final JoystickView.OnMoveListener onMoveJoystickYawPitch = new JoystickView.OnMoveListener(){

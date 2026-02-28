@@ -3,11 +3,9 @@ package io.puzzlebox.jigsaw.data;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AlertDialog;
@@ -168,7 +166,8 @@ public class SessionSingleton {
 		}
 
 		try {
-			diff = date2.getTime() - date1.getTime();
+			if (date1 != null && date2 != null)
+				diff = date2.getTime() - date1.getTime();
 		} catch (Exception e) {
 			Log.e(TAG, "Exception", e);
 		}
@@ -228,8 +227,8 @@ public class SessionSingleton {
 
 		for (int i = 0; i < count; i++) {
 			try {
-				result[i] = Integer.valueOf(
-						data.get( data.size() - (count - i ) ).get(key));
+				String val = data.get( data.size() - (count - i ) ).get(key);
+				result[i] = (val != null) ? Integer.valueOf(val) : 0;
 			} catch (ArrayIndexOutOfBoundsException e) {
 				result[i] = 0;
 			} catch (Exception e) {
@@ -292,13 +291,10 @@ public class SessionSingleton {
 	// Tracks the last exported file so it can be cleaned up without needing a Context.
 	private File lastExportedFile = null;
 
-	public boolean removeTemporarySessionFile() {
+	public void removeTemporarySessionFile() {
 		if (lastExportedFile != null && lastExportedFile.exists()) {
-			boolean deleted = lastExportedFile.delete();
-			if (deleted) lastExportedFile = null;
-			return deleted;
+			if (lastExportedFile.delete()) lastExportedFile = null;
 		}
-		return false;
 	}
 
 	public Intent getExportSessionIntent(Context context) {
@@ -366,16 +362,11 @@ public class SessionSingleton {
 			builder.setTitle(activity.getResources().getString(R.string.dialog_title_request_permission));
 			builder.setMessage(activity.getResources().getString(R.string.dialog_message_request_permission));
 			builder.setPositiveButton(android.R.string.ok,null);
-			builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-				@Override
-				public void onDismiss(DialogInterface dialog) {
-					ActivityCompat.requestPermissions(
-							activity,
-							PERMISSIONS_STORAGE,
-							REQUEST_EXTERNAL_STORAGE
-					);
-				}
-			});
+			builder.setOnDismissListener(dialog -> ActivityCompat.requestPermissions(
+					activity,
+					PERMISSIONS_STORAGE,
+					REQUEST_EXTERNAL_STORAGE
+			));
 			builder.show();
 		} else {
 			Intent i = SessionSingleton.getInstance().getExportSessionIntent(activity.getApplicationContext());

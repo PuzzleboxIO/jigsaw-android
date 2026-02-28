@@ -53,8 +53,10 @@ public class SensorFragment extends Fragment implements SensorEventListener {
             mSensorType = args.getInt("sensorType");
         }
 
-        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(mSensorType);
+        mSensorManager = (SensorManager) requireActivity().getSystemService(Context.SENSOR_SERVICE);
+        if (mSensorManager != null) {
+            mSensor = mSensorManager.getDefaultSensor(mSensorType);
+        }
     }
 
     @Override

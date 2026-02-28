@@ -114,7 +114,8 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_profile_puzzlebox_orbit_emotiv_insight, container, false);
 
-		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_puzzlebox_orbit_emotiv_insight));
+		Window dialogWindow = requireDialog().getWindow();
+		if (dialogWindow != null) dialogWindow.setTitle( getString(R.string.title_dialog_fragment_puzzlebox_orbit_emotiv_insight));
 
 		buttonTestFlight = v.findViewById(R.id.buttonTestFlight);
 		buttonTestFlight.setOnClickListener(this::testFlight);
@@ -235,15 +236,15 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		super.onPause();
 
 		LocalBroadcastManager.getInstance(
-				getActivity().getApplicationContext()).unregisterReceiver(
+				requireActivity().getApplicationContext()).unregisterReceiver(
 				mActionReceiver);
 
 		LocalBroadcastManager.getInstance(
-				getActivity()).unregisterReceiver(
+				requireActivity()).unregisterReceiver(
 				mSignalQualityReceiver);
 
 		LocalBroadcastManager.getInstance(
-				getActivity().getApplicationContext()).unregisterReceiver(
+				requireActivity().getApplicationContext()).unregisterReceiver(
 				mTrainingReceiver);
 
 		stopControl();
@@ -252,7 +253,12 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 	public void onResume() {
 
 		// Store access variables for window and blank point
-		Window window = getDialog().getWindow();
+		Window window = requireDialog().getWindow();
+
+        if (window == null) {
+            super.onResume();
+            return;
+        }
 
 		Point size = new Point();
 
@@ -272,20 +278,20 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		if (ProfileSingleton.getInstance().getValue(io.puzzlebox.jigsaw.ui.DialogOutputAudioIRFragment.profileID, "active").equals("true")) {
 			playControl();
 		} else {
-			Toast.makeText(getActivity().getApplicationContext(), getString(R.string.toast_puzzlebox_orbit_joystick_audio_ir_warning), Toast.LENGTH_LONG).show();
+			Toast.makeText(requireActivity().getApplicationContext(), getString(R.string.toast_puzzlebox_orbit_joystick_audio_ir_warning), Toast.LENGTH_LONG).show();
 		}
 
 		updatePowerThresholds();
 		updatePower();
 		updateControlSignal();
 
-		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
 				mSignalQualityReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality"));
 
-		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
 				mActionReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.action"));
 
-		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
 				mTrainingReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.training"));
 	}
 
@@ -296,14 +302,21 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 
 			int eegSignal = 0;
 
-			int AF3 = Integer.parseInt(intent.getStringExtra("AF3"));
-			int AF4 = Integer.parseInt(intent.getStringExtra("AF4"));
-			int T7 = Integer.parseInt(intent.getStringExtra("T7"));
-			int T8 = Integer.parseInt(intent.getStringExtra("T8"));
-			int Pz = Integer.parseInt(intent.getStringExtra("Pz"));
-			int CMS = Integer.parseInt(intent.getStringExtra("CMS"));
+			String af3Str = intent.getStringExtra("AF3");
+			String af4Str = intent.getStringExtra("AF4");
+			String t7Str = intent.getStringExtra("T7");
+			String t8Str = intent.getStringExtra("T8");
+			String pzStr = intent.getStringExtra("Pz");
+			String cmsStr = intent.getStringExtra("CMS");
+			if (af3Str == null || af4Str == null || t7Str == null || t8Str == null || pzStr == null || cmsStr == null) return;
+			int AF3 = Integer.parseInt(af3Str);
+			int AF4 = Integer.parseInt(af4Str);
+			int T7 = Integer.parseInt(t7Str);
+			int T8 = Integer.parseInt(t8Str);
+			int Pz = Integer.parseInt(pzStr);
+			int CMS = Integer.parseInt(cmsStr);
 
-			// If there is no change to values no need to recaculate eegSignal and redraw all ImageViews
+			// If there is no change to values no need to recalculate eegSignal and redraw all ImageViews
 			if ((AF3 != currentAF3) &&
 					(AF4 != currentAF4) &&
 					(T7 != currentT7) &&
@@ -454,6 +467,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String status = intent.getStringExtra("status");
+			if (status == null) return;
 
 			switch (DeviceEmotivInsightSingleton.getInstance().currentInsightTraining) {
 
@@ -499,7 +513,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 				DevicePuzzleboxOrbitSingleton.getInstance().defaultControlPitch,
 				DevicePuzzleboxOrbitSingleton.getInstance().defaultChannel};
 
-		// Transmit zero Throttle power if not above EEG power threashold
+		// Transmit zero Throttle power if not above EEG power threshold
 		// or demo mode (test flight) is not active
 		if (eegPower <= 0) {
 			command[0] = 0;
@@ -661,7 +675,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		 * points per second (80-40).
 		 *
 		 * You can set both Attention and Meditation targets at the
-		 * same time. Reaching either will fly the helicopter but you
+		 * same time. Reaching either will fly the helicopter, but you
 		 * will only receive points for the higher-scoring target of
 		 * the two.
 		 *
@@ -710,7 +724,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 			 */
 
 			/* Getting the user sound settings */
-			AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+			AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
 			//			float actualVolume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 			float maxVolume = (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 			//			float volume = actualVolume / maxVolume;
@@ -816,7 +830,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 			String name = intent.getStringExtra("name");
 			String value = intent.getStringExtra("value");
 
-			if (name.equals("2")) {
+			if ("2".equals(name) && value != null) {
 				double actionPower = Double.parseDouble(value);
 				int eegMentalCommand = (int) (actionPower * 100);
 				Log.d(TAG, "eegMentalCommand:" + eegMentalCommand);

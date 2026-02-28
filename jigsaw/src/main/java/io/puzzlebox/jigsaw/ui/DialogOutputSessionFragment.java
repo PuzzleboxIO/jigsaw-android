@@ -14,11 +14,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -36,7 +34,6 @@ import java.util.Arrays;
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
-import static android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM;
 
 public class DialogOutputSessionFragment extends DialogFragment {
 
@@ -47,13 +44,13 @@ public class DialogOutputSessionFragment extends DialogFragment {
 	// UI
 	Button buttonDeviceEnable;
 
-	private static EditText editTextSessionProfile;
-	private static TextView textViewSessionTime;
+	private EditText editTextSessionProfile;
+	private TextView textViewSessionTime;
 
-	private static XYPlot sessionPlot1 = null;
-	private static SimpleXYSeries sessionPlotSeries1 = null;
-	private static XYPlot sessionPlot2 = null;
-	private static SimpleXYSeries sessionPlotSeries2 = null;
+	private XYPlot sessionPlot1 = null;
+	private SimpleXYSeries sessionPlotSeries1 = null;
+	private XYPlot sessionPlot2 = null;
+	private SimpleXYSeries sessionPlotSeries2 = null;
 
 	private OnFragmentInteractionListener mListener;
 
@@ -67,7 +64,8 @@ public class DialogOutputSessionFragment extends DialogFragment {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_output_session, container, false);
 
-		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_session));
+		Window dialogWindow = requireDialog().getWindow();
+		if (dialogWindow != null) dialogWindow.setTitle( getString(R.string.title_dialog_fragment_session));
 
 		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
 		buttonDeviceCancel.setOnClickListener(view -> dismiss());
@@ -182,6 +180,7 @@ public class DialogOutputSessionFragment extends DialogFragment {
 		LinearLayout linearLayoutSessionPlot2 = v.findViewById(R.id.linearLayoutSessionPlot2);
 		TextView textViewSessionPlot1 = v.findViewById(R.id.textViewSessionPlot1);
 		TextView textViewSessionPlot2 = v.findViewById(R.id.textViewSessionPlot2);
+
 		return v;
 	}
 
@@ -209,7 +208,7 @@ public class DialogOutputSessionFragment extends DialogFragment {
 	public void onPause() {
 		super.onPause();
 		LocalBroadcastManager.getInstance(
-				getActivity().getApplicationContext()).unregisterReceiver(
+				requireActivity().getApplicationContext()).unregisterReceiver(
 				mPacketReceiver);
 	}
 
@@ -222,39 +221,24 @@ public class DialogOutputSessionFragment extends DialogFragment {
 
 		updateSessionTime();
 
-		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
 				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
 
 	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
-		menu.add("Share")
-				.setOnMenuItemClickListener(this.mShareButtonClickListener)
-				.setIcon(android.R.drawable.ic_menu_share)
-				.setShowAsAction(SHOW_AS_ACTION_IF_ROOM);
-
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-
-	final MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {
-		shareSession();
-		return false;
-	};
 
 	public void shareSession() {
 		Intent i = SessionSingleton.getInstance().getExportSessionIntent(requireContext());
 		if (i != null) {
 			startActivity(i);
 		} else {
-			Toast.makeText(getContext(), "Error preparing session data for sharing", Toast.LENGTH_SHORT).show();
+			Toast.makeText(requireContext(), "Error preparing session data for sharing", Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	private void resetSession() {
 		SessionSingleton.getInstance().resetSession();
 		textViewSessionTime.setText( R.string.session_time );
-		Toast.makeText((getActivity().getApplicationContext()),
+		Toast.makeText((requireActivity().getApplicationContext()),
 				"Session data reset",
 				Toast.LENGTH_SHORT).show();
 	}

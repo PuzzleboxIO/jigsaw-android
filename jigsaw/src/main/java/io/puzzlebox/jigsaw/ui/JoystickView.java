@@ -291,6 +291,8 @@ public class JoystickView extends View
 
 			if (mCallback != null)
 				mCallback.onMove(getAngle(), getStrength());
+
+			performClick();
 		}
 
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {

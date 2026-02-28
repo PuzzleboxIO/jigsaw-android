@@ -40,7 +40,7 @@ public class TilesFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ProfileSingleton.getInstance().parseXML(getContext());
+		ProfileSingleton.getInstance().parseXML(requireContext());
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class TilesFragment extends Fragment {
 
 		// Compute the width of a carousel item based on the screen width and number of initial items.
 		final DisplayMetrics displayMetrics = new DisplayMetrics();
-		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 		final int imageSize = (int) (displayMetrics.widthPixels / INITIAL_ITEMS_COUNT);
 
 		ImageView imageItem;
@@ -73,7 +73,7 @@ public class TilesFragment extends Fragment {
 			final int index = i;
 
 			// Create new ImageView
-			imageItem = new ImageView(getActivity());
+			imageItem = new ImageView(requireActivity());
 
 			// Set the shadow background
 			imageItem.setBackgroundResource(R.drawable.shadow);
@@ -86,7 +86,7 @@ public class TilesFragment extends Fragment {
 
 			imageItem.setOnClickListener(view -> showDialog("input", index));
 
-			TileViewAnimator tileViewAnimator = new TileViewAnimator(getContext());
+			TileViewAnimator tileViewAnimator = new TileViewAnimator(requireContext());
 			tileViewAnimator.addView(imageItem);
 
 			/// Add image view to the carousel container
@@ -95,7 +95,7 @@ public class TilesFragment extends Fragment {
 
 		// Populate the output devices carousel with items
 		for (int i = 0 ; i < devicesOutputResourcesTypedArray.length() ; ++i) {
-			imageItem = new ImageView(getActivity());
+			imageItem = new ImageView(requireActivity());
 			imageItem.setBackgroundResource(R.drawable.shadow);
 			imageItem.setImageResource(devicesOutputResourcesTypedArray.getResourceId(i, -1));
 			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize));
@@ -103,7 +103,7 @@ public class TilesFragment extends Fragment {
 			final int index = i;
 			imageItem.setOnClickListener(view -> showDialog("output", index));
 
-			TileViewAnimator tileViewAnimator = new TileViewAnimator(getContext());
+			TileViewAnimator tileViewAnimator = new TileViewAnimator(requireContext());
 			tileViewAnimator.addView(imageItem);
 
 			mOutputCarouselContainer.addView(tileViewAnimator);
@@ -111,7 +111,7 @@ public class TilesFragment extends Fragment {
 
 		// Populate the device profile carousel with items
 		for (int i = 0 ; i < devicesProfileResourcesTypedArray.length() ; ++i) {
-			imageItem = new ImageView(getActivity());
+			imageItem = new ImageView(requireActivity());
 			imageItem.setBackgroundResource(R.drawable.shadow);
 			imageItem.setImageResource(devicesProfileResourcesTypedArray.getResourceId(i, -1));
 			imageItem.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize));
@@ -119,7 +119,7 @@ public class TilesFragment extends Fragment {
 			final int index = i;
 			imageItem.setOnClickListener(view -> showDialog("profile", index));
 
-			TileViewAnimator tileViewAnimator = new TileViewAnimator(getContext());
+			TileViewAnimator tileViewAnimator = new TileViewAnimator(requireContext());
 			tileViewAnimator.addView(imageItem);
 			mProfileCarouselContainer.addView(tileViewAnimator);
 		}
@@ -152,7 +152,7 @@ public class TilesFragment extends Fragment {
 											.newInstance();
 							dialogInputEmotivInsightFragment.show(fm, getResources().getString(R.string.title_dialog_fragment_emotiv_insight));
 						} catch (ReflectiveOperationException e) {
-							android.widget.Toast.makeText(getActivity(),
+							android.widget.Toast.makeText(requireActivity(),
 									"Emotiv Insight SDK not available in this build",
 									android.widget.Toast.LENGTH_SHORT).show();
 						}

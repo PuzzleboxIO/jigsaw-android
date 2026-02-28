@@ -92,7 +92,8 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_profile_puzzlebox_orbit_joystick_mindwave, container, false);
 
-		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_puzzlebox_orbit_joystick_mindwave));
+		Window dialogWindow = requireDialog().getWindow();
+		if (dialogWindow != null) dialogWindow.setTitle( getString(R.string.title_dialog_fragment_puzzlebox_orbit_joystick_mindwave));
 
 		progressBarAttention = v.findViewById(R.id.progressBarAttention);
 		final float[] roundedCorners = new float[] { 5, 5, 5, 5, 5, 5, 5, 5 };
@@ -201,11 +202,11 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 	public void onPause() {
 		super.onPause();
 		LocalBroadcastManager.getInstance(
-				getActivity().getApplicationContext()).unregisterReceiver(
+				requireActivity().getApplicationContext()).unregisterReceiver(
 				mPacketReceiver);
 
 		LocalBroadcastManager.getInstance(
-				getActivity().getApplicationContext()).unregisterReceiver(
+				requireActivity().getApplicationContext()).unregisterReceiver(
 				mEventReceiver);
 
 		stopControl();
@@ -214,7 +215,12 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 	public void onResume() {
 
 		// Store access variables for window and blank point
-		Window window = getDialog().getWindow();
+		Window window = requireDialog().getWindow();
+
+        if (window == null) {
+            super.onResume();
+            return;
+        }
 
 		Point size = new Point();
 
@@ -233,16 +239,16 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		if (ProfileSingleton.getInstance().getValue(DialogOutputAudioIRFragment.profileID, "active").equals("true")) {
 			playControl();
 		} else {
-			Toast.makeText(getActivity().getApplicationContext(), getString(R.string.toast_puzzlebox_orbit_joystick_audio_ir_warning), Toast.LENGTH_LONG).show();
+			Toast.makeText(requireActivity().getApplicationContext(), getString(R.string.toast_puzzlebox_orbit_joystick_audio_ir_warning), Toast.LENGTH_LONG).show();
 		}
 
 		updatePowerThresholds();
 		updatePower();
 
-		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
 				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
 
-		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
 				mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
 	}
 
@@ -351,7 +357,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 				seekBarPitch.getProgress(),
 				DevicePuzzleboxOrbitSingleton.getInstance().defaultChannel};
 
-		// Transmit zero Throttle power if not about EEG power threashold
+		// Transmit zero Throttle power if not about EEG power threshold
 		if (eegPower <= 0) {
 			Log.e(TAG, "(eegPower <= 0)");
 			command[0] = 0;
@@ -417,13 +423,12 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-			int eegAttention = Integer.parseInt(intent.getStringExtra("Attention"));
-			int eegMeditation = Integer.parseInt(intent.getStringExtra("Meditation"));
-			int eegSignal = Integer.parseInt(intent.getStringExtra("Signal Level"));
-
-			progressBarAttention.setProgress(eegAttention);
-			progressBarMeditation.setProgress(eegMeditation);
-			progressBarSignal.setProgress(eegSignal);
+			String attentionStr = intent.getStringExtra("Attention");
+			String meditationStr = intent.getStringExtra("Meditation");
+			String signalStr = intent.getStringExtra("Signal Level");
+			if (attentionStr != null) progressBarAttention.setProgress(Integer.parseInt(attentionStr));
+			if (meditationStr != null) progressBarMeditation.setProgress(Integer.parseInt(meditationStr));
+			if (signalStr != null) progressBarSignal.setProgress(Integer.parseInt(signalStr));
 
 			updateStatusImage();
 
@@ -439,11 +444,11 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 
 			String name = intent.getStringExtra("name");
 			String value = intent.getStringExtra("value");
-
+			if (name == null) return;
 			switch(name) {
 
 				case "eegStatus":
-
+					if (value == null) break;
 					switch(value) {
 						case "STATE_CONNECTING":
 						case "STATE_CONNECTED":
@@ -675,7 +680,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		 * points per second (80-40).
 		 *
 		 * You can set both Attention and Meditation targets at the
-		 * same time. Reaching either will fly the helicopter but you
+		 * same time. Reaching either will fly the helicopter, but you
 		 * will only receive points for the higher-scoring target of
 		 * the two.
 		 *

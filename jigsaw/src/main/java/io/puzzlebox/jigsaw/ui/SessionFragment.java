@@ -6,6 +6,7 @@
 
 package io.puzzlebox.jigsaw.ui;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.Editable;
@@ -45,13 +47,13 @@ import static android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM;
 
 public class SessionFragment extends Fragment {
 
-	private static EditText editTextSessionProfile;
-	private static TextView textViewSessionTime;
+	private EditText editTextSessionProfile;
+	private TextView textViewSessionTime;
 
-	private static XYPlot sessionPlot1 = null;
-	private static SimpleXYSeries sessionPlotSeries1 = null;
-	private static XYPlot sessionPlot2 = null;
-	private static SimpleXYSeries sessionPlotSeries2 = null;
+	private XYPlot sessionPlot1 = null;
+	private SimpleXYSeries sessionPlotSeries1 = null;
+	private XYPlot sessionPlot2 = null;
+	private SimpleXYSeries sessionPlotSeries2 = null;
 
 	private OnFragmentInteractionListener mListener;
 
@@ -68,15 +70,15 @@ public class SessionFragment extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setHasOptionsMenu(true);
 		super.onCreate(savedInstanceState);
 	}
 
+	@SuppressLint("SourceLockedOrientationActivity")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 
-		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.fragment_session, container, false);
@@ -183,6 +185,22 @@ public class SessionFragment extends Fragment {
 			// setGridPadding(float left, float top, float right, float bottom)
 			sessionPlot2.getGraphWidget().setGridPadding(0, 0, 0, 0);
 		}
+
+		requireActivity().addMenuProvider(new MenuProvider() {
+			@Override
+			public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+				menu.add("Share")
+						.setOnMenuItemClickListener(mShareButtonClickListener)
+						.setIcon(android.R.drawable.ic_menu_share)
+						.setShowAsAction(SHOW_AS_ACTION_IF_ROOM);
+			}
+
+			@Override
+			public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+				return false;
+			}
+		}, getViewLifecycleOwner());
+
 		return v;
 	}
 
@@ -220,7 +238,7 @@ public class SessionFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 		LocalBroadcastManager.getInstance(
-				getActivity().getApplicationContext()).unregisterReceiver(
+				requireActivity().getApplicationContext()).unregisterReceiver(
 				mPacketReceiver);
 	}
 
@@ -228,39 +246,29 @@ public class SessionFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		updateSessionTime();
-		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
 				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
 	}
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
-		menu.add("Share")
-				.setOnMenuItemClickListener(this.mShareButtonClickListener)
-				.setIcon(android.R.drawable.ic_menu_share)
-				.setShowAsAction(SHOW_AS_ACTION_IF_ROOM);
-
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-
 	final MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {
-		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
+		Intent i = SessionSingleton.getInstance().getExportSessionIntent(requireActivity().getApplicationContext());
 		exportSession();
 		return false;
 	};
 
 	public void exportSession() {
-		Intent i = SessionSingleton.getInstance().getExportSessionIntent(getActivity().getApplicationContext());
+		Intent i = SessionSingleton.getInstance().getExportSessionIntent(requireActivity().getApplicationContext());
 		if (i != null) {
 			startActivity(i);
 		} else {
-			Toast.makeText(getActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
+			Toast.makeText(requireActivity().getApplicationContext(), "Error export session data for sharing", Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	private void resetSession() {
 		SessionSingleton.getInstance().resetSession();
 		textViewSessionTime.setText( R.string.session_time );
-		Toast.makeText((getActivity().getApplicationContext()),
+		Toast.makeText((requireActivity().getApplicationContext()),
 				"Session data reset",
 				Toast.LENGTH_SHORT).show();
 	}

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import androidx.appcompat.widget.SwitchCompat;
 import android.widget.Toast;
@@ -48,7 +49,8 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(io.puzzlebox.jigsaw.R.layout.dialog_output_audio_ir, container, false);
 
-		getDialog().getWindow().setTitle( getString(io.puzzlebox.jigsaw.R.string.title_dialog_fragment_audio_ir));
+		Window dialogWindow = requireDialog().getWindow();
+		if (dialogWindow != null) dialogWindow.setTitle( getString(io.puzzlebox.jigsaw.R.string.title_dialog_fragment_audio_ir));
 
 		switchDetectTransmitter = v.findViewById(R.id.switchDetectTransmitter);
 		switchDetectTransmitter.setOnClickListener(this::switchDetectTransmitterClicked);
@@ -77,10 +79,11 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 			dismiss();
 		});
 
-		audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
-		volumeMax = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-
-		maximizeAudioVolume();
+		audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
+		if (audioManager != null) {
+			volumeMax = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+			maximizeAudioVolume();
+		}
 
 		DevicePuzzleboxOrbitSingleton.getInstance().startAudioHandler();
 
@@ -207,7 +210,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		intent.putExtra("value", value);
 		intent.putExtra("category", "outputs");
 
-		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
 	}
 
 	public void onPause() {
@@ -252,7 +255,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		// Check to see if headphone jack detects transmitter and if not Toast a warning message
 		if (! isWiredHeadsetConnected() &&
 				(! warningDetectTransmitterDisplayed)) {
-			Toast.makeText(getActivity().getApplicationContext(), getString(io.puzzlebox.jigsaw.R.string.toast_audio_ir_detect_transmitter_warning), Toast.LENGTH_LONG).show();
+			Toast.makeText(requireActivity().getApplicationContext(), getString(io.puzzlebox.jigsaw.R.string.toast_audio_ir_detect_transmitter_warning), Toast.LENGTH_LONG).show();
 			warningDetectTransmitterDisplayed = true;
 		}
 	}
@@ -262,7 +265,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		if ((! checkVolumeMax()) &&
 				(switchDetectVolume.isChecked()) &&
 				(! warningDetectVolumeDisplayed)) {
-			Toast.makeText(getActivity().getApplicationContext(), getString(io.puzzlebox.jigsaw.R.string.toast_audio_ir_detect_volume_max_warning), Toast.LENGTH_LONG).show();
+			Toast.makeText(requireActivity().getApplicationContext(), getString(io.puzzlebox.jigsaw.R.string.toast_audio_ir_detect_volume_max_warning), Toast.LENGTH_LONG).show();
 			warningDetectVolumeDisplayed = true;
 		}
 		updateReadyButton();
@@ -288,18 +291,15 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 	}
 
 	public boolean checkVolumeMax() {
-		boolean value = false;
-		if ((audioManager != null) &&
-				(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) == volumeMax)) {
-			value = true;
+		if (audioManager == null) return false;
+		if (audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) == volumeMax) {
+			return true;
 		}
-		else {
-			Log.i(TAG, "getStreamVolume(AudioManager.STREAM_MUSIC):" +
-					audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
-			Log.i(TAG, "getStreamMaxVolume(AudioManager.STREAM_MUSIC):" +
-					audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-		}
-		return value;
+		Log.i(TAG, "getStreamVolume(AudioManager.STREAM_MUSIC):" +
+				audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+		Log.i(TAG, "getStreamMaxVolume(AudioManager.STREAM_MUSIC):" +
+				audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+		return false;
 	}
 
 	public void updateReadyButton() {
@@ -316,18 +316,18 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 
 	public void maximizeAudioVolume() {
 
-		AudioManager audio = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+		AudioManager audio = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
+		if (audio == null) return;
 		int currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
 
 		if (currentVolume < audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC)) {
 
 			Log.v(TAG, "Previous volume:" + currentVolume);
 
-			Toast.makeText(getActivity().getApplicationContext(), "Automatically setting volume to maximum", Toast.LENGTH_SHORT).show();
+			Toast.makeText(requireActivity().getApplicationContext(), "Automatically setting volume to maximum", Toast.LENGTH_SHORT).show();
 
-			AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
-			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-					audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
+			audio.setStreamVolume(AudioManager.STREAM_MUSIC,
+					audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
 					AudioManager.FLAG_SHOW_UI);
 		}
 	}

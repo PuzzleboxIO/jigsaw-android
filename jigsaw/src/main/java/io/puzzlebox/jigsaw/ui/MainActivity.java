@@ -6,7 +6,6 @@
 
 package io.puzzlebox.jigsaw.ui;
 
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements
 				  mToolbar, R.string.drawer_open,
 				  R.string.drawer_close) {
 			public void onDrawerClosed(View view) {
-				getSupportActionBar().setTitle(mTitle);
+				if (getSupportActionBar() != null) getSupportActionBar().setTitle(mTitle);
 				invalidateOptionsMenu(); // creates call to
 				// onPrepareOptionsMenu()
 			}
@@ -187,19 +186,15 @@ public class MainActivity extends AppCompatActivity implements
 				needed.add(android.Manifest.permission.BLUETOOTH_CONNECT);
 			if (!needed.isEmpty())
 				requestPermissions(needed.toArray(new String[0]), PERMISSION_REQUEST_BLUETOOTH);
-		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+		} else {
 			if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 				final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setTitle(getString(R.string.permission_bluetooth_dialog_title));
 				builder.setMessage(getString(R.string.permission_bluetooth_dialog_message));
 				builder.setPositiveButton(android.R.string.ok, null);
-				builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-					@Override
-					public void onDismiss(DialogInterface dialog) {
-						requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-								PERMISSION_REQUEST_COARSE_LOCATION);
-					}
-				});
+				builder.setOnDismissListener(dialog -> requestPermissions(
+						new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+						PERMISSION_REQUEST_COARSE_LOCATION));
 				builder.show();
 			}
 		}
@@ -292,8 +287,8 @@ public class MainActivity extends AppCompatActivity implements
 				break;
 		}
 
-		if (fragment != null)
-			fragment.setArguments(args);
+		if (fragment == null) return;
+		fragment.setArguments(args);
 		androidx.fragment.app.FragmentManager frgManager = getSupportFragmentManager();
 		frgManager.beginTransaction().replace(R.id.container, fragment)
 				  .addToBackStack(backStackName)

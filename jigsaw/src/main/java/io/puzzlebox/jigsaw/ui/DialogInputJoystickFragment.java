@@ -53,7 +53,8 @@ public class DialogInputJoystickFragment extends DialogFragment
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_input_joystick, container, false);
 
-		getDialog().getWindow().setTitle(getString(R.string.title_dialog_fragment_joystick));
+		Window dialogWindow = requireDialog().getWindow();
+		if (dialogWindow != null) dialogWindow.setTitle(getString(R.string.title_dialog_fragment_joystick));
 
 		seekBarX = v.findViewById(R.id.seekBarX);
 		seekBarX.setProgress(seekBarX.getMax() / 2);
@@ -104,7 +105,12 @@ public class DialogInputJoystickFragment extends DialogFragment
 
 	public void onResume() {
 		// Store access variables for window and blank point
-		Window window = getDialog().getWindow();
+		Window window = requireDialog().getWindow();
+
+        if (window == null) {
+            super.onResume();
+            return;
+        }
 		Point size = new Point();
 
 		// Store dimensions of the screen in `size`
@@ -182,6 +188,6 @@ public class DialogInputJoystickFragment extends DialogFragment
 		intent.putExtra("value", value);
 		intent.putExtra("category", "inputs");
 
-		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
 	}
 }

@@ -76,7 +76,8 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		// Inflate the layout for this fragment
 		v = inflater.inflate(R.layout.dialog_input_emotiv_insight, container, false);
 
-		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_emotiv_insight));
+		Window dialogWindow = requireDialog().getWindow();
+		if (dialogWindow != null) dialogWindow.setTitle( getString(R.string.title_dialog_fragment_emotiv_insight));
 
 		buttonConnectEEG = v.findViewById(R.id.buttonConnectEEG);
 		buttonConnectEEG.setOnClickListener(v -> connectHeadset());
@@ -139,7 +140,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 		drawEEGStatus(0, 0, 0, 0, 0, 0);
 
-		intentEmotivInsight = new Intent(getActivity(), EmotivInsightService.class);
+		intentEmotivInsight = new Intent(requireActivity(), EmotivInsightService.class);
 
 		// Enable to attempt to automatically connect to nearby Emotiv Insight
 		// headsets, without the user having to manually press the "Connect" button
@@ -172,16 +173,21 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 	public void onPause() {
 		super.onPause();
 		LocalBroadcastManager.getInstance(
-				getActivity().getApplicationContext()).unregisterReceiver(
+				requireActivity().getApplicationContext()).unregisterReceiver(
 				mSignalQualityReceiver);
 		LocalBroadcastManager.getInstance(
-				getActivity()).unregisterReceiver(
+				requireActivity()).unregisterReceiver(
 				mStatusReceiver);
 	}
 
 	public void onResume() {
 		// Store access variables for window and blank point
-		Window window = getDialog().getWindow();
+		Window window = requireDialog().getWindow();
+
+        if (window == null) {
+            super.onResume();
+            return;
+        }
 
 		Point size = new Point();
 
@@ -195,10 +201,10 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		// Call super onResume after sizing
 		super.onResume();
 
-		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
 				mSignalQualityReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality"));
 
-		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
 				mStatusReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.status"));
 	}
 
@@ -210,7 +216,8 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 			String name = intent.getStringExtra("name");
 			String value = intent.getStringExtra("value");
 
-			if (! name.equals("populateSelectEEG")) {
+			if (name == null) return;
+			if (! "populateSelectEEG".equals(name)) {
 				Log.d(TAG, "[" + name + "]: " + value);
 			}
 
@@ -220,7 +227,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 					break;
 
 				case "status":
-					if (getActivity() != null) {
+					if (getActivity() != null && value != null) {
 						switch (value) {
 							case "connected":
 								buttonConnectEEG.setText(getString(R.string.buttonStatusEmotivInsightDisconnect));
@@ -261,7 +268,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		 * Called when the "Connect" button is pressed
 		 */
 		if (!DeviceEmotivInsightSingleton.getInstance().lock) {
-			getActivity().startService(intentEmotivInsight);
+			requireActivity().startService(intentEmotivInsight);
 		} else {
 			disconnectHeadset();
 		}
@@ -275,7 +282,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 			DeviceEmotivInsightSingleton.getInstance().connectEmotivInsight(-1);
 		}
 
-		getActivity().stopService(intentEmotivInsight);
+		requireActivity().stopService(intentEmotivInsight);
 
 		buttonConnectEEG.setText(getString(R.string.buttonStatusEmotivInsightConnect));
 	}
@@ -292,7 +299,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		}
 
 		// Dismiss dialog
-		DialogInputEmotivInsightSelectEEGFragment mSelectEEG = (DialogInputEmotivInsightSelectEEGFragment) getActivity().getSupportFragmentManager().findFragmentByTag("mSelectEEG");
+		DialogInputEmotivInsightSelectEEGFragment mSelectEEG = (DialogInputEmotivInsightSelectEEGFragment) requireActivity().getSupportFragmentManager().findFragmentByTag("mSelectEEG");
 
 		if (mSelectEEG != null)
 			mSelectEEG.dismiss();
@@ -306,7 +313,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 			int number = DeviceEmotivInsightSingleton.getInstance().getInsightDeviceCount();
 
-			DialogInputEmotivInsightSelectEEGFragment mSelectEEG = (DialogInputEmotivInsightSelectEEGFragment) getActivity().getSupportFragmentManager().findFragmentByTag("mSelectEEG");
+			DialogInputEmotivInsightSelectEEGFragment mSelectEEG = (DialogInputEmotivInsightSelectEEGFragment) requireActivity().getSupportFragmentManager().findFragmentByTag("mSelectEEG");
 			if (mSelectEEG != null) {
 				return;
 			}
@@ -335,7 +342,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 			DeviceEmotivInsightSingleton.getInstance().selectEEGDialogVisible = true;
 
-			FragmentManager fm = getActivity().getSupportFragmentManager();
+			FragmentManager fm = requireActivity().getSupportFragmentManager();
 			DialogInputEmotivInsightSelectEEGFragment mSelectEEG = new DialogInputEmotivInsightSelectEEGFragment();
 			try {
 				mSelectEEG.show(fm, "mSelectEEG");
@@ -443,12 +450,19 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-			int AF3 = Integer.parseInt(intent.getStringExtra("AF3"));
-			int AF4 = Integer.parseInt(intent.getStringExtra("AF4"));
-			int T7 = Integer.parseInt(intent.getStringExtra("T7"));
-			int T8 = Integer.parseInt(intent.getStringExtra("T8"));
-			int Pz = Integer.parseInt(intent.getStringExtra("Pz"));
-			int CMS = Integer.parseInt(intent.getStringExtra("CMS"));
+			String af3Str = intent.getStringExtra("AF3");
+			String af4Str = intent.getStringExtra("AF4");
+			String t7Str = intent.getStringExtra("T7");
+			String t8Str = intent.getStringExtra("T8");
+			String pzStr = intent.getStringExtra("Pz");
+			String cmsStr = intent.getStringExtra("CMS");
+			if (af3Str == null || af4Str == null || t7Str == null || t8Str == null || pzStr == null || cmsStr == null) return;
+			int AF3 = Integer.parseInt(af3Str);
+			int AF4 = Integer.parseInt(af4Str);
+			int T7 = Integer.parseInt(t7Str);
+			int T8 = Integer.parseInt(t8Str);
+			int Pz = Integer.parseInt(pzStr);
+			int CMS = Integer.parseInt(cmsStr);
 
 			// If any value has change update all ImageViews
 			if ((AF3 != currentAF3) ||
@@ -479,7 +493,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		intent.putExtra("value", value);
 		intent.putExtra("category", "inputs");
 
-		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
 	}
 
 	public static int calculateInSampleSize(

@@ -82,7 +82,8 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		// Inflate the layout for this fragment
 		v = inflater.inflate(R.layout.dialog_input_neurosky_mindwave, container, false);
 
-		getDialog().getWindow().setTitle( getString(R.string.title_dialog_fragment_neurosky_mindwave));
+		Window dialogWindow = requireDialog().getWindow();
+		if (dialogWindow != null) dialogWindow.setTitle( getString(R.string.title_dialog_fragment_neurosky_mindwave));
 
 		progressBarAttention = v.findViewById(R.id.progressBarAttention);
 		final float[] roundedCorners = new float[] { 5, 5, 5, 5, 5, 5, 5, 5 };
@@ -176,7 +177,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		// Instantiate the Intent via reflection so this file compiles even when
 		// NeuroSkyThinkGearService is excluded (NeuroSky SDK absent from build).
 		try {
-			intentThinkGear = new Intent(getActivity(),
+			intentThinkGear = new Intent(requireActivity(),
 					Class.forName("io.puzzlebox.jigsaw.service.NeuroSkyThinkGearService"));
 		} catch (ClassNotFoundException e) {
 			intentThinkGear = null; // NeuroSky SDK not available in this build
@@ -210,18 +211,23 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		super.onPause();
 
 		LocalBroadcastManager.getInstance(
-				getActivity().getApplicationContext()).unregisterReceiver(
+				requireActivity().getApplicationContext()).unregisterReceiver(
 				mPacketReceiver);
 
 		LocalBroadcastManager.getInstance(
-				getActivity().getApplicationContext()).unregisterReceiver(
+				requireActivity().getApplicationContext()).unregisterReceiver(
 				mEventReceiver);
 	}
 
 	public void onResume() {
 
 		// Store access variables for window and blank point
-		Window window = getDialog().getWindow();
+		Window window = requireDialog().getWindow();
+
+        if (window == null) {
+            super.onResume();
+            return;
+        }
 		Point size = new Point();
 
 		// Store dimensions of the screen in `size`
@@ -237,10 +243,10 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		// Call super onResume after sizing
 		super.onResume();
 
-		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
 				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
 
-		LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(
+		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
 				mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
 	}
 
@@ -249,9 +255,9 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		// Called when the "Connect" button is pressed
 
 		if (intentThinkGear == null) {
-			Toast.makeText(getActivity(), "NeuroSky SDK not available in this build", Toast.LENGTH_SHORT).show();
+			Toast.makeText(requireActivity(), "NeuroSky SDK not available in this build", Toast.LENGTH_SHORT).show();
 		} else if (!NeuroSkyEegState.eegConnected) {
-			getActivity().startService(intentThinkGear);
+			requireActivity().startService(intentThinkGear);
 		} else {
 			disconnectHeadset();
 		}
@@ -262,7 +268,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		// Called when "Disconnect" button is pressed
 
 		NeuroSkyEegState.disconnectIfConnected();
-		if (intentThinkGear != null) getActivity().stopService(intentThinkGear);
+		if (intentThinkGear != null) requireActivity().stopService(intentThinkGear);
 
 		updateStatusImage();
 
@@ -276,13 +282,12 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
-			int eegAttention = Integer.parseInt(intent.getStringExtra("Attention"));
-			int eegMeditation = Integer.parseInt(intent.getStringExtra("Meditation"));
-			int eegSignal = Integer.parseInt(intent.getStringExtra("Signal Level"));
-
-			progressBarAttention.setProgress(eegAttention);
-			progressBarMeditation.setProgress(eegMeditation);
-			progressBarSignal.setProgress(eegSignal);
+			String attentionStr = intent.getStringExtra("Attention");
+			String meditationStr = intent.getStringExtra("Meditation");
+			String signalStr = intent.getStringExtra("Signal Level");
+			if (attentionStr != null) progressBarAttention.setProgress(Integer.parseInt(attentionStr));
+			if (meditationStr != null) progressBarMeditation.setProgress(Integer.parseInt(meditationStr));
+			if (signalStr != null) progressBarSignal.setProgress(Integer.parseInt(signalStr));
 
 			// TODO re-enable when extra safety desired
 //			if ((! buttonDeviceEnable.isEnabled()) && (eegSignal == NeuroSkyNeuroSkyEegState.signalSignalMax)) {
@@ -314,11 +319,11 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 			String name = intent.getStringExtra("name");
 			String value = intent.getStringExtra("value");
-
+			if (name == null) return;
 			switch(name) {
 
 				case "eegStatus":
-
+					if (value == null) break;
 					switch(value) {
 						case "STATE_CONNECTING":
 							updateStatusImage();
@@ -372,13 +377,15 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 				case "eegBlink":
 					Log.d(TAG, "Blink: " + value + "\n");
-					if (Integer.parseInt(value) > NeuroSkyEegState.blinkRangeMax) {
-						value = "" + NeuroSkyEegState.blinkRangeMax;
-					}
-					try {
-						progressBarBlink.setProgress(Integer.parseInt(value));
-					} catch (NumberFormatException e) {
-						Log.e(TAG, "Exception", e);
+					if (value != null) {
+						if (Integer.parseInt(value) > NeuroSkyEegState.blinkRangeMax) {
+							value = "" + NeuroSkyEegState.blinkRangeMax;
+						}
+						try {
+							progressBarBlink.setProgress(Integer.parseInt(value));
+						} catch (NumberFormatException e) {
+							Log.e(TAG, "Exception", e);
+						}
 					}
 					break;
 			}
@@ -453,6 +460,6 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		intent.putExtra("value", value);
 		intent.putExtra("category", "inputs");
 
-		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
 	}
 }

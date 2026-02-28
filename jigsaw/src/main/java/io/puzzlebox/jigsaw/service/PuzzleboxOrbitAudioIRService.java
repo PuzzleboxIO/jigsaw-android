@@ -1,5 +1,6 @@
 package io.puzzlebox.jigsaw.service;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.media.AudioFormat;
@@ -337,6 +338,7 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 		audioTrack.play();
 	}
 
+	@SuppressLint("StaticFieldLeak")
 	private class DoBackgroundTask extends AsyncTask< Integer , Void , Integer > {
 		protected Integer doInBackground(Integer... command) {
 
