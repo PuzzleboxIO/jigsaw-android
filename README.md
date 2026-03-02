@@ -1,5 +1,5 @@
 jigsaw-android
-============
+===
 
 Puzzlebox Jigsaw for Android
 
@@ -13,13 +13,13 @@ https://puzzlebox.io/jigsaw
 License: GNU Affero General Public License v3.0
 https://www.gnu.org/licenses/agpl-3.0.html
 
-============
+---
 
 Download APK:
 
 Google Play: https://play.google.com/store/apps/details?id=io.puzzlebox.jigsaw.android
 
-============
+---
 
 Instructions:
 
@@ -72,7 +72,7 @@ jigsaw/libs/libmuseandroid.jar
 SDK presence is detected by checking for `libmuseandroid.jar`.
 When absent, `InteraXonMuseService.java` is excluded from compilation.
 
-============
+---
 
 Open Source libraries (included):
 
