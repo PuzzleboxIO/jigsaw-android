@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.DeviceEmotivInsightSingleton;
@@ -19,8 +18,6 @@ import io.puzzlebox.jigsaw.data.DeviceEmotivInsightSingleton;
 public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 
 	private final String TAG = DialogInputEmotivInsightSelectEEGFragment.class.getSimpleName();
-
-	LinearLayout dynamicLayout;
 
 	private OnFragmentInteractionListener mListener;
 
@@ -40,20 +37,6 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.dialog_input_emotiv_insight_select_eeg, container, false);
 
-		// External fonts
-//		String fontPath = "fonts/HelveticaNeueforTarget-Rm.otf";
-//		Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), fontPath);
-//		String fontPathBold = "fonts/HelveticaNeueforTarget-Bd.otf";
-//		Typeface tfBold = Typeface.createFromAsset(getActivity().getAssets(), fontPath);
-//		String fontPathMedium = "fonts/HelveticaNeueforTarget-Md.otf";
-//		Typeface tfMedium = Typeface.createFromAsset(getActivity().getAssets(), fontPath);
-//
-//		float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics());
-//
-//		TextView textViewSelectEEG = (TextView) v.findViewById(R.id.textViewSelectEEG);
-//		textViewSelectEEG.setTypeface(tf);
-//		textViewSelectEEG.setTextSize(pixels);
-
 		Button buttonRefresh = v.findViewById(R.id.buttonRefresh);
 		buttonRefresh.setOnClickListener(view -> {
 			Log.d(TAG, "buttonChoose onClick(): " + -1);
@@ -61,8 +44,6 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 				mListener.onSelectEEGItem(-1);
 			}
 		});
-
-		dynamicLayout = v.findViewById(R.id.dynamicLayoutSelectEEG);
 
 		for (int i = 0; i < DeviceEmotivInsightSingleton.getInstance().detectedDevices.size(); i++) {
 

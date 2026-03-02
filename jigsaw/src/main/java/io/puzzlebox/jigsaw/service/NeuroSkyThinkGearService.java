@@ -18,7 +18,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
-/**
+/*
  * Dependencies
  * Available from: http://store.neurosky.com/products/developer-tools-3-android
  * jigsaw-android/jigsaw/libs/ThinkGear.jar
@@ -34,15 +34,6 @@ import io.puzzlebox.jigsaw.data.SessionSingleton;
 public class NeuroSkyThinkGearService extends Service {
 
 	private final static String TAG = NeuroSkyThinkGearService.class.getSimpleName();
-
-	/**
-	 * Configuration — public constants and mutable state are kept in
-	 * NeuroSkyEegState so that UI classes can reference them without a
-	 * compile-time dependency on this SDK-dependent service.
-	 */
-	public final static int EEG_RAW_FREQUENCY   = NeuroSkyEegState.EEG_RAW_FREQUENCY;
-	public final static int EEG_RAW_HISTORY_SIZE = NeuroSkyEegState.EEG_RAW_HISTORY_SIZE;
-	public final static boolean rawEnabled       = NeuroSkyEegState.rawEnabled;
 
 	private ServiceHandler mServiceHandler;
 
@@ -137,7 +128,7 @@ public class NeuroSkyThinkGearService extends Service {
 	});
 
 	public void createService() {
-		/**
+		/*
 		 * Prepare Bluetooth and NeuroSky ThinkGear EEG interface
 		 */
 
@@ -153,13 +144,10 @@ public class NeuroSkyThinkGearService extends Service {
 				return;
 			}
 
-			/** create the TGDevice */
+			/* create the TGDevice */
 			tgDevice = new TGDevice(bluetoothAdapter, handlerThinkGear);
 
-			/** Retrieve a list of paired Bluetooth adapters */
-			//			Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
-			//			pairedBluetoothDevices = new ArrayList<String>(Arrays.asList(pairedDevices.toString()));
-			/**
+			/*
 			 * NOTE: To get device names iterate through pairedBluetoothDevices
 			 * and call the getName() method on each BluetoothDevice object.
 			 */
@@ -221,7 +209,7 @@ public class NeuroSkyThinkGearService extends Service {
 				NeuroSkyEegState.eegMeditation = msg.arg1;
 				break;
 			case TGDevice.MSG_BLINK:
-				/**
+				/*
 				 * Strength of detected blink. The Blink Strength ranges
 				 * from 1 (small blink) to 255 (large blink). Unless a blink
 				 * occurred, nothing will be returned. Blinks are only
@@ -234,8 +222,6 @@ public class NeuroSkyThinkGearService extends Service {
 				SessionSingleton.getInstance().appendRawEEG(msg.arg1);
 				break;
 			case TGDevice.MSG_RAW_MULTI:
-				// TGRawMulti rawM = (TGRawMulti)msg.obj;
-				// Log.d(TAG, "Raw1: " + rawM.ch1 + "\nRaw2: " + rawM.ch2);
 				break;
 			case TGDevice.MSG_LOW_BATTERY:
 				broadcastEventEEG("eegStatus", "MSG_LOW_BATTERY");
@@ -246,7 +232,7 @@ public class NeuroSkyThinkGearService extends Service {
 	}
 
 	public void connectHeadset() {
-		/**
+		/*
 		 * Called when the "Connect" button is pressed
 		 */
 		if (bluetoothAdapter == null) {
@@ -258,13 +244,13 @@ public class NeuroSkyThinkGearService extends Service {
 				tgDevice.connect(NeuroSkyEegState.rawEnabled);
 			}
 			else if (tgDevice.getState() == TGDevice.STATE_CONNECTED)
-			/** "Disconnect" button was pressed */
+			/* "Disconnect" button was pressed */
 				disconnectHeadset();
 		}
 	}
 
 	public static void disconnectHeadset() {
-		/**
+		/*
 		 * Called when "Disconnect" button is pressed
 		 */
 		NeuroSkyEegState.eegConnecting = false;
@@ -282,7 +268,7 @@ public class NeuroSkyThinkGearService extends Service {
 	}
 
 	public static int calculateSignal(int signal) {
-		/**
+		/*
 		 * The ThinkGear protocol states that a signal level of 200 will be
 		 * returned when a clean ground/reference is not detected at the ear clip,
 		 *  and a value of 0 when the signal is perfectly clear. We need to

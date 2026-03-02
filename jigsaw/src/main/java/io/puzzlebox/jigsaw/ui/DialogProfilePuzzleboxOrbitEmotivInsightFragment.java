@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
@@ -19,7 +18,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -231,6 +229,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		void onFragmentInteraction(Uri uri);
 	}
 
+	@Override
 	public void onPause() {
 
 		super.onPause();
@@ -250,6 +249,7 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		stopControl();
 	}
 
+	@Override
 	public void onResume() {
 
 		// Store access variables for window and blank point
@@ -260,15 +260,10 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
             return;
         }
 
-		Point size = new Point();
-
-		// Store dimensions of the screen in `size`
-		Display display = window.getWindowManager().getDefaultDisplay();
-
-		display.getSize(size);
+		int screenWidth = requireContext().getResources().getDisplayMetrics().widthPixels;
 
 		// Set the width of the dialog proportional to a percentage of the screen width
-		window.setLayout((int) (size.x * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
+		window.setLayout((int) (screenWidth * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
 
 		window.setGravity(Gravity.CENTER);
 
@@ -542,14 +537,11 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 			return;
 		}
 
-//		if(eegConnecting) {
-//			imageViewStatus.setImageResource(R.drawable.status_1_connecting);
-//			return;
-//		}
 
 		imageViewStatus.setImageResource(R.drawable.status_default);
 	}
 
+	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
 
 		updatePowerThresholds();
@@ -557,12 +549,14 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		updateControlSignal();
 	}
 
+	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
 		/*
 		  Method required by SeekBar.OnSeekBarChangeListener
 		 */
 	}
 
+	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
 	}
 
@@ -725,17 +719,11 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 
 			/* Getting the user sound settings */
 			AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
-			//			float actualVolume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 			float maxVolume = (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-			//			float volume = actualVolume / maxVolume;
 
 			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int) maxVolume, 0);
 			/* Is the sound loaded already? */
 			if (DevicePuzzleboxOrbitSingleton.getInstance().loaded) {
-				//				soundPool.play(soundID, volume, volume, 1, 0, 1f);
-				//				soundPool.setVolume(soundID, 1f, 1f);
-				//				soundPool.play(soundID, maxVolume, maxVolume, 1, 0, 1f); // Fixes Samsung Galaxy S4 [SGH-M919]
-
 				DevicePuzzleboxOrbitSingleton.getInstance().soundPool.play(DevicePuzzleboxOrbitSingleton.getInstance().soundID, 1f, 1f, 1, 0, 1f); // Fixes Samsung Galaxy S4 [SGH-M919]
 
 				// TODO No visible effects of changing these variables on digital oscilloscope
@@ -797,14 +785,6 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		updatePowerThresholds();
 
 		updateControlSignal();
-	}
-
-	/**
-	 * the puzzleboxOrbitAudioIRHandler to update command
-	 */
-	public void updateAudioHandlerCommand(Integer[] command) {
-		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.command = command;
-		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.updateControlSignal();
 	}
 
 	/**

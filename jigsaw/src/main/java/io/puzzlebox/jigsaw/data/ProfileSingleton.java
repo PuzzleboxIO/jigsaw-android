@@ -1,13 +1,11 @@
 package io.puzzlebox.jigsaw.data;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -116,28 +114,6 @@ public class ProfileSingleton {
 			throw new RuntimeException("No resource ID found for: "
 					+ resourceName + " / " + c, e);
 		}
-	}
-
-	public static Drawable getAndroidDrawable(String pDrawableName){
-		int resourceId= Resources.getSystem().getIdentifier(pDrawableName, "drawable", "android");
-		if(resourceId==0){
-			return null;
-		} else {
-			return ResourcesCompat.getDrawable(Resources.getSystem(), resourceId, null);
-		}
-	}
-
-	public static Drawable getDeviceDrawable(String name) {
-		for (HashMap<String, String> map : inputs) {
-			Log.d(TAG, "id: " + map.get("id"));
-			if (Objects.equals(map.get("id"), name)) {
-				Log.d(TAG, "icon: " + map.get("icon"));
-
-				return ResourcesCompat.getDrawable(Resources.getSystem(),
-						Resources.getSystem().getIdentifier(map.get("icon"), "drawable", "io.puzzlebox.orbit"), null);
-			}
-		}
-		return null;
 	}
 
 	public String getDeviceIconPath(String name) {
@@ -263,25 +239,6 @@ public class ProfileSingleton {
 				return new ColorDrawable(ContextCompat.getColor(context, R.color.tileDisabled));
 			}
 		}
-	}
-
-	public String getStatus(String id) {
-		for (HashMap<String, String> map : inputs) {
-			if (Objects.equals(map.get("id"), id)) {
-				return map.get("status");
-			}
-		}
-		for (HashMap<String, String> map : outputs) {
-			if (Objects.equals(map.get("id"), id)) {
-				return map.get("status");
-			}
-		}
-		for (HashMap<String, String> map : profiles) {
-			if (Objects.equals(map.get("id"), id)) {
-				return map.get("status");
-			}
-		}
-		return null;
 	}
 
 	public String getValue(String id, String name) {

@@ -3,7 +3,6 @@ package io.puzzlebox.jigsaw.data;
 import android.media.SoundPool;
 import android.util.Log;
 
-import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.protocol.PuzzleboxOrbitAudioIRHandler;
 
 public class DevicePuzzleboxOrbitSingleton {
@@ -32,16 +31,11 @@ public class DevicePuzzleboxOrbitSingleton {
 
 	public final int minimumScoreTarget = 40;
 	public int scoreCurrent = 0;
-	public int scoreLast = 0;
 	public int scoreHigh = 0;
-
-	public boolean tiltSensorControl = false;
-	public int deviceWarningMessagesDisplayed = 0;
 
 	public boolean demoActive = false;
 
 	public boolean flightActive = false;
-	public boolean orbitActive = false;
 
 	/**
 	 * Joystick Configuration
@@ -58,37 +52,6 @@ public class DevicePuzzleboxOrbitSingleton {
 	public final int defaultControlThrottle = 80;
 	public final int defaultControlYaw = 49;
 	public final int defaultControlPitch = 31;
-
-	public int hoverControlThrottle = 80;
-	public int hoverControlYaw = 49;
-	public int hoverControlPitch = 31;
-
-	public int forwardControlThrottle = 80;
-	public int forwardControlYaw = 49;
-	public int forwardControlPitch = 50;
-
-	public int leftControlThrottle = 80;
-	public int leftControlYaw = 13;
-	public int leftControlPitch = 31;
-
-	public int rightControlThrottle = 80;
-	public int rightControlYaw = 114;
-	public int rightControlPitch = 31;
-
-	public float tiltX = 0;
-	public float tiltY = 0;
-	public float referenceTiltX = 0;
-	public float referenceTiltY = 0;
-
-	/**
-	 * Audio
-	 *
-	 * By default, the flight control command is hard-coded into WAV files
-	 * When "Generate Control Signal" is enabled the tones used to communicate
-	 * with the infrared dongle are generated on-the-fly.
-	 */
-	public int audioFile = R.raw.throttle_hover_android_common;
-	//	int audioFile = R.raw.throttle_hover_android_htc_one_x;
 
 	//	public int defaultChannel = 0; // B
 	public final int defaultChannel = 1; // A

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
@@ -17,7 +16,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,8 +44,6 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		implements SeekBar.OnSeekBarChangeListener {
 
 	private final static String TAG = DialogProfilePuzzleboxOrbitFragment.class.getSimpleName();
-
-	public final static String profileID = "profile_puzzlebox_orbit_mobile_edition";
 
 	/**
 	 * Configuration
@@ -149,47 +145,27 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
 		buttonDeviceEnable.setOnClickListener(view -> dismiss());
 
-		/**
+		/*
 		 * PuzzleboxOrbitAudioIRHandler
 		 */
 
 		if (!DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.isAlive()) {
 
-			/**
+			/*
 			 * Prepare audio stream
 			 */
 
 			// TODO
 //			maximizeAudioVolume(); // Automatically set media volume to maximum
 
-			// Set the hardware buttons to control the audio output
-//			getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-			// Preload the flight control WAV file into memory
-//			DevicePuzzleboxOrbitSingleton.getInstance().soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-//			DevicePuzzleboxOrbitSingleton.getInstance().soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-//				public void onLoadComplete(SoundPool soundPool,
-//													int sampleId,
-//													int status) {
-//					DevicePuzzleboxOrbitSingleton.getInstance().loaded = true;
-//				}
-//			});
-//			DevicePuzzleboxOrbitSingleton.getInstance().soundID = DevicePuzzleboxOrbitSingleton.getInstance().soundPool.load(requireActivity().getApplicationContext(), DevicePuzzleboxOrbitSingleton.getInstance().audioFile, 1);
-
-//			DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.start();
 			DevicePuzzleboxOrbitSingleton.getInstance().startAudioHandler();
 		}
 
-		/**
+		/*
 		 * Update settings according to default UI
 		 */
 		// TODO
 //		updateScreenLayout();
-
-//		updatePowerThresholds();
-////		updatePower();
-//
-//		updateControlSignal();
 
 		resetFlight(v);
 
@@ -217,6 +193,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		void onFragmentInteraction(Uri uri);
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 
@@ -231,6 +208,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		stopControl();
 	}
 
+	@Override
 	public void onResume() {
 
 		// Store access variables for window and blank point
@@ -241,15 +219,10 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
             return;
         }
 
-		Point size = new Point();
-
-		// Store dimensions of the screen in `size`
-		Display display = window.getWindowManager().getDefaultDisplay();
-
-		display.getSize(size);
+		int screenWidth = requireContext().getResources().getDisplayMetrics().widthPixels;
 
 		// Set the width of the dialog proportional to a percentage of the screen width
-		window.setLayout((int) (size.x * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
+		window.setLayout((int) (screenWidth * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
 
 		// Set the dimensions  of the dialog proportional to a percentage of the screen dimensions
 //		window.setLayout((int) (size.x * 0.95), (int) (size.y * 0.935));
@@ -391,16 +364,19 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		}
 	}
 
+	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
 		updatePowerThresholds();
 	}
 
+	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
-		/**
+		/*
 		 * Method required by SeekBar.OnSeekBarChangeListener
 		 */
 	}
 
+	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
 		Log.v(TAG, "onStopTrackingTouch()");
 	}
@@ -432,7 +408,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		if (attentionSeekValue > 0) {
 			for (int i = attentionSeekValue; i < thresholdValuesAttention.length; i++) {
 
-				/**
+				/*
 				 *  Slider @ 70
 				 *
 				 * Attention @ 70
@@ -473,7 +449,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 	public void updatePower() {
 
-		/**
+		/*
 		 * This method updates the power level of the
 		 * "Throttle" and triggers the audio stream
 		 * which is used to fly the helicopter
@@ -517,18 +493,11 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 		if (eegPower > 0) {
 
-			/** Start playback of audio control stream */
+			/* Start playback of audio control stream */
 			updateScore();
 
 			DevicePuzzleboxOrbitSingleton.getInstance().flightActive = true;
 		} else {
-
-			// Land the helicopter
-//			if (! DevicePuzzleboxOrbitSingleton.getInstance().demoActive ) {
-//				stopControl();
-//			}
-
-//			buttonTestFlight.setText(getResources().getString(R.string.button_test_fly));
 
 			resetCurrentScore();
 		}
@@ -637,7 +606,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 		if (DevicePuzzleboxOrbitSingleton.getInstance().generateAudio) {
 
-			/**
+			/*
 			 * Generate signal on the fly
 			 */
 			DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.ifFlip = DevicePuzzleboxOrbitSingleton.getInstance().invertControlSignal; // if checked then flip
@@ -652,20 +621,16 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 		} else {
 
-			/**
+			/*
 			 * Play audio control file
 			 */
 
-			/** Getting the user sound settings */
+			/* Getting the user sound settings */
 			AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
 			float maxVolume = (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int) maxVolume, 0);
-			/** Is the sound loaded already? */
+			/* Is the sound loaded already? */
 			if (DevicePuzzleboxOrbitSingleton.getInstance().loaded) {
-				//				soundPool.play(soundID, volume, volume, 1, 0, 1f);
-				//				soundPool.setVolume(soundID, 1f, 1f);
-				//				soundPool.play(soundID, maxVolume, maxVolume, 1, 0, 1f); // Fixes Samsung Galaxy S4 [SGH-M919]
-
 				DevicePuzzleboxOrbitSingleton.getInstance().soundPool.play(DevicePuzzleboxOrbitSingleton.getInstance().soundID, 1f, 1f, 1, 0, 1f); // Fixes Samsung Galaxy S4 [SGH-M919]
 
 				// TODO No visible effects of changing these variables on digital oscilloscope
@@ -681,13 +646,13 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 	public void stopAudio() {
 
-		/**
+		/*
 		 * stop AudioTrack as well as destroy service.
 		 */
 
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.keepPlaying = false;
 
-		/**
+		/*
 		 * Stop playing audio control file
 		 */
 
@@ -702,7 +667,7 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 
 	public void testFlight(View v) {
 
-		/**
+		/*
 		 * Demo mode is called when the "Test Helicopter" button is pressed.
 		 * This method can be easily adjusted for testing new features
 		 * during development.
@@ -745,14 +710,6 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 	}
 
 	/**
-	 * the puzzleboxOrbitAudioIRHandler to update command
-	 */
-	public void updateAudioHandlerCommand(Integer[] command) {
-		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.command = command;
-		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.updateControlSignal();
-	}
-
-	/**
 	 * the puzzleboxOrbitAudioIRHandler to update channel
 	 */
 	public void updateAudioHandlerChannel(int channel) {
@@ -767,14 +724,4 @@ public class DialogProfilePuzzleboxOrbitFragment extends DialogFragment
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.loopNumberWhileMindControl = number;
 	}
 
-	private void broadcastCommandBluetooth(String name, String value) {
-		Log.d(TAG, "broadcastCommandBluetooth: " + name + ": " + value);
-
-		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.bluetooth.command");
-
-		intent.putExtra("name", name);
-		intent.putExtra("value", value);
-
-		LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent);
-	}
 }

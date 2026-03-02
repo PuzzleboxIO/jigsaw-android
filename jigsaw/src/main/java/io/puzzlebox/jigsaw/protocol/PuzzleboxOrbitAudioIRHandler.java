@@ -1,7 +1,7 @@
 package io.puzzlebox.jigsaw.protocol;
 
+import android.media.AudioAttributes;
 import android.media.AudioFormat;
-import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.os.Handler.Callback;
 import android.os.HandlerThread;
@@ -34,13 +34,9 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	final int yaw=49;
 	final int pitch=31;
 	public int channel=1;
-//	int throttle=DevicePuzzleboxOrbitSingleton.getInstance().defaultControlThrottle;
-//	int yaw=DevicePuzzleboxOrbitSingleton.getInstance().defaultControlYaw;
-//	int pitch=DevicePuzzleboxOrbitSingleton.getInstance().defaultControlPitch;
-//	public int channel=DevicePuzzleboxOrbitSingleton.getInstance().defaultChannel;
+	public int loopNumberWhileMindControl=20;
 
 	public Integer[] command={throttle,yaw,pitch,channel};
-	public int loopNumberWhileMindControl=20;
 
 	int controlSignalCode;
 	float[] controlSignalWave;
@@ -49,7 +45,7 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 
 	/**
 	 * Half periods in the audio code, in seconds.
-	 *
+	 ** <p>
 	 * Four periods exist in the wave
 	 */
 	private final double longHIGH = 0.000829649;
@@ -67,7 +63,7 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 
 	/**
 	 * Pre-assembled audio code bit array in wave form.
-	 *
+	 ** <p>
 	 * waveBit is an array of two wave, each an array of numbers
 	 * waveBit[0] is the first wave, waveBit[1] is the second wave
 	 */
@@ -75,14 +71,38 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 
 	public PuzzleboxOrbitAudioIRHandler() {
 		int minSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT);
-		track = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT,minSize, AudioTrack.MODE_STREAM);
+		track = new AudioTrack.Builder()
+				.setAudioAttributes(new AudioAttributes.Builder()
+						.setUsage(AudioAttributes.USAGE_MEDIA)
+						.setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+						.build())
+				.setAudioFormat(new AudioFormat.Builder()
+						.setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+						.setSampleRate(sampleRate)
+						.setChannelMask(AudioFormat.CHANNEL_OUT_STEREO)
+						.build())
+				.setBufferSizeInBytes(minSize)
+				.setTransferMode(AudioTrack.MODE_STREAM)
+				.build();
 	}
 
 	public PuzzleboxOrbitAudioIRHandler(int sps, boolean flip) {
 		ifFlip = flip;
 		sampleRate = sps;
 		int minSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT);
-		track = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT,minSize, AudioTrack.MODE_STREAM);
+		track = new AudioTrack.Builder()
+				.setAudioAttributes(new AudioAttributes.Builder()
+						.setUsage(AudioAttributes.USAGE_MEDIA)
+						.setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+						.build())
+				.setAudioFormat(new AudioFormat.Builder()
+						.setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+						.setSampleRate(sampleRate)
+						.setChannelMask(AudioFormat.CHANNEL_OUT_STEREO)
+						.build())
+				.setBufferSizeInBytes(minSize)
+				.setTransferMode(AudioTrack.MODE_STREAM)
+				.build();
 	}
 
 	@Override
@@ -170,8 +190,8 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	 * @param throttle: 0~127, nothing will happen if this value is below 30.
 	 * @param yaw: 0~127, normally 78 will keep orbit from rotating.
 	 * @param pitch: 0~63, normally 31 will stop the top propeller.
-	 * @param channel: 1=Channel A, 0=Channel B 2= Channel C, depend on which channel you want to pair to the orbit. You can fly at most 3 orbit in a same room. 
-	 * @return
+	 * @param channel: 1=Channel A, 0=Channel B 2= Channel C, depend on which channel you want to pair to the orbit. You can fly at most 3 orbit in a same room.
+	 * @return the encoded IR command as an integer
 	 */
 	public int command2code(int throttle, int yaw, int pitch, int channel){
 		int code = throttle << 21;
@@ -242,7 +262,7 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 
 	/**
 	 * Generate the initial wave required by IR dongle.
-	 * @return
+	 * @return float array representing the initial wave
 	 */
 	public float[] initialWave() {
 		final double initLongHIGH=0.001-sampleTime*1; //seconds
@@ -322,7 +342,7 @@ public class PuzzleboxOrbitAudioIRHandler extends Thread implements Callback {
 	 * This is the smallest component of the wave.
 	 * @param dir: 'u' or 'd', means it's the upper half or lower half or sine wave. 
 	 * @param halfPeriod: half of the period of sine wave, in seconds
-	 * @return:
+	 * @return float array representing the generated half sine wave
 	 */
 	public float[] halfSineGen(char dir,double halfPeriod) {
 		int halfPeriodInSamples = (int) Math.floor(halfPeriod * sampleRate);

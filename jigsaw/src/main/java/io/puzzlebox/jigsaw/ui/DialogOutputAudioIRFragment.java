@@ -92,7 +92,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 
 	public void demoMode(View v) {
 
-		/**
+		/*
 		 * Demo mode is called when the "Test Helicopter" button is pressed.
 		 * This method can be easily adjusted for testing new features
 		 * during development.
@@ -181,12 +181,6 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.updateControlSignal();
 	}
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		OnFragmentInteractionListener mListener = null;
-	}
-
 	public interface OnFragmentInteractionListener {
 		void onFragmentInteraction(Uri uri);
 	}
@@ -213,6 +207,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 		stopControl();

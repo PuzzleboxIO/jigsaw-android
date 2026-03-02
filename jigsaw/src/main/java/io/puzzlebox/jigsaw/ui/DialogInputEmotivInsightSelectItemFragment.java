@@ -54,7 +54,6 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
-			int mParamParentId = getArguments().getInt(ARG_PARENT_ID);
 			mParamInsightId = getArguments().getInt(ARG_INSIGHT_ID);
 			mParamName = getArguments().getString(ARG_NAME);
 		}
@@ -68,24 +67,10 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 
 		mId = mParamInsightId; // we use a separate variable here because parameters may overwrite each other
 
-		// External fonts
-//		String fontPath = "fonts/HelveticaNeueforTarget-Rm.otf";
-//		Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), fontPath);
-//		String fontPathBold = "fonts/HelveticaNeueforTarget-Bd.otf";
-//		Typeface tfBold = Typeface.createFromAsset(getActivity().getAssets(), fontPath);
-//		String fontPathMedium = "fonts/HelveticaNeueforTarget-Md.otf";
-//		Typeface tfMedium = Typeface.createFromAsset(getActivity().getAssets(), fontPath);
-//
-//		float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics());
-//
 		TextView textViewSelectEEGNumber = v.findViewById(R.id.textViewSelectEEGNumber);
-//		textViewSelectEEGNumber.setTypeface(tf);
-//		textViewSelectEEGNumber.setTextSize(pixels);
 		textViewSelectEEGNumber.setText(String.format(Locale.getDefault(), "#%d: ", mParamInsightId));
 
 		TextView textViewSelectEEGName = v.findViewById(R.id.textViewSelectEEGName);
-//		textViewSelectEEGName.setTypeface(tf);
-//		textViewSelectEEGName.setTextSize(pixels);
 		textViewSelectEEGName.setText(mParamName);
 
 		LinearLayout layoutSelectEEG = v.findViewById(R.id.layoutSelectEEG);

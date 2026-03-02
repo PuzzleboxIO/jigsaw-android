@@ -79,16 +79,6 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		}
 	}
 
-	public void onPause() {
-		if (scanning) {
-			scanLeDevice(false);
-		}
-		if (gatt != null) {
-			gatt.close();
-			gatt = null;
-		}
-	}
-
 	@Override
 	public void onCreate() {
 		HandlerThread thread = new HandlerThread("ServiceStartArguments",
@@ -107,8 +97,6 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		bluetoothAdapter = manager.getAdapter();
 
 		if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
-			// Request to enable adapter
-			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			// TODO Can't call this from outside of Activity
 			Log.e(TAG, "Bluetooth service not enabled. User needs to turn on Bluetooth.");
 		}
@@ -425,8 +413,6 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 							(descriptor.getUuid().toString().equals(DevicePuzzleboxGimmickSingleton.getInstance().getHashCharacteristicUuid()))) {
 						String text = new String(value, StandardCharsets.UTF_8);
 						Log.d(TAG, "descriptor value UTF-8: " + text);
-						DevicePuzzleboxGimmickSingleton.getInstance().deviceHash = text;
-
 						broadcastCommandBluetooth(DevicePuzzleboxGimmickSingleton.getInstance().x10ID + " Off");
 						DevicePuzzleboxGimmickSingleton.getInstance().x10Level = 0;
 					}

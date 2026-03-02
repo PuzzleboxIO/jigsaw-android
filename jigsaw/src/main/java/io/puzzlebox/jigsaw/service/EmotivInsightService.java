@@ -26,14 +26,6 @@ public class EmotivInsightService extends Service {
 
 	private final static String TAG = EmotivInsightService.class.getSimpleName();
 
-//	int[] contactQualityAllChannels;
-//	int[] contactQualityAllChannelsPrevious;
-
-//	BroadcastReceiver mConnectReceiver;
-
-	//	IEmoStateDLL.IEE_SignalStrength_enum[] wirelessState;
-//	int[] batteryChargeLevel;
-
 	private boolean threadAlive = false;
 
 	public EmotivInsightService() {
@@ -75,21 +67,13 @@ public class EmotivInsightService extends Service {
 
 		// Get the HandlerThread's Looper and use it for our Handler
 		Looper mServiceLooper = thread.getLooper();
-		ServiceHandler mServiceHandler = new ServiceHandler(mServiceLooper);
-
-		// get an instance of the receiver in your service
-//		IntentFilter filter = new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.connect");
-//		mConnectReceiver = new ConnectReceiver();
-//		this.registerReceiver(mConnectReceiver, filter);
-
-//		initEmotivEngine();
+		new ServiceHandler(mServiceLooper);
 
 		super.onCreate();
 	}
 
 	@Override
 	public void onDestroy() {
-//		this.unregisterReceiver(mConnectReceiver);
 		try {
 			IEdk.IEE_EngineDisconnect();
 		} catch (UnsatisfiedLinkError | Exception e) {
@@ -164,9 +148,6 @@ public class EmotivInsightService extends Service {
 						if (eventType == IEdk.IEE_Event_t.IEE_EmoStateUpdated.ToInt()) {
 							IEdk.IEE_EmoEngineEventGetEmoState();
 
-//							batteryChargeLevel = IEmoStateDLL.IS_GetBatteryChargeLevel();
-//							Log.d(TAG, "batteryChargeLevel: " + batteryChargeLevel.toString());
-
 							broadcastSignalQuality();
 
 							Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.action");
@@ -229,14 +210,6 @@ public class EmotivInsightService extends Service {
 	private void broadcastSignalQuality() {
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality");
 
-//		contactQualityAllChannels = IEmoStateDLL.IS_GetContactQualityFromAllChannels();
-
-//		String CMS = String.valueOf(contactQualityAllChannels[0]);
-//		String AF3 = String.valueOf(contactQualityAllChannels[1]);
-//		String T7 = String.valueOf(contactQualityAllChannels[2]);
-//		String Pz = String.valueOf(contactQualityAllChannels[3]);
-//		String T8 = String.valueOf(contactQualityAllChannels[4]);
-//		String AF4 = String.valueOf(contactQualityAllChannels[5]);
 
 		String AF3 = String.valueOf(IEmoStateDLL.IS_GetContactQuality(IEmoStateDLL.IEE_InputChannels_t.IEE_CHAN_AF3.ToInt()));
 		String AF4 = String.valueOf(IEmoStateDLL.IS_GetContactQuality(IEmoStateDLL.IEE_InputChannels_t.IEE_CHAN_AF4.ToInt()));
@@ -245,20 +218,6 @@ public class EmotivInsightService extends Service {
 		String Pz = String.valueOf(IEmoStateDLL.IS_GetContactQuality(IEmoStateDLL.IEE_InputChannels_t.IEE_CHAN_Pz.ToInt()));
 		String CMS = String.valueOf(IEmoStateDLL.IS_GetContactQuality(IEmoStateDLL.IEE_InputChannels_t.IEE_CHAN_CMS.ToInt()));
 
-////		if (contactQualityAllChannels != contactQualityAllChannelsPrevious) {
-//
-//		Log.d(TAG, "Status:" +
-//				  " AF3:" + AF3 +
-//				  ", AF4:" + AF4 +
-//				  ", T7:" + T7 +
-//				  ", T8:" + T8 +
-//				  ", Pz:" + Pz +
-//				  ", CMS:" + CMS
-//		);
-//
-////		}
-////
-////		contactQualityAllChannelsPrevious = contactQualityAllChannels;
 
 		if (AF3.equals("null"))
 			AF3 = "0";

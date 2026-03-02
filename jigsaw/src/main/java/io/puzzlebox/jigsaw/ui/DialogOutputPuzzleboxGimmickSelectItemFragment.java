@@ -60,7 +60,6 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            int mParamParentId = getArguments().getInt(ARG_PARENT_ID);
             mParamInsightId = getArguments().getInt(ARG_INSIGHT_ID);
             mParamName = getArguments().getString(ARG_NAME);
         }

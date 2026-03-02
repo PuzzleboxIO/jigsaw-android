@@ -1,13 +1,11 @@
 package io.puzzlebox.jigsaw.ui;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +25,6 @@ import io.puzzlebox.jigsaw.R;
 public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment {
 
 	private final static String TAG = DialogProfilePuzzleboxOrbitJoystickFragment.class.getSimpleName();
-
-	public final static String profileID = "profile_puzzlebox_orbit_joystick";
 
 	// UI
 	public SeekBar seekBarThrottle;
@@ -62,8 +58,6 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 		seekBarPitch = v.findViewById(R.id.seekBarPitch);
 		seekBarPitch.setProgress(DevicePuzzleboxOrbitSingleton.getInstance().defaultJoystickPitch);
 
-		LinearLayout llJoysticks = v.findViewById(R.id.linearLayoutJoysticks);
-
 		JoystickView joystickViewThrottle = v.findViewById(R.id.joystickViewThrottle);
 		joystickViewThrottle.setOnMoveListener(onMoveJoystickThrottle);
 
@@ -95,25 +89,10 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 
 		if (!DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.isAlive()) {
 
-			/**
+			/*
 			 * Prepare audio stream
 			 */
 
-			// Set the hardware buttons to control the audio output
-//			getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-			// Preload the flight control WAV file into memory
-//			DevicePuzzleboxOrbitSingleton.getInstance().soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-//			DevicePuzzleboxOrbitSingleton.getInstance().soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-//				public void onLoadComplete(SoundPool soundPool,
-//													int sampleId,
-//													int status) {
-//					DevicePuzzleboxOrbitSingleton.getInstance().loaded = true;
-//				}
-//			});
-//			DevicePuzzleboxOrbitSingleton.getInstance().soundID = DevicePuzzleboxOrbitSingleton.getInstance().soundPool.load(requireActivity().getApplicationContext(), DevicePuzzleboxOrbitSingleton.getInstance().audioFile, 1);
-
-//			DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.start();
 			DevicePuzzleboxOrbitSingleton.getInstance().startAudioHandler();
 		}
 		updateControlSignal();
@@ -141,11 +120,13 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 		void onFragmentInteraction(Uri uri);
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 		stopControl();
 	}
 
+	@Override
 	public void onResume() {
 		// Store access variables for window and blank point
 		Window window = requireDialog().getWindow();
@@ -155,15 +136,10 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
             return;
         }
 
-		Point size = new Point();
-
-		// Store dimensions of the screen in `size`
-		Display display = window.getWindowManager().getDefaultDisplay();
-
-		display.getSize(size);
+		int screenWidth = requireContext().getResources().getDisplayMetrics().widthPixels;
 
 		// Set the width of the dialog proportional to a percentage of the screen width
-		window.setLayout((int)(size.x *0.99), WindowManager.LayoutParams.WRAP_CONTENT);
+		window.setLayout((int)(screenWidth * 0.99), WindowManager.LayoutParams.WRAP_CONTENT);
 
 		window.setGravity(Gravity.CENTER);
 

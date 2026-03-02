@@ -1,8 +1,5 @@
 package io.puzzlebox.jigsaw.wear;
 
-//public class ListenerService {
-//}
-
 import android.util.Log;
 
 import androidx.annotation.NonNull;

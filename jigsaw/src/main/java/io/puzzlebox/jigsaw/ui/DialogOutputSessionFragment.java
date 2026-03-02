@@ -13,8 +13,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.graphics.Point;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +21,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,11 +40,7 @@ public class DialogOutputSessionFragment extends DialogFragment {
 
 	private final static String TAG = DialogOutputSessionFragment.class.getSimpleName();
 
-	public final static String profileID = "session";
-
 	// UI
-	Button buttonDeviceEnable;
-
 	private EditText editTextSessionProfile;
 	private TextView textViewSessionTime;
 
@@ -73,8 +66,6 @@ public class DialogOutputSessionFragment extends DialogFragment {
 
 		Button buttonDeviceCancel = v.findViewById(R.id.buttonDeviceCancel);
 		buttonDeviceCancel.setOnClickListener(view -> dismiss());
-
-		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
 
 		editTextSessionProfile = v.findViewById(R.id.editTextSessionProfile);
 
@@ -180,11 +171,6 @@ public class DialogOutputSessionFragment extends DialogFragment {
 			sessionPlot2.getGraphWidget().setGridPadding(0, 0, 0, 0);
 		}
 
-		LinearLayout linearLayoutSessionPlot1 = v.findViewById(R.id.linearLayoutSessionPlot1);
-		LinearLayout linearLayoutSessionPlot2 = v.findViewById(R.id.linearLayoutSessionPlot2);
-		TextView textViewSessionPlot1 = v.findViewById(R.id.textViewSessionPlot1);
-		TextView textViewSessionPlot2 = v.findViewById(R.id.textViewSessionPlot2);
-
 		return v;
 	}
 
@@ -209,6 +195,7 @@ public class DialogOutputSessionFragment extends DialogFragment {
 		void onFragmentInteraction(Uri uri);
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 		LocalBroadcastManager.getInstance(
@@ -228,10 +215,8 @@ public class DialogOutputSessionFragment extends DialogFragment {
 			return;
 		}
 
-		Point size = new Point();
-		Display display = window.getWindowManager().getDefaultDisplay();
-		display.getSize(size);
-		window.setLayout((int) (size.x * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
+		int screenWidth = requireContext().getResources().getDisplayMetrics().widthPixels;
+		window.setLayout((int) (screenWidth * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
 		window.setGravity(Gravity.CENTER);
 
 		super.onResume();

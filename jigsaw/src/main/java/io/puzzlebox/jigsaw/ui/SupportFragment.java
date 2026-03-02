@@ -55,13 +55,6 @@ public class SupportFragment extends Fragment {
 		// Required empty public constructor
 	}
 
-	public static SupportFragment newInstance() {
-		SupportFragment fragment = new SupportFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

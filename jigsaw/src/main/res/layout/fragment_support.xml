@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <ScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_medium"
             android:layout_marginLeft="@dimen/padding_medium"
@@ -22,20 +22,20 @@
             android:orientation="vertical" >
 
         <!--<LinearLayout-->
-            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_width="match_parent"-->
             <!--android:layout_height="140dp"-->
             <!--android:orientation="vertical" >-->
 
             <!--<WebView-->
                 <!--android:id="@+id/webViewSupport"-->
-                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="140dp"-->
                 <!--android:scrollbars="none" />-->
 
             <!--<TextView-->
                 <!--android:id="@+id/textViewLabelHeader"-->
                 <!--style="@android:style/TextAppearance.Large"-->
-                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:gravity="center"-->
                 <!--android:text="@string/label_support_title" />-->
@@ -43,14 +43,14 @@
             <!--</LinearLayout>-->
 
             <View
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="32dip" >
             </View>
 
             <TextView
                 android:id="@+id/textViewLabelTitle"
                 style="@android:style/TextAppearance.Large"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/label_support_title" />

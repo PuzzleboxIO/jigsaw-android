@@ -57,13 +57,6 @@ public class SessionFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public static SessionFragment newInstance() {
-		SessionFragment fragment = new SessionFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
-	}
-
 	public SessionFragment() {
 		// Required empty public constructor
 	}
@@ -235,6 +228,7 @@ public class SessionFragment extends Fragment {
 		void onFragmentInteraction(Uri uri);
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 		LocalBroadcastManager.getInstance(
@@ -251,7 +245,6 @@ public class SessionFragment extends Fragment {
 	}
 
 	final MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {
-		Intent i = SessionSingleton.getInstance().getExportSessionIntent(requireActivity().getApplicationContext());
 		exportSession();
 		return false;
 	};

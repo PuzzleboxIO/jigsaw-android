@@ -23,13 +23,6 @@ public class WelcomeFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public static WelcomeFragment newInstance() {
-		WelcomeFragment fragment = new WelcomeFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
-	}
-
 	public WelcomeFragment() {
 		// Required empty public constructor
 	}

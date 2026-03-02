@@ -1,18 +1,10 @@
 package io.puzzlebox.jigsaw.data;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
-import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.opencsv.CSVWriter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -46,10 +38,6 @@ public class SessionSingleton {
 
 	// Storage Permissions
 	private static final int REQUEST_EXTERNAL_STORAGE = 1;
-	private static final String[] PERMISSIONS_STORAGE = {
-			Manifest.permission.READ_EXTERNAL_STORAGE,
-			Manifest.permission.WRITE_EXTERNAL_STORAGE
-	};
 
 	private static final SessionSingleton ourInstance = new SessionSingleton();
 
@@ -83,17 +71,12 @@ public class SessionSingleton {
 		return currentEEG;
 	}
 
-	public ArrayList<HashMap<String, String>> getData(){
-		return data;
-	}
-
 	public int getRequestExternalStorage() {
 		return REQUEST_EXTERNAL_STORAGE;
 	}
 
 	/**
-	 *
-	 * @return yyyy-MM-dd HH:mm:ss formate date as string
+	 * Update the current timestamp to the current date and time.
 	 */
 	public void updateTimestamp() {
 		// Make a new Date object. It will be initialized to the current time.
@@ -132,14 +115,6 @@ public class SessionSingleton {
 
 	public String getSessionName() {
 		return sessionName;
-	}
-
-	public void setFrequencyRawEEG(int frequency) {
-		frequencyRawEEG = frequency;
-	}
-
-	public Integer getFrequencyRawEEG() {
-		return frequencyRawEEG;
 	}
 
 	public String getSessionTimestamp() {
@@ -228,7 +203,7 @@ public class SessionSingleton {
 		for (int i = 0; i < count; i++) {
 			try {
 				String val = data.get( data.size() - (count - i ) ).get(key);
-				result[i] = (val != null) ? Integer.valueOf(val) : 0;
+				result[i] = (val != null) ? Integer.parseInt(val) : 0;
 			} catch (ArrayIndexOutOfBoundsException e) {
 				result[i] = 0;
 			} catch (Exception e) {
@@ -257,35 +232,6 @@ public class SessionSingleton {
 			output.append(current).append("\n");
 		}
 		return output.toString();
-	}
-
-	public void exportDataToCSV(String filepath, String filename) {
-
-		removeTemporarySessionFile();
-
-		if (filepath == null)
-			filepath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
-
-		if (filename == null) {
-			filename = sessionName + "_" + getTimestampPS4();
-		}
-
-		Log.i(TAG, "exportDataToCSV: " + filepath + "/" + filename + ".csv");
-
-		try {
-			String filenameCSV = filepath  + "/" + filename + ".csv";
-			CSVWriter writer = new CSVWriter(new FileWriter(filenameCSV), ',');
-
-			List<String[]> dataCSV = getExportData();
-
-			writer.writeAll(dataCSV);
-			writer.close();
-
-			sessionFilename = filename;
-
-		} catch (Exception e) {
-			Log.e(TAG, "Exception", e);
-		}
 	}
 
 	// Tracks the last exported file so it can be cleaned up without needing a Context.
@@ -344,38 +290,4 @@ public class SessionSingleton {
 		}
 	}
 
-	/**
-	 * Checks if the app has permission to write to device storage
-	 *
-	 * If the app does not have permission then the user will be prompted to grant permissions
-	 * Android Jelly Bean (4.1) [API 16]
-	 *
-	 * @param activity
-	 */
-	public static void verifyStoragePermissions(final Activity activity) {
-		// Check if we have write permission
-		int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-		if (permission != PackageManager.PERMISSION_GRANTED) {
-
-			final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			builder.setTitle(activity.getResources().getString(R.string.dialog_title_request_permission));
-			builder.setMessage(activity.getResources().getString(R.string.dialog_message_request_permission));
-			builder.setPositiveButton(android.R.string.ok,null);
-			builder.setOnDismissListener(dialog -> ActivityCompat.requestPermissions(
-					activity,
-					PERMISSIONS_STORAGE,
-					REQUEST_EXTERNAL_STORAGE
-			));
-			builder.show();
-		} else {
-			Intent i = SessionSingleton.getInstance().getExportSessionIntent(activity.getApplicationContext());
-
-			if (i != null) {
-				activity.startActivity(i);
-			} else {
-				Toast.makeText(activity.getApplicationContext(), "Error exporting session data for sharing", Toast.LENGTH_SHORT).show();
-			}
-		}
-	}
 }

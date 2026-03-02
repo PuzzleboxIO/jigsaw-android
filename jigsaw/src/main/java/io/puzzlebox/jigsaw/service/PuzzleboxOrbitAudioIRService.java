@@ -3,8 +3,8 @@ package io.puzzlebox.jigsaw.service;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
+import android.media.AudioAttributes;
 import android.media.AudioFormat;
-import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.os.AsyncTask;
 import android.os.Binder;
@@ -33,30 +33,22 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	final Integer[] command={throttle,yaw,pitch,channel};
 	final int loopNumberWhileMindControl=20;
 
-	/**
-	 * Tone Generator
-	 * This is used to generate a carrier signal, to be played out the right
-	 * audio channel when the IR dongle is attached
-	 * Reference link - http://stackoverflow.com/questions/2413426/playing-an-arbitrary-tone-with-android
-	 */
-	private final int duration = 10; // seconds
-	private final int sampleRateTone = 8000;
-	private final int numSamples = duration * sampleRateTone;
-	private final double[] sample = new double[numSamples];
-
-	final byte[] generatedSnd = new byte[2 * numSamples];
-
 	public PuzzleboxOrbitAudioIRService()
 	{
 		int minSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT);
-		track = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT,minSize, AudioTrack.MODE_STREAM);
-	}
-
-	public PuzzleboxOrbitAudioIRService(int sps, boolean flip)
-	{
-		sampleRate = sps;
-		int minSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT);
-		track = new AudioTrack(AudioManager.STREAM_MUSIC,sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT,minSize, AudioTrack.MODE_STREAM);
+		track = new AudioTrack.Builder()
+				.setAudioAttributes(new AudioAttributes.Builder()
+						.setUsage(AudioAttributes.USAGE_MEDIA)
+						.setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+						.build())
+				.setAudioFormat(new AudioFormat.Builder()
+						.setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+						.setSampleRate(sampleRate)
+						.setChannelMask(AudioFormat.CHANNEL_OUT_STEREO)
+						.build())
+				.setBufferSizeInBytes(minSize)
+				.setTransferMode(AudioTrack.MODE_STREAM)
+				.build();
 	}
 
 	private final IBinder binder = new OrbitBinder();
@@ -86,7 +78,7 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 
 	/**
 	 * Half periods in the audio code, in seconds.
-	 *
+	 ** <p>
 	 * Four periods exist in the wave
 	 */
 	private final double longHIGH = 0.000829649;
@@ -104,7 +96,7 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 
 	/**
 	 * Pre-assembled audio code bit array in wave form.
-	 *
+	 ** <p>
 	 * waveBit is an array of two wave, each an array of numbers
 	 * waveBit[0] is the first wave, waveBit[1] is the second wave
 	 */
@@ -143,8 +135,8 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	 * @param throttle: 0~127, nothing will happen if this value is below 30.
 	 * @param yaw: 0~127, normally 78 will keep orbit from rotating.
 	 * @param pitch: 0~63, normally 31 will stop the top propeller.
-	 * @param channel: 1=Channel A, 0=Channel B 2= Channel C, depend on which channel you want to pair to the orbit. You can fly at most 3 orbit in a same room. 
-	 * @return
+	 * @param channel: 1=Channel A, 0=Channel B 2= Channel C, depend on which channel you want to pair to the orbit. You can fly at most 3 orbit in a same room.
+	 * @return the encoded IR command as an integer
 	 */
 	public int command2code(int throttle, int yaw, int pitch, int channel){
 		int code = throttle << 21;
@@ -195,7 +187,7 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	/**
 	 * Generate the initial wave required by IR dongle.
 	 * Not a very interesting method to look into.
-	 * @return
+	 * @return float array representing the initial wave
 	 */
 	public float[] initialWave(){
 		final double initLongHIGH=0.001-sampleTime*1; //seconds
@@ -300,44 +292,6 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 		return halfSine;
 	}
 
-	void genTone(){
-		/**
-		 * Generate a carrier signal for communication
-		 * with the IR Dongle
-		 */
-		final double freqOfTone = 440; // Hz
-
-		/** Fill out the array */
-		for (int i = 0; i < numSamples; ++i) {
-			sample[i] = Math.sin(2 * Math.PI * i / (sampleRateTone / freqOfTone));
-		}
-
-		/**
-		 *  Convert to 16 bit pcm sound array.
-		 *  The sample buffer is assumed to be normalized.
-		 */
-		int idx = 0;
-		for (final double dVal : sample) {
-			/** Scale to maximum amplitude */
-			final short val = (short) ((dVal * 32767));
-			/** In 16 bit wav PCM, first byte is the low order byte */
-			generatedSnd[idx++] = (byte) (val & 0x00ff);
-			generatedSnd[idx++] = (byte) ((val & 0xff00) >>> 8);
-		}
-	}
-
-	void playTone(){
-		/**
-		 * Play the generated carrier signal
-		 */
-		final AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
-				sampleRateTone, AudioFormat.CHANNEL_OUT_MONO,
-				AudioFormat.ENCODING_PCM_16BIT, generatedSnd.length,
-				AudioTrack.MODE_STATIC);
-		audioTrack.write(generatedSnd, 0, generatedSnd.length);
-		audioTrack.play();
-	}
-
 	@SuppressLint("StaticFieldLeak")
 	private class DoBackgroundTask extends AsyncTask< Integer , Void , Integer > {
 		protected Integer doInBackground(Integer... command) {
@@ -366,8 +320,5 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	}
 
 	public class OrbitBinder extends Binder {
-		PuzzleboxOrbitAudioIRService getService() {
-			return PuzzleboxOrbitAudioIRService.this;
-		}
 	}
 }

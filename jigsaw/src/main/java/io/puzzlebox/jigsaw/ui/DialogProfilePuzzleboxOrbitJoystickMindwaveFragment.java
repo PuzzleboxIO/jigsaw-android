@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
@@ -16,7 +15,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,8 +44,6 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		implements SeekBar.OnSeekBarChangeListener {
 
 	private final static String TAG = DialogProfilePuzzleboxOrbitJoystickMindwaveFragment.class.getSimpleName();
-
-	public final static String profileID = "profile_puzzlebox_orbit_joystick_mindwave";
 
 	// UI
 	Button buttonDeviceEnable;
@@ -166,7 +162,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
 		buttonDeviceEnable.setOnClickListener(view -> dismiss());
 
-		/**
+		/*
 		 * PuzzleboxOrbitAudioIRHandler
 		 */
 		DevicePuzzleboxOrbitSingleton.getInstance().startAudioHandler();
@@ -199,6 +195,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		void onFragmentInteraction(Uri uri);
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 		LocalBroadcastManager.getInstance(
@@ -212,6 +209,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		stopControl();
 	}
 
+	@Override
 	public void onResume() {
 
 		// Store access variables for window and blank point
@@ -222,15 +220,10 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
             return;
         }
 
-		Point size = new Point();
-
-		// Store dimensions of the screen in `size`
-		Display display = window.getWindowManager().getDefaultDisplay();
-
-		display.getSize(size);
+		int screenWidth = requireContext().getResources().getDisplayMetrics().widthPixels;
 
 		// Set the width of the dialog proportional to a percentage of the screen width
-		window.setLayout((int)(size.x *0.98), WindowManager.LayoutParams.WRAP_CONTENT);
+		window.setLayout((int)(screenWidth * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
 
 		window.setGravity(Gravity.CENTER);
 
@@ -252,6 +245,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 				mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
 	}
 
+	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
 		updatePowerThresholds();
 		updateControlSignal();
@@ -399,13 +393,13 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 
 	public void stopAudio() {
 
-		/**
+		/*
 		 * stop AudioTrack as well as destroy service.
 		 */
 
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.keepPlaying = false;
 
-		/**
+		/*
 		 * Stop playing audio control file
 		 */
 
@@ -482,14 +476,6 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 
 				case "eegBlink":
 					Log.d(TAG, "Blink: " + value + "\n");
-//					if (Integer.parseInt(value) > NeuroSkyEegState.blinkRangeMax) {
-//						value = "" + NeuroSkyEegState.blinkRangeMax;
-//					}
-//					try {
-//						progressBarBlink.setProgress(Integer.parseInt(value));
-//					} catch (NumberFormatException e) {
-//						e.printStackTrace();
-//					}
 					break;
 			}
 		}
@@ -547,7 +533,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		if (attentionSeekValue > 0) {
 			for (int i = attentionSeekValue; i < thresholdValuesAttention.length; i++) {
 
-				/**
+				/*
 				 *  Slider @ 70
 				 *
 				 * Attention @ 70
@@ -588,7 +574,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 
 	public void updatePower() {
 
-		/**
+		/*
 		 * This method updates the power level of the
 		 * "Throttle" and triggers the audio stream
 		 * which is used to fly the helicopter
@@ -611,7 +597,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 
 		if (eegPower > 0) {
 
-			/** Start playback of audio control stream */
+			/* Start playback of audio control stream */
 			if (!DevicePuzzleboxOrbitSingleton.getInstance().flightActive) {
 				playControl();
 			}
@@ -622,7 +608,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 
 		} else {
 
-			/** Land the helicopter */
+			/* Land the helicopter */
 //			if (! DevicePuzzleboxOrbitSingleton.getInstance().demoActive ) {
 ////				stopControl();
 //				updateControlSignal();
@@ -637,7 +623,7 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 
 	public int calculateSpeed() {
 
-		/**
+		/*
 		 * This method is used for calculating whether
 		 * the "Attention" or "Meditation" levels
 		 * are sufficient to trigger the helicopter throttle

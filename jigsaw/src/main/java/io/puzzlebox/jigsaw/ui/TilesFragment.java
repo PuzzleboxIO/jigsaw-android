@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,12 +26,6 @@ public class TilesFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public static TilesFragment newInstance() {
-		TilesFragment fragment = new TilesFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
-	}
 	public TilesFragment() {
 		// Required empty public constructor
 	}
@@ -56,9 +49,7 @@ public class TilesFragment extends Fragment {
 
 
 		// Compute the width of a carousel item based on the screen width and number of initial items.
-		final DisplayMetrics displayMetrics = new DisplayMetrics();
-		requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-		final int imageSize = (int) (displayMetrics.widthPixels / INITIAL_ITEMS_COUNT);
+		final int imageSize = (int) (requireContext().getResources().getDisplayMetrics().widthPixels / INITIAL_ITEMS_COUNT);
 
 		ImageView imageItem;
 

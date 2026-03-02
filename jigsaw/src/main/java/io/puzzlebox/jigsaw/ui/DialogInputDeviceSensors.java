@@ -2,13 +2,11 @@ package io.puzzlebox.jigsaw.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +85,7 @@ public class DialogInputDeviceSensors extends DialogFragment {
 
     // ################################################################
 
+    @Override
     public void onResume() {
         // Store access variables for window and blank point
 
@@ -97,21 +96,10 @@ public class DialogInputDeviceSensors extends DialogFragment {
             return;
         }
 
-        Point size = new Point();
-
-        // Store dimensions of the screen in `size`
-        Display display = window.getWindowManager().getDefaultDisplay();
-
-        display.getSize(size);
+        int screenWidth = requireContext().getResources().getDisplayMetrics().widthPixels;
 
         // Set the width of the dialog proportional to a percentage of the screen width
-//		window.setLayout((int) (size.x * 0.9), WindowManager.LayoutParams.WRAP_CONTENT);
-//		window.setLayout((int) (size.x * 0.975), WindowManager.LayoutParams.WRAP_CONTENT);
-//		window.setLayout((int)(size.x *0.98),WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setLayout((int)(size.x *0.75), WindowManager.LayoutParams.WRAP_CONTENT);
-
-        // Set the dimensions  of the dialog proportional to a percentage of the screen dimensions
-//		window.setLayout((int) (size.x * 0.95), (int) (size.y * 0.935));
+        window.setLayout((int)(screenWidth * 0.75), WindowManager.LayoutParams.WRAP_CONTENT);
 
         window.setGravity(Gravity.CENTER);
 

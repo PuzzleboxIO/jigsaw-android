@@ -8,7 +8,6 @@ package io.puzzlebox.jigsaw.ui;
 
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -43,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements
 		  SupportFragment.OnFragmentInteractionListener,
 		  DialogInputNeuroSkyMindWaveFragment.OnFragmentInteractionListener,
 		  DialogInputJoystickFragment.OnFragmentInteractionListener,
-		  DialogOutputPuzzleboxGimmickFragment.OnFragmentInteractionListener,
 		  DialogOutputAudioIRFragment.OnFragmentInteractionListener,
 		  DialogOutputSessionFragment.OnFragmentInteractionListener {
 
@@ -74,11 +71,9 @@ public class MainActivity extends AppCompatActivity implements
 		setContentView(R.layout.activity_main);
 
 		try {
-			Display display = getWindowManager().getDefaultDisplay();
-			Point size = new Point();
-			display.getSize(size); // TODO API 13
-			ConfigurationSingleton.getInstance().displayHeight = size.y;
-			ConfigurationSingleton.getInstance().displayWidth = size.x;
+			android.util.DisplayMetrics dm = getResources().getDisplayMetrics();
+			ConfigurationSingleton.getInstance().displayHeight = dm.heightPixels;
+			ConfigurationSingleton.getInstance().displayWidth = dm.widthPixels;
 
 			Log.d(TAG, "ConfigurationSingleton.getInstance().displayHeight: " + ConfigurationSingleton.getInstance().displayHeight);
 			Log.d(TAG, "ConfigurationSingleton.getInstance().displayWidth: " + ConfigurationSingleton.getInstance().displayWidth);

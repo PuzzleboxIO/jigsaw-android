@@ -1,10 +1,7 @@
 package io.puzzlebox.jigsaw.ui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
@@ -21,26 +18,8 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
 
     private static final String TAG = DialogProfilePuzzleboxGimmickX10TransceiverFragment.class.getSimpleName();
 
-    private OnFragmentInteractionListener mListener;
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
-
     public DialogProfilePuzzleboxGimmickX10TransceiverFragment() {
         // Required empty public constructor
-    }
-
-    public static DialogProfilePuzzleboxGimmickX10TransceiverFragment newInstance(String param1, String param2) {
-        DialogProfilePuzzleboxGimmickX10TransceiverFragment fragment = new DialogProfilePuzzleboxGimmickX10TransceiverFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -88,23 +67,6 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
         buttonDeviceEnable.setOnClickListener(view -> dismiss());
 
         return v;
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     private  void broadcastCommandBluetooth(String value) {

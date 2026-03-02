@@ -16,7 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-/**
+/*
  * Dependencies
  * Available from: http://www.choosemuse.com/developer-kit/
  * jigsaw-android/jigsaw/libs/libmuseandroid.jar
@@ -35,7 +35,6 @@ import com.interaxon.libmuse.MuseDataPacketType;
 import com.interaxon.libmuse.MuseFileWriter;
 import com.interaxon.libmuse.MuseManager;
 import com.interaxon.libmuse.MusePreset;
-import com.interaxon.libmuse.MuseVersion;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -54,16 +53,9 @@ public class InteraXonMuseService extends Service {
 
 //	public final static int EEG_RAW_FREQUENCY = 220; // 220 Hz sample rate
 
-	public static boolean eegConnected = false;
-	public static boolean eegConnecting = false;
-
 	public static int eegConcentration = 0;
 	public static int eegMellow = 0;
 	public static int eegSignal = 0;
-	public static int eegPower = 0;
-//	public static String acc_x = "";
-//	public static String acc_y = "";
-//	public static String acc_z = "";
 
 	private ServiceHandler mServiceHandler;
 
@@ -164,7 +156,7 @@ public class InteraXonMuseService extends Service {
 	}
 
 	public void connectHeadset() {
-		/**
+		/*
 		 * Called when the "Connect" button is pressed
 		 */
 		Spinner musesSpinner = new AppCompatSpinner(getApplicationContext());
@@ -201,7 +193,7 @@ public class InteraXonMuseService extends Service {
 
 			fileWriter.open();
 			fileWriter.addAnnotationString(1, "Connect clicked");
-			/**
+			/*
 			 * In most cases libmuse native library takes care about
 			 * exceptions and recovery mechanism, but native code still
 			 * may throw in some unexpected situations (like bad bluetooth
@@ -213,36 +205,6 @@ public class InteraXonMuseService extends Service {
 				Log.e("ERROR: Muse Headband", e.toString());
 			}
 		}
-	}
-
-	public static void disconnectHeadset() {
-		/**
-		 * Called when "Disconnect" button is pressed
-		 */
-		muse.disconnect(true);
-		fileWriter.addAnnotationString(1, "Disconnect clicked");
-		fileWriter.flush();
-		fileWriter.close();
-	}
-
-	public void updatedCurrentMuse() {
-		Spinner musesSpinner = new AppCompatSpinner(getApplicationContext());
-
-		MuseManager.refreshPairedMuses();
-
-		List<Muse> pairedMuses = MuseManager.getPairedMuses();
-		List<String> spinnerItems = new ArrayList<>();
-		for (Muse m: pairedMuses) {
-			String dev_id = m.getName() + "-" + m.getMacAddress();
-			Log.i("Muse Headband", dev_id);
-			spinnerItems.add(dev_id);
-		}
-
-		ArrayAdapter<String> adapterArray = new ArrayAdapter<>(
-				getApplicationContext(), android.R.layout.simple_spinner_item, spinnerItems);
-		musesSpinner.setAdapter(adapterArray);
-
-		muse = pairedMuses.get(musesSpinner.getSelectedItemPosition());
 	}
 
 	public void processPacketEEG() {
@@ -332,22 +294,11 @@ public class InteraXonMuseService extends Service {
 					" " + status;
 			Log.i("Muse Headband", full);
 
-			MuseVersion museVersion = muse.getMuseVersion();
-			String version = museVersion.getFirmwareType() +
-					" - " + museVersion.getFirmwareVersion() +
-					" - " + museVersion.getProtocolVersion();
-
 			if (current == ConnectionState.CONNECTED) {
-				eegConnected = true;
-				eegConnecting = false;
 				broadcastEventEEG("eegStatus", "STATE_CONNECTED");
 			} else if (current == ConnectionState.CONNECTING) {
-				eegConnected = false;
-				eegConnecting = true;
 				broadcastEventEEG("eegStatus", "STATE_CONNECTING");
 			} else if (current == ConnectionState.DISCONNECTED) {
-				eegConnected = false;
-				eegConnecting = false;
 				broadcastEventEEG("eegStatus", "STATE_DISCONNECTED");
 			}
 		}
@@ -374,22 +325,9 @@ public class InteraXonMuseService extends Service {
 			switch (p.getPacketType()) {
 				case EEG:
 					SessionSingleton.getInstance().appendRawEEG(
-//							  String.format(
-//										 "%6.2f", p.getValues().get(Eeg.FP1.ordinal()))
 							(int)Math.round(p.getValues().get(Eeg.FP1.ordinal()))
 					);
 					break;
-//				case ACCELEROMETER:
-//					acc_x = String.format(
-//							  "%6.2f", p.getValues().get(Accelerometer.FORWARD_BACKWARD.ordinal()));
-//					acc_y = String.format(
-//							  "%6.2f", p.getValues().get(Accelerometer.UP_DOWN.ordinal()));
-//					acc_z = String.format(
-//							  "%6.2f", p.getValues().get(Accelerometer.LEFT_RIGHT.ordinal()));
-//					Log.v(TAG, "Accelerometer: (" + acc_x + "," + acc_y + "," + acc_z + ") (x,y,z)");
-//					break;
-//				case ALPHA_RELATIVE:
-//					break;
 				case BATTERY:
 					fileWriter.addDataPacket(1, p);
 					// It's library client responsibility to flush the buffer,
@@ -397,12 +335,6 @@ public class InteraXonMuseService extends Service {
 					if (fileWriter.getBufferedMessagesSize() > 8096)
 						fileWriter.flush();
 					break;
-//				case BETA_ABSOLUTE:
-//					break;
-//				case BETA_RELATIVE:
-//					break;
-//				case BETA_SCORE:
-//					break;
 				case HORSESHOE:
 					eegSignal = (int)Math.round(p.getValues().get(0) +
 							p.getValues().get(1) +

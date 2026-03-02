@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
@@ -16,7 +15,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -207,6 +205,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		void onFragmentInteraction(Uri uri);
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 
@@ -219,6 +218,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 				mEventReceiver);
 	}
 
+	@Override
 	public void onResume() {
 
 		// Store access variables for window and blank point
@@ -228,15 +228,10 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
             super.onResume();
             return;
         }
-		Point size = new Point();
-
-		// Store dimensions of the screen in `size`
-		Display display = window.getWindowManager().getDefaultDisplay();
-
-		display.getSize(size);
+		int screenWidth = requireContext().getResources().getDisplayMetrics().widthPixels;
 
 		// Set the width of the dialog proportional to a percentage of the screen width
-		window.setLayout((int) (size.x * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
+		window.setLayout((int) (screenWidth * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
 
 		window.setGravity(Gravity.CENTER);
 

@@ -80,8 +80,6 @@ public class EEGFragment extends Fragment implements
 	private static final int[] thresholdValuesMeditation = new int[101];
 	private static final int minimumPower = 0; // minimum power for the action
 	private static final int maximumPower = 100; // maximum power for the action
-	private static final boolean enableMuse = false;
-
 	/**
 	 * UI
 	 */
@@ -210,9 +208,6 @@ public class EEGFragment extends Fragment implements
 
 		String[] items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InteraXon Muse"};
 
-//		if (NeuroSkyNeuroSkyEegState.eegConnected || NeuroSkyNeuroSkyEegState.eegConnecting)
-//			items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InteraXon Muse"};
-
 		// TODO 2017-02-15 Disable Muse
 //		if (InteraXonMuseService.eegConnected || InteraXonMuseService.eegConnecting)
 //			items = new String[] {"InteraXon Muse", "Emotiv Insight", "NeuroSky MindWave Mobile"};
@@ -260,7 +255,7 @@ public class EEGFragment extends Fragment implements
 		// TODO 2017-02-15 Disable Muse
 //		intentMuse = new Intent(getActivity(), InteraXonMuseService.class);
 
-		/**
+		/*
 		 * Update settings according to default UI
 		 */
 		updateScreenLayout();
@@ -317,6 +312,7 @@ public class EEGFragment extends Fragment implements
 		void onFragmentInteraction(Uri uri);
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 
@@ -377,7 +373,7 @@ public class EEGFragment extends Fragment implements
 	}
 
 	public void setButtonText(int buttonId, String text) {
-		/**
+		/*
 		 * Shortcut for changing the text on a button
 		 */
 		Button button = v.findViewById(buttonId);
@@ -418,21 +414,24 @@ public class EEGFragment extends Fragment implements
 //		}
 	}
 
+	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
 		updatePowerThresholds();
 	}
 
+	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
-		/**
+		/*
 		 * Method required by SeekBar.OnSeekBarChangeListener
 		 */
 	}
 
+	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
 	}
 
 	public void connectHeadset() {
-		/**
+		/*
 		 * Called when the "Connect" button is pressed
 		 */
 		switch (String.valueOf(spinnerEEG.getSelectedItem())) {
@@ -469,7 +468,7 @@ public class EEGFragment extends Fragment implements
 	} // connectHeadset
 
 	public void disconnectHeadset() {
-		/**
+		/*
 		 * Called when "Disconnect" button is pressed
 		 */
 		switch (String.valueOf(spinnerEEG.getSelectedItem())) {
@@ -532,7 +531,7 @@ public class EEGFragment extends Fragment implements
 		if (attentionSeekValue > 0) {
 			for (int i = attentionSeekValue; i < thresholdValuesAttention.length; i++) {
 
-				/**
+				/*
 				 *  Slider @ 70
 				 *
 				 * Attention @ 70
@@ -602,7 +601,7 @@ public class EEGFragment extends Fragment implements
 
 	public void updatePower() {
 
-		/**
+		/*
 		 * This method updates the power level of the
 		 * "Throttle" and triggers the audio stream
 		 * which is used to fly the helicopter
@@ -641,11 +640,6 @@ public class EEGFragment extends Fragment implements
 //
 //
 //		}
-	}
-
-	public void hideEEGRawHistory() {
-		if (eegRawHistoryPlot != null)
-			eegRawHistoryPlot.setVisibility(View.GONE);
 	}
 
 	public void updateEEGRawHistory(Number[] rawEEG) {

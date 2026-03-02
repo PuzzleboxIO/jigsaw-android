@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -18,7 +17,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,12 +45,6 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 	ImageView imageViewEmotivInsight;
 
-//	ImageView imageViewAF3;
-//	ImageView imageViewAF4;
-//	ImageView imageViewT7;
-//	ImageView imageViewT8;
-//	ImageView imageViewPz;
-//	ImageView imageViewCMS;
 
 	private int currentAF3 = 0;
 	private int currentAF4 = 0;
@@ -98,45 +90,6 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 
 		imageViewEmotivInsight = v.findViewById(R.id.imageViewEmotivInsight);
 
-//		imageViewEmotivInsight.setImageResource(R.drawable.device_eeg_sensor_head);
-
-//		Resources r = getResources();
-//		Drawable[] layers = new Drawable[7];
-//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//			//noinspection deprecation
-//			layers[0] = r.getDrawable(R.drawable.device_eeg_sensor_head);
-//			//noinspection deprecation
-//			layers[1] = r.getDrawable(R.drawable.device_eeg_sensor_af3_white);
-//			//noinspection deprecation
-//			layers[2] = r.getDrawable(R.drawable.device_eeg_sensor_af4_white);
-//			//noinspection deprecation
-//			layers[3] = r.getDrawable(R.drawable.device_eeg_sensor_t7_white);
-//			//noinspection deprecation
-//			layers[4] = r.getDrawable(R.drawable.device_eeg_sensor_t8_white);
-//			//noinspection deprecation
-//			layers[5] = r.getDrawable(R.drawable.device_eeg_sensor_pz_white);
-//			//noinspection deprecation
-//			layers[6] = r.getDrawable(R.drawable.device_eeg_sensor_tp7_cms_white);
-//		} else {
-//			layers[0] = r.getDrawable(R.drawable.device_eeg_sensor_head, null);
-//			layers[1] = r.getDrawable(R.drawable.device_eeg_sensor_af3_white, null);
-//			layers[2] = r.getDrawable(R.drawable.device_eeg_sensor_af4_white, null);
-//			layers[3] = r.getDrawable(R.drawable.device_eeg_sensor_t7_white, null);
-//			layers[4] = r.getDrawable(R.drawable.device_eeg_sensor_t8_white, null);
-//			layers[5] = r.getDrawable(R.drawable.device_eeg_sensor_pz_white, null);
-//			layers[6] = r.getDrawable(R.drawable.device_eeg_sensor_tp7_cms_white, null);
-//		}
-
-//		LayerDrawable layerDrawable = new LayerDrawable(layers);
-//		imageViewEmotivInsight.setImageDrawable(layerDrawable);
-
-		// TODO
-//		imageViewAF3 = v.findViewById(R.id.imageViewEmotivInsightSensorAF3);
-//		imageViewAF4 = v.findViewById(R.id.imageViewEmotivInsightSensorAF4);
-//		imageViewT7 = v.findViewById(R.id.imageViewEmotivInsightSensorT7);
-//		imageViewT8 = v.findViewById(R.id.imageViewEmotivInsightSensorT8);
-//		imageViewPz = v.findViewById(R.id.imageViewEmotivInsightSensorPz);
-//		imageViewCMS = v.findViewById(R.id.imageViewEmotivInsightSensorCMS);
 
 		drawEEGStatus(0, 0, 0, 0, 0, 0);
 
@@ -170,6 +123,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		void onFragmentInteraction(Uri uri);
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 		LocalBroadcastManager.getInstance(
@@ -180,21 +134,15 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 				mStatusReceiver);
 	}
 
+	@Override
 	public void onResume() {
 		// Store access variables for window and blank point
 		Window window = requireDialog().getWindow();
 
-        if (window == null) {
-            super.onResume();
-            return;
-        }
-
-		Point size = new Point();
-
-		// Store dimensions of the screen in `size`
-		Display display = window.getWindowManager().getDefaultDisplay();
-
-		display.getSize(size);
+		if (window == null) {
+			super.onResume();
+			return;
+		}
 
 		window.setGravity(Gravity.CENTER);
 

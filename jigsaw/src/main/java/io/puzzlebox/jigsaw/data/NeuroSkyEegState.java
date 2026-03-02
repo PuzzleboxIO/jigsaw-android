@@ -4,7 +4,7 @@ import android.util.Log;
 
 /**
  * Shared static state for the NeuroSky ThinkGear connection.
- *
+ ** <p>
  * All public fields and constants live here rather than in
  * NeuroSkyThinkGearService so that UI classes can read them without importing
  * the SDK-dependent service class. This allows the project to compile even
@@ -29,26 +29,9 @@ public final class NeuroSkyEegState {
     public static final int     EEG_RAW_FREQUENCY   = 512; // 512 Hz sample rate
     public static final int     EEG_RAW_HISTORY_SIZE = EEG_RAW_FREQUENCY;
     public static final boolean rawEnabled           = true;
-    public static final int     signalSignalMax      = 100;
     public static final int     blinkRangeMax        = 128;
 
     private NeuroSkyEegState() {}
-
-    // ── SDK availability ──────────────────────────────────────────────────────
-
-    /**
-     * Returns true if the NeuroSky SDK classes are present in this build.
-     * Uses reflection so this class compiles regardless of whether the JARs
-     * are available.
-     */
-    public static boolean isAvailable() {
-        try {
-            Class.forName("com.neurosky.thinkgear.TGDevice");
-            return true;
-        } catch (ClassNotFoundException e) {
-            return false;
-        }
-    }
 
     // ── Disconnect helper ─────────────────────────────────────────────────────
 
@@ -56,7 +39,7 @@ public final class NeuroSkyEegState {
      * Delegates to {@code NeuroSkyThinkGearService.disconnectHeadset()} via
      * reflection so callers do not need a compile-time reference to the
      * SDK-dependent service class.
-     *
+     ** <p>
      * If the SDK is absent from this build the state fields are reset directly.
      */
     public static void disconnectIfConnected() {

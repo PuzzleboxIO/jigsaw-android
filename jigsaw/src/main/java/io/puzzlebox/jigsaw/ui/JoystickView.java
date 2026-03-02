@@ -16,8 +16,8 @@ import android.view.ViewConfiguration;
 import io.puzzlebox.jigsaw.R;
 
 /**
- * Imported from https://github.com/controlwear/virtual-joystick-android
- * Upstream License: Apache 2.0 [https://github.com/controlwear/virtual-joystick-android/blob/master/LICENSE]
+ * Imported from <a href="https://github.com/controlwear/virtual-joystick-android">virtual-joystick-android</a>
+ * Upstream License: Apache 2.0 [<a href="https://github.com/controlwear/virtual-joystick-android/blob/master/LICENSE">LICENSE</a>]
  */
 
 public class JoystickView extends View

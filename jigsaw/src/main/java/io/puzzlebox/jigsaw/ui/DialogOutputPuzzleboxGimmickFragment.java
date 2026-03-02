@@ -6,15 +6,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Point;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,43 +29,15 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
     private static final String TAG = DialogOutputPuzzleboxGimmickFragment.class.getSimpleName();
 
-    public final static String profileID = "puzzlebox_gimmick";
-
     Button buttonConnectGimmick;
     Button buttonDeviceEnable;
-
-    private static Intent intentPuzzleboxGimmick;
-
-    private OnFragmentInteractionListener mListener;
-
-    private OnFragmentLoadListener mListenerFragment;
-
-    public interface OnFragmentLoadListener {
-        void loadFragment(String backStackName);
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
 
     public DialogOutputPuzzleboxGimmickFragment() {
         // Required empty public constructor
     }
 
-    public static DialogOutputPuzzleboxGimmickFragment newInstance() {
-        DialogOutputPuzzleboxGimmickFragment fragment = new DialogOutputPuzzleboxGimmickFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Window activityWindow = requireActivity().getWindow();
@@ -115,28 +84,11 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
         return v;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
     public void broadcastTileStatus(String value) {
 
         Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.tile.event");
 
-        intent.putExtra("id", profileID);
+        intent.putExtra("id", "puzzlebox_gimmick");
         intent.putExtra("name", "active");
         intent.putExtra("value", value);
         intent.putExtra("category", "outputs");
@@ -144,6 +96,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
         LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
     }
 
+    @Override
     public void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(
@@ -151,6 +104,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
                 mStatusReceiver);
     }
 
+    @Override
     public void onResume() {
 
         // Store access variables for window and blank point
@@ -160,19 +114,6 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
             super.onResume();
             return;
         }
-
-        Point size = new Point();
-
-        // Store dimensions of the screen in `size`
-        Display display = window.getWindowManager().getDefaultDisplay();
-
-        display.getSize(size);
-
-//		// Set the width of the dialog proportional to a percentage of the screen width
-//		window.setLayout((int) (size.x * 0.98), WindowManager.LayoutParams.WRAP_CONTENT);
-
-        // Set the dimensions  of the dialog proportional to a percentage of the screen dimensions
-//		window.setLayout((int) (size.x * 0.95), (int) (size.y * 0.935));
 
         window.setGravity(Gravity.CENTER);
 
@@ -242,9 +183,6 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
     };
 
-    public void onSelectGimmickRefresh() {
-    }
-
     public void onSelectGimmickItem(String deviceNumber) {
 
         Log.i(TAG, "Selecting Gimmick: " + deviceNumber);
@@ -273,35 +211,6 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
         LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent);
     }
-
-    private final BroadcastReceiver mEventReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            String commandName = String.valueOf(intent.getStringExtra("name"));
-            String commandValue = String.valueOf(intent.getStringExtra("value"));
-
-            Log.d(TAG, "commandName: " + commandName + ", commandValue: " + commandValue);
-
-            switch (commandName) {
-
-                case "command":
-
-                    if ("displayDevicesFound".equals(commandValue)) {
-                        displayDevicesFound();
-                    }
-
-                    break;
-                case "loadFragment":
-                    if (mListenerFragment != null)
-                        mListenerFragment.loadFragment(commandValue);
-                    else
-                        Log.d(TAG, "mListenerFragment was null");
-            }
-        }
-
-    };
 
     public void connectGimmick() {
         /*

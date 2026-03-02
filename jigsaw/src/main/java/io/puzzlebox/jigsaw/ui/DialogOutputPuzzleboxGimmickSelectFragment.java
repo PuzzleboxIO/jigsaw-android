@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
@@ -23,8 +22,6 @@ import io.puzzlebox.jigsaw.data.DevicePuzzleboxGimmickSingleton;
 public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
 
     private final String TAG = DialogOutputPuzzleboxGimmickSelectFragment.class.getSimpleName();
-
-    LinearLayout dynamicLayout;
 
     private OnFragmentInteractionListener mListener;
 
@@ -36,18 +33,6 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
 
     public DialogOutputPuzzleboxGimmickSelectFragment() {
         // Required empty public constructor
-    }
-
-    public static DialogOutputPuzzleboxGimmickSelectFragment newInstance(String param1, String param2) {
-        DialogOutputPuzzleboxGimmickSelectFragment fragment = new DialogOutputPuzzleboxGimmickSelectFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -63,8 +48,6 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
                 mListener.onSelectGimmickItem(-1);
             }
         });
-
-        dynamicLayout = v.findViewById(R.id.dynamicLayoutSelectGimmick);
 
         displayDevicesFound(savedInstanceState);
 

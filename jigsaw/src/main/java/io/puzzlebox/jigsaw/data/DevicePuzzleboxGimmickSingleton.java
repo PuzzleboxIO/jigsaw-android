@@ -19,8 +19,6 @@ public class DevicePuzzleboxGimmickSingleton {
 	private final static String COMMAND_CHARACTERISTIC_UUID =  "0000cc0a-0000-1000-8000-00805f9b34fb";
 	private final static String HASH_CHARACTERISTIC_UUID =     "0000cc0b-0000-1000-8000-00805f9b34fb";
 
-	public String deviceHash = null;
-
 	public final ArrayList<ScanResult> devicesFound = new ArrayList<>();
 
 	private static final DevicePuzzleboxGimmickSingleton ourInstance = new DevicePuzzleboxGimmickSingleton();
@@ -30,10 +28,6 @@ public class DevicePuzzleboxGimmickSingleton {
 	}
 
 	private DevicePuzzleboxGimmickSingleton() {
-	}
-
-	public String getClientCharacteristic() {
-		return CLIENT_CHARACTERISTIC_CONFIG;
 	}
 
 	public String getPeripheralServiceUuid() {
