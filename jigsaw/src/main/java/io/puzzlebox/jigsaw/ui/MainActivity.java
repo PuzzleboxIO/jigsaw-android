@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements
 	List<DrawerItem> dataList;
 
 
+	@SuppressWarnings("EmptyMethod")
 	public void onFragmentInteraction(Uri uri) {
 	}
 

@@ -48,6 +48,7 @@ public class SupportFragment extends Fragment {
 	private OnFragmentInteractionListener mListener;
 
 	public interface OnFragmentInteractionListener {
+		@SuppressWarnings("EmptyMethod")
 		void onFragmentInteraction(Uri uri);
 	}
 
@@ -160,10 +161,11 @@ public class SupportFragment extends Fragment {
 						+ " Support] (Android " + versionName + ")";
 
 				// Build URL-encoded POST body (replaces Apache HttpClient)
-				String postBody = URLEncoder.encode("email_name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8")
-						+ "&" + URLEncoder.encode("email_from", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8")
-						+ "&" + URLEncoder.encode("email_subject", "UTF-8") + "=" + URLEncoder.encode(subject, "UTF-8")
-						+ "&" + URLEncoder.encode("email_body", "UTF-8") + "=" + URLEncoder.encode(message, "UTF-8");
+				String charset = StandardCharsets.UTF_8.name();
+				String postBody = URLEncoder.encode("email_name", charset) + "=" + URLEncoder.encode(name, charset)
+						+ "&" + URLEncoder.encode("email_from", charset) + "=" + URLEncoder.encode(email, charset)
+						+ "&" + URLEncoder.encode("email_subject", charset) + "=" + URLEncoder.encode(subject, charset)
+						+ "&" + URLEncoder.encode("email_body", charset) + "=" + URLEncoder.encode(message, charset);
 
 				byte[] postBytes = postBody.getBytes(StandardCharsets.UTF_8);
 

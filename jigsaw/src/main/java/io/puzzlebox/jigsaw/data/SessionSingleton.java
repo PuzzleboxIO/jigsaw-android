@@ -28,13 +28,9 @@ public class SessionSingleton {
 
 	private static String sessionName = "Untitled"; // default for when Session fragment is never loaded
 
-	private static String sessionFilename;
-
 	private static ArrayList<HashMap<String, String>> data = new ArrayList<>();
 
 	private static final ArrayList<Integer> rawEEG = new ArrayList<>();
-
-	private static int frequencyRawEEG = 512; // default 512 Hz
 
 	// Storage Permissions
 	private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -58,7 +54,7 @@ public class SessionSingleton {
 
 	public Integer[] getCurrentRawEEG() {
 
-		int historySize = frequencyRawEEG;
+		int historySize = 512; // default 512 Hz
 
 		Integer[] currentEEG = new Integer[historySize];
 		for (int i = 0; i < historySize; i++) {
@@ -252,7 +248,7 @@ public class SessionSingleton {
 		Intent i = new Intent(Intent.ACTION_SEND);
 		i.setType("application/csv"); // Produces the most correct options in the share menu
 		try {
-			sessionFilename = sessionName + "_" + SessionSingleton.getInstance().getTimestampPS4() + ".csv";
+			String sessionFilename = sessionName + "_" + SessionSingleton.getInstance().getTimestampPS4() + ".csv";
 
 			// Use app-private external storage — no permission required on any API level.
 			File exportDir = context.getExternalFilesDir(null);

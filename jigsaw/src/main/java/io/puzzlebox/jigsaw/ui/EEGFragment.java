@@ -309,6 +309,7 @@ public class EEGFragment extends Fragment implements
 	 * >Communicating with Other Fragments</a> for more information.
 	 */
 	public interface OnFragmentInteractionListener {
+		@SuppressWarnings("EmptyMethod")
 		void onFragmentInteraction(Uri uri);
 	}
 
@@ -349,6 +350,7 @@ public class EEGFragment extends Fragment implements
 		return false;
 	};
 
+	@SuppressWarnings("EmptyMethod")
 	public void updateScreenLayout() {
 //		switch(config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK){
 //			case Configuration.SCREENLAYOUT_SIZE_SMALL:
@@ -380,6 +382,7 @@ public class EEGFragment extends Fragment implements
 		button.setText(text);
 	}
 
+	@SuppressWarnings("EmptyMethod")
 	public void updateStatusImage() {
 //		if(DEBUG) {
 //			Log.v(TAG, (new StringBuilder("Attention: ")).append(eegAttention).toString());

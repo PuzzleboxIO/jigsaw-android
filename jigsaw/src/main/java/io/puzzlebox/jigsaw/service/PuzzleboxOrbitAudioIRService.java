@@ -23,7 +23,7 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 
 	final AudioTrack track;
 	//	public int sampleRate = 44100;
-	public int sampleRate = 48000;
+	public final int sampleRate = 48000;
 
 	short[] audioData = new short[6144];
 	final int throttle=80;
@@ -319,6 +319,6 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 		}
 	}
 
-	public class OrbitBinder extends Binder {
+	public static class OrbitBinder extends Binder {
 	}
 }

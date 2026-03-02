@@ -98,6 +98,7 @@ public class DialogInputJoystickFragment extends DialogFragment
 	}
 
 	public interface OnFragmentInteractionListener {
+		@SuppressWarnings("EmptyMethod")
 		void onFragmentInteraction(Uri uri);
 	}
 

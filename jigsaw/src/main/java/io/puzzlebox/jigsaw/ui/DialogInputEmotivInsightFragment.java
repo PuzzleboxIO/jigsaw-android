@@ -235,6 +235,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		buttonConnectEEG.setText(getString(R.string.buttonStatusEmotivInsightConnect));
 	}
 
+	@SuppressWarnings("EmptyMethod")
 	public void onSelectEEGRefresh() {
 	}
 

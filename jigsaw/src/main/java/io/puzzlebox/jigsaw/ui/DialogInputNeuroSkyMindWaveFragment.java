@@ -202,6 +202,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 	}
 
 	public interface OnFragmentInteractionListener {
+		@SuppressWarnings("EmptyMethod")
 		void onFragmentInteraction(Uri uri);
 	}
 
@@ -394,6 +395,7 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		button.setText(text);
 	}
 
+	@SuppressWarnings("EmptyMethod")
 	public void updateStatusImage() {
 
 //		if(DEBUG) {

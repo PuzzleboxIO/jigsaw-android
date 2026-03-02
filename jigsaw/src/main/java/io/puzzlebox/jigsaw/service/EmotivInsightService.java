@@ -99,7 +99,8 @@ public class EmotivInsightService extends Service {
 					{
 						handler.sendEmptyMessage(0); // getNextEvent
 						handler.sendEmptyMessage(1); //check bluetooth status and connect to emotiv_insight_slotted headset
-						Thread.sleep(5);
+						//noinspection BusyWait - intentional polling interval for Emotiv SDK event loop
+					Thread.sleep(5);
 					}
 					catch (Exception e)
 					{

@@ -45,6 +45,7 @@ public class DeviceEmotivInsightSingleton {
 		return IEdk.IEE_GetInsightDeviceName(index);
 	}
 
+	@SuppressWarnings("ConstantConditions") // mBound and mService are set via reflection from MainActivity
 	public void connectEmotivInsight(int deviceNumber) {
 		if (!mBound || mService == null) return;
 		// Create and send a message to the service, using a supported 'what' value

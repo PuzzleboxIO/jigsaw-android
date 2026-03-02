@@ -2,8 +2,8 @@ package io.puzzlebox.jigsaw.ui;
 
 public class DrawerItem {
 
-	String ItemName;
-	int imgResID;
+	final String ItemName;
+	final int imgResID;
 
 	public DrawerItem(String itemName, int imgResID) {
 		super();

@@ -192,6 +192,7 @@ public class TilesFragment extends Fragment {
 	}
 
 	public interface OnFragmentInteractionListener {
+		@SuppressWarnings("EmptyMethod")
 		void onFragmentInteraction(Uri uri);
 	}
 }

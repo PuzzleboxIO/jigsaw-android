@@ -482,6 +482,7 @@ public class JoystickView extends View
 			});
 
 			try {
+				//noinspection BusyWait - intentional fixed-interval delay between callbacks
 				Thread.sleep(mLoopInterval);
 			} catch (InterruptedException e) {
 				break;

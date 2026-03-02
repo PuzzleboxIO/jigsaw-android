@@ -221,8 +221,6 @@ public class NeuroSkyThinkGearService extends Service {
 			case TGDevice.MSG_RAW_DATA:
 				SessionSingleton.getInstance().appendRawEEG(msg.arg1);
 				break;
-			case TGDevice.MSG_RAW_MULTI:
-				break;
 			case TGDevice.MSG_LOW_BATTERY:
 				broadcastEventEEG("eegStatus", "MSG_LOW_BATTERY");
 				break;
