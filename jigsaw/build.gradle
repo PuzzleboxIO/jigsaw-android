@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 
+group = 'io.puzzlebox.jigsaw'
+version = '2.4.0'
+
 // ── Optional SDK presence checks ─────────────────────────────────────────────
 // These JARs are not committed to version control; they must be downloaded
 // separately and placed in jigsaw/libs/. When absent the dependent source

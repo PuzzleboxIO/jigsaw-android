@@ -58,7 +58,7 @@ jigsaw/src/release/jniLibs/armeabi-v7a/libbedk.so
 SDK presence is detected by checking for `community-emotiv-classes.jar`.
 When absent, all Emotiv source files are excluded from compilation and the AAR
 is not linked. The `community-3.3.4.aar` is also referenced by `orbit-android`
-via its `jigsaw` symlink.
+via Gradle composite build.
 
 ---
 
