@@ -13,7 +13,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,6 +35,7 @@ import java.util.Arrays;
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 import io.puzzlebox.jigsaw.data.NeuroSkyEegState;
+import androidx.core.content.ContextCompat;
 
 public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
@@ -210,12 +210,10 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 	public void onPause() {
 		super.onPause();
 
-		LocalBroadcastManager.getInstance(
-				requireActivity().getApplicationContext()).unregisterReceiver(
+		requireActivity().getApplicationContext().unregisterReceiver(
 				mPacketReceiver);
 
-		LocalBroadcastManager.getInstance(
-				requireActivity().getApplicationContext()).unregisterReceiver(
+		requireActivity().getApplicationContext().unregisterReceiver(
 				mEventReceiver);
 	}
 
@@ -239,11 +237,9 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		// Call super onResume after sizing
 		super.onResume();
 
-		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
-				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
+		ContextCompat.registerReceiver(requireActivity().getApplicationContext(), mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
-				mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
+		ContextCompat.registerReceiver(requireActivity().getApplicationContext(), mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"), ContextCompat.RECEIVER_NOT_EXPORTED);
 	}
 
 	public void connectHeadset() {
@@ -457,6 +453,6 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 		intent.putExtra("value", value);
 		intent.putExtra("category", "inputs");
 
-		LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
+		requireActivity().sendBroadcast(intent);
 	}
 }

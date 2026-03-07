@@ -10,7 +10,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.Process;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.lang.ref.WeakReference;
@@ -131,7 +130,7 @@ public class EmotivInsightService extends Service {
 							Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
 							intent.putExtra("name", "status");
 							intent.putExtra("value", "connected");
-							LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+							getApplicationContext().sendBroadcast(intent);
 
 						}
 						if(eventType == IEdk.IEE_Event_t.IEE_UserRemoved.ToInt()) {
@@ -142,7 +141,7 @@ public class EmotivInsightService extends Service {
 							Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
 							intent.putExtra("name", "status");
 							intent.putExtra("value", "disconnected");
-							LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+							getApplicationContext().sendBroadcast(intent);
 
 							broadcastSignalQualityReset();
 						}
@@ -154,7 +153,7 @@ public class EmotivInsightService extends Service {
 							Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.action");
 							intent.putExtra("name", Integer.toString(IEmoStateDLL.IS_MentalCommandGetCurrentAction()));
 							intent.putExtra("value", Double.toString(IEmoStateDLL.IS_MentalCommandGetCurrentActionPower()));
-							LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+							getApplicationContext().sendBroadcast(intent);
 
 						}
 						if (eventType == IEdk.IEE_Event_t.IEE_MentalCommandEvent.ToInt()) {
@@ -195,7 +194,7 @@ public class EmotivInsightService extends Service {
 							intent.putExtra("name", "populateSelectEEG");
 							intent.putExtra("value", "");
 
-							LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+							getApplicationContext().sendBroadcast(intent);
 						}
 					}
 //					else {
@@ -240,7 +239,7 @@ public class EmotivInsightService extends Service {
 		intent.putExtra("Pz", Pz);
 		intent.putExtra("CMS", CMS);
 
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		this.sendBroadcast(intent);
 	}
 
 	private void broadcastSignalQualityReset() {
@@ -253,13 +252,13 @@ public class EmotivInsightService extends Service {
 		intent.putExtra("Pz", "0");
 		intent.putExtra("CMS", "0");
 
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		this.sendBroadcast(intent);
 	}
 
 	private void broadcastTrainingStatus(String status) {
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.training");
 		intent.putExtra("status", status);
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		this.sendBroadcast(intent);
 	}
 
 	static class IncomingHandler extends Handler {

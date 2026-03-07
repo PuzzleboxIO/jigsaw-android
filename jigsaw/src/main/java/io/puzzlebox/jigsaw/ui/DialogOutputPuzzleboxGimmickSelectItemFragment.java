@@ -7,7 +7,6 @@ import java.util.Locale;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +83,7 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
             Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status");
             intent.putExtra("name", "select");
             intent.putExtra("value", mParamName);
-            LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
+            requireActivity().sendBroadcast(intent);
         });
 
         Button buttonChoose = v.findViewById(R.id.buttonChoose);
@@ -92,7 +91,7 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
             Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status");
             intent.putExtra("name", "select");
             intent.putExtra("value", Integer.toString(mId));
-            LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
+            requireActivity().sendBroadcast(intent);
         });
         return v;
     }

@@ -7,7 +7,6 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -205,7 +204,7 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 		intent.putExtra("value", value);
 		intent.putExtra("category", "outputs");
 
-		LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
+		requireActivity().sendBroadcast(intent);
 	}
 
 	@Override

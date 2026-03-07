@@ -15,7 +15,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,6 +30,7 @@ import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.ConfigurationSingleton;
 import io.puzzlebox.jigsaw.data.DeviceEmotivInsightSingleton;
 import io.puzzlebox.jigsaw.service.EmotivInsightService;
+import androidx.core.content.ContextCompat;
 
 public class DialogInputEmotivInsightFragment extends DialogFragment {
 
@@ -126,11 +126,9 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-		LocalBroadcastManager.getInstance(
-				requireActivity().getApplicationContext()).unregisterReceiver(
+		requireActivity().getApplicationContext().unregisterReceiver(
 				mSignalQualityReceiver);
-		LocalBroadcastManager.getInstance(
-				requireActivity()).unregisterReceiver(
+		requireActivity().unregisterReceiver(
 				mStatusReceiver);
 	}
 
@@ -149,11 +147,9 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		// Call super onResume after sizing
 		super.onResume();
 
-		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
-				mSignalQualityReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality"));
+		ContextCompat.registerReceiver(requireActivity().getApplicationContext(), mSignalQualityReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-		LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
-				mStatusReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.status"));
+		ContextCompat.registerReceiver(requireActivity(), mStatusReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.status"), ContextCompat.RECEIVER_NOT_EXPORTED);
 	}
 
 	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
@@ -442,7 +438,7 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		intent.putExtra("value", value);
 		intent.putExtra("category", "inputs");
 
-		LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
+		requireActivity().sendBroadcast(intent);
 	}
 
 	public static int calculateInSampleSize(

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +23,7 @@ import java.util.ArrayList;
 
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.DevicePuzzleboxGimmickSingleton;
+import androidx.core.content.ContextCompat;
 
 public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
 
@@ -93,14 +93,13 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
         intent.putExtra("value", value);
         intent.putExtra("category", "outputs");
 
-        LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
+        requireActivity().sendBroadcast(intent);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        LocalBroadcastManager.getInstance(
-                requireActivity()).unregisterReceiver(
+        requireActivity().unregisterReceiver(
                 mStatusReceiver);
     }
 
@@ -120,8 +119,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
         // Call super onResume after sizing
         super.onResume();
 
-        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
-                mStatusReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status"));
+        ContextCompat.registerReceiver(requireActivity(), mStatusReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
     }
 
@@ -209,7 +207,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
         intent.putExtra("name", "connect");
         intent.putExtra("value", value);
 
-        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent);
+        requireContext().sendBroadcast(intent);
     }
 
     public void connectGimmick() {

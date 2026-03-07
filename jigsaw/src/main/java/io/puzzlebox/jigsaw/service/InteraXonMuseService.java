@@ -9,7 +9,6 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.widget.AppCompatSpinner;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -240,7 +239,7 @@ public class InteraXonMuseService extends Service {
 		intent.putExtra("Meditation", packet.get("Meditation"));
 		intent.putExtra("Signal Level", packet.get("Signal Level"));
 
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		this.sendBroadcast(intent);
 	}
 
 	private  void broadcastEventEEG(String name, String value) {
@@ -249,7 +248,7 @@ public class InteraXonMuseService extends Service {
 		intent.putExtra("name", name);
 		intent.putExtra("value", value);
 
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		this.sendBroadcast(intent);
 	}
 
 	private void configure_library() {

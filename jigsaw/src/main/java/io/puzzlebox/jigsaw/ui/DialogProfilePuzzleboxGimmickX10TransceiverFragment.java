@@ -3,7 +3,6 @@ package io.puzzlebox.jigsaw.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,6 +76,6 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
         intent.putExtra("name", "x10");
         intent.putExtra("value", value);
 
-        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent);
+        requireContext().sendBroadcast(intent);
     }
 }

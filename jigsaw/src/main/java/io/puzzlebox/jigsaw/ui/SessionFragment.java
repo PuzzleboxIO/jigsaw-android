@@ -18,7 +18,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -44,6 +43,7 @@ import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM;
+import androidx.core.content.ContextCompat;
 
 public class SessionFragment extends Fragment {
 
@@ -232,8 +232,7 @@ public class SessionFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-		LocalBroadcastManager.getInstance(
-				requireActivity().getApplicationContext()).unregisterReceiver(
+		requireActivity().getApplicationContext().unregisterReceiver(
 				mPacketReceiver);
 	}
 
@@ -241,8 +240,7 @@ public class SessionFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		updateSessionTime();
-		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
-				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
+		ContextCompat.registerReceiver(requireActivity().getApplicationContext(), mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"), ContextCompat.RECEIVER_NOT_EXPORTED);
 	}
 
 	final MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {

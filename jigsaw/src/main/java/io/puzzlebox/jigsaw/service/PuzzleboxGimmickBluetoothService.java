@@ -25,13 +25,13 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import androidx.annotation.NonNull;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import io.puzzlebox.jigsaw.data.DevicePuzzleboxGimmickSingleton;
+import androidx.core.content.ContextCompat;
 
 @SuppressLint("MissingPermission")
 public class PuzzleboxGimmickBluetoothService extends Service {
@@ -88,8 +88,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		Looper mServiceLooper = thread.getLooper();
 		mServiceHandler = new ServiceHandler(mServiceLooper);
 
-		LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
-				mCommandReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.bluetooth.command"));
+		ContextCompat.registerReceiver(getApplicationContext(), mCommandReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.bluetooth.command"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
 		final BluetoothManager manager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
 
@@ -303,7 +302,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		intent.putExtra("name", "command");
 		intent.putExtra("value", "displayDevicesFound");
 
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		this.sendBroadcast(intent);
 	}
 
 	private void scanLeDevice(final boolean enable) {
@@ -487,7 +486,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		intent.putExtra("name", "x10");
 		intent.putExtra("value", value);
 
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		this.sendBroadcast(intent);
 	}
 
 	private void broadcastStatusBluetooth(String value) {
@@ -496,6 +495,6 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		intent.putExtra("name", "status");
 		intent.putExtra("value", value);
 
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		this.sendBroadcast(intent);
 	}
 }

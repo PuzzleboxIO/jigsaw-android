@@ -14,7 +14,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -41,6 +40,7 @@ import io.puzzlebox.jigsaw.R;
 import static io.puzzlebox.jigsaw.data.NeuroSkyEegState.eegConnected;
 import static io.puzzlebox.jigsaw.data.NeuroSkyEegState.eegConnecting;
 import static io.puzzlebox.jigsaw.data.NeuroSkyEegState.eegSignal;
+import androidx.core.content.ContextCompat;
 
 public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
         implements SeekBar.OnSeekBarChangeListener {
@@ -185,12 +185,10 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
     public void onPause() {
         super.onPause();
 
-        LocalBroadcastManager.getInstance(
-                requireActivity().getApplicationContext()).unregisterReceiver(
+        requireActivity().getApplicationContext().unregisterReceiver(
                 mPacketReceiver);
 
-        LocalBroadcastManager.getInstance(
-                requireActivity().getApplicationContext()).unregisterReceiver(
+        requireActivity().getApplicationContext().unregisterReceiver(
                 mEventReceiver);
 
         stopControl();
@@ -230,11 +228,9 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
         updatePower();
         updateControlSignal();
 
-        LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
-                mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
+        ContextCompat.registerReceiver(requireActivity().getApplicationContext(), mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
-                mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
+        ContextCompat.registerReceiver(requireActivity().getApplicationContext(), mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     private final BroadcastReceiver mPacketReceiver = new BroadcastReceiver() {
@@ -704,6 +700,6 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
         intent.putExtra("name", name);
         intent.putExtra("value", value);
 
-        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent);
+        requireContext().sendBroadcast(intent);
     }
 }

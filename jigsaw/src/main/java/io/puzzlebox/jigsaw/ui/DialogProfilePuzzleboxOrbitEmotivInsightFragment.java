@@ -16,7 +16,6 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -41,6 +40,7 @@ import io.puzzlebox.jigsaw.data.DeviceEmotivInsightSingleton;
 import io.puzzlebox.jigsaw.data.ProfileSingleton;
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.DevicePuzzleboxOrbitSingleton;
+import androidx.core.content.ContextCompat;
 
 public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFragment
 		implements SeekBar.OnSeekBarChangeListener {
@@ -234,16 +234,13 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 
 		super.onPause();
 
-		LocalBroadcastManager.getInstance(
-				requireActivity().getApplicationContext()).unregisterReceiver(
+		requireActivity().getApplicationContext().unregisterReceiver(
 				mActionReceiver);
 
-		LocalBroadcastManager.getInstance(
-				requireActivity()).unregisterReceiver(
+		requireActivity().unregisterReceiver(
 				mSignalQualityReceiver);
 
-		LocalBroadcastManager.getInstance(
-				requireActivity().getApplicationContext()).unregisterReceiver(
+		requireActivity().getApplicationContext().unregisterReceiver(
 				mTrainingReceiver);
 
 		stopControl();
@@ -280,14 +277,11 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		updatePower();
 		updateControlSignal();
 
-		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
-				mSignalQualityReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality"));
+		ContextCompat.registerReceiver(requireActivity().getApplicationContext(), mSignalQualityReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-		LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(
-				mActionReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.action"));
+		ContextCompat.registerReceiver(requireActivity(), mActionReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.action"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
-				mTrainingReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.training"));
+		ContextCompat.registerReceiver(requireActivity().getApplicationContext(), mTrainingReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.emotiv.insight.training"), ContextCompat.RECEIVER_NOT_EXPORTED);
 	}
 
 	private final BroadcastReceiver mSignalQualityReceiver = new BroadcastReceiver() {

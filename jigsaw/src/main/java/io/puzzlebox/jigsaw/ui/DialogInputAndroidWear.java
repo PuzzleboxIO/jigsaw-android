@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -115,6 +114,6 @@ public class DialogInputAndroidWear extends DialogFragment {
         intent.putExtra("value", value);
         intent.putExtra("category", "inputs");
 
-        LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
+        requireActivity().sendBroadcast(intent);
     }
 }

@@ -14,7 +14,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -315,7 +314,7 @@ public class NeuroSkyThinkGearService extends Service {
 		intent.putExtra("Meditation", packet.get("Meditation"));
 		intent.putExtra("Signal Level", packet.get("Signal Level"));
 
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		this.sendBroadcast(intent);
 	}
 
 	private  void broadcastEventEEG(String name, String value) {
@@ -324,6 +323,6 @@ public class NeuroSkyThinkGearService extends Service {
 		intent.putExtra("name", name);
 		intent.putExtra("value", value);
 
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		this.sendBroadcast(intent);
 	}
 }

@@ -23,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -57,6 +56,7 @@ import io.puzzlebox.jigsaw.data.SessionSingleton;
 import io.puzzlebox.jigsaw.data.NeuroSkyEegState;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM;
+import androidx.core.content.ContextCompat;
 
 public class EEGFragment extends Fragment implements
 		SeekBar.OnSeekBarChangeListener {
@@ -317,12 +317,10 @@ public class EEGFragment extends Fragment implements
 	public void onPause() {
 		super.onPause();
 
-		LocalBroadcastManager.getInstance(
-				requireActivity().getApplicationContext()).unregisterReceiver(
+		requireActivity().getApplicationContext().unregisterReceiver(
 				mPacketReceiver);
 
-		LocalBroadcastManager.getInstance(
-				requireActivity().getApplicationContext()).unregisterReceiver(
+		requireActivity().getApplicationContext().unregisterReceiver(
 				mEventReceiver);
 	}
 
@@ -331,11 +329,9 @@ public class EEGFragment extends Fragment implements
 		super.onResume();
 		updateSessionTime();
 
-		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
-				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
+		ContextCompat.registerReceiver(requireActivity().getApplicationContext(), mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
-		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
-				mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"));
+		ContextCompat.registerReceiver(requireActivity().getApplicationContext(), mEventReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.event"), ContextCompat.RECEIVER_NOT_EXPORTED);
 	}
 
 	final MenuItem.OnMenuItemClickListener mShareButtonClickListener = item -> {

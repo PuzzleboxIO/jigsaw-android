@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -34,6 +33,7 @@ import java.util.Arrays;
 
 import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
+import androidx.core.content.ContextCompat;
 
 
 public class DialogOutputSessionFragment extends DialogFragment {
@@ -199,8 +199,7 @@ public class DialogOutputSessionFragment extends DialogFragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-		LocalBroadcastManager.getInstance(
-				requireActivity().getApplicationContext()).unregisterReceiver(
+		requireActivity().getApplicationContext().unregisterReceiver(
 				mPacketReceiver);
 	}
 
@@ -224,8 +223,7 @@ public class DialogOutputSessionFragment extends DialogFragment {
 
 		updateSessionTime();
 
-		LocalBroadcastManager.getInstance(requireActivity().getApplicationContext()).registerReceiver(
-				mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"));
+		ContextCompat.registerReceiver(requireActivity().getApplicationContext(), mPacketReceiver, new IntentFilter("io.puzzlebox.jigsaw.protocol.thinkgear.packet"), ContextCompat.RECEIVER_NOT_EXPORTED);
 
 	}
 

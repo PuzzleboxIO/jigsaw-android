@@ -1,12 +1,10 @@
 package io.puzzlebox.jigsaw.service;
 
-import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioFormat;
 import android.media.AudioTrack;
-import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
@@ -61,7 +59,7 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		try{
-			new DoBackgroundTask().execute(command);
+			new Thread(() -> runAudioIRCommand(command)).start();
 		} catch (Exception e) {
 			Log.e(TAG, "Exception", e);
 		}
@@ -292,31 +290,26 @@ public class PuzzleboxOrbitAudioIRService extends Service {
 		return halfSine;
 	}
 
-	@SuppressLint("StaticFieldLeak")
-	private class DoBackgroundTask extends AsyncTask< Integer , Void , Integer > {
-		protected Integer doInBackground(Integer... command) {
+	private void runAudioIRCommand(Integer... command) {
+		int throttle=command[0];
+		int yaw=command[1];
+		int pitch=command[2];
+		int channel=command[3];
 
-			int throttle=command[0];
-			int yaw=command[1];
-			int pitch=command[2];
-			int channel=command[3];
+		int code=command2code(throttle,yaw,pitch,channel);
+		float[] wave=code2wave(code);
 
-			int code=command2code(throttle,yaw,pitch,channel);
-			float[] wave=code2wave(code);
+		track.play();
 
-			track.play();
+		for (int j = 0; j<4; j++)
+			send(wave);
 
-			for (int j = 0; j<4; j++)
-				send(wave);
+		send(initialWave());
 
-			send(initialWave());
+		for (int j = 0; j<loopNumberWhileMindControl; j++)
+			send(wave);
 
-			for (int j = 0; j<loopNumberWhileMindControl; j++)
-				send(wave);
-
-			track.stop();
-			return 0;
-		}
+		track.stop();
 	}
 
 	public static class OrbitBinder extends Binder {
