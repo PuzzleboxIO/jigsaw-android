@@ -1,11 +1,8 @@
 package io.puzzlebox.jigsaw.ui;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import android.util.Log;
 import android.view.Gravity;
@@ -31,17 +28,8 @@ public class DialogInputJoystickFragment extends DialogFragment
 	public SeekBar seekBarY;
 	Button buttonDeviceEnable;
 
-	private OnFragmentInteractionListener mListener;
-
 	public DialogInputJoystickFragment() {
 		// Required empty public constructor
-	}
-
-	public static DialogInputJoystickFragment newInstance() {
-		DialogInputJoystickFragment fragment = new DialogInputJoystickFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
 	}
 
 	@Override
@@ -77,28 +65,6 @@ public class DialogInputJoystickFragment extends DialogFragment
 		});
 
 		return v;
-	}
-
-	@Override
-	public void onAttach(@NonNull Context context) {
-		super.onAttach(context);
-		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
-		} else {
-			throw new RuntimeException(context
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
-	public interface OnFragmentInteractionListener {
-		@SuppressWarnings("EmptyMethod")
-		void onFragmentInteraction(Uri uri);
 	}
 
 	@Override

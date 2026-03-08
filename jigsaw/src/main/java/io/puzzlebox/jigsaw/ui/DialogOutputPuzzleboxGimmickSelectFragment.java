@@ -3,7 +3,6 @@ package io.puzzlebox.jigsaw.ui;
 import android.annotation.SuppressLint;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -26,8 +25,6 @@ public class DialogOutputPuzzleboxGimmickSelectFragment extends DialogFragment {
     private OnFragmentInteractionListener mListener;
 
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-        void onSelectGimmickRefresh();
         void onSelectGimmickItem(Integer deviceNumber);
     }
 

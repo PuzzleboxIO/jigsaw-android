@@ -212,8 +212,8 @@
                     android:paddingRight="@dimen/padding_medium"
                     android:text="@string/label_puzzlebox_orbit_emotiv_insight_training_neutral"
                     android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/buttonTrainNeutral"
                     />
-                <!--android:layout_toLeftOf="@id/buttonTrainNeutral"-->
 
                 <Button
                     android:id="@+id/buttonTrainNeutral"
@@ -254,8 +254,8 @@
                     android:paddingRight="@dimen/padding_medium"
                     android:text="@string/label_puzzlebox_orbit_emotiv_insight_training_mental_command"
                     android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/buttonTrainMentalCommand"
                     />
-                <!--android:layout_toLeftOf="@id/buttonTrainNeutral"-->
 
                 <Button
                     android:id="@+id/buttonTrainMentalCommand"

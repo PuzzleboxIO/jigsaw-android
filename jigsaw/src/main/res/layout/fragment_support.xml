@@ -1,158 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_medium"
+        android:layout_marginLeft="@dimen/padding_medium"
+        android:layout_marginEnd="@dimen/padding_medium"
+        android:layout_marginRight="@dimen/padding_medium"
+        android:paddingStart="@dimen/padding_medium"
+        android:paddingLeft="@dimen/padding_medium"
+        android:paddingRight="@dimen/padding_medium"
+        android:paddingEnd="@dimen/padding_medium"
+        android:orientation="vertical" >
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="140dp"-->
+        <!--android:orientation="vertical" >-->
+
+        <!--<WebView-->
+            <!--android:id="@+id/webViewSupport"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="140dp"-->
+            <!--android:scrollbars="none" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/textViewLabelHeader"-->
+            <!--style="@android:style/TextAppearance.Large"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:text="@string/label_support_title" />-->
+
+        <!--</LinearLayout>-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="32dip" >
+        </View>
+
+        <TextView
+            android:id="@+id/textViewLabelTitle"
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/label_support_title" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padding_medium"
-            android:layout_marginLeft="@dimen/padding_medium"
-            android:layout_marginEnd="@dimen/padding_medium"
-            android:layout_marginRight="@dimen/padding_medium"
             android:paddingStart="@dimen/padding_medium"
             android:paddingLeft="@dimen/padding_medium"
-            android:paddingRight="@dimen/padding_medium"
             android:paddingEnd="@dimen/padding_medium"
-            android:orientation="vertical" >
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="140dp"-->
-            <!--android:orientation="vertical" >-->
-
-            <!--<WebView-->
-                <!--android:id="@+id/webViewSupport"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="140dp"-->
-                <!--android:scrollbars="none" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/textViewLabelHeader"-->
-                <!--style="@android:style/TextAppearance.Large"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center"-->
-                <!--android:text="@string/label_support_title" />-->
-
-            <!--</LinearLayout>-->
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="32dip" >
-            </View>
+            android:paddingRight="@dimen/padding_medium" >
 
             <TextView
-                android:id="@+id/textViewLabelTitle"
-                style="@android:style/TextAppearance.Large"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/label_support_title" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/padding_medium"
-                android:paddingLeft="@dimen/padding_medium"
-                android:paddingEnd="@dimen/padding_medium"
-                android:paddingRight="@dimen/padding_medium" >
-
-                <TextView
-                    android:id="@+id/textViewLabelName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@id/editTextName"
-                    android:text="@string/label_support_name" />
-
-                <EditText
-                    android:id="@+id/editTextName"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:autofillHints="name"
-                    android:inputType="textPersonName" >
-
-                    <requestFocus />
-                </EditText>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/padding_medium"
-                android:paddingEnd="@dimen/padding_medium"
-                android:paddingLeft="@dimen/padding_medium"
-                android:paddingRight="@dimen/padding_medium" >
-
-                <TextView
-                    android:id="@+id/textViewLabelEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@id/editTextEmail"
-                    android:text="@string/label_support_email" />
-
-                <EditText
-                    android:id="@+id/editTextEmail"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:autofillHints="emailAddress"
-                    android:inputType="textEmailAddress" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textViewLabelMessage"
+                android:id="@+id/textViewLabelName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/padding_medium"
-                android:paddingEnd="@dimen/padding_medium"
-                android:paddingLeft="@dimen/padding_medium"
-                android:paddingRight="@dimen/padding_medium"
-                android:labelFor="@id/editTextMessage"
-                android:text="@string/label_support_message" />
+                android:labelFor="@id/editTextName"
+                android:text="@string/label_support_name" />
 
             <EditText
-                android:id="@+id/editTextMessage"
-                android:layout_width="match_parent"
+                android:id="@+id/editTextName"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:ems="10"
-                android:autofillHints="off"
-                android:inputType="textMultiLine"
-                android:paddingStart="@dimen/padding_large"
-                android:paddingEnd="@dimen/padding_large"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingRight="@dimen/padding_large" >
+                android:autofillHints="name"
+                android:inputType="textPersonName" >
+
+                <requestFocus />
             </EditText>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingTop="@dimen/padding_medium"
-                android:paddingStart="@dimen/padding_medium"
-                android:paddingEnd="@dimen/padding_medium"
-                android:paddingLeft="@dimen/padding_medium"
-                android:paddingRight="@dimen/padding_medium" >
-
-                <Button
-                    android:id="@+id/buttonSendMessage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_rounded_corners_grey"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/padding_medium"
-                    android:paddingRight="@dimen/padding_medium"
-                    android:text="@string/button_support_send" />
-            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium" >
+
+            <TextView
+                android:id="@+id/textViewLabelEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/editTextEmail"
+                android:text="@string/label_support_email" />
+
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:autofillHints="emailAddress"
+                android:inputType="textEmailAddress" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewLabelMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium"
+            android:labelFor="@id/editTextMessage"
+            android:text="@string/label_support_message" />
+
+        <EditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:autofillHints="off"
+            android:inputType="textMultiLine"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large" >
+        </EditText>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="@dimen/padding_medium"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium" >
+
+            <Button
+                android:id="@+id/buttonSendMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_corners_grey"
+                android:gravity="center"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_medium"
+                android:text="@string/button_support_send" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

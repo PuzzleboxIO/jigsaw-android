@@ -1,11 +1,8 @@
 package io.puzzlebox.jigsaw.ui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import java.util.Locale;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,11 +24,6 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
 
     private int mId;
 
-    private OnFragmentInteractionListener mListener;
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
     public DialogOutputPuzzleboxGimmickSelectItemFragment() {
         // Required empty public constructor
     }
@@ -44,13 +36,6 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
         args.putInt(ARG_PARENT_ID, paramParentId);
         args.putInt(ARG_INSIGHT_ID, paramInsightId);
         args.putString(ARG_NAME, paramName);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static DialogOutputPuzzleboxGimmickSelectItemFragment newInstance() {
-        DialogOutputPuzzleboxGimmickSelectItemFragment fragment = new DialogOutputPuzzleboxGimmickSelectItemFragment();
-        Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
@@ -96,17 +81,4 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
         return v;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 }

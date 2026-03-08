@@ -17,7 +17,6 @@ import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -69,8 +68,6 @@ public class EEGFragment extends Fragment implements
 
 	private final static String TAG = EEGFragment.class.getSimpleName();
 
-	private OnFragmentInteractionListener mListener;
-
 	private View v;
 
 	/**
@@ -99,13 +96,6 @@ public class EEGFragment extends Fragment implements
 	private SimpleXYSeries eegRawHistorySeries = null;
 
 	private Intent intentThinkGear;
-
-	public static EEGFragment newInstance() {
-		EEGFragment fragment = new EEGFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
-	}
 
 	public EEGFragment() {
 		// Required empty public constructor
@@ -282,38 +272,6 @@ public class EEGFragment extends Fragment implements
 	}
 
 	@Override
-	public void onAttach(@NonNull Context context) {
-		super.onAttach(context);
-		try {
-			mListener = (OnFragmentInteractionListener) context;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(context
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated
-	 * to the activity and potentially other fragments contained in that
-	 * activity.
-	 * <p/>
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
-	public interface OnFragmentInteractionListener {
-		@SuppressWarnings("EmptyMethod")
-		void onFragmentInteraction(Uri uri);
-	}
-
-	@Override
 	public void onPause() {
 		super.onPause();
 
@@ -380,37 +338,6 @@ public class EEGFragment extends Fragment implements
 
 	@SuppressWarnings("EmptyMethod")
 	public void updateStatusImage() {
-//		if(DEBUG) {
-//			Log.v(TAG, (new StringBuilder("Attention: ")).append(eegAttention).toString());
-//			Log.v(TAG, (new StringBuilder("Meditation: ")).append(eegMeditation).toString());
-//			Log.v(TAG, (new StringBuilder("Power: ")).append(eegPower).toString());
-//			Log.v(TAG, (new StringBuilder("Signal: ")).append(eegSignal).toString());
-//			Log.v(TAG, (new StringBuilder("Connecting: ")).append(eegConnecting).toString());
-//			Log.v(TAG, (new StringBuilder("Connected: ")).append(eegConnected).toString());
-//		}
-//
-//		if(eegPower > 0) {
-//			imageViewStatus.setImageResource(R.drawable.status_4_active);
-//			return;
-//		}
-//
-//		if(eegSignal > 90) {
-//			imageViewStatus.setImageResource(R.drawable.status_3_processing);
-//			return;
-//		}
-//
-//		if(eegConnected) {
-//			imageViewStatus.setImageResource(R.drawable.status_2_connected);
-//			return;
-//		}
-//
-//		if(eegConnecting) {
-//			imageViewStatus.setImageResource(R.drawable.status_1_connecting);
-//			return;
-//		} else {
-//			imageViewStatus.setImageResource(R.drawable.status_default);
-//			return;
-//		}
 	}
 
 	@Override
@@ -449,21 +376,7 @@ public class EEGFragment extends Fragment implements
 				Toast.makeText(requireActivity().getApplicationContext(), "Emotiv Insight support only available in developer edition", Toast.LENGTH_SHORT).show();
 				break;
 
-			// TODO 2017-02-15 Disable Muse
-//			case "InteraXon Muse":
-//
-//				if (enableMuse) {
-//					if (!InteraXonMuseService.eegConnected) {
-//						requireActivity().startService(intentMuse);
-//					} else {
-//						disconnectHeadset();
-//					}
-//				} else {
-//					Toast.makeText(requireActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
-//				}
-//
-//				break;
-		}
+			}
 	} // connectHeadset
 
 	public void disconnectHeadset() {
@@ -481,17 +394,7 @@ public class EEGFragment extends Fragment implements
 				Toast.makeText(requireActivity().getApplicationContext(), "Emotiv Insight support only available in developer edition", Toast.LENGTH_SHORT).show();
 				break;
 
-			// TODO 2017-02-15 Disable Muse
-//			case "InteraXon Muse":
-//				if (enableMuse) {
-//					InteraXonMuseService.disconnectHeadset();
-//					requireActivity().stopService(intentMuse);
-//				} else {
-//					Toast.makeText(requireActivity().getApplicationContext(), "InteraXon Muse support only available in developer edition", Toast.LENGTH_SHORT).show();
-//				}
-//
-//				break;
-		}
+			}
 
 		updateStatusImage();
 

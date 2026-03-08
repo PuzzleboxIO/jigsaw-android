@@ -2,9 +2,7 @@ package io.puzzlebox.jigsaw.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -23,8 +21,6 @@ public class TilesFragment extends Fragment {
 	 * Number of items visible in carousels.
 	 */
 	private static final float INITIAL_ITEMS_COUNT = 2.5F;
-
-	private OnFragmentInteractionListener mListener;
 
 	public TilesFragment() {
 		// Required empty public constructor
@@ -174,25 +170,4 @@ public class TilesFragment extends Fragment {
 		}
 	}
 
-	@Override
-	public void onAttach(@NonNull Context context) {
-		super.onAttach(context);
-		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
-		} else {
-			throw new RuntimeException(context
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
-	public interface OnFragmentInteractionListener {
-		@SuppressWarnings("EmptyMethod")
-		void onFragmentInteraction(Uri uri);
-	}
 }

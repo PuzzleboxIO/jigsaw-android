@@ -1,9 +1,6 @@
 package io.puzzlebox.jigsaw.ui;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import android.util.Log;
 import android.view.Gravity;
@@ -32,8 +29,6 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 	Button buttonDeviceEnable;
 
 	private static final int paddingJoysticks = 20;
-
-	private OnFragmentInteractionListener mListener;
 
 	public DialogProfilePuzzleboxOrbitJoystickFragment() {
 		// Required empty public constructor
@@ -96,27 +91,6 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 		}
 		updateControlSignal();
 		return v;
-	}
-
-	@Override
-	public void onAttach(@NonNull Context context) {
-		super.onAttach(context);
-		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
-		} else {
-			throw new RuntimeException(context
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
-	public interface OnFragmentInteractionListener {
-		void onFragmentInteraction(Uri uri);
 	}
 
 	@Override

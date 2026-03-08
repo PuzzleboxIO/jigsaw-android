@@ -233,7 +233,7 @@ public class ProfileSingleton {
 
 			if (allAvailable) {
 				profiles.get(index).put("status", "available");
-				return new ColorDrawable(ContextCompat.getColor(context, R.color.white));
+				return new ColorDrawable(ContextCompat.getColor(context, R.color.White));
 			} else {
 				profiles.get(index).put("status", "disabled");
 				return new ColorDrawable(ContextCompat.getColor(context, R.color.tileDisabled));

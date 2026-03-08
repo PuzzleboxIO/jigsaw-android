@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -43,7 +42,6 @@ public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 			view = inflater.inflate(layoutResID, parent, false);
 			drawerHolder.ItemName = view
 					  .findViewById(R.id.drawer_itemName);
-			drawerHolder.icon = view.findViewById(R.id.drawer_icon);
 
 			view.setTag(drawerHolder);
 
@@ -54,8 +52,9 @@ public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
 		DrawerItem dItem = this.drawerItemList.get(position);
 
-		drawerHolder.icon.setImageDrawable(ResourcesCompat.getDrawable(view.getResources(),
-				  dItem.getImgResID(), null));
+		drawerHolder.ItemName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+				ResourcesCompat.getDrawable(view.getResources(), dItem.getImgResID(), null),
+				null, null, null);
 		drawerHolder.ItemName.setText(dItem.getItemName());
 
 		return view;
@@ -63,7 +62,6 @@ public class NavigationDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
 	private static class DrawerItemHolder {
 		TextView ItemName;
-		ImageView icon;
 	}
 }
 

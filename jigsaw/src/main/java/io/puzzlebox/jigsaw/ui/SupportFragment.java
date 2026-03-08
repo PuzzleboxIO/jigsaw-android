@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,13 +44,6 @@ public class SupportFragment extends Fragment {
 	EditText editTextMessage;
 	Button buttonSendMessage;
 
-	private OnFragmentInteractionListener mListener;
-
-	public interface OnFragmentInteractionListener {
-		@SuppressWarnings("EmptyMethod")
-		void onFragmentInteraction(Uri uri);
-	}
-
 	public SupportFragment() {
 		// Required empty public constructor
 	}
@@ -87,23 +79,7 @@ public class SupportFragment extends Fragment {
 		return v;
 	}
 
-	@Override
-	public void onAttach(@NonNull Context context) {
-		super.onAttach(context);
-		try {
-			mListener = (OnFragmentInteractionListener) context;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(context
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
+	@SuppressWarnings("deprecation")
 	public void sendMessage() {
 		Toast.makeText(requireActivity().getApplicationContext(), "Thank you for your feedback!", Toast.LENGTH_LONG).show();
 

@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -48,8 +46,6 @@ public class DialogOutputSessionFragment extends DialogFragment {
 	private SimpleXYSeries sessionPlotSeries1 = null;
 	private XYPlot sessionPlot2 = null;
 	private SimpleXYSeries sessionPlotSeries2 = null;
-
-	private OnFragmentInteractionListener mListener;
 
 	public DialogOutputSessionFragment() {
 		// Required empty public constructor
@@ -172,28 +168,6 @@ public class DialogOutputSessionFragment extends DialogFragment {
 		}
 
 		return v;
-	}
-
-	@Override
-	public void onAttach(@NonNull Context context) {
-		super.onAttach(context);
-		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
-		} else {
-			throw new RuntimeException(context
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
-	public interface OnFragmentInteractionListener {
-		@SuppressWarnings("EmptyMethod")
-		void onFragmentInteraction(Uri uri);
 	}
 
 	@Override

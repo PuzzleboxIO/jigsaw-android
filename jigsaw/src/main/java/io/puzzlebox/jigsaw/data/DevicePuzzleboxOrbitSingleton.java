@@ -19,11 +19,6 @@ public class DevicePuzzleboxOrbitSingleton {
 	}
 
 	/**
-	 * EEG Configuration
-	 */
-	public int eegPower = 0;
-
-	/**
 	 * Flight Configuration
 	 */
 	public final int defaultTargetAttention = 72;
@@ -32,8 +27,6 @@ public class DevicePuzzleboxOrbitSingleton {
 	public final int minimumScoreTarget = 40;
 	public int scoreCurrent = 0;
 	public int scoreHigh = 0;
-
-	public boolean demoActive = false;
 
 	public boolean flightActive = false;
 
@@ -59,11 +52,15 @@ public class DevicePuzzleboxOrbitSingleton {
 	public final boolean generateAudio = true;
 	public boolean invertControlSignal = false;
 
-	public SoundPool soundPool;
-	public int soundID;
 	public final boolean loaded = false;
 
 	public PuzzleboxOrbitAudioIRHandler puzzleboxOrbitAudioIRHandler = new PuzzleboxOrbitAudioIRHandler();
+
+	public SoundPool soundPool = null;
+	public int soundID = 0;
+
+	public int eegPower = 0;
+	public boolean demoActive = false;
 
 	public void resetControlSignal() {
 

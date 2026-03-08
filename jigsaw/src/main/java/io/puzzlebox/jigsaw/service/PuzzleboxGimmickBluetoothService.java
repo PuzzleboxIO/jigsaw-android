@@ -39,7 +39,6 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 	private final static String TAG = PuzzleboxGimmickBluetoothService.class.getSimpleName();
 
 	private static BluetoothAdapter bluetoothAdapter;
-	private boolean scanning = false;
 	private Handler handler;
 	private BluetoothGatt gatt;
 
@@ -313,12 +312,10 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 		if (enable) {
 			handler.postDelayed(() -> {
-				scanning = false;
 				scanner.stopScan(mScanCallback);
 				broadcastEventBluetooth();
 			}, 10000);
 
-			scanning = true;
 			scanner.startScan(mScanCallback);
 		}
 	}

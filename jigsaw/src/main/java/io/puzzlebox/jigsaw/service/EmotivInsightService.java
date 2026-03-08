@@ -128,6 +128,7 @@ public class EmotivInsightService extends Service {
 							Log.d(TAG, "Status: Connected");
 
 							Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
+							intent.setPackage(getPackageName());
 							intent.putExtra("name", "status");
 							intent.putExtra("value", "connected");
 							getApplicationContext().sendBroadcast(intent);
@@ -139,6 +140,7 @@ public class EmotivInsightService extends Service {
 							DeviceEmotivInsightSingleton.getInstance().lock = false;
 
 							Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
+							intent.setPackage(getPackageName());
 							intent.putExtra("name", "status");
 							intent.putExtra("value", "disconnected");
 							getApplicationContext().sendBroadcast(intent);
@@ -151,6 +153,7 @@ public class EmotivInsightService extends Service {
 							broadcastSignalQuality();
 
 							Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.action");
+							intent.setPackage(getPackageName());
 							intent.putExtra("name", Integer.toString(IEmoStateDLL.IS_MentalCommandGetCurrentAction()));
 							intent.putExtra("value", Double.toString(IEmoStateDLL.IS_MentalCommandGetCurrentActionPower()));
 							getApplicationContext().sendBroadcast(intent);
@@ -191,6 +194,7 @@ public class EmotivInsightService extends Service {
 					if(number > 0) {
 						if(!DeviceEmotivInsightSingleton.getInstance().lock) {
 							Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
+							intent.setPackage(getPackageName());
 							intent.putExtra("name", "populateSelectEEG");
 							intent.putExtra("value", "");
 
@@ -209,6 +213,7 @@ public class EmotivInsightService extends Service {
 
 	private void broadcastSignalQuality() {
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality");
+		intent.setPackage(getPackageName());
 
 
 		String AF3 = String.valueOf(IEmoStateDLL.IS_GetContactQuality(IEmoStateDLL.IEE_InputChannels_t.IEE_CHAN_AF3.ToInt()));
@@ -244,6 +249,7 @@ public class EmotivInsightService extends Service {
 
 	private void broadcastSignalQualityReset() {
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.signal_quality");
+		intent.setPackage(getPackageName());
 
 		intent.putExtra("AF3", "0");
 		intent.putExtra("AF4", "0");
@@ -257,6 +263,7 @@ public class EmotivInsightService extends Service {
 
 	private void broadcastTrainingStatus(String status) {
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.training");
+		intent.setPackage(getPackageName());
 		intent.putExtra("status", status);
 		this.sendBroadcast(intent);
 	}

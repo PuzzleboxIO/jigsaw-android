@@ -9,11 +9,9 @@ import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import android.util.Log;
@@ -99,8 +97,6 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 	final int maximumPower = 100; // maximum power for the Orbit
 
 	private Handler handlerAnimation;
-
-	private EmotivInsightFragmentListener mListener;
 
 	public DialogProfilePuzzleboxOrbitEmotivInsightFragment() {
 		// Required empty public constructor
@@ -206,27 +202,6 @@ public class DialogProfilePuzzleboxOrbitEmotivInsightFragment extends DialogFrag
 		resetFlight(v);
 
 		return v;
-	}
-
-	@Override
-	public void onAttach(@NonNull Context context) {
-		super.onAttach(context);
-		if (context instanceof EmotivInsightFragmentListener) {
-			mListener = (EmotivInsightFragmentListener) context;
-		} else {
-			throw new RuntimeException(context
-					+ " must implement EmotivInsightFragmentListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
-	public interface OnFragmentInteractionListener {
-		void onFragmentInteraction(Uri uri);
 	}
 
 	@Override

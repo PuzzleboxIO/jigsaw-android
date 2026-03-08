@@ -1,11 +1,13 @@
 package io.puzzlebox.jigsaw.wear;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.hardware.Sensor;
-import android.support.wearable.view.FragmentGridPagerAdapter;
 
-public class SensorFragmentPagerAdapter extends FragmentGridPagerAdapter {
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+public class SensorFragmentPagerAdapter extends FragmentStateAdapter {
 
     // Reference: https://github.com/drejkim/AndroidWearMotionSensors
 
@@ -14,22 +16,18 @@ public class SensorFragmentPagerAdapter extends FragmentGridPagerAdapter {
             Sensor.TYPE_GYROSCOPE
     };
 
-    public SensorFragmentPagerAdapter(FragmentManager fm) {
-        super(fm);
+    public SensorFragmentPagerAdapter(FragmentActivity fa) {
+        super(fa);
+    }
+
+    @NonNull
+    @Override
+    public Fragment createFragment(int position) {
+        return SensorFragment.newInstance(sensorTypes[position]);
     }
 
     @Override
-    public Fragment getFragment(int row, int column) {
-        return SensorFragment.newInstance(sensorTypes[column]);
-    }
-
-    @Override
-    public int getRowCount() {
-        return 1; // fix to 1 row
-    }
-
-    @Override
-    public int getColumnCount(int row) {
+    public int getItemCount() {
         return sensorTypes.length;
     }
 }

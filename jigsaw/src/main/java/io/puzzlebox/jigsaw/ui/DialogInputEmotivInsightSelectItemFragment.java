@@ -1,12 +1,9 @@
 package io.puzzlebox.jigsaw.ui;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +27,6 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 	private String mParamName;
 
 	private int mId;
-
-	private OnFragmentInteractionListener mListener;
 
 	public static DialogInputEmotivInsightSelectItemFragment newInstance(Integer paramParentId,
 																		 Integer paramInsightId,
@@ -90,23 +85,4 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 		return v;
 	}
 
-	@Override
-	public void onAttach(@NonNull Context context) {
-		super.onAttach(context);
-		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
-		} else {
-			Log.e(TAG, context + " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
-	public interface OnFragmentInteractionListener {
-		void onSelectEEGItem(Integer deviceNumber);
-	}
 }

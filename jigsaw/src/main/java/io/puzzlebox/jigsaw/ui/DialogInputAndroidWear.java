@@ -1,10 +1,7 @@
 package io.puzzlebox.jigsaw.ui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,17 +20,8 @@ public class DialogInputAndroidWear extends DialogFragment {
     // UI
     Button buttonDeviceEnable;
 
-    private OnFragmentInteractionListener mListener;
-
     public DialogInputAndroidWear() {
         // Required empty public constructor
-    }
-
-    public static DialogInputAndroidWear newInstance() {
-        DialogInputAndroidWear fragment = new DialogInputAndroidWear();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -60,27 +48,6 @@ public class DialogInputAndroidWear extends DialogFragment {
         });
 
         return v;
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 
     @Override

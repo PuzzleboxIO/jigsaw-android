@@ -394,39 +394,12 @@ public class JoystickView extends View
      */
 
 	/**
-	 * Set the button color for this JoystickView.
-	 * @param color the color of the button
-	 */
-	public void setButtonColor(@ColorInt int color){
-		mPaintCircleButton.setColor(color);
-		invalidate();
-	}
-
-	/**
-	 * Set the border color for this JoystickView.
-	 * @param color the color of the border
-	 */
-	public void setBorderColor(@ColorInt int color){
-		mPaintCircleBorder.setColor(color);
-		invalidate();
-	}
-
-	/**
 	 * Set the background color for this JoystickView.
 	 * @param color the color of the background
 	 */
 	@Override
 	public void setBackgroundColor(@ColorInt int color) {
 		mPaintBackground.setColor(color);
-		invalidate();
-	}
-
-	/**
-	 * Set the border width for this JoystickView.
-	 * @param width the width of the border
-	 */
-	public void setBorderWidth(int width) {
-		mPaintCircleBorder.setStrokeWidth(width);
 		invalidate();
 	}
 
@@ -446,27 +419,6 @@ public class JoystickView extends View
 	public void setOnMoveListener(OnMoveListener l, int loopInterval) {
 		mCallback = l;
 		mLoopInterval = loopInterval;
-	}
-
-	/**
-	 * Register a callback to be invoked when this JoystickView is touch and held by multiple pointers
-	 * @param l The callback that will run
-	 */
-	public void setOnMultiLongPressListener(OnMultipleLongPressListener l) {
-		mOnMultipleLongPressListener = l;
-	}
-
-	/**
-	 * Set the joystick center's behavior (fixed or auto-defined)
-	 * @param fixedCenter True for fixed center, False for auto-defined center based on touch down
-	 */
-	public void setFixedCenter(boolean fixedCenter){
-		// if we set to "fixed" we make sure to re-init position related to the width of the joystick
-		if (fixedCenter) {
-			initPosition();
-		}
-		mFixedCenter = fixedCenter;
-		invalidate();
 	}
 
     /*

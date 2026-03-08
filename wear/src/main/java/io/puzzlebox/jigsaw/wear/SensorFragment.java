@@ -1,6 +1,6 @@
 package io.puzzlebox.jigsaw.wear;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.hardware.Sensor;

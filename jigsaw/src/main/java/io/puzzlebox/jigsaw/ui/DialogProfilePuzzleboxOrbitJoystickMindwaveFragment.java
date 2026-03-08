@@ -8,9 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import android.util.Log;
@@ -75,8 +73,6 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 	final int[] thresholdValuesMeditation = new int[101];
 	final int minimumPower = 0; // minimum power for the Orbit
 	final int maximumPower = 100; // maximum power for the Orbit
-
-	private OnFragmentInteractionListener mListener;
 
 	public DialogProfilePuzzleboxOrbitJoystickMindwaveFragment() {
 		// Required empty public constructor
@@ -172,27 +168,6 @@ public class DialogProfilePuzzleboxOrbitJoystickMindwaveFragment extends DialogF
 		updateControlSignal();
 
 		return v;
-	}
-
-	@Override
-	public void onAttach(@NonNull Context context) {
-		super.onAttach(context);
-		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
-		} else {
-			throw new RuntimeException(context
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
-	public interface OnFragmentInteractionListener {
-		void onFragmentInteraction(Uri uri);
 	}
 
 	@Override

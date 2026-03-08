@@ -8,9 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import android.util.Log;
@@ -56,17 +54,8 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 	private static Intent intentThinkGear;
 
-	private OnFragmentInteractionListener mListener;
-
 	public DialogInputNeuroSkyMindWaveFragment() {
 		// Required empty public constructor
-	}
-
-	public static DialogInputNeuroSkyMindWaveFragment newInstance() {
-		DialogInputNeuroSkyMindWaveFragment fragment = new DialogInputNeuroSkyMindWaveFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
 	}
 
 	@Override
@@ -185,28 +174,6 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 	}
 
 	@Override
-	public void onAttach(@NonNull Context context) {
-		super.onAttach(context);
-		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
-		} else {
-			throw new RuntimeException(context
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
-	public interface OnFragmentInteractionListener {
-		@SuppressWarnings("EmptyMethod")
-		void onFragmentInteraction(Uri uri);
-	}
-
-	@Override
 	public void onPause() {
 		super.onPause();
 
@@ -280,15 +247,6 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 			if (attentionStr != null) progressBarAttention.setProgress(Integer.parseInt(attentionStr));
 			if (meditationStr != null) progressBarMeditation.setProgress(Integer.parseInt(meditationStr));
 			if (signalStr != null) progressBarSignal.setProgress(Integer.parseInt(signalStr));
-
-			// TODO re-enable when extra safety desired
-//			if ((! buttonDeviceEnable.isEnabled()) && (eegSignal == NeuroSkyNeuroSkyEegState.signalSignalMax)) {
-//				// This setting requires the quality of the EEG sensor's
-//				// contact with skin hit to 100% at least once since the
-//				// headset was last connected.
-//				buttonDeviceEnable.setEnabled(true);
-//				buttonDeviceEnable.setVisibility(View.VISIBLE);
-//			}
 
 			if (! buttonDeviceEnable.isEnabled()) {
 				buttonDeviceEnable.setEnabled(true);
@@ -393,39 +351,6 @@ public class DialogInputNeuroSkyMindWaveFragment extends DialogFragment {
 
 	@SuppressWarnings("EmptyMethod")
 	public void updateStatusImage() {
-
-//		if(DEBUG) {
-//			Log.v(TAG, (new StringBuilder("Attention: ")).append(eegAttention).toString());
-//			Log.v(TAG, (new StringBuilder("Meditation: ")).append(eegMeditation).toString());
-//			Log.v(TAG, (new StringBuilder("Power: ")).append(eegPower).toString());
-//			Log.v(TAG, (new StringBuilder("Signal: ")).append(eegSignal).toString());
-//			Log.v(TAG, (new StringBuilder("Connecting: ")).append(eegConnecting).toString());
-//			Log.v(TAG, (new StringBuilder("Connected: ")).append(eegConnected).toString());
-//		}
-//
-//		if(eegPower > 0) {
-//			imageViewStatus.setImageResource(R.drawable.status_4_active);
-//			return;
-//		}
-//
-//		if(eegSignal > 90) {
-//			imageViewStatus.setImageResource(R.drawable.status_3_processing);
-//			return;
-//		}
-//
-//		if(eegConnected) {
-//			imageViewStatus.setImageResource(R.drawable.status_2_connected);
-//			return;
-//		}
-//
-//		if(eegConnecting) {
-//			imageViewStatus.setImageResource(R.drawable.status_1_connecting);
-//			return;
-//		} else {
-//			imageViewStatus.setImageResource(R.drawable.status_default);
-//			return;
-//		}
-
 	} // updateStatusImage
 
 	public void updateEEGRawHistory(Number[] rawEEG) {

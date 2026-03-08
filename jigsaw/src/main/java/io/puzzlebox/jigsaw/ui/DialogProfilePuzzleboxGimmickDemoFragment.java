@@ -9,9 +9,7 @@ import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import android.util.Log;
@@ -75,8 +73,6 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
     final int[] thresholdValuesMeditation = new int[101];
     final int minimumPower = 0; // minimum power for the bloom
     final int maximumPower = 100; // maximum power for the bloom
-
-    private OnFragmentInteractionListener mListener;
 
     public DialogProfilePuzzleboxGimmickDemoFragment() {
         // Required empty public constructor
@@ -158,27 +154,6 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
         }
         resetFlight(v);
         return v;
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 
     @Override

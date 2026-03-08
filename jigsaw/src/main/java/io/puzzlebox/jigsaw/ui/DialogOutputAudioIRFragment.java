@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import android.util.Log;
@@ -178,11 +177,6 @@ public class DialogOutputAudioIRFragment extends DialogFragment {
 	public void updateAudioHandlerChannel(int channel) {
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.channel = channel;
 		DevicePuzzleboxOrbitSingleton.getInstance().puzzleboxOrbitAudioIRHandler.updateControlSignal();
-	}
-
-	public interface OnFragmentInteractionListener {
-		@SuppressWarnings("EmptyMethod")
-		void onFragmentInteraction(Uri uri);
 	}
 
 	public void updateTileStatus() {

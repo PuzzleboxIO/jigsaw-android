@@ -87,7 +87,6 @@ public class DialogInputEmotivInsightSelectEEGFragment extends DialogFragment {
 	}
 
 	public interface OnFragmentInteractionListener {
-		void onSelectEEGRefresh();
 		void onSelectEEGItem(Integer deviceNumber);
 	}
 }

@@ -27,7 +27,6 @@ public final class NeuroSkyEegState {
 
     // ── Constants (mirrored from NeuroSkyThinkGearService for UI use) ─────────
     public static final int     EEG_RAW_FREQUENCY   = 512; // 512 Hz sample rate
-    public static final int     EEG_RAW_HISTORY_SIZE = EEG_RAW_FREQUENCY;
     public static final boolean rawEnabled           = true;
     public static final int     blinkRangeMax        = 128;
 

@@ -8,4 +8,7 @@
     <color name="tileRequired">#80FF0000</color>
     <color name="tileDisabled">#80808080</color>
     <color name="webViewBackground">#FFEEEEEE</color>
+    <color name="White">#FFFFFF</color>
+    <color name="Black">#000000</color>
+    <color name="LightSlateGray">#778899</color>
 </resources>

@@ -23,10 +23,8 @@ public class DeviceEmotivInsightSingleton {
 	public final int defaultMentalCommandPower = 0;
 
 	/** Messenger for communicating with the service. */
-	public final Messenger mService = null;
-
-	/** Flag indicating whether we have called bind on the service. */
-	public boolean mBound;
+	public Messenger mService = null;
+	public boolean mBound = false;
 
 	private static final DeviceEmotivInsightSingleton ourInstance = new DeviceEmotivInsightSingleton();
 

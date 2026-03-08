@@ -10,9 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import android.util.Log;
@@ -54,8 +52,6 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 	private int currentCMS = 0;
 
 	private static Intent intentEmotivInsight;
-
-	private EmotivInsightFragmentListener mListener;
 
 	public DialogInputEmotivInsightFragment() {
 		// Required empty public constructor
@@ -100,27 +96,6 @@ public class DialogInputEmotivInsightFragment extends DialogFragment {
 		// connectHeadset();
 
 		return v;
-	}
-
-	@Override
-	public void onAttach(@NonNull Context context) {
-		super.onAttach(context);
-		if (context instanceof EmotivInsightFragmentListener) {
-			mListener = (EmotivInsightFragmentListener) context;
-		} else {
-			throw new RuntimeException(context
-					+ " must implement EmotivInsightFragmentListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
-	public interface OnFragmentInteractionListener {
-		void onFragmentInteraction(Uri uri);
 	}
 
 	@Override

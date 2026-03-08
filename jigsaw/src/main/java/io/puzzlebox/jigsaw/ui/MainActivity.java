@@ -8,7 +8,6 @@ package io.puzzlebox.jigsaw.ui;
 
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -33,16 +32,7 @@ import io.puzzlebox.jigsaw.R;
 import io.puzzlebox.jigsaw.data.ConfigurationSingleton;
 import io.puzzlebox.jigsaw.data.SessionSingleton;
 
-public class MainActivity extends AppCompatActivity implements
-		  WelcomeFragment.OnFragmentInteractionListener,
-		  SessionFragment.OnFragmentInteractionListener,
-		  EEGFragment.OnFragmentInteractionListener,
-		  TilesFragment.OnFragmentInteractionListener,
-		  SupportFragment.OnFragmentInteractionListener,
-		  DialogInputNeuroSkyMindWaveFragment.OnFragmentInteractionListener,
-		  DialogInputJoystickFragment.OnFragmentInteractionListener,
-		  DialogOutputAudioIRFragment.OnFragmentInteractionListener,
-		  DialogOutputSessionFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
 
 	private final static String TAG = MainActivity.class.getSimpleName();
 
@@ -61,10 +51,6 @@ public class MainActivity extends AppCompatActivity implements
 
 	List<DrawerItem> dataList;
 
-
-	@SuppressWarnings("EmptyMethod")
-	public void onFragmentInteraction(Uri uri) {
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
