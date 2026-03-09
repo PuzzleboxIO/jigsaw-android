@@ -75,6 +75,15 @@ android {
     }
 }
 
+// Exclude all native libs from jigsaw's debug variant so that consuming apps
+// (e.g. orbit :mobile) built as debug don't pick up armeabi-v7a-only .so files,
+// which cause INSTALL_FAILED_NO_MATCHING_ABIS on arm64-only devices (Pixel 7+).
+androidComponents {
+    onVariants(selector().withBuildType("debug")) { variant ->
+        variant.packaging.jniLibs.excludes.add("**/*.so")
+    }
+}
+
 dependencies {
     // All JARs except the Emotiv classes JAR (handled separately below as compileOnly)
     implementation fileTree(include: ['*.jar'], dir: 'libs', exclude: ['community-emotiv-classes.jar'])
