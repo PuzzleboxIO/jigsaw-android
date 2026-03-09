@@ -3,8 +3,6 @@
 
     <string name="title_dialog_fragment_session">Session</string>
 
-    <string name="label_session_instruction">Record and Export data</string>
-
     <!--<string name="session_profile">Untitled</string>-->
 
     <!--<string name="label_session_time">Elapsed Time</string>-->
@@ -20,15 +18,10 @@
     <!--<string name="buttonExportCSV">Export</string>-->
     <!--<string name="buttonResetSession">Reset</string>-->
 
-    <string name="label_session_reset">Reset</string>
-
-    <string name="button_session_export">Export</string>
     <string name="button_session_share">Share</string>
 
     <string name="label_session_plot_1">Attention</string>
     <string name="label_session_plot_2">Meditation</string>
 
-    <string name="dialog_title_request_permission">This app needs your permission</string>
-    <string name="dialog_message_request_permission">Please grant storage access so this export session data.</string>
 
 </resources>

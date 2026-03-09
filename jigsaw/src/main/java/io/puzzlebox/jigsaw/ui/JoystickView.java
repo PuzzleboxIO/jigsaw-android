@@ -40,17 +40,6 @@ public class JoystickView extends View
 		void onMove(int angle, int strength);
 	}
 
-	/**
-	 * Interface definition for a callback to be invoked when a JoystickView
-	 * is touched and held by multiple pointers.
-	 */
-	public interface OnMultipleLongPressListener {
-		/**
-		 * Called when a JoystickView has been touch and held enough time by multiple pointers.
-		 */
-		void onMultipleLongPress();
-	}
-
     /*
     CONSTANTS
     */
