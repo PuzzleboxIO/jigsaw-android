@@ -232,6 +232,7 @@ public class InteraXonMuseService extends Service {
 
 	private  void broadcastPacketEEG(HashMap<String, String> packet) {
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.thinkgear.packet");
+		intent.setPackage(getPackageName());
 
 		intent.putExtra("Date", packet.get("Date"));
 		intent.putExtra("Time", packet.get("Time"));
@@ -244,6 +245,7 @@ public class InteraXonMuseService extends Service {
 
 	private  void broadcastEventEEG(String name, String value) {
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.thinkgear.event");
+		intent.setPackage(getPackageName());
 
 		intent.putExtra("name", name);
 		intent.putExtra("value", value);

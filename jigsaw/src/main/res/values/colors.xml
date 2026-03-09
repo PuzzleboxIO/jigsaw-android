@@ -3,11 +3,8 @@
     <color name="WhiteTint">#88FFFFFF</color>
     <color name="tileHighlight">#40FFFFFF</color>
     <color name="GreyTint">#88888888</color>
-    <color name="tileAvailable">#8000FF00</color>
     <color name="tileActivated">#80FFFF00</color>
-    <color name="tileRequired">#80FF0000</color>
     <color name="tileDisabled">#80808080</color>
-    <color name="webViewBackground">#FFEEEEEE</color>
     <color name="White">#FFFFFF</color>
     <color name="Black">#000000</color>
     <color name="LightSlateGray">#778899</color>

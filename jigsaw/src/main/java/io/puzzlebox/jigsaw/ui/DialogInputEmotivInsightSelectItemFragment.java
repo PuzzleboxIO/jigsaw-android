@@ -17,8 +17,6 @@ import io.puzzlebox.jigsaw.R;
 
 public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 
-	private final String TAG = DialogInputEmotivInsightSelectItemFragment.class.getSimpleName();
-
 	private static final String ARG_PARENT_ID = "paramParentId";
 	private static final String ARG_INSIGHT_ID = "paramInsightId";
 	private static final String ARG_NAME = "paramName";
@@ -70,6 +68,7 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 		LinearLayout layoutSelectEEG = v.findViewById(R.id.layoutSelectEEG);
 		layoutSelectEEG.setOnClickListener(view -> {
 			Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
+			intent.setPackage(requireActivity().getPackageName());
 			intent.putExtra("name", "select");
 			intent.putExtra("value", Integer.toString(mId));
 			requireActivity().sendBroadcast(intent);
@@ -78,6 +77,7 @@ public class DialogInputEmotivInsightSelectItemFragment extends Fragment {
 		Button buttonChoose = v.findViewById(R.id.buttonChoose);
 		buttonChoose.setOnClickListener(view -> {
 			Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.emotiv.insight.status");
+			intent.setPackage(requireActivity().getPackageName());
 			intent.putExtra("name", "select");
 			intent.putExtra("value", Integer.toString(mId));
 			requireActivity().sendBroadcast(intent);

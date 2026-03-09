@@ -131,11 +131,6 @@ public class JoystickView extends View
 	private long mLoopInterval = DEFAULT_LOOP_INTERVAL;
 	private Thread mThread = new Thread(this);
 
-	/**
-	 * Listener used to dispatch MultipleLongPress event
-	 */
-	private OnMultipleLongPressListener mOnMultipleLongPressListener;
-
 	private final Handler mHandlerMultipleLongPress = new Handler(Looper.getMainLooper());
 	private final Runnable mRunnableMultipleLongPress;
 	private int mMoveTolerance;
@@ -200,10 +195,7 @@ public class JoystickView extends View
 		mPaintBackground.setStyle(Paint.Style.FILL);
 
 		// Init Runnable for MultiLongPress
-		mRunnableMultipleLongPress = () -> {
-			if (mOnMultipleLongPressListener != null)
-				mOnMultipleLongPressListener.onMultipleLongPress();
-		};
+		mRunnableMultipleLongPress = () -> {};
 	}
 
 	private void initPosition() {

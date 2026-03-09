@@ -87,6 +87,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
     public void broadcastTileStatus(String value) {
 
         Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.tile.event");
+        intent.setPackage(requireActivity().getPackageName());
 
         intent.putExtra("id", "puzzlebox_gimmick");
         intent.putExtra("name", "active");
@@ -203,6 +204,7 @@ public class DialogOutputPuzzleboxGimmickFragment extends DialogFragment {
         Log.d(TAG, "broadcastCommandBluetooth: connect: " + value);
 
         Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.bluetooth.command");
+        intent.setPackage(requireContext().getPackageName());
 
         intent.putExtra("name", "connect");
         intent.putExtra("value", value);

@@ -479,6 +479,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 		Log.d(TAG, "broadcastCommandBluetooth: x10: " + value);
 
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.bluetooth.command");
+		intent.setPackage(getPackageName());
 
 		intent.putExtra("name", "x10");
 		intent.putExtra("value", value);
@@ -488,6 +489,7 @@ public class PuzzleboxGimmickBluetoothService extends Service {
 
 	private void broadcastStatusBluetooth(String value) {
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status");
+		intent.setPackage(getPackageName());
 
 		intent.putExtra("name", "status");
 		intent.putExtra("value", value);

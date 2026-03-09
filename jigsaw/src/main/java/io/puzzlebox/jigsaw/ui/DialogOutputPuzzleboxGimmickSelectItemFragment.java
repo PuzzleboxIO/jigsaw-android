@@ -66,6 +66,7 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
         LinearLayout layoutSelectGimmick = v.findViewById(R.id.layoutSelectGimmick);
         layoutSelectGimmick.setOnClickListener(view -> {
             Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status");
+            intent.setPackage(requireActivity().getPackageName());
             intent.putExtra("name", "select");
             intent.putExtra("value", mParamName);
             requireActivity().sendBroadcast(intent);
@@ -74,6 +75,7 @@ public class DialogOutputPuzzleboxGimmickSelectItemFragment extends Fragment {
         Button buttonChoose = v.findViewById(R.id.buttonChoose);
         buttonChoose.setOnClickListener(view -> {
             Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.puzzlebox.gimmick.status");
+            intent.setPackage(requireActivity().getPackageName());
             intent.putExtra("name", "select");
             intent.putExtra("value", Integer.toString(mId));
             requireActivity().sendBroadcast(intent);

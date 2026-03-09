@@ -143,6 +143,7 @@ public class DialogInputJoystickFragment extends DialogFragment
 	public void broadcastTileStatus(String value) {
 
 		Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.tile.event");
+		intent.setPackage(requireActivity().getPackageName());
 
 		intent.putExtra("id", profileID);
 		intent.putExtra("name", "active");

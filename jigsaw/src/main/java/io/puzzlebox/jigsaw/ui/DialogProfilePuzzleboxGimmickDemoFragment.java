@@ -671,6 +671,7 @@ public class DialogProfilePuzzleboxGimmickDemoFragment extends DialogFragment
         Log.d(TAG, "broadcastCommandBluetooth: " + name + ": " + value);
 
         Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.bluetooth.command");
+        intent.setPackage(requireContext().getPackageName());
 
         intent.putExtra("name", name);
         intent.putExtra("value", value);

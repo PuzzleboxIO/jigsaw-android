@@ -77,7 +77,7 @@ public class DialogProfilePuzzleboxOrbitJoystickFragment extends DialogFragment 
 		buttonDeviceEnable = v.findViewById(R.id.buttonDeviceEnable);
 		buttonDeviceEnable.setOnClickListener(view -> dismiss());
 
-		/**
+		/*
 		 * PuzzleboxOrbitAudioIRHandler
 		 */
 

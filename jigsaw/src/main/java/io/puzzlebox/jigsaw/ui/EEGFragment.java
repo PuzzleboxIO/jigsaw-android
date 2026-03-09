@@ -198,10 +198,6 @@ public class EEGFragment extends Fragment implements
 
 		String[] items = new String[] {"NeuroSky MindWave Mobile", "Emotiv Insight", "InteraXon Muse"};
 
-		// TODO 2017-02-15 Disable Muse
-//		if (InteraXonMuseService.eegConnected || InteraXonMuseService.eegConnecting)
-//			items = new String[] {"InteraXon Muse", "Emotiv Insight", "NeuroSky MindWave Mobile"};
-
 		spinnerEEG = v.findViewById(R.id.spinnerEEG);
 
 		ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getApplicationContext(),
@@ -306,26 +302,6 @@ public class EEGFragment extends Fragment implements
 
 	@SuppressWarnings("EmptyMethod")
 	public void updateScreenLayout() {
-//		switch(config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK){
-//			case Configuration.SCREENLAYOUT_SIZE_SMALL:
-//				Log.v(TAG, "screenLayout: small");
-//				updateScreenLayoutSmall();
-//				break;
-//			case Configuration.SCREENLAYOUT_SIZE_NORMAL:
-//				Log.v(TAG, "screenLayout: normal");
-//				updateScreenLayoutSmall();
-//				break;
-//			case Configuration.SCREENLAYOUT_SIZE_LARGE:
-//				Log.v(TAG, "screenLayout: large");
-//				break;
-//			case Configuration.SCREENLAYOUT_SIZE_XLARGE:
-//				Log.v(TAG, "screenLayout: xlarge");
-//				break;
-//			case Configuration.SCREENLAYOUT_SIZE_UNDEFINED:
-//				Log.v(TAG, "screenLayout: undefined");
-//				updateScreenLayoutSmall();
-//				break;
-//		}
 	}
 
 	public void setButtonText(int buttonId, String text) {

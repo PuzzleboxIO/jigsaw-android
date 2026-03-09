@@ -72,6 +72,7 @@ public class DialogProfilePuzzleboxGimmickX10TransceiverFragment extends DialogF
         Log.d(TAG, "broadcastCommandBluetooth: x10: " + value);
 
         Intent intent = new Intent("io.puzzlebox.jigsaw.protocol.bluetooth.command");
+        intent.setPackage(requireContext().getPackageName());
 
         intent.putExtra("name", "x10");
         intent.putExtra("value", value);
